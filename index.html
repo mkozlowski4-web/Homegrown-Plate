@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homegrown Plate</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="#/">Homegrown <span>Plate</span></a>
+    <nav id="nav">
+      <a href="#/" data-route="home">Home</a>
+      <a href="#/sizes" data-route="sizes">Garden Sizes</a>
+      <a href="#/plants" data-route="plants">Plant Guide</a>
+      <a href="#/howto" data-route="howto">How-To</a>
+      <a href="#/harvest" data-route="harvest">Harvesting</a>
+      <a href="#/recipes" data-route="recipes">Recipes</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region.</div>
+</footer>
+
+<script src="js/data/sizes.js"></script>
+<script src="js/data/plants.js"></script>
+<script src="js/data/recipes.js"></script>
+<script src="js/data/guide.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/router.js"></script>
+</body>
+</html>
