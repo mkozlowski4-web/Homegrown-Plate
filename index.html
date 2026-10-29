@@ -1,19 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homegrown Plate</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homegrown Plate</title>
+<style>
+  :root {
+    --green: #2d6a4f; --leaf: #52b788; --cream: #fdfbf4; --soil: #6b4f3a;
+    --tomato: #d1495b; --ink: #1f2a24; --muted: #5f6f66; --card: #ffffff; --line: #e3e8e1;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+  header { background: var(--green); color: #fff; position: sticky; top: 0; z-index: 10; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  .brand { font-size: 1.5rem; font-weight: 800; padding: 16px 0 8px; }
+  .brand span { color: #b7e4c7; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px; padding-bottom: 10px; }
+  nav a { color: #e9f5ee; text-decoration: none; padding: 6px 12px; border-radius: 999px; font-size: .95rem; }
+  nav a:hover, nav a.active { background: rgba(255,255,255,.18); color: #fff; }
+  main { padding: 32px 0 60px; min-height: 70vh; }
+  h1 { font-size: 2.1rem; margin: 0 0 8px; color: var(--green); }
+  h2 { font-size: 1.5rem; color: var(--green); margin-top: 32px; }
+  h3 { margin: 0 0 6px; font-size: 1.15rem; }
+  p.lead { font-size: 1.1rem; color: var(--muted); max-width: 720px; }
+  .hero { background: linear-gradient(135deg, #2d6a4f, #52b788); color: #fff; border-radius: 18px; padding: 48px 32px; }
+  .hero h1 { color: #fff; font-size: 2.6rem; }
+  .hero p { color: #e8f5ee; font-size: 1.15rem; max-width: 640px; }
+  .btn { display: inline-block; background: #fff; color: var(--green); padding: 10px 18px; border-radius: 10px; text-decoration: none; font-weight: 700; margin-top: 10px; }
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); margin-top: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,.03); }
+  .card a { color: var(--green); font-weight: 600; }
+  .emoji { font-size: 2rem; }
+  .tag { display: inline-block; font-size: .78rem; background: #e6f4ec; color: var(--green); padding: 2px 9px; border-radius: 999px; margin: 2px 4px 2px 0; }
+  .tag.warm { background: #fbe9d7; color: #8a4b12; }
+  .tag.red { background: #f9dfe3; color: #8e1d2f; }
+  ul.tips li { margin-bottom: 6px; }
+  .info-row { display: grid; grid-template-columns: 150px 1fr; gap: 6px 14px; margin: 14px 0; }
+  .info-row div:nth-child(odd) { font-weight: 700; color: var(--soil); }
+  input[type=search], select {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 1rem; background: #fff; margin-top: 8px;
+  }
+  .filters { display: grid; gap: 12px; grid-template-columns: 2fr 1fr; }
+  @media (max-width: 640px) { .filters { grid-template-columns: 1fr; } .info-row { grid-template-columns: 1fr; } .hero h1 { font-size: 2rem; } }
+  .size-card { border-top: 5px solid var(--leaf); }
+  .size-card.s2 { border-top-color: #95d5b2; }
+  .size-card.s3 { border-top-color: #2d6a4f; }
+  .size-card.s4 { border-top-color: var(--soil); }
+  .step { display: flex; gap: 14px; margin-bottom: 14px; }
+  .step .num { flex: 0 0 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .ing-have { color: var(--green); font-weight: 700; }
+  .ing-need { color: var(--muted); }
+  .recipe-steps ol { padding-left: 20px; }
+  .recipe-steps li { margin-bottom: 8px; }
+  .back { display: inline-block; margin-bottom: 14px; color: var(--green); text-decoration: none; font-weight: 600; }
+  .cal-wrap { overflow-x: auto; margin-top: 16px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  table.cal { border-collapse: collapse; width: 100%; min-width: 760px; font-size: .85rem; }
+  table.cal th, table.cal td { border: 1px solid var(--line); padding: 6px 4px; text-align: center; }
+  table.cal thead th { background: var(--green); color: #fff; font-weight: 600; }
+  table.cal thead th.now { background: var(--soil); }
+  table.cal tbody th { text-align: left; padding-left: 10px; font-weight: 600; white-space: nowrap; background: #f6f9f5; }
+  table.cal tbody th a { color: var(--green); text-decoration: none; }
+  table.cal td { min-width: 40px; }
+  .bar { display: block; height: 8px; border-radius: 4px; margin: 3px 4px; }
+  .bar.ind { background: #8ecae6; }
+  .bar.out { background: #52b788; }
+  .bar.har { background: #f4a261; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 4px; font-size: .92rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { display: inline-block; width: 22px; height: 8px; border-radius: 4px; }
+  footer { background: #1f2a24; color: #cfd8d2; padding: 24px 0; font-size: .9rem; }
+  .muted { color: var(--muted); }
+  .empty { padding: 24px; text-align: center; color: var(--muted); }
+</style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <a class="brand" href="#/">Homegrown <span>Plate</span></a>
+    <div class="brand">Homegrown <span>Plate</span></div>
     <nav id="nav">
       <a href="#/" data-route="home">Home</a>
       <a href="#/sizes" data-route="sizes">Garden Sizes</a>
       <a href="#/plants" data-route="plants">Plant Guide</a>
+      <a href="#/calendar" data-route="calendar">Planting Calendar</a>
       <a href="#/howto" data-route="howto">How-To</a>
       <a href="#/harvest" data-route="harvest">Harvesting</a>
       <a href="#/recipes" data-route="recipes">Recipes</a>
@@ -27,12 +95,586 @@
   <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region.</div>
 </footer>
 
-<script src="js/data/sizes.js"></script>
-<script src="js/data/plants.js"></script>
-<script src="js/data/recipes.js"></script>
-<script src="js/data/guide.js"></script>
-<script src="js/helpers.js"></script>
-<script src="js/pages.js"></script>
-<script src="js/router.js"></script>
+<script>
+/* ============ DATA ============ */
+const PLANTS = [
+  { id:"tomato", name:"Tomato", emoji:"🍅", sizes:["balcony","small","medium","large"], difficulty:"Medium", sun:"Full sun (6+ hrs)",
+    sow:"Indoors 6–8 weeks before last frost; plant out after frost", spacing:"45–60 cm (bush varieties in pots: 30 cm)", depth:"5 mm, sow on the surface and cover lightly",
+    water:"Deep watering 2–3× a week; keep soil even to avoid splitting and blossom end rot.",
+    care:["Support with a cane or cage early.","Pinch out side shoots on cordon varieties.","Feed with tomato feed once flowers appear."],
+    pests:["Blight (remove affected leaves, water at base)","Whitefly","Aphids"],
+    harvest:"When fruit is fully coloured and yields slightly to gentle pressure. Harvest every few days to keep plants producing.",
+    storage:"Room temperature for best flavour; not in the fridge." },
+  { id:"lettuce", name:"Lettuce", emoji:"🥬", sizes:["balcony","small","medium","large"], difficulty:"Easy", sun:"Partial shade to full sun",
+    sow:"Spring to early autumn, every 2–3 weeks for a continuous crop", spacing:"20–25 cm (or thin to baby leaves closer)", depth:"1 cm",
+    water:"Keep soil consistently moist; bolting is caused by heat and drought.",
+    care:["Sow little and often.","Provide shade in hot weather.","Choose 'cut and come again' varieties."],
+    pests:["Slugs and snails","Aphids"],
+    harvest:"Pick outer leaves as needed, or cut whole heads at the base. Harvest in the morning when crisp.",
+    storage:"Wrap in damp kitchen paper in the fridge for up to 5 days." },
+  { id:"basil", name:"Basil", emoji:"🌿", sizes:["balcony","small","medium"], difficulty:"Easy", sun:"Full sun, warm",
+    sow:"Indoors in spring, plant out after last frost", spacing:"25 cm", depth:"0.5 cm",
+    water:"Water at the base in the morning; avoid soggy soil.",
+    care:["Pinch out the top set of leaves to encourage bushiness.","Pinch off flower buds to keep leaves tasty.","Keep away from cold draughts."],
+    pests:["Slugs","Downy mildew in damp conditions"],
+    harvest:"Snip stems above a leaf pair. Regular picking keeps the plant growing.",
+    storage:"Stand stems in a glass of water on the counter; don't refrigerate." },
+  { id:"radish", name:"Radish", emoji:"🔴", sizes:["balcony","small","medium","large"], difficulty:"Easy", sun:"Full sun to partial shade",
+    sow:"March to September, every 2 weeks", spacing:"5 cm (thin to 5 cm)", depth:"1 cm",
+    water:"Keep moist to avoid woody, hot roots.",
+    care:["Thin seedlings early.","Great for filling gaps and quick wins for kids."],
+    pests:["Flea beetle (use fleece cover)"],
+    harvest:"Ready in 3–5 weeks. Pull when roots are about 2–3 cm across.",
+    storage:"Remove tops and keep in the fridge for up to 2 weeks." },
+  { id:"carrot", name:"Carrot", emoji:"🥕", sizes:["small","medium","large"], difficulty:"Medium", sun:"Full sun to light shade",
+    sow:"Mid-spring to midsummer, directly into soil", spacing:"5–8 cm (thin to 5 cm)", depth:"1 cm",
+    water:"Water evenly; irregular watering causes split roots.",
+    care:["Use deep containers or raised beds for long varieties; short varieties suit pots.","Thin seedlings to avoid crowding."],
+    pests:["Carrot fly (use fine mesh, sow late)"],
+    harvest:"In 10–16 weeks. Loosen soil with a fork before pulling.",
+    storage:"Twist off tops and store in a bag in the fridge for weeks." },
+  { id:"potato", name:"Potato", emoji:"🥔", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Plant seed potatoes in early to mid spring", spacing:"30 cm apart, rows 60 cm", depth:"10–15 cm deep",
+    water:"Water deeply during flowering; don't let soil dry out.",
+    care:["Earth up (mound soil around stems) as shoots grow.","Grow in bags or tubs for small gardens."],
+    pests:["Blight","Potato beetle"],
+    harvest:"Early potatoes at flowering; main crop when foliage dies back.",
+    storage:"Cool, dark, dry place; keep away from onions." },
+  { id:"courgette", name:"Courgette", emoji:"🥒", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Indoors in April, plant out after frost", spacing:"90 cm (large plants)", depth:"2.5 cm",
+    water:"Water at the base; keep the leaves dry to prevent mildew.",
+    care:["Feed weekly once fruiting.","Remove yellowing leaves."],
+    pests:["Powdery mildew","Slugs"],
+    harvest:"Pick at 10–15 cm, every 1–2 days in peak season. Large fruit gets watery.",
+    storage:"Keep in the fridge for up to a week." },
+  { id:"bean", name:"Runner Beans", emoji:"🫘", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Late spring after frost", spacing:"20 cm at base of a wigwam or trellis", depth:"5 cm",
+    water:"Water deeply during flowering and pod set.",
+    care:["Provide tall supports (2–2.5 m).","Pick regularly to keep flowering."],
+    pests:["Blackfly","Slugs when seedlings"],
+    harvest:"Pick pods at 15–20 cm while stringless and tender.",
+    storage:"Keep in the fridge for 3–5 days; blanch and freeze for longer." },
+  { id:"kale", name:"Kale", emoji:"🥗", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun to partial shade",
+    sow:"Spring and summer; hardy through winter", spacing:"45 cm", depth:"1 cm",
+    water:"Water steadily; tough and forgiving.",
+    care:["Net against cabbage white butterflies.","Harvest outer leaves only."],
+    pests:["Cabbage white caterpillars","Aphids"],
+    harvest:"Pick lower leaves when 15–20 cm long. Flavour improves after frost.",
+    storage:"Fridge in a bag for up to 5 days." },
+  { id:"strawberry", name:"Strawberry", emoji:"🍓", sizes:["balcony","small","medium"], difficulty:"Easy", sun:"Full sun",
+    sow:"Plant runners or bare-root plants in spring or autumn", spacing:"30 cm", depth:"Crown level; don't bury",
+    water:"Water at base; keep soil moist when fruiting.",
+    care:["Remove old leaves in late summer.","Protect fruit from slugs and birds.","Replace plants every 3 years."],
+    pests:["Slugs","Birds","Powdery mildew"],
+    harvest:"Pick when fully red, once a day in peak season.",
+    storage:"Eat quickly; keep dry and cool for 2 days max." },
+  { id:"chilli", name:"Chilli", emoji:"🌶️", sizes:["balcony","small","medium"], difficulty:"Medium", sun:"Full sun, warm",
+    sow:"Indoors in late winter / early spring, needs heat to germinate", spacing:"40 cm (pots: 30 cm)", depth:"0.5–1 cm",
+    water:"Keep soil just moist; let surface dry between waterings.",
+    care:["Pinch out the growing tip early.","Bring indoors if temperatures drop below 10°C."],
+    pests:["Aphids","Red spider mite in dry air"],
+    harvest:"Pick when red or ripe colour; more pods come with frequent picking.",
+    storage:"Dry strings in a warm, airy place, or freeze whole." },
+  { id:"mint", name:"Mint", emoji:"🍃", sizes:["balcony","small","medium","large"], difficulty:"Easy", sun:"Partial shade to full sun",
+    sow:"Buy a plant or root cuttings in spring", spacing:"Plant in a pot, it spreads aggressively",
+    depth:"Crown level",
+    water:"Keep moist; tolerates some drying out.",
+    care:["Grow in a container to keep it contained.","Cut back hard in summer for fresh growth."],
+    pests:["Mint rust"],
+    harvest:"Cut stems as needed, ideally just before flowering for best flavour.",
+    storage:"Stand in water like basil or freeze in ice cubes." },
+  { id:"onion", name:"Onion", emoji:"🧅", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Sets planted in early spring; seeds sown indoors in late winter", spacing:"10–15 cm", depth:"Set tips just at soil level",
+    water:"Water in dry spells, stop 2 weeks before harvest.",
+    care:["Keep weed-free; onions dislike competition.","Bend tops over when they yellow."],
+    pests:["Onion fly","Thrips"],
+    harvest:"When tops yellow and fall over. Lift and dry in the sun for 2 weeks.",
+    storage:"Dry, airy place; braid if you like." },
+  { id:"spinach", name:"Spinach", emoji:"🍀", sizes:["balcony","small","medium","large"], difficulty:"Easy", sun:"Partial shade",
+    sow:"Early spring and autumn; can overwinter", spacing:"15 cm", depth:"2 cm",
+    water:"Keep moist, which also prevents bolting.",
+    care:["Sow little and often.","Harvest outer leaves regularly."],
+    pests:["Leaf miners","Downy mildew"],
+    harvest:"Pick leaves when 8–10 cm long.",
+    storage:"Fridge in a bag for up to 5 days." },
+  { id:"pea", name:"Garden Pea", emoji:"🫛", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Mid-March to June, directly into soil; or indoors in April", spacing:"5 cm apart in double rows, 60 cm between rows", depth:"5 cm",
+    water:"Water well during flowering and pod filling.",
+    care:["Support with pea sticks or netting from the start.","Choose dwarf varieties for pots."],
+    pests:["Pea moth","Mice","Powdery mildew"],
+    harvest:"About 10–12 weeks after sowing. Pick when pods are full and plump, every few days.",
+    storage:"Eat within 1–2 days, or blanch and freeze straight after picking." },
+  { id:"broad-bean", name:"Broad Bean", emoji:"🫘", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Autumn for an early crop, or March to April in spring", spacing:"20 cm in blocks, 45 cm between rows", depth:"5 cm",
+    water:"Water in dry spells, especially when pods form.",
+    care:["Pinch out the growing tips when flowering to deter blackfly.","Stake tall varieties."],
+    pests:["Blackfly","Chocolate spot","Mice"],
+    harvest:"Pick pods when they are plump and the beans inside are small. Pick often.",
+    storage:"Fridge for 3–4 days, or blanch and freeze." },
+  { id:"beetroot", name:"Beetroot", emoji:"🟣", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun to light shade",
+    sow:"March to July, every 3–4 weeks for a steady crop", spacing:"10 cm (thin seedlings to 10 cm)", depth:"2 cm",
+    water:"Keep soil moist; dry spells cause woody roots.",
+    care:["Thin early, and use the thinnings as baby leaves.","Avoid high-nitrogen feeds, which encourage leaves over roots."],
+    pests:["Leaf miners","Flea beetle"],
+    harvest:"Ready in 8–12 weeks, when roots are golf-ball to tennis-ball size.",
+    storage:"Twist off leaves, keep roots cool and in a bag for 2–3 weeks." },
+  { id:"leek", name:"Leek", emoji:"🌱", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Sow indoors March to April; plant out June to July", spacing:"15 cm apart, 30 cm between rows", depth:"1 cm (sow in trays)",
+    water:"Water in dry spells; they grow slowly, so keep weeds down.",
+    care:["Dibble holes 15 cm deep and drop seedlings in without filling them.","Water into the holes to blanch the stems."],
+    pests:["Leek moth","Rust"],
+    harvest:"From autumn through winter, when stems are pencil-thick. Lift with a fork.",
+    storage:"Fridge in a bag for up to 2 weeks; leave hardy varieties in the ground." },
+  { id:"cabbage", name:"Cabbage", emoji:"🥬", sizes:["medium","large"], difficulty:"Medium", sun:"Full sun",
+    sow:"March to June in trays, plant out after 6 weeks", spacing:"45 cm", depth:"1 cm",
+    water:"Water steadily, especially in dry weather.",
+    care:["Net against cabbage white butterflies.","Firm soil around transplants to prevent rocking."],
+    pests:["Cabbage white caterpillars","Clubroot","Pigeons"],
+    harvest:"When heads feel firm, about 12–16 weeks after planting.",
+    storage:"Fridge for 2–3 weeks; or store whole in a cool place." },
+  { id:"sprouting-broccoli", name:"Sprouting Broccoli", emoji:"🥦", sizes:["medium","large"], difficulty:"Medium", sun:"Full sun",
+    sow:"April to May in trays, plant out in June", spacing:"60 cm", depth:"1 cm",
+    water:"Water in dry spells, especially in summer.",
+    care:["Firm plants in well to prevent wind rock.","Net well; pigeons love it."],
+    pests:["Pigeons","Cabbage white caterpillars","Aphids"],
+    harvest:"Late winter to spring. Pick the purple or white shoots before the flowers open, often.",
+    storage:"Fridge in a bag for up to 3 days; best eaten fresh." },
+  { id:"sweetcorn", name:"Sweetcorn", emoji:"🌽", sizes:["medium","large"], difficulty:"Medium", sun:"Full sun, sheltered",
+    sow:"Indoors in April; plant out late May after frost", spacing:"35–40 cm in blocks, not single rows", depth:"2.5 cm",
+    water:"Water deeply when tassels appear; shallow roots dry out.",
+    care:["Plant in blocks of at least four rows so the cobs pollinate.","Earth up stems for stability."],
+    pests:["Birds","Slugs when young"],
+    harvest:"About 3 weeks after the silks turn brown. Test by pressing a kernel: it should release milky juice.",
+    storage:"Best eaten the same day; the sugar turns to starch quickly." },
+  { id:"cucumber", name:"Cucumber", emoji:"🥒", sizes:["balcony","small"], difficulty:"Medium", sun:"Full sun, warm",
+    sow:"Indoors in April; plant out late May", spacing:"45 cm (or one plant per large pot)", depth:"1.5 cm",
+    water:"Water frequently and evenly; irregular watering makes bitter fruit.",
+    care:["Train up a cane or trellis.","Pinch out side shoots after the fourth leaf."],
+    pests:["Red spider mite","Powdery mildew","Aphids"],
+    harvest:"Pick when 15–20 cm long, every 1–2 days in season.",
+    storage:"Fridge for up to a week, wrapped." },
+  { id:"pumpkin", name:"Pumpkin & Winter Squash", emoji:"🎃", sizes:["medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Indoors in late April to May; plant out late May to June", spacing:"1–2 m, depending on variety", depth:"2.5 cm",
+    water:"Water deeply at the base, especially as fruit swell.",
+    care:["Lay straw under fruits to keep them off wet soil.","Limit each plant to 3–4 fruit."],
+    pests:["Powdery mildew","Slugs","Squash bugs"],
+    harvest:"September to October, when the skin is hard and the stalk has dried.",
+    storage:"Cool, dry, dark place; many winter squash keep for months." },
+  { id:"garlic", name:"Garlic", emoji:"🧄", sizes:["small","medium","large"], difficulty:"Easy", sun:"Full sun",
+    sow:"Plant cloves in October–November, or February–March for spring garlic", spacing:"15 cm apart, 25 cm between rows", depth:"2.5 cm, pointed end up",
+    water:"Water in dry spells until bulbs start to swell, then stop.",
+    care:["Keep weed-free.","Plant cloves in a sunny, well-drained spot."],
+    pests:["Rust","Onion fly"],
+    harvest:"June to July, when the lower leaves turn brown but the top few are still green.",
+    storage:"Dry in a warm, airy place for 2–3 weeks, then store cool and dry." },
+  { id:"parsley", name:"Parsley", emoji:"🌿", sizes:["balcony","small","medium"], difficulty:"Easy", sun:"Full sun to partial shade",
+    sow:"Spring or late summer; soak seeds overnight, as germination is slow", spacing:"20 cm", depth:"0.5 cm",
+    water:"Keep moist; containers dry out quickly.",
+    care:["Pick outer stems first.","Let a few plants flower for pollinators."],
+    pests:["Carrot fly","Slugs"],
+    harvest:"Cut outer stems at the base as needed. Plants last through the year in mild areas.",
+    storage:"Stand stems in water in the fridge, or freeze chopped." },
+  { id:"chives", name:"Chives", emoji:"🌱", sizes:["balcony","small","medium","large"], difficulty:"Easy", sun:"Full sun to partial shade",
+    sow:"Sow in spring or plant divisions in spring or autumn; perennial", spacing:"20 cm", depth:"1 cm",
+    water:"Keep moist during growth; tolerates short dry spells.",
+    care:["Divide clumps every 3 years.","Cut back hard after flowering for fresh leaves."],
+    pests:["Onion fly","Rust"],
+    harvest:"Snip leaves 5 cm above the base. The purple flowers are edible too.",
+    storage:"Freeze chopped in ice cubes; they lose flavour when dried." },
+  { id:"rocket", name:"Rocket", emoji:"🥗", sizes:["balcony","small","medium"], difficulty:"Easy", sun:"Full sun to partial shade",
+    sow:"Every 3 weeks from March to September", spacing:"15 cm, or sow thickly for baby leaves", depth:"1 cm",
+    water:"Keep moist; dry soil makes it peppery and bolt early.",
+    care:["Sow little and often.","Choose slow-bolting varieties for summer."],
+    pests:["Flea beetle","Caterpillars"],
+    harvest:"Ready in 4–6 weeks. Pick young leaves regularly.",
+    storage:"Fridge in a bag for 3–4 days." },
+  { id:"parsnip", name:"Parsnip", emoji:"🥕", sizes:["medium","large"], difficulty:"Medium", sun:"Full sun",
+    sow:"March to April, directly into soil; germination is slow and fickle", spacing:"15 cm (thin to 15 cm)", depth:"1 cm",
+    water:"Water evenly; uneven watering causes forked roots.",
+    care:["Use fresh seed each year, as old seed rarely germinates.","Thin carefully to avoid disturbing roots."],
+    pests:["Carrot fly","Canker"],
+    harvest:"From October, after the first frost, which improves the sweetness.",
+    storage:"Leave in the ground until needed, or store in damp sand in a cool place." }
+];
+
+const SIZES = [
+  { id:"balcony", title:"Balcony & Windowsill", cls:"s1", emoji:"🪴",
+    desc:"Containers, window boxes, and hanging baskets. Ideal for herbs, salad leaves and compact fruit.",
+    tips:["Use pots at least 20–30 cm deep with drainage holes.","Compost-based multipurpose soil works well.","Water more often than in the ground; containers dry quickly.","Pick sunniest spot, ideally south or west-facing."],
+    grow:["basil","mint","lettuce","radish","strawberry","chilli","spinach","tomato","cucumber","parsley","chives","rocket"] },
+  { id:"small", title:"Small Garden or Patio", cls:"s2", emoji:"🏡",
+    desc:"A few raised beds or large pots. Focus on high-yield crops that give plenty per square metre.",
+    tips:["Raised beds of 1.2 m wide are easy to reach across.","Grow vertically with trellis and frames to save space.","Practise companion planting: basil beside tomatoes.","Rotate crops each year to reduce disease."],
+    grow:["lettuce","radish","carrot","tomato","courgette","bean","basil","strawberry","chilli","mint","spinach","kale","potato","onion","pea","broad-bean","beetroot","leek","garlic","parsley","chives","rocket","cucumber"] },
+  { id:"medium", title:"Medium Garden", cls:"s3", emoji:"🌳",
+    desc:"Room for a dedicated vegetable bed and a few fruit bushes. Plan crops in rotation groups.",
+    tips:["Divide beds into blocks for rotation: roots, legumes, brassicas, potatoes.","Add a compost bin to feed the soil.","Install a water butt to collect rainwater.","Plant perennials like rhubarb and herbs at the edges."],
+    grow:["potato","carrot","tomato","courgette","bean","kale","lettuce","onion","strawberry","radish","spinach","basil","mint","chilli","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","pumpkin","garlic","parsley","chives","rocket","parsnip"] },
+  { id:"large", title:"Large Garden or Allotment", cls:"s4", emoji:"🚜",
+    desc:"Space for full rotation, bulk storage crops, and fruit trees. Plan for succession planting.",
+    tips:["Plan a 4-year rotation to reduce soil-borne disease.","Sow in succession for steady harvests.","Grow storage crops like potatoes, onions and winter squash.","Consider fruit trees and berry patches for long-term yields."],
+    grow:["potato","onion","carrot","tomato","courgette","bean","kale","lettuce","radish","spinach","mint","strawberry","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","pumpkin","garlic","chives","parsnip"] }
+];
+
+const RECIPES = [
+  { id:"caprese-salad", title:"Tomato & Basil Salad", time:"10 min", serves:"2", uses:["tomato","basil"],
+    ingredients:[["tomato","Ripe tomatoes, sliced","2 large"],["basil","Fresh basil leaves","a handful"],["olive oil","Extra virgin olive oil","2 tbsp"],["salt","Flaky salt","pinch"],["mozzarella","Mozzarella (optional)","1 ball"]],
+    steps:["Slice tomatoes and arrange on a plate.","Tear basil leaves over the top.","Drizzle with olive oil and season with salt.","Add mozzarella if using, and serve at room temperature."] },
+  { id:"garden-salad", title:"Garden Salad with Radish & Herb Dressing", time:"15 min", serves:"2", uses:["lettuce","radish","mint","onion"],
+    ingredients:[["lettuce","Lettuce leaves","1 head"],["radish","Radishes, thinly sliced","6"],["onion","Spring onion, finely sliced","1"],["mint","Mint, chopped","small handful"],["olive oil","Olive oil","3 tbsp"],["lemon","Lemon juice","1 tbsp"]],
+    steps:["Tear the lettuce and place in a bowl.","Add sliced radishes and spring onion.","Whisk oil, lemon juice and chopped mint.","Dress just before serving."] },
+  { id:"courgette-fritters", title:"Courgette Fritters", time:"25 min", serves:"3–4", uses:["courgette","onion","basil"],
+    ingredients:[["courgette","Courgettes, grated","2 medium"],["onion","Onion, finely chopped","1 small"],["egg","Eggs","2"],["flour","Plain flour","4 tbsp"],["basil","Basil, chopped","small handful"],["oil","Oil for frying","2 tbsp"]],
+    steps:["Squeeze grated courgette in a towel to remove moisture.","Mix with onion, eggs, flour, basil, salt and pepper.","Fry spoonfuls in hot oil for 2–3 minutes each side.","Drain on kitchen paper and serve warm."] },
+  { id:"kale-soup", title:"Garden Kale & Potato Soup", time:"40 min", serves:"4", uses:["kale","potato","onion","carrot"],
+    ingredients:[["potato","Potatoes, diced","3 medium"],["kale","Kale, chopped","1 large bunch"],["onion","Onion, diced","1"],["carrot","Carrot, diced","2"],["stock","Vegetable stock","1 litre"],["oil","Olive oil","1 tbsp"]],
+    steps:["Fry onion and carrot in oil for 5 minutes.","Add potatoes and stock; simmer for 15 minutes.","Stir in kale and cook for 5 more minutes.","Blend partly for a creamier texture, or serve chunky."] },
+  { id:"ratatouille", title:"Summer Garden Ratatouille", time:"50 min", serves:"4", uses:["courgette","tomato","onion","basil"],
+    ingredients:[["courgette","Courgettes, chunked","2"],["tomato","Tomatoes, chopped","4"],["onion","Onion, sliced","1"],["basil","Basil","handful"],["oil","Olive oil","3 tbsp"],["garlic","Garlic, minced","2 cloves"]],
+    steps:["Fry onion and garlic in oil until soft.","Add courgette and cook 5 minutes.","Stir in tomatoes and simmer 25 minutes until thick.","Finish with torn basil and serve warm or cold."] },
+  { id:"bean-stir-fry", title:"Runner Bean & Garlic Stir-Fry", time:"15 min", serves:"2", uses:["bean","garlic","chilli","onion"],
+    ingredients:[["bean","Runner beans, sliced diagonally","250 g"],["garlic","Garlic, sliced","2 cloves"],["chilli","Chilli, sliced","1"],["onion","Onion, sliced","1"],["soy","Soy sauce","1 tbsp"],["oil","Oil","1 tbsp"]],
+    steps:["Heat oil in a wok until very hot.","Stir-fry beans 3–4 minutes until bright green.","Add onion, garlic and chilli for 1 minute.","Splash in soy sauce and serve with rice."] },
+  { id:"strawberry-yoghurt", title:"Strawberry & Mint Yoghurt Bowl", time:"5 min", serves:"2", uses:["strawberry","mint"],
+    ingredients:[["strawberry","Strawberries, halved","200 g"],["yoghurt","Greek yoghurt","300 g"],["mint","Mint, chopped","small handful"],["honey","Honey","1 tbsp"]],
+    steps:["Spoon yoghurt into bowls.","Top with strawberries and chopped mint.","Drizzle with honey and serve."] },
+  { id:"potato-leek-pan", title:"Crispy Potato & Herb Hash", time:"30 min", serves:"2", uses:["potato","onion","spinach","chilli"],
+    ingredients:[["potato","Potatoes, cubed","4 medium"],["onion","Onion, diced","1"],["spinach","Spinach","2 large handfuls"],["chilli","Chilli flakes","pinch"],["oil","Oil","2 tbsp"]],
+    steps:["Parboil potato cubes for 5 minutes and drain.","Fry in hot oil until golden and crisp, about 15 minutes.","Add onion and cook until soft.","Stir in spinach until wilted and season with chilli flakes."] },
+  { id:"pesto", title:"Fresh Basil Pesto", time:"10 min", serves:"makes 1 jar", uses:["basil","mint"],
+    ingredients:[["basil","Basil leaves","large bunch"],["garlic","Garlic clove","1"],["olive oil","Olive oil","100 ml"],["parmesan","Parmesan, grated","50 g"],["pine nuts","Pine nuts or walnuts","30 g"]],
+    steps:["Blitz basil, garlic and nuts in a food processor.","Slowly add oil while blending.","Stir in parmesan and season.","Store in a jar covered with a layer of oil."] }
+];
+
+const HOWTO = [
+  { title:"1. Plan your space", body:"Observe sun for a full day. Most fruiting crops need 6+ hours of sun. Sketch your beds or pots and group crops by family for rotation." },
+  { title:"2. Prepare the soil", body:"Dig in well-rotted compost or manure. Aim for crumbly, moisture-retaining soil. Containers need peat-free multipurpose compost with added perlite for drainage." },
+  { title:"3. Sow or plant", body:"Seeds: sow at the depth on the packet and water gently. Transplants: plant on a cloudy evening and water in. Use seed trays indoors for heat-loving crops." },
+  { title:"4. Water well", body:"Water deeply and less often rather than little and often. Water the roots, not the leaves, and water in the morning when possible. Mulch to hold moisture." },
+  { title:"5. Feed & support", body:"Feed fruiting plants with a potash-rich fertiliser once flowers appear. Add stakes, cages or netting early, before plants get large." },
+  { title:"6. Protect from pests", body:"Hand-pick caterpillars, use slug traps or beer traps, and fit fine mesh over carrots and brassicas. Encourage ladybirds, hoverflies and birds." },
+  { title:"7. Keep records", body:"Note sowing dates, varieties and yields. Your notes will become your best guide for next year." }
+];
+
+const HARVEST = [
+  { title:"Pick in the morning", body:"Plants are fullest of water in the early morning. Harvest then for the crispest leaves and longest storage life." },
+  { title:"Pick little and often", body:"Regular picking keeps beans, courgettes, chillies and tomatoes producing. Left unpicked, many plants slow down." },
+  { title:"Know the signs of ripeness", body:"Tomatoes: deep colour, slight give. Courgettes: 10–15 cm. Potatoes: when flowers open or foliage dies back. Onions: when tops fall over." },
+  { title:"Use clean tools", body:"Sharp secateurs or a knife prevent bruising and reduce disease spread. Snap stems cleanly rather than tearing." },
+  { title:"Store correctly", body:"Some crops keep best cold (lettuce, beans), others at room temperature (tomatoes, potatoes, onions). Check each plant's storage notes in the Plant Guide." },
+  { title:"Preserve the surplus", body:"Freeze herbs in oil cubes, blanch and freeze beans, dry chillies and onions, or make chutneys and pesto from gluts." }
+];
+
+/* ============ PLANTING CALENDAR (UK, approximate; 12 chars = Jan..Dec, 1 = active) ============ */
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const CALENDAR = {
+  "tomato":{i:"011100000000",o:"000011000000",h:"000000111100"},
+  "lettuce":{i:"000000000000",o:"001111111000",h:"000011111100"},
+  "basil":{i:"001100000000",o:"000011000000",h:"000000111100"},
+  "radish":{i:"000000000000",o:"001111111000",h:"000111111100"},
+  "carrot":{i:"000000000000",o:"000111100000",h:"000000111110"},
+  "potato":{i:"011000000000",o:"001100000000",h:"000001111100"},
+  "courgette":{i:"000100000000",o:"000011000000",h:"000000111100"},
+  "bean":{i:"000110000000",o:"000011000000",h:"000000111100"},
+  "kale":{i:"000110000000",o:"000011100000",h:"111000000111"},
+  "strawberry":{i:"000000000000",o:"001100001100",h:"000001110000"},
+  "chilli":{i:"011000000000",o:"000011000000",h:"000000011100"},
+  "mint":{i:"000000000000",o:"000110000000",h:"000001111100"},
+  "onion":{i:"110000000000",o:"001100000000",h:"000000011000"},
+  "spinach":{i:"000000000000",o:"001100001100",h:"000111000110"},
+  "pea":{i:"000100000000",o:"001111000000",h:"000001110000"},
+  "broad-bean":{i:"000000000000",o:"001100000110",h:"000011100000"},
+  "beetroot":{i:"000000000000",o:"001111100000",h:"000001111100"},
+  "leek":{i:"001100000000",o:"000001100000",h:"111000000111"},
+  "cabbage":{i:"001110000000",o:"000011100000",h:"000001111110"},
+  "sprouting-broccoli":{i:"000110000000",o:"000001000000",h:"011110000000"},
+  "sweetcorn":{i:"000100000000",o:"000011000000",h:"000000011000"},
+  "cucumber":{i:"000100000000",o:"000011000000",h:"000000111100"},
+  "pumpkin":{i:"000110000000",o:"000011000000",h:"000000001100"},
+  "garlic":{i:"000000000000",o:"011000000110",h:"000001100000"},
+  "parsley":{i:"011000000000",o:"000110000000",h:"000001111110"},
+  "chives":{i:"001000000000",o:"000110000000",h:"000111111100"},
+  "rocket":{i:"000000000000",o:"001111111000",h:"000111111100"},
+  "parsnip":{i:"000000000000",o:"001100000000",h:"111000000111"}
+};
+
+/* ============ HELPERS ============ */
+const $ = sel => document.querySelector(sel);
+const plantById = id => PLANTS.find(p => p.id === id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ============ PAGES ============ */
+function pageHome() {
+  return `
+    <section class="hero">
+      <h1>Grow your own food, whatever your garden size</h1>
+      <p>From a single windowsill to a full allotment, find out what to plant, how to look after it, how to harvest it, and what to cook with it.</p>
+      <a class="btn" href="#/sizes">Find my garden size</a>
+    </section>
+    <h2>Explore</h2>
+    <div class="grid">
+      ${SIZES.map(s => `<div class="card size-card ${s.cls}"><div class="emoji">${s.emoji}</div><h3>${s.title}</h3><p class="muted">${s.desc}</p><a href="#/sizes/${s.id}">See ideas &rarr;</a></div>`).join("")}
+    </div>
+    <h2>Quick start</h2>
+    <div class="grid">
+      <div class="card"><h3>Plant Guide</h3><p class="muted">${PLANTS.length} crops with sowing, care, pests and harvest.</p><a href="#/plants">Browse plants &rarr;</a></div>
+      <div class="card"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><a href="#/howto">Read the guide &rarr;</a></div>
+      <div class="card"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><a href="#/harvest">Learn to harvest &rarr;</a></div>
+      <div class="card"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes built around what you grow.</p><a href="#/recipes">Start cooking &rarr;</a></div>
+    </div>`;
+}
+
+function pageSizes() {
+  return `
+    <h1>Garden Sizes</h1>
+    <p class="lead">Whatever space you have, there is something you can grow. Choose your garden size for tailored advice.</p>
+    <div class="grid">
+      ${SIZES.map(s => `
+        <div class="card size-card ${s.cls}">
+          <div class="emoji">${s.emoji}</div>
+          <h3>${s.title}</h3>
+          <p class="muted">${s.desc}</p>
+          <p><strong>Good crops:</strong><br>${s.grow.slice(0,6).map(id => `<span class="tag">${plantById(id).name}</span>`).join("")}</p>
+          <a href="#/sizes/${s.id}">Full guide &rarr;</a>
+        </div>`).join("")}
+    </div>`;
+}
+
+function pageSizeDetail(id) {
+  const s = SIZES.find(x => x.id === id);
+  if (!s) return pageNotFound();
+  const plants = s.grow.map(plantById);
+  return `
+    <a class="back" href="#/sizes">&larr; All garden sizes</a>
+    <h1>${s.emoji} ${s.title}</h1>
+    <p class="lead">${s.desc}</p>
+    <h2>Top tips for this space</h2>
+    <ul class="tips">${s.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+    <h2>Recommended crops</h2>
+    <div class="grid">
+      ${plants.map(p => `<div class="card"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><span class="tag">${p.difficulty}</span><p class="muted" style="margin:8px 0 0">${esc(p.sow)}</p><a href="#/plants/${p.id}">Grow ${p.name} &rarr;</a></div>`).join("")}
+    </div>`;
+}
+
+function pagePlants(query = "", size = "all") {
+  const q = query.toLowerCase();
+  const list = PLANTS.filter(p =>
+    (size === "all" || p.sizes.includes(size)) &&
+    (p.name.toLowerCase().includes(q) || p.sun.toLowerCase().includes(q))
+  );
+  return `
+    <h1>Plant Guide</h1>
+    <p class="lead">Search crops or filter by the garden size you have.</p>
+    <div class="filters">
+      <div><input type="search" id="plantSearch" placeholder="Search by name or sunlight..." value="${esc(query)}"></div>
+      <div>
+        <select id="plantSize">
+          <option value="all">All garden sizes</option>
+          ${SIZES.map(s => `<option value="${s.id}" ${s.id===size?"selected":""}>${s.title}</option>`).join("")}
+        </select>
+      </div>
+    </div>
+    <div class="grid" id="plantGrid">
+      ${list.length ? list.map(p => `
+        <a href="#/plants/${p.id}" class="card" style="text-decoration:none;color:inherit">
+          <div class="emoji">${p.emoji}</div>
+          <h3>${p.name}</h3>
+          <span class="tag">${p.difficulty}</span>
+          <span class="tag warm">${p.sun.split(" (")[0]}</span>
+          <p class="muted" style="margin:8px 0 0;font-size:.92rem">${esc(p.sow)}</p>
+        </a>`).join("") : `<div class="empty">No crops match your search.</div>`}
+    </div>`;
+}
+
+function pagePlantDetail(id) {
+  const p = plantById(id);
+  if (!p) return pageNotFound();
+  const related = RECIPES.filter(r => r.uses.includes(p.id));
+  return `
+    <a class="back" href="#/plants">&larr; Plant Guide</a>
+    <h1>${p.emoji} ${p.name}</h1>
+    <p>
+      <span class="tag">Difficulty: ${p.difficulty}</span>
+      ${p.sizes.map(s => `<span class="tag warm">${SIZES.find(x=>x.id===s).title}</span>`).join("")}
+    </p>
+    <div class="info-row">
+      <div>Sunlight</div><div>${esc(p.sun)}</div>
+      <div>When to sow</div><div>${esc(p.sow)}</div>
+      <div>Spacing</div><div>${esc(p.spacing)}</div>
+      <div>Sowing depth</div><div>${esc(p.depth)}</div>
+      <div>Watering</div><div>${esc(p.water)}</div>
+    </div>
+    <h2>Keeping it alive</h2>
+    <ul class="tips">${p.care.map(c => `<li>${esc(c)}</li>`).join("")}</ul>
+    <h3>Watch out for</h3>
+    <p>${p.pests.map(x => `<span class="tag red">${esc(x)}</span>`).join("")}</p>
+    <h2>Harvesting</h2>
+    <p>${esc(p.harvest)}</p>
+    <p><strong>Storage:</strong> ${esc(p.storage)}</p>
+    ${related.length ? `<h2>Cook with ${p.name.toLowerCase()}</h2>
+      <div class="grid">${related.map(r => `<div class="card"><h3>${r.title}</h3><p class="muted">${r.time} &middot; serves ${r.serves}</p><a href="#/recipes/${r.id}">View recipe &rarr;</a></div>`).join("")}</div>` : ""}`;
+}
+
+function pageHowTo() {
+  return `
+    <h1>How to Grow</h1>
+    <p class="lead">A simple seven-step process that works in any garden.</p>
+    ${HOWTO.map((s, i) => `<div class="step"><div class="num">${i+1}</div><div><h3>${s.title.replace(/^\d+\.\s*/, "")}</h3><p>${esc(s.body)}</p></div></div>`).join("")}`;
+}
+
+function pageHarvest() {
+  return `
+    <h1>Harvesting</h1>
+    <p class="lead">Pick at the right time, handle with care, and make the most of every crop.</p>
+    <div class="grid">
+      ${HARVEST.map(h => `<div class="card"><h3>${h.title}</h3><p class="muted" style="margin:0">${esc(h.body)}</p></div>`).join("")}
+    </div>`;
+}
+
+function pageRecipes(filter = "all") {
+  const grown = PLANTS.map(p => p.id);
+  const list = filter === "all" ? RECIPES : RECIPES.filter(r => r.uses.includes(filter));
+  return `
+    <h1>Garden Recipes</h1>
+    <p class="lead">Every recipe is built around crops you can grow yourself.</p>
+    <div class="filters">
+      <div></div>
+      <div>
+        <select id="recipeFilter">
+          <option value="all">All crops</option>
+          ${PLANTS.filter(p => RECIPES.some(r => r.uses.includes(p.id))).map(p => `<option value="${p.id}" ${p.id===filter?"selected":""}>${p.emoji} ${p.name}</option>`).join("")}
+        </select>
+      </div>
+    </div>
+    <div class="grid">
+      ${list.length ? list.map(r => `
+        <a href="#/recipes/${r.id}" class="card" style="text-decoration:none;color:inherit">
+          <h3>${r.title}</h3>
+          <p class="muted" style="margin:4px 0">${r.time} &middot; serves ${r.serves}</p>
+          <p style="margin:6px 0 0">${r.uses.map(u => { const p = plantById(u); return p ? `<span class="tag">${p.emoji} ${p.name}</span>` : ""; }).join("")}</p>
+        </a>`).join("") : `<div class="empty">No recipes for that crop yet.</div>`}
+    </div>`;
+}
+
+function pageRecipeDetail(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return pageNotFound();
+  return `
+    <a class="back" href="#/recipes">&larr; All recipes</a>
+    <h1>${r.title}</h1>
+    <p class="muted">${r.time} &middot; serves ${r.serves}</p>
+    <p>Crops from your garden in this recipe:
+      ${r.uses.map(u => { const p = plantById(u); return p ? `<a href="#/plants/${p.id}" class="tag">${p.emoji} ${p.name}</a>` : ""; }).join("")}
+    </p>
+    <h2>Ingredients</h2>
+    <ul>
+      ${r.ingredients.map(([key, label, qty]) => {
+        const grown = plantById(key);
+        return `<li class="${grown ? "ing-have" : "ing-need"}">${qty} ${esc(label)}${grown ? " &#127807;" : ""}</li>`;
+      }).join("")}
+    </ul>
+    <p class="muted" style="font-size:.9rem">Green items are grown in this garden.</p>
+    <h2>Method</h2>
+    <div class="recipe-steps"><ol>${r.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></div>`;
+}
+
+function pageCalendar(size = "all") {
+  const now = new Date().getMonth();
+  const list = PLANTS.filter(p => size === "all" || p.sizes.includes(size));
+  const empty = "0".repeat(12);
+  const head = MONTHS.map((m, i) => `<th class="${i === now ? "now" : ""}">${m}</th>`).join("");
+  const rows = list.map(p => {
+    const c = CALENDAR[p.id] || { i: empty, o: empty, h: empty };
+    const cells = MONTHS.map((_, m) =>
+      `<td>${c.i[m] === "1" ? '<span class="bar ind" title="Sow indoors"></span>' : ""}${c.o[m] === "1" ? '<span class="bar out" title="Sow or plant outside"></span>' : ""}${c.h[m] === "1" ? '<span class="bar har" title="Harvest"></span>' : ""}</td>`
+    ).join("");
+    return `<tr><th scope="row"><a href="#/plants/${p.id}">${p.emoji} ${p.name}</a></th>${cells}</tr>`;
+  }).join("");
+  return `
+    <h1>Planting Calendar</h1>
+    <p class="lead">When to plant indoors, plant or sow outside, and harvest, month by month. Based on typical UK timings; the current month is highlighted.</p>
+    <div class="legend">
+      <span><i style="background:#8ecae6"></i>Plant indoors</span>
+      <span><i style="background:#52b788"></i>Sow or plant outside</span>
+      <span><i style="background:#f4a261"></i>Harvest</span>
+    </div>
+    <div class="filters">
+      <div></div>
+      <div>
+        <select id="calSize">
+          <option value="all">All garden sizes</option>
+          ${SIZES.map(s => `<option value="${s.id}" ${s.id === size ? "selected" : ""}>${s.title}</option>`).join("")}
+        </select>
+      </div>
+    </div>
+    <div class="cal-wrap">
+      <table class="cal">
+        <thead><tr><th>Crop</th>${head}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:.9rem;margin-top:14px">Timings vary by region, frost dates and variety. Check the Plant Guide for details on each crop.</p>`;
+}
+
+function pageNotFound() {
+  return `<h1>Page not found</h1><p><a href="#/">Go home</a></p>`;
+}
+
+/* ============ ROUTER ============ */
+function route() {
+  const hash = location.hash.replace(/^#\/?/, "");
+  const [section, sub] = hash.split("/");
+  let html;
+  let active = section || "home";
+
+  switch (section) {
+    case "": html = pageHome(); active = "home"; break;
+    case "sizes": html = sub ? pageSizeDetail(sub) : pageSizes(); break;
+    case "plants": html = sub ? pagePlantDetail(sub) : pagePlants(); break;
+    case "howto": html = pageHowTo(); break;
+    case "calendar": html = pageCalendar(); break;
+    case "harvest": html = pageHarvest(); break;
+    case "recipes": html = sub ? pageRecipeDetail(sub) : pageRecipes(); break;
+    default: html = pageNotFound(); active = "";
+  }
+
+  $("#app").innerHTML = html;
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("active", a.dataset.route === active));
+  window.scrollTo(0, 0);
+  bindFilters();
+}
+
+function bindFilters() {
+  const search = $("#plantSearch");
+  const sizeSel = $("#plantSize");
+  if (search && sizeSel) {
+    const apply = () => {
+      const q = search.value.trim();
+      const s = sizeSel.value;
+      history.replaceState(null, "", `#/plants${s !== "all" || q ? "" : ""}`);
+      $("#app").innerHTML = pagePlants(q, s);
+      bindFilters();
+      const newSearch = $("#plantSearch");
+      newSearch.focus();
+      newSearch.setSelectionRange(q.length, q.length);
+    };
+    search.addEventListener("input", apply);
+    sizeSel.addEventListener("change", () => { search.value = search.value; apply(); });
+  }
+  const calSel = $("#calSize");
+  if (calSel) calSel.addEventListener("change", () => {
+    $("#app").innerHTML = pageCalendar(calSel.value);
+    bindFilters();
+  });
+  const rf = $("#recipeFilter");
+  if (rf) rf.addEventListener("change", () => {
+    $("#app").innerHTML = pageRecipes(rf.value);
+    bindFilters();
+  });
+}
+
+window.addEventListener("hashchange", route);
+route();
+</script>
 </body>
 </html>
