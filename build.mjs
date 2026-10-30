@@ -220,7 +220,7 @@ ${ld.map(jsonLd).join('\n')}
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-bar">
-    <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="38" height="38" alt=""><span class="brand-text">Homegrown <span>Plate</span></span></a>
+    <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="44" height="44" alt=""><span class="brand-text"><span class="brand-name">Homegrown <span>Plate</span></span><small class="brand-tag">Grow it. Cook it. Keep it.</small></span></a>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
     <nav class="site-nav" id="siteNav" aria-label="Main">
       <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>

@@ -300,3 +300,14 @@ main .hero .hero-links a:not(.tag):not(.btn):hover { background: rgba(255,255,25
 .brand-text { color: var(--green); }
 .brand-text span { color: var(--leaf); }
 @media (max-width: 640px) { .site-header { position: sticky; } }
+
+.brand { gap: 12px; }
+.brand-mark { border-radius: 50%; box-shadow: 0 2px 6px rgba(45,106,79,.25); }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+.brand-name { font-size: 1.45rem; font-weight: 800; letter-spacing: -.02em; color: var(--green); }
+.brand-name span { color: var(--leaf); }
+.brand-tag { font-size: .66rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+@media (max-width: 1240px) and (min-width: 561px) { .brand-tag { display: block; } }
+@media (max-width: 560px) { .brand-name { font-size: 1.2rem; } .brand-tag { font-size: .58rem; letter-spacing: .1em; } .brand-mark { width: 38px; height: 38px; } }
+.brand-text .brand-name { color: var(--green); }
+.brand-text .brand-name span { color: var(--leaf); }
