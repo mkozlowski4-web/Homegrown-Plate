@@ -15,9 +15,10 @@ These steps are the parts only the site owner can do.
 1. Go to https://www.bing.com/webmasters and sign in.
 2. Choose **Import from Google Search Console** to copy the setup in one step, then confirm the sitemap is listed.
 
-## 3. Cloudflare web analytics (free, no cookies)
-1. In Cloudflare, open **Analytics & Logs > Web Analytics** and add the site.
-2. Server-side analytics from Cloudflare work without adding any script, so the site stays fast and needs no cookie banner.
+## 3. Traffic numbers without adding scripts
+Cloudflare's own dashboard shows requests and visitors for the domain from its server logs, so it needs no script and no cookie banner. Look under the domain's **Analytics** page.
+Avoid adding the separate Web Analytics snippet or Google Analytics for now: the site's security headers block outside scripts, and they would add a cookie consent requirement.
+Search Console's Performance report already tells you what people searched for and which pages they landed on.
 
 ## 4. Check the www redirect
 Type `www.homegrownplate.co.uk` in a browser. It should redirect to `homegrownplate.co.uk`. If it does not, add a redirect rule in Cloudflare (Rules > Redirect Rules).
