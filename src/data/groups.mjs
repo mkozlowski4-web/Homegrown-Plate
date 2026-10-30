@@ -154,7 +154,7 @@ export const GROUPS = {
     groupsIntro: 'Cauliflowers are bred for different seasons, and each needs a different sowing date.',
     groups: [
       { name: 'Summer cauliflower', when: 'Sow February to April · Harvest June to September', note: 'Quick, compact heads, best given steady water.', varieties: ['All the Year Round', 'Clapton', 'Candid Charm'] },
-      { name: 'Autumn cauliflower', when: 'Sow April to May · Harvest September to December', note: 'The easiest group for most gardeners.', varieties: ['Skywalker', 'Autumn Giant', 'Cauliflower Mayflower'] },
+      { name: 'Autumn cauliflower', when: 'Sow April to May · Harvest September to December', note: 'The easiest group for most gardeners.', varieties: ['Skywalker', 'Autumn Giant'] },
       { name: 'Winter cauliflower', when: 'Sow May · Harvest February to May', note: 'Slow, hardy heads that mature in the following spring. Best in mild areas.', varieties: ['Galleon', 'Purple Cape', 'Walcheren Winter'] },
     ] },
   kale: {
