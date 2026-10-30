@@ -1,1 +1,10 @@
-{"tomato":{"alt":"A truss of ripe red tomatoes growing on the vine","credit":"Photo from Pexels"}}
+{
+ "tomato": {
+  "alt": "A truss of ripe red tomatoes growing on the vine",
+  "credit": "Photo from Pexels"
+ },
+ "potato": {
+  "alt": "Freshly harvested potatoes spilling from a hessian sack onto soil",
+  "credit": "Photo from Pexels"
+ }
+}
