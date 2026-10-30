@@ -26,7 +26,13 @@ python3 -m http.server -d dist 8000
 
 Then open http://localhost:8000. The build stops with a clear error if the data has a mistake (unknown crop id, missing calendar entry, duplicate id), and prints a warning if a garden size recommends a crop that does not list that size.
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare)
+
+The repo works with either Cloudflare Workers (static assets) or Cloudflare Pages.
+
+**Workers (uses `wrangler.jsonc`):** in the project's Settings > Build, set the build command to `npm run build` and the deploy command to `npx wrangler deploy`. The publish folder (`dist`) is set in `wrangler.jsonc`, and its `name` must match the project name in Cloudflare.
+
+**Pages:**
 
 In Workers & Pages, open the project, then Settings > Builds:
 

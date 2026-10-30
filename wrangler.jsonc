@@ -1,0 +1,10 @@
+{
+  // Cloudflare Workers static assets: serve the built site from dist/.
+  // "name" must match the project name shown in the Cloudflare dashboard.
+  "name": "homegrown-plate",
+  "compatibility_date": "2026-10-30",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
