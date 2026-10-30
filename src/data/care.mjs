@@ -2,7 +2,9 @@
    Sowing and harvesting come from calendar.mjs, so they are not repeated here.
    Each task is [months, text]. Months are numbers 1 (Jan) to 12 (Dec): "4-8" is April to August,
    "11-2" wraps over the new year, "4,9" lists separate months. Keep each task to one clear job. */
-export const CARE = {
+import { CARE_2 } from './care/batch2.mjs';
+
+const CARE_1 = {
   tomato: [
     ['4-5', 'Pot seedlings into individual pots once they have their first true leaves, and keep them frost-free and in bright light.'],
     ['5-6', 'Harden off for 7 to 10 days, then plant out after the last frost, burying the stem up to the first leaves for a stronger root system.'],
@@ -219,3 +221,5 @@ export const CARE = {
     ['9-10', 'Cut pumpkins with a piece of stalk once the skin is hard and sounds hollow when tapped, then cure in a sunny, dry spot before storing.'],
   ],
 };
+
+export const CARE = { ...CARE_1, ...CARE_2 };
