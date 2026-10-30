@@ -171,10 +171,11 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .tag.more { background: transparent; border: 1px dashed var(--leaf); }
 .card-link .more-link { color: var(--green); font-weight: 600; text-decoration: underline; display: inline-block; margin-top: 4px; }
 .card-link h3 { color: var(--ink, inherit); }
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-3 { grid-template-columns: repeat(4, 1fr); }
 .pop-grid { grid-template-columns: repeat(4, 1fr); }
 .pop-card { text-align: center; padding: 16px 10px; }
 .pop-card .pimg { margin: 0 auto 8px; }
+@media (max-width: 1000px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr 1fr; } .month-cols { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .grid-3 { grid-template-columns: 1fr; } .hero { padding: 32px 20px; } .hero-search { flex-direction: column; } .hero-search .btn { width: 100%; } }
 @media (max-width: 560px) { .pop-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -222,3 +223,6 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .job-card.care-card { grid-column: 1 / -1; }
 .job-card .care-text { font-size: .95rem; }
 @media (max-width: 560px) { .care-when { display: block; } }
+
+/* ---- Pests ---- */
+.tag-link.red:hover { background: #f3c9d1; }

@@ -364,6 +364,42 @@
     });
   }
 
+  /* ---- Pests and diseases: name search and type buttons ---- */
+  var pestFilters = $('#pestFilters');
+  if (pestFilters) {
+    pestFilters.hidden = false;
+    var pestCards = $$('[data-pest]');
+    var pestChips = $$('#pestFilters [data-filter="kind"]');
+    var pestSearch = $('#pestSearch'), pestCount = $('#pestCount'), pestEmpty = $('#pestEmpty'), pestReset = $('#pestReset');
+    var pState = { kind: 'any', q: '' };
+    var pp = new URLSearchParams(location.search);
+    var pk = pp.get('kind');
+    if (pk && pestChips.some(function (c) { return c.getAttribute('data-value') === pk; })) pState.kind = pk;
+    if (pp.get('q')) pState.q = pp.get('q').slice(0, 60);
+    pestSearch.value = pState.q;
+    var applyPests = function () {
+      var term = pState.q.trim().toLowerCase();
+      var shown = 0;
+      pestCards.forEach(function (card) {
+        var ok = (pState.kind === 'any' || card.getAttribute('data-kind') === pState.kind) && (!term || card.getAttribute('data-search').indexOf(term) > -1);
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+      pestChips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-value') === pState.kind)); });
+      pestCount.textContent = 'Showing ' + shown + ' of ' + pestCards.length;
+      pestEmpty.hidden = shown > 0;
+      pestReset.hidden = pState.kind === 'any' && !term;
+      var qs = new URLSearchParams();
+      if (pState.kind !== 'any') qs.set('kind', pState.kind);
+      if (term) qs.set('q', pState.q.trim());
+      try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs.toString() : '')); } catch (err) { /* ignore */ }
+    };
+    pestChips.forEach(function (c) { c.addEventListener('click', function () { pState.kind = c.getAttribute('data-value'); applyPests(); }); });
+    pestSearch.addEventListener('input', function () { pState.q = pestSearch.value; applyPests(); });
+    pestReset.addEventListener('click', function () { pState.kind = 'any'; pState.q = ''; pestSearch.value = ''; applyPests(); });
+    applyPests();
+  }
+
   /* ---- Home page: show this month's panel ---- */
   var monthPanels = $$('[data-month-panel]');
   if (monthPanels.length) {

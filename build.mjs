@@ -11,6 +11,7 @@ import { PLANTS } from './src/data/plants.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
+import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
@@ -125,6 +126,14 @@ function validate() {
       else if (!p.sizes.includes(s.id)) errors.push(`Size ${s.id} recommends ${id}, but ${id} does not list ${s.id} in its sizes`);
     }
   }
+  dupes(PESTS, 'pest');
+  for (const e of PESTS) {
+    if (!pestKind.has(e.kind)) errors.push(`Pest ${e.id} has unknown kind "${e.kind}"`);
+    for (const f of ['summary', 'spot', 'when']) if (!e[f] || e[f].length < (f === 'when' ? 8 : 20)) errors.push(`Pest ${e.id} is missing ${f}`);
+    for (const f of ['prevent', 'control']) if (!Array.isArray(e[f]) || e[f].length < 2) errors.push(`Pest ${e.id} needs at least two ${f} points`);
+    for (const c of e.crops || []) if (!plantMap.has(c)) errors.push(`Pest ${e.id} lists unknown crop "${c}"`);
+    if (pestCrops.get(e.id).size === 0) soft(`Pest ${e.id} is not linked to any crop`);
+  }
   for (const [id, tasks] of Object.entries(CARE)) {
     if (!plantMap.has(id)) { errors.push(`Care data for unknown plant "${id}"`); continue; }
     tasks.forEach(([spec, text], k) => { if (!careBits(spec)) errors.push(`Care task ${k + 1} for ${id} has bad months "${spec}"`); if (!text || text.length < 25) errors.push(`Care task ${k + 1} for ${id} is too short`); });
@@ -163,6 +172,7 @@ const NAV = [
   ['How-To', '/howto/', 'howto'],
   ['Harvesting', '/harvest/', 'harvest'],
   ['Recipes', '/recipes/', 'recipes'],
+  ['Pests & Diseases', '/pests/', 'pests'],
   ['My Garden', '/my-garden/', 'garden'],
 ];
 
@@ -300,6 +310,13 @@ function growCard(p, cal) {
 }
 
 
+
+/* Which crops each pest or problem affects, found from the plants' "Watch out for" labels. */
+const pestCrops = new Map(PESTS.map((p) => [p.id, new Set(p.crops || [])]));
+for (const p of PLANTS) for (const label of p.pests) { const e = pestForLabel(label); if (e) pestCrops.get(e.id).add(p.id); }
+const pestMap = new Map(PESTS.map((p) => [p.id, p]));
+const pestKind = new Map(PEST_KINDS.map((k) => [k.id, k]));
+
 /* Care tasks: expand "4-8", "11-2" or "4,9" into a 12-character 0/1 string. */
 function careBits(spec) {
   const bits = Array(12).fill('0');
@@ -388,6 +405,7 @@ function buildHome() {
   <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
   <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
   <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/pests/" class="card card-link"><h3>Pests &amp; Diseases</h3><p class="muted">${PESTS.length} common problems, how to spot them and what to do, linked from every crop.</p><span class="more-link">Fix a problem &rarr;</span></a>
   <a href="/my-garden/" class="card card-link"><h3>My Garden</h3><p class="muted">Add the crops you grow and get a checklist of jobs and recipes for every month. Free, no sign-up.</p><span class="more-link">Build my garden &rarr;</span></a>
   <a href="/plants/?diff=easy" class="card card-link"><h3>Beginner-friendly crops</h3><p class="muted">${easyCount} easy crops that forgive mistakes and reward you quickly.</p><span class="more-link">See easy crops &rarr;</span></a>
 </div>`;
@@ -571,7 +589,7 @@ function buildPlants() {
         : `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
     ].join('\n');
     const sowBody = [sowCal.length ? factRows(sowCal) : '', paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
-    const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => `<span class="tag red">${esc(x)}</span>`).join('')}</p>`].filter(Boolean).join('\n');
+    const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => { const e = pestForLabel(x); return e ? `<a class="tag red tag-link" href="/pests/${e.id}/">${esc(x)}</a>` : `<span class="tag red">${esc(x)}</span>`; }).join('')}</p>\n<p class="muted small-note">Tap a problem to see how to spot it and what to do. See all <a href="/pests/">pests and diseases</a>.</p>`].filter(Boolean).join('\n');
     const harvestBody = [harvestCal.length ? factRows(harvestCal) : '', paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
     const useBody = [paras(p.use.p), tipsList(p.use.tips)].join('\n');
 
@@ -596,6 +614,64 @@ ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
       description: `How to grow ${lower(p.name)} in the UK: when and how to sow, growing care, harvesting, storage and cooking tips. ${p.sunText}.`,
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
       image: PHOTOS.get(p.id)?.src || '',
+    });
+  }
+}
+
+function buildPests() {
+  const crops = (id) => [...pestCrops.get(id)].map((c) => plantMap.get(c)).filter(Boolean).sort((x, y) => x.name.localeCompare(y.name, 'en-GB'));
+  const cards = PESTS.map((e) => {
+    const n = pestCrops.get(e.id).size;
+    return `<a href="/pests/${e.id}/" class="card card-link" data-pest data-kind="${e.kind}" data-search="${esc(lower(`${e.name} ${e.summary}`))}">
+    <span class="tag ${e.kind === 'pest' ? 'red' : e.kind === 'disease' ? 'warm' : e.kind === 'wildlife' ? 'blue' : ''}">${esc(pestKind.get(e.kind).one)}</span>
+    <h3>${esc(e.name)}</h3>
+    <p class="muted card-note">${esc(e.summary)}</p>
+    <p class="muted small-note">Affects ${n} ${n === 1 ? 'crop' : 'crops'}</p>
+  </a>`;
+  }).join('\n  ');
+  const kindChips = [chip('kind', 'any', 'All', true), ...PEST_KINDS.map((k) => chip('kind', k.id, esc(k.label)))].join('\n      ');
+  const body = `
+<h1>Pests, Diseases and Problems</h1>
+<p class="lead">${PESTS.length} common garden problems and how to deal with them, starting with the gentlest methods. Each crop's page links to the problems that affect it.</p>
+<div class="filter-panel" id="pestFilters" hidden>
+  <div class="filter-search"><label for="pestSearch">Search by name</label><input type="search" id="pestSearch" placeholder="For example: aphids, blight, slugs"></div>
+  <fieldset class="chip-group">
+    <legend>Type</legend>
+      ${kindChips}
+  </fieldset>
+  <p class="filter-status"><span id="pestCount" aria-live="polite"></span> <button type="button" class="chip chip-reset" id="pestReset" hidden>Clear filters</button></p>
+</div>
+<div class="grid">
+  ${cards}
+</div>
+<div class="empty" id="pestEmpty" hidden>No problems match that search. Try a different word or type.</div>
+<p class="muted small-note">Advice here favours prevention, barriers, hand-picking and natural predators. If you choose to use a product, make sure it is approved for use in UK home gardens, follow the label exactly, and avoid spraying open flowers so bees are not harmed.</p>`;
+  addPage({
+    path: '/pests/', section: 'pests', body, title: 'Garden Pests, Diseases and Problems',
+    description: `How to spot and deal with ${PESTS.length} common UK garden pests, diseases and growing problems, from aphids and slugs to blight, clubroot and bolting.`,
+    crumbs: [['Home', '/'], ['Pests & Diseases', '/pests/']],
+  });
+  for (const e of PESTS) {
+    const affected = crops(e.id);
+    const list = (items) => `<ul class="tips">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    const body2 = `
+<a class="back" href="/pests/">&larr; Pests and diseases</a>
+<h1>${esc(e.name)}</h1>
+<p><span class="tag ${e.kind === 'pest' ? 'red' : e.kind === 'disease' ? 'warm' : e.kind === 'wildlife' ? 'blue' : ''}">${esc(pestKind.get(e.kind).one)}</span> <span class="muted">${esc(e.summary)}</span></p>
+<h2>What to look for</h2>
+<p>${esc(e.spot)}</p>
+<p><strong>When:</strong> ${esc(e.when)}</p>
+<h2>How to prevent it</h2>
+${list(e.prevent)}
+<h2>How to deal with it</h2>
+${list(e.control)}
+${affected.length ? `<h2>Crops it affects</h2>
+<p class="card-tags">${affected.map(plantLink).join('')}</p>` : ''}
+<p class="muted small-note">If you choose to use any treatment, use only products approved for UK home gardens, follow the label and avoid spraying open flowers. See all <a href="/pests/">pests and diseases</a>.</p>`;
+    addPage({
+      path: `/pests/${e.id}/`, section: 'pests', body: body2, title: `${e.name}: how to spot, prevent and treat`,
+      description: `${e.summary} How to spot ${lower(e.name)}, prevent it and deal with it in a UK garden.`,
+      crumbs: [['Home', '/'], ['Pests & Diseases', '/pests/'], [e.name, `/pests/${e.id}/`]],
     });
   }
 }
@@ -778,6 +854,7 @@ buildHome();
 buildSizes();
 buildPlants();
 buildRecipes();
+buildPests();
 buildMyGarden();
 buildCalendar();
 buildGuides();
