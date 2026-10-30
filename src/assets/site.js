@@ -19,28 +19,85 @@
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
 
-  /* ---- Plant guide filters ---- */
+  /* ---- Plant guide: sunlight and garden-size buttons, plus name search ---- */
   var plantFilters = $('#plantFilters');
   if (plantFilters) {
     plantFilters.hidden = false;
+    var chips = $$('#plantFilters [data-filter]');
     var search = $('#plantSearch');
-    var sizeSel = $('#plantSize');
     var plantCards = $$('[data-plant]');
+    var plantCount = $('#plantCount');
     var plantEmpty = $('#plantEmpty');
+    var resetBtn = $('#plantReset');
+    var state = { sun: 'any', size: 'any', q: '' };
+
+    var isValid = function (group, value) {
+      return chips.some(function (c) {
+        return c.getAttribute('data-filter') === group && c.getAttribute('data-value') === value;
+      });
+    };
+    var params = new URLSearchParams(location.search);
+    ['sun', 'size'].forEach(function (group) {
+      var v = params.get(group);
+      if (v && isValid(group, v)) state[group] = v;
+    });
+    if (params.get('q')) state.q = params.get('q').slice(0, 60);
+    search.value = state.q;
+
     var applyPlants = function () {
-      var term = search.value.trim().toLowerCase();
-      var size = sizeSel.value;
+      var term = state.q.trim().toLowerCase();
       var shown = 0;
       plantCards.forEach(function (card) {
-        var okSize = size === 'all' || card.getAttribute('data-sizes').split(' ').indexOf(size) > -1;
+        var okSun = state.sun === 'any' || card.getAttribute('data-sun').split(' ').indexOf(state.sun) > -1;
+        var okSize = state.size === 'any' || card.getAttribute('data-sizes').split(' ').indexOf(state.size) > -1;
         var okText = !term || card.getAttribute('data-search').indexOf(term) > -1;
-        card.hidden = !(okSize && okText);
+        card.hidden = !(okSun && okSize && okText);
         if (!card.hidden) shown++;
       });
+      chips.forEach(function (c) {
+        c.setAttribute('aria-pressed', String(state[c.getAttribute('data-filter')] === c.getAttribute('data-value')));
+      });
+      plantCount.textContent = 'Showing ' + shown + ' of ' + plantCards.length + ' crops';
       plantEmpty.hidden = shown > 0;
+      resetBtn.hidden = state.sun === 'any' && state.size === 'any' && !term;
+      var qs = new URLSearchParams();
+      if (state.sun !== 'any') qs.set('sun', state.sun);
+      if (state.size !== 'any') qs.set('size', state.size);
+      if (term) qs.set('q', state.q.trim());
+      try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs.toString() : '')); } catch (e) { /* ignore */ }
     };
-    search.addEventListener('input', applyPlants);
-    sizeSel.addEventListener('change', applyPlants);
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        state[c.getAttribute('data-filter')] = c.getAttribute('data-value');
+        applyPlants();
+      });
+    });
+    search.addEventListener('input', function () { state.q = search.value; applyPlants(); });
+    resetBtn.addEventListener('click', function () {
+      state.sun = 'any'; state.size = 'any'; state.q = ''; search.value = '';
+      applyPlants();
+    });
+    applyPlants();
+  }
+
+  /* ---- Plant page: expand / collapse all, and open a section from the address ---- */
+  var accToggle = $('#accToggle');
+  if (accToggle) {
+    var panels = $$('details.acc');
+    var syncToggle = function () {
+      var allOpen = panels.every(function (p) { return p.open; });
+      accToggle.textContent = allOpen ? 'Collapse all sections' : 'Expand all sections';
+    };
+    accToggle.hidden = false;
+    accToggle.addEventListener('click', function () {
+      var allOpen = panels.every(function (p) { return p.open; });
+      panels.forEach(function (p) { p.open = !allOpen; });
+      syncToggle();
+    });
+    panels.forEach(function (p) { p.addEventListener('toggle', syncToggle); });
+    var target = location.hash.length > 1 ? document.getElementById(location.hash.slice(1)) : null;
+    if (target && target.tagName === 'DETAILS') { target.open = true; target.scrollIntoView(); }
+    syncToggle();
   }
 
   /* ---- Recipe filter ---- */

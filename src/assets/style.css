@@ -89,3 +89,29 @@ a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid 
 .tag-link:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 main p a:not(.tag):not(.btn), main li a { color: var(--green); }
+
+/* ---- Plant guide: filter buttons and collapsible sections ---- */
+.latin { margin: -4px 0 10px; color: var(--muted); font-style: italic; }
+.filter-panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-top: 18px; }
+.filter-search { max-width: 420px; }
+.filter-search label { display: block; font-weight: 600; font-size: .9rem; color: var(--soil); }
+.filter-search input { margin-top: 4px; }
+.chip-group { border: 0; padding: 0; margin: 16px 0 0; min-width: 0; }
+.chip-group legend { font-weight: 700; color: var(--soil); padding: 0; margin-bottom: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 16px; margin: 0 8px 8px 0; border: 1.5px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font: inherit; font-size: .95rem; cursor: pointer; }
+.chip:hover { border-color: var(--leaf); }
+.chip[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+.chip-reset { border-style: dashed; margin-bottom: 0; }
+.filter-status { margin: 10px 0 0; font-weight: 600; color: var(--green); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.acc-controls { margin: 18px 0 0; }
+.acc { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin: 12px 0; overflow: hidden; }
+.acc > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 56px; padding: 12px 20px; font-size: 1.2rem; font-weight: 700; color: var(--green); }
+.acc > summary::-webkit-details-marker { display: none; }
+.acc > summary::after { content: "+"; flex: 0 0 auto; font-size: 1.6rem; line-height: 1; }
+.acc[open] > summary::after { content: "\2212"; }
+.acc[open] > summary { border-bottom: 1px solid var(--line); }
+.acc-body { padding: 6px 20px 18px; }
+.acc-body h3 { margin: 20px 0 6px; font-size: 1.05rem; color: var(--soil); }
+.acc-body p { margin: 12px 0; }
+.acc-body .info-row { margin: 12px 0 16px; }
+@media (max-width: 640px) { .site-header { position: static; } }

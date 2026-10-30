@@ -52,10 +52,30 @@ function isoDuration(text) {
   return m ? `PT${m[1]}M` : null;
 }
 
+/* ---------- plant taxonomy ---------- */
+const SUN_LEVELS = [
+  { id: 'full', label: 'Full sun', hint: '6+ hours of direct sun', icon: '☀️' },
+  { id: 'partial', label: 'Partial shade', hint: '3–6 hours of direct sun', icon: '⛅' },
+  { id: 'shade', label: 'Shade', hint: 'under 3 hours of direct sun', icon: '☁️' },
+];
+const sunLevel = new Map(SUN_LEVELS.map((s) => [s.id, s]));
+const MIN_SECTION_WORDS = 60;
+const wordCount = (s) => String(s).trim().split(/\s+/).filter(Boolean).length;
+const sectionWords = (sec) => [...sec.p, ...sec.tips].reduce((n, t) => n + wordCount(t), 0);
+const SECTION_KEYS = ['sow', 'grow', 'harvest', 'use'];
+
+/* Recommended crops for a garden size: the curated list first, then every other crop that suits it. */
+function cropsForSize(s) {
+  const curated = s.grow.map((id) => plantMap.get(id)).filter((p) => p && p.sizes.includes(s.id));
+  const rest = PLANTS.filter((p) => p.sizes.includes(s.id) && !s.grow.includes(p.id));
+  return [...curated, ...rest];
+}
+
 /* ---------- data checks: fail the build on typos ---------- */
 function validate() {
   const errors = [];
   const warnings = [];
+  const soft = (msg) => errors.push(msg);
   const dupes = (arr, label) => {
     const seen = new Set();
     for (const x of arr) {
@@ -65,26 +85,51 @@ function validate() {
     }
   };
   dupes(PLANTS, 'plant'); dupes(SIZES, 'size'); dupes(RECIPES, 'recipe');
+
+  const words = [];
   for (const p of PLANTS) {
     for (const s of p.sizes) if (!sizeMap.has(s)) errors.push(`Plant ${p.id} lists unknown size "${s}"`);
-    if (!CALENDAR[p.id]) errors.push(`Plant ${p.id} has no entry in calendar.mjs`);
+    if (!CALENDAR[p.id]) soft(`Plant ${p.id} has no entry in calendar.mjs`);
+    if (!p.latin) errors.push(`Plant ${p.id} has no latin name`);
+    if (!p.sunText) errors.push(`Plant ${p.id} has no sunText`);
+    if (!Array.isArray(p.sun) || !p.sun.length || p.sun.some((x) => !sunLevel.has(x))) errors.push(`Plant ${p.id} needs sun: a list of full / partial / shade`);
+    if (!p.facts || !p.facts.length) errors.push(`Plant ${p.id} has no facts`);
+    else if (!p.facts.some(([l]) => l === 'Sow')) errors.push(`Plant ${p.id} needs a short 'Sow' fact (used on the plant cards)`);
+    if (!p.info || !p.info.length) errors.push(`Plant ${p.id} has no info paragraphs`);
+    if (!p.varieties || !p.varieties.length) errors.push(`Plant ${p.id} has no varieties`);
+    if (!p.pests || !p.pests.length) errors.push(`Plant ${p.id} has no pests list`);
+    let total = (p.info || []).reduce((n, t) => n + wordCount(t), 0);
+    for (const k of SECTION_KEYS) {
+      const sec = p[k];
+      if (!sec || !sec.p || !sec.p.length || !sec.tips || !sec.tips.length) { errors.push(`Plant ${p.id} is missing section "${k}" (needs p and tips)`); continue; }
+      const w = sectionWords(sec);
+      total += w;
+      if (w < MIN_SECTION_WORDS) errors.push(`Plant ${p.id} section "${k}" is too short (${w} words, minimum ${MIN_SECTION_WORDS})`);
+    }
+    words.push([p.id, total]);
   }
   for (const [id, c] of Object.entries(CALENDAR)) {
-    if (!plantMap.has(id)) errors.push(`calendar.mjs has entry for unknown plant "${id}"`);
+    if (!plantMap.has(id)) soft(`calendar.mjs has entry for unknown plant "${id}"`);
     for (const k of ['i', 'o', 'h']) if (!/^[01]{12}$/.test(c[k] || '')) errors.push(`Calendar ${id}.${k} must be 12 characters of 0/1`);
   }
   for (const s of SIZES) {
     for (const id of s.grow) {
       const p = plantMap.get(id);
-      if (!p) errors.push(`Size ${s.id} recommends unknown plant "${id}"`);
-      else if (!p.sizes.includes(s.id)) warnings.push(`Size ${s.id} recommends ${id}, but ${id} does not list ${s.id} in its sizes`);
+      if (!p) soft(`Size ${s.id} recommends unknown plant "${id}"`);
+      else if (!p.sizes.includes(s.id)) errors.push(`Size ${s.id} recommends ${id}, but ${id} does not list ${s.id} in its sizes`);
     }
   }
-  for (const r of RECIPES) for (const id of r.uses) if (!plantMap.has(id)) errors.push(`Recipe ${r.id} uses unknown plant "${id}"`);
+  for (const r of RECIPES) for (const id of r.uses) if (!plantMap.has(id)) soft(`Recipe ${r.id} uses unknown plant "${id}"`);
+
   warnings.forEach((w) => console.warn(`warning: ${w}`));
   if (errors.length) {
     console.error(errors.map((e) => `error: ${e}`).join('\n'));
     process.exit(1);
+  }
+  if (words.length) {
+    const sorted = [...words].sort((a, b) => a[1] - b[1]);
+    const avg = Math.round(words.reduce((n, w) => n + w[1], 0) / words.length);
+    console.log(`Plant content: ${words.length} crops, average ${avg} words each (shortest: ${sorted[0][0]} ${sorted[0][1]}, longest: ${sorted[sorted.length - 1][0]} ${sorted[sorted.length - 1][1]})`);
   }
 }
 
@@ -211,6 +256,7 @@ function buildSizes() {
     <h3>${esc(s.title)}</h3>
     <p class="muted">${esc(s.desc)}</p>
     <p><strong>Good crops:</strong><br>${s.grow.slice(0, 6).map((id) => plantLink(plantMap.get(id))).join('')}</p>
+    <p class="card-meta muted">${cropsForSize(s).length} crops suit this space</p>
     <a href="/sizes/${s.id}/">Full guide &rarr;</a>
   </div>`).join('\n  ')}
 </div>`;
@@ -221,16 +267,17 @@ function buildSizes() {
   });
 
   for (const s of SIZES) {
-    const crops = s.grow.map((id) => plantMap.get(id));
+    const crops = cropsForSize(s);
     const detail = `
 <a class="back" href="/sizes/">&larr; All garden sizes</a>
 <h1>${emoji(s.emoji)} ${esc(s.title)}</h1>
 <p class="lead">${esc(s.desc)}</p>
 <h2>Top tips for this space</h2>
 <ul class="tips">${s.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
-<h2>Recommended crops</h2>
+<h2>Recommended crops (${crops.length})</h2>
+<p><a href="/plants/?size=${s.id}">Filter the Plant Guide for this garden size &rarr;</a></p>
 <div class="grid">
-  ${crops.map((p) => `<div class="card">${emoji(p.emoji)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><p class="muted card-note">${esc(p.sow)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
+  ${crops.map((p) => `<div class="card">${emoji(p.emoji)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
 </div>`;
     addPage({
       path: `/sizes/${s.id}/`, section: 'sizes', body: detail,
@@ -241,75 +288,93 @@ function buildSizes() {
   }
 }
 
+const paras = (arr) => arr.map((t) => `<p>${esc(t)}</p>`).join('\n');
+const tipsList = (arr, heading = 'Top tips') =>
+  arr && arr.length ? `<h3>${heading}</h3>\n<ul class="tips">${arr.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
+const factRows = (rows) => `<div class="info-row">\n  ${rows.map(([l, v]) => `<div>${esc(l)}</div><div>${esc(v)}</div>`).join('\n  ')}\n</div>`;
+const accordion = (id, title, inner, open = false) => `<details class="acc" id="${id}"${open ? ' open' : ''}>
+  <summary>${esc(title)}</summary>
+  <div class="acc-body">
+${inner}
+  </div>
+</details>`;
+const chip = (group, value, label, pressed = false) =>
+  `<button type="button" class="chip" data-filter="${group}" data-value="${value}" aria-pressed="${pressed}">${label}</button>`;
+
 function buildPlants() {
-  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-search="${esc(lower(`${p.name} ${p.sun}`))}">
+  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-search="${esc(lower(`${p.name} ${p.latin}`))}">
     ${emoji(p.emoji)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
-    <span class="tag warm">${esc(p.sun.split(' (')[0])}</span>
-    <p class="muted card-note">${esc(p.sow)}</p>
+    <span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span>
+    <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>
   </a>`).join('\n  ');
+  const sunChips = [chip('sun', 'any', 'Any sunlight', true), ...SUN_LEVELS.map((s) => chip('sun', s.id, `<span aria-hidden="true">${s.icon}</span> ${s.label}`))].join('\n      ');
+  const sizeChips = [chip('size', 'any', 'Any size', true), ...SIZES.map((s) => chip('size', s.id, `<span aria-hidden="true">${s.emoji}</span> ${esc(s.short)}`))].join('\n      ');
   const body = `
 <h1>Plant Guide</h1>
-<p class="lead">Search crops or filter by the garden size you have.</p>
-<div class="filters" id="plantFilters" hidden>
-  <div><label for="plantSearch">Search</label><input type="search" id="plantSearch" placeholder="Search by name or sunlight..."></div>
-  <div><label for="plantSize">Garden size</label>
-    <select id="plantSize">
-      <option value="all">All garden sizes</option>
-      ${SIZES.map((s) => `<option value="${s.id}">${esc(s.title)}</option>`).join('\n      ')}
-    </select>
-  </div>
+<p class="lead">${PLANTS.length} crops for UK gardens, each with detailed advice on sowing, growing, harvesting and storing. Pick the sunlight you have and your garden size to narrow the list.</p>
+<div class="filter-panel" id="plantFilters" hidden>
+  <div class="filter-search"><label for="plantSearch">Search by name</label><input type="search" id="plantSearch" placeholder="For example: tomato, thyme, apple"></div>
+  <fieldset class="chip-group">
+    <legend>Sunlight</legend>
+      ${sunChips}
+  </fieldset>
+  <fieldset class="chip-group">
+    <legend>Garden size</legend>
+      ${sizeChips}
+  </fieldset>
+  <p class="muted small-note">${SUN_LEVELS.map((s) => `${s.label}: ${s.hint}`).join('. ')}. Many crops cope with more than one level, so they appear under each.</p>
+  <p class="filter-status"><span id="plantCount" aria-live="polite"></span> <button type="button" class="chip chip-reset" id="plantReset" hidden>Clear filters</button></p>
 </div>
 <div class="grid" id="plantGrid">
   ${cards}
 </div>
-<div class="empty" id="plantEmpty" hidden>No crops match your search.</div>`;
+<div class="empty" id="plantEmpty" hidden>No crops match those filters. Try a different sunlight or garden size.</div>`;
   addPage({
     path: '/plants/', section: 'plants', body, title: `Plant Guide: ${PLANTS.length} crops to grow in the UK`,
-    description: `Sowing, spacing, care, pests, harvesting and storage for ${PLANTS.length} crops that grow well in the UK. Filter by garden size.`,
+    description: `Detailed sowing, growing, harvesting and storage advice for ${PLANTS.length} crops that grow well in the UK. Filter by sunlight and garden size.`,
     crumbs: [['Home', '/'], ['Plant Guide', '/plants/']],
   });
 
   for (const p of PLANTS) {
     const related = RECIPES.filter((r) => r.uses.includes(p.id));
     const cal = CALENDAR[p.id];
-    const calRows = [
-      ['Sow indoors', monthRanges(cal.i)],
-      ['Sow or plant outside', monthRanges(cal.o)],
-      ['Harvest', monthRanges(cal.h)],
-    ].filter(([, v]) => v);
+    const calRow = (label, bits) => { const v = monthRanges(bits); return v ? [[label, v]] : []; };
+    const sowCal = [...calRow('Sow or start indoors', cal.i), ...calRow('Sow or plant outside', cal.o)];
+    const harvestCal = calRow('Harvest months', cal.h);
+
+    const infoBody = [
+      factRows([['Sunlight', p.sunText], ...p.facts]),
+      paras(p.info),
+      `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
+    ].join('\n');
+    const sowBody = [sowCal.length ? factRows(sowCal) : '', paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
+    const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => `<span class="tag red">${esc(x)}</span>`).join('')}</p>`].filter(Boolean).join('\n');
+    const harvestBody = [harvestCal.length ? factRows(harvestCal) : '', paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
+    const useBody = [paras(p.use.p), tipsList(p.use.tips)].join('\n');
+
     const body2 = `
 <a class="back" href="/plants/">&larr; Plant Guide</a>
 <h1>${emoji(p.emoji)} ${esc(p.name)}</h1>
+<p class="latin">${esc(p.latin)}</p>
 <p>
   <span class="tag">Difficulty: ${esc(p.difficulty)}</span>
-  ${p.sizes.map((id) => `<a class="tag warm tag-link" href="/sizes/${id}/">${esc(sizeMap.get(id).title)}</a>`).join('\n  ')}
+  ${p.sun.map((id) => `<a class="tag warm tag-link" href="/plants/?sun=${id}">${sunLevel.get(id).icon} ${esc(sunLevel.get(id).label)}</a>`).join('\n  ')}
+  ${p.sizes.map((id) => `<a class="tag tag-link" href="/sizes/${id}/">${esc(sizeMap.get(id).short)}</a>`).join('\n  ')}
 </p>
-<div class="info-row">
-  <div>Sunlight</div><div>${esc(p.sun)}</div>
-  <div>When to sow</div><div>${esc(p.sow)}</div>
-  <div>Spacing</div><div>${esc(p.spacing)}</div>
-  <div>Sowing depth</div><div>${esc(p.depth)}</div>
-  <div>Watering</div><div>${esc(p.water)}</div>
-</div>
-<h2>Keeping it alive</h2>
-<ul class="tips">${p.care.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
-<h3>Watch out for</h3>
-<p>${p.pests.map((x) => `<span class="tag red">${esc(x)}</span>`).join('')}</p>
-<h2>Harvesting</h2>
-<p>${esc(p.harvest)}</p>
-<p><strong>Storage:</strong> ${esc(p.storage)}</p>
-${calRows.length ? `<h2>UK calendar</h2>
-<div class="info-row">
-  ${calRows.map(([label, v]) => `<div>${label}</div><div>${esc(v)}</div>`).join('\n  ')}
-</div>
-<p class="muted small-note">Typical UK timings. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>` : ''}
+<p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
+${accordion('info', 'Info', infoBody, true)}
+${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
+${accordion('how-to-grow', 'How to grow', growBody)}
+${accordion('how-to-harvest', 'How to harvest', harvestBody)}
+${accordion('usage-and-storage', 'Usage and storage', useBody)}
+<p class="muted small-note">Timings are typical for the UK and vary with region, frost dates and variety. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>
 ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
 <div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}`;
     addPage({
       path: `/plants/${p.id}/`, section: 'plants', body: body2, title: `How to grow ${p.name} in the UK`,
-      description: `How to grow ${lower(p.name)} in the UK: when to sow, spacing, watering, pests, harvesting and storage. Difficulty: ${lower(p.difficulty)}.`,
+      description: `How to grow ${lower(p.name)} in the UK: when and how to sow, growing care, harvesting, storage and cooking tips. ${p.sunText}.`,
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
     });
   }
