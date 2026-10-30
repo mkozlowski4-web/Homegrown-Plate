@@ -10,5 +10,13 @@
  "courgette": {
   "alt": "A young courgette growing beside an open yellow-orange flower",
   "credit": "Photo from Pexels"
+ },
+ "strawberry": {
+  "alt": "Ripening strawberries, from green-white to ripe red, hanging from the plant",
+  "credit": "Photo from Pexels"
+ },
+ "french-bean": {
+  "alt": "Green bean pods hanging from the plant",
+  "credit": "Photo from Pexels"
  }
 }
