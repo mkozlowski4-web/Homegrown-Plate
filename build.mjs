@@ -15,7 +15,7 @@ import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
-const SITE = (process.env.SITE_URL || 'https://www.homegrownplate.co.uk').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://homegrownplate.co.uk').replace(/\/$/, '');
 const SITE_NAME = 'Homegrown Plate';
 
 /* ---------- helpers ---------- */

@@ -1,6 +1,6 @@
 # Homegrown Plate
 
-Source for [homegrownplate.co.uk](https://www.homegrownplate.co.uk): a guide to growing your own food in any size of garden. 28 crops, a UK planting calendar, how-to and harvesting advice, storage tips and recipes.
+Source for [homegrownplate.co.uk](https://homegrownplate.co.uk): a guide to growing your own food in any size of garden. 28 crops, a UK planting calendar, how-to and harvesting advice, storage tips and recipes.
 
 The site is built into plain static HTML, so every crop, recipe and garden size has its own real page (for example `/plants/tomato/`) that search engines can index. There are no dependencies to install.
 
@@ -40,7 +40,7 @@ In Workers & Pages, open the project, then Settings > Builds:
 - Build command: `npm run build`
 - Build output directory: `dist`
 
-Custom domains are `www.homegrownplate.co.uk` (the canonical address used in page tags and the sitemap) and the bare domain. Set up a redirect from the bare domain to `www`. To use a different canonical address, set the `SITE_URL` environment variable in Cloudflare (for example `https://homegrownplate.co.uk`).
+Custom domains are `homegrownplate.co.uk` (the canonical address used in page tags and the sitemap) and `www.homegrownplate.co.uk`. Set up a redirect from `www` to the bare domain. To use a different canonical address, set the `SITE_URL` environment variable in Cloudflare (for example `https://www.homegrownplate.co.uk`).
 
 ## Updating content
 
