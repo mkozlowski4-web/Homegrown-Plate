@@ -1,5 +1,8 @@
+import { SALADS_SOUPS_LEAVES } from './recipes/salads-soups-leaves.mjs';
+import { MAINS_VEG } from './recipes/mains-veg.mjs';
+import { FRUIT_HERBS_PRESERVES } from './recipes/fruit-herbs-preserves.mjs';
 /* Recipes. 'uses' lists crop ids; each ingredient is [crop id or keyword, label, quantity]. */
-export const RECIPES = [
+const BASE_RECIPES = [
   { id:"caprese-salad", title:"Tomato & Basil Salad", time:"10 min", serves:"2", uses:["tomato","basil"],
     ingredients:[["tomato","Ripe tomatoes, sliced","2 large"],["basil","Fresh basil leaves","a handful"],["olive oil","Extra virgin olive oil","2 tbsp"],["salt","Flaky salt","pinch"],["mozzarella","Mozzarella (optional)","1 ball"]],
     steps:["Slice tomatoes and arrange on a plate.","Tear basil leaves over the top.","Drizzle with olive oil and season with salt.","Add mozzarella if using, and serve at room temperature."] },
@@ -28,3 +31,5 @@ export const RECIPES = [
     ingredients:[["basil","Basil leaves","large bunch"],["garlic","Garlic clove","1"],["olive oil","Olive oil","100 ml"],["parmesan","Parmesan, grated","50 g"],["pine nuts","Pine nuts or walnuts","30 g"]],
     steps:["Blitz basil, garlic and nuts in a food processor.","Slowly add oil while blending.","Stir in parmesan and season.","Store in a jar covered with a layer of oil."] }
 ];
+
+export const RECIPES = [...BASE_RECIPES, ...SALADS_SOUPS_LEAVES, ...MAINS_VEG, ...FRUIT_HERBS_PRESERVES];

@@ -1,6 +1,6 @@
 # Homegrown Plate
 
-Source for [homegrownplate.co.uk](https://homegrownplate.co.uk): a guide to growing your own food in any size of garden. 128 crops, each with five detailed collapsible sections (info, how to sow, how to grow, how to harvest, usage and storage), sun and garden-size filter buttons, variety groups (for example first early, second early and maincrop potatoes), a UK planting calendar, how-to and harvesting advice, storage tips and recipes.
+Source for [homegrownplate.co.uk](https://homegrownplate.co.uk): a guide to growing your own food in any size of garden. 128 crops, each with five detailed collapsible sections (info, how to sow, how to grow, how to harvest, usage and storage), sun, garden-size and difficulty filter buttons, variety groups (for example first early, second early and maincrop potatoes), a UK planting calendar, how-to and harvesting advice, storage tips and 95 recipes (every crop appears in at least one).
 
 The site is built into plain static HTML, so every crop, recipe and garden size has its own real page (for example `/plants/tomato/`) that search engines can index. There are no dependencies to install.
 
@@ -45,7 +45,7 @@ Custom domains are `homegrownplate.co.uk` (the canonical address used in page ta
 ## Updating content
 
 - **Add a crop:** copy an entry in `src/data/plants.mjs`, give it a unique lowercase `id`, list the garden sizes it suits, then add a matching line in `src/data/calendar.mjs` and (optionally) list it under the sizes in `sizes.mjs`.
-- **Add a recipe:** copy an entry in `src/data/recipes.mjs`. The `id` becomes the web address.
+- **Add a recipe:** copy an entry in one of the files in `src/data/recipes/` (or the starter list in `src/data/recipes.mjs`). The `id` becomes the web address, and `uses` lists the crop ids it features.
 - **Calendar timings:** each is 12 characters, January to December, `1` meaning active. `i` = sow indoors, `o` = sow or plant outside, `h` = harvest.
 
 Timings are typical UK estimates. Check them against your local frost dates.
