@@ -166,7 +166,9 @@ const NAV = [
   ['My Garden', '/my-garden/', 'garden'],
 ];
 
+const trimDesc = (s) => { if (s.length <= 160) return s; const cut = s.slice(0, 157); return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\s]+$/, '') + '...'; };
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
+  description = trimDesc(description);
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
   const nav = NAV.map(([label, href, key]) => `<a href="${href}"${key === section ? ' aria-current="page"' : ''}>${label}</a>`).join('\n      ');
@@ -432,7 +434,7 @@ function buildMyGarden() {
   <div class="grid" id="gRecipes"></div>
 </div>`;
   addPage({
-    path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for the crops you grow',
+    path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for your crops',
     description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free, no sign-up.',
     crumbs: [['Home', '/'], ['My Garden', '/my-garden/']],
   });
@@ -747,7 +749,8 @@ function build404() {
 }
 
 function buildSupportFiles() {
-  const urls = pages.map((p) => `  <url><loc>${SITE}${p}</loc></url>`).join('\n');
+  const today = new Date().toISOString().slice(0, 10);
+  const urls = pages.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod></url>`).join('\n');
   writeFileSync(join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
   writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 }
