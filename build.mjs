@@ -11,6 +11,7 @@ import { PLANTS } from './src/data/plants.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
+import { STORAGE } from './src/data/storage.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
@@ -134,6 +135,12 @@ function validate() {
     for (const c of e.crops || []) if (!plantMap.has(c)) errors.push(`Pest ${e.id} lists unknown crop "${c}"`);
     if (pestCrops.get(e.id).size === 0) soft(`Pest ${e.id} is not linked to any crop`);
   }
+  for (const p of PLANTS) {
+    const st = STORAGE[p.id];
+    if (!st || st.length < 3) { errors.push(`Storage for ${p.id} needs at least 3 methods`); continue; }
+    st.forEach(([m, how, keeps], k) => { if (!m || !how || how.length < 24 || !keeps) errors.push(`Storage method ${k + 1} for ${p.id} is incomplete`); });
+  }
+  for (const id of Object.keys(STORAGE)) if (!plantMap.has(id)) errors.push(`Storage entry for unknown crop ${id}`);
   for (const [id, tasks] of Object.entries(CARE)) {
     if (!plantMap.has(id)) { errors.push(`Care data for unknown plant "${id}"`); continue; }
     tasks.forEach(([spec, text], k) => { if (!careBits(spec)) errors.push(`Care task ${k + 1} for ${id} has bad months "${spec}"`); if (!text || text.length < 25) errors.push(`Care task ${k + 1} for ${id} is too short`); });
@@ -591,7 +598,13 @@ function buildPlants() {
     const sowBody = [sowCal.length ? factRows(sowCal) : '', paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
     const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => { const e = pestForLabel(x); return e ? `<a class="tag red tag-link" href="/pests/${e.id}/">${esc(x)}</a>` : `<span class="tag red">${esc(x)}</span>`; }).join('')}</p>\n<p class="muted small-note">Tap a problem to see how to spot it and what to do. See all <a href="/pests/">pests and diseases</a>.</p>`].filter(Boolean).join('\n');
     const harvestBody = [harvestCal.length ? factRows(harvestCal) : '', paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
-    const useBody = [paras(p.use.p), tipsList(p.use.tips)].join('\n');
+    const storeBody = `<h3>Storing a surplus</h3>
+<p>Too much ready at once? These are the main ways to keep ${esc(lower(p.name))} for later.</p>
+<ul class="store-ul">
+${STORAGE[p.id].map(([m, how, keeps]) => `<li><strong>${esc(m)}</strong> ${esc(how)} <span class="keeps">Good for: ${esc(keeps)}.</span></li>`).join('\n')}
+</ul>
+<p class="muted small-note">Storage times are a guide. Use clean jars and containers, and follow tested guidance for bottling or canning low-acid foods. If in doubt, throw it out.</p>`;
+    const useBody = [paras(p.use.p), tipsList(p.use.tips), storeBody].join('\n');
 
     const body2 = `
 <a class="back" href="/plants/">&larr; Plant Guide</a>

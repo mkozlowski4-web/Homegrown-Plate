@@ -58,3 +58,6 @@ A page per section, crop, garden size and recipe, plus `sitemap.xml`, `robots.tx
 ## Plant images
 
 Every plant has a drawn illustration (generated from `src/illustrations.mjs`). To use a real photo instead, drop `src/photos/<plant-id>.jpg` and optionally describe and credit it in `src/photos/photos.json`; see `src/photos/README.md`.
+
+
+- `src/data/storage.mjs` (with `src/data/storage/`): ways to store a surplus of each crop (3+ methods each), shown on plant pages under Usage and storage.

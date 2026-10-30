@@ -226,3 +226,7 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 
 /* ---- Pests ---- */
 .tag-link.red:hover { background: #f3c9d1; }
+
+.store-ul{list-style:none;margin:.5rem 0 1rem;padding:0;display:grid;gap:.6rem}
+.store-ul li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--leaf);border-radius:6px;padding:.6rem .8rem;line-height:1.5}
+.store-ul .keeps{display:block;color:var(--green);font-size:.9em;margin-top:.15rem}
