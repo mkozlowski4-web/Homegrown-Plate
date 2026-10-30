@@ -400,6 +400,28 @@
     applyPests();
   }
 
+  /* ---- Preserving: search ---- */
+  var storeFilters = $('#storeFilters');
+  if (storeFilters) {
+    storeFilters.hidden = false;
+    var storeItems = $$('[data-store]'), storeGroups = $$('[data-store-group]');
+    var storeSearch = $('#storeSearch'), storeCount = $('#storeCount'), storeEmpty = $('#storeEmpty'), storeReset = $('#storeReset');
+    var sq = new URLSearchParams(location.search).get('q');
+    if (sq) storeSearch.value = sq.slice(0, 60);
+    var applyStore = function () {
+      var term = storeSearch.value.trim().toLowerCase(), shown = 0;
+      storeItems.forEach(function (li) { var ok = !term || li.getAttribute('data-search').indexOf(term) > -1; li.hidden = !ok; if (ok) shown++; });
+      storeGroups.forEach(function (g) { g.hidden = !g.querySelector('[data-store]:not([hidden])'); });
+      storeCount.textContent = term ? 'Showing ' + shown + ' of ' + storeItems.length : '';
+      storeEmpty.hidden = shown > 0;
+      storeReset.hidden = !term;
+      try { history.replaceState(null, '', location.pathname + (term ? '?q=' + encodeURIComponent(term) : '')); } catch (err) { /* ignore */ }
+    };
+    storeSearch.addEventListener('input', applyStore);
+    storeReset.addEventListener('click', function () { storeSearch.value = ''; applyStore(); });
+    applyStore();
+  }
+
   /* ---- Home page: show this month's panel ---- */
   var monthPanels = $$('[data-month-panel]');
   if (monthPanels.length) {

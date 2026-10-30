@@ -178,6 +178,7 @@ const NAV = [
   ['Planting Calendar', '/calendar/', 'calendar'],
   ['How-To', '/howto/', 'howto'],
   ['Harvesting', '/harvest/', 'harvest'],
+  ['Preserving', '/preserving/', 'preserving'],
   ['Recipes', '/recipes/', 'recipes'],
   ['Pests & Diseases', '/pests/', 'pests'],
   ['My Garden', '/my-garden/', 'garden'],
@@ -412,6 +413,7 @@ function buildHome() {
   <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
   <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
   <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/preserving/" class="card card-link"><h3>Preserving</h3><p class="muted">Freeze, dry, pickle or store a glut: storage ideas for every crop, grouped by method.</p><span class="more-link">Keep your harvest &rarr;</span></a>
   <a href="/pests/" class="card card-link"><h3>Pests &amp; Diseases</h3><p class="muted">${PESTS.length} common problems, how to spot them and what to do, linked from every crop.</p><span class="more-link">Fix a problem &rarr;</span></a>
   <a href="/my-garden/" class="card card-link"><h3>My Garden</h3><p class="muted">Add the crops you grow and get a checklist of jobs and recipes for every month. Free, no sign-up.</p><span class="more-link">Build my garden &rarr;</span></a>
   <a href="/plants/?diff=easy" class="card card-link"><h3>Beginner-friendly crops</h3><p class="muted">${easyCount} easy crops that forgive mistakes and reward you quickly.</p><span class="more-link">See easy crops &rarr;</span></a>
@@ -818,7 +820,7 @@ ${HOWTO.map((s, i) => `<div class="step"><div class="num">${i + 1}</div><div><h3
 
   const harvest = `
 <h1>Harvesting</h1>
-<p class="lead">Pick at the right time, handle with care, and make the most of every crop.</p>
+<p class="lead">Pick at the right time, handle with care, and make the most of every crop. Have a glut? See <a href="/preserving/">ways to preserve and store every crop</a>.</p>
 <div class="grid">
   ${HARVEST.map((h) => `<div class="card"><h3>${esc(h.title)}</h3><p class="muted card-note-flat">${esc(h.body)}</p></div>`).join('\n  ')}
 </div>`;
@@ -826,6 +828,59 @@ ${HOWTO.map((s, i) => `<div class="step"><div class="num">${i + 1}</div><div><h3
     path: '/harvest/', section: 'harvest', body: harvest, title: 'Harvesting Tips',
     description: 'When and how to pick home-grown crops, how to tell they are ripe, and how to store and preserve the surplus.',
     crumbs: [['Home', '/'], ['Harvesting', '/harvest/']],
+  });
+}
+
+/* ---------- preserving: every storage method, grouped by type ---------- */
+const STORE_GROUPS = [
+  ['freeze', 'Freezing', 'Freeze raw, blanched or cooked crops in portions.', /freez/i],
+  ['dry', 'Drying', 'Dry herbs, fruit, seeds and beans for the cupboard.', /^dry|dried|dehydr|^(coriander|fennel) seed|^seeds$|^flakes|^lovage salt|^herb blends/i],
+  ['pickle', 'Pickling and fermenting', 'Vinegar pickles, brines, sauerkraut and kimchi-style ferments.', /pickl|ferment|^salt|brine/i],
+  ['preserves', 'Jams, chutneys and bottling', 'Sweet and savoury preserves, jellies and bottled fruit.', /jam|jelly|chutney|relish|compote|membrillo|quince cheese|marmalade|bottle|preserve/i],
+  ['drinks', 'Cordials, syrups and infusions', 'Cordials, juices, liqueurs, and herbs steeped in vinegar, oil, honey or sugar.', /cordial|syrup|juice|perry|wine|liqueur|infus|vinegar|candy|honey|sugar|steep|oil|butter|sachet|pesto|paste/i],
+  ['cooked', 'Cooked dishes to keep', 'Soups, sauces and ready meals made from a glut.', /soup|sauce|coulis|cook|braise|roast|stuffed|blend|make a|make into|salsa|sorbet|marinat/i],
+  ['cool', 'Cool storing and curing', 'Crops that keep for months in a shed, garage or cool room.', /cool store|cure|ripen|heel|store in|room temp|store the|dry and store/i],
+  ['fridge', 'Fridge', 'Short-term storage for the week ahead.', /fridge/i],
+  ['fresh', 'Leave in the ground or pick fresh', 'Crops that store best on the plant, or that you can grow on demand.', /.*/],
+];
+function buildPreserving() {
+  const groups = STORE_GROUPS.map(([id, title, blurb]) => ({ id, title, blurb, items: [] }));
+  for (const p of PLANTS) {
+    for (const [method, how, keeps] of STORAGE[p.id]) {
+      const g = groups[STORE_GROUPS.findIndex((x) => x[3].test(method))];
+      g.items.push({ p, method, how, keeps });
+    }
+  }
+  const total = groups.reduce((n, g) => n + g.items.length, 0);
+  const jump = groups.map((g) => `<a class="chip" href="#${g.id}">${esc(g.title)} (${g.items.length})</a>`).join('\n  ');
+  const sections = groups.map((g) => {
+    g.items.sort((a, b) => a.p.name.localeCompare(b.p.name));
+    const lis = g.items.map(({ p, method, how, keeps }) => `<li data-store data-search="${esc((p.name + ' ' + method + ' ' + how).toLowerCase())}"><a href="/plants/${p.id}/#usage-and-storage"><strong>${esc(p.name)}</strong></a> <span class="muted">${esc(method)}.</span> ${esc(how)} <span class="keeps">Good for: ${esc(keeps)}.</span></li>`).join('\n');
+    return `<section class="store-group" id="${g.id}" data-store-group>
+<h2>${esc(g.title)}</h2>
+<p class="muted">${esc(g.blurb)}</p>
+<ul class="store-ul">
+${lis}
+</ul>
+</section>`;
+  }).join('\n');
+  const body = `
+<h1>Preserving and Storing Your Harvest</h1>
+<p class="lead">Too much ready at once? Find a way to keep it. ${total} storage ideas across ${PLANTS.length} crops, grouped by method. Each links back to the crop's page.</p>
+<div class="filter-panel" id="storeFilters" hidden>
+  <div class="filter-search"><label for="storeSearch">Search for a crop or method</label><input type="search" id="storeSearch" placeholder="For example: runner beans, chutney, freeze"></div>
+  <p class="filter-status"><span id="storeCount" aria-live="polite"></span> <button type="button" class="chip chip-reset" id="storeReset" hidden>Clear search</button></p>
+</div>
+<nav class="chip-group jump" aria-label="Jump to a method">
+  ${jump}
+</nav>
+${sections}
+<div class="empty" id="storeEmpty" hidden>Nothing matches that search. Try a crop name such as tomato, or a method such as pickle.</div>
+<p class="muted small-note">Storage times are a guide. Use clean jars and containers, and follow tested guidance for bottling or canning low-acid foods. If in doubt, throw it out.</p>`;
+  addPage({
+    path: '/preserving/', section: 'preserving', body, title: 'Preserving and Storing Your Harvest',
+    description: `${total} ways to freeze, dry, pickle, ferment, jar and store the surplus from ${PLANTS.length} home-grown crops, grouped by method.`,
+    crumbs: [['Home', '/'], ['Preserving', '/preserving/']],
   });
 }
 
@@ -868,6 +923,7 @@ buildSizes();
 buildPlants();
 buildRecipes();
 buildPests();
+buildPreserving();
 buildMyGarden();
 buildCalendar();
 buildGuides();

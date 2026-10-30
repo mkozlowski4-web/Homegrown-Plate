@@ -230,3 +230,4 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .store-ul{list-style:none;margin:.5rem 0 1rem;padding:0;display:grid;gap:.6rem}
 .store-ul li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--leaf);border-radius:6px;padding:.6rem .8rem;line-height:1.5}
 .store-ul .keeps{display:block;color:var(--green);font-size:.9em;margin-top:.15rem}
+.jump{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 1.5rem}.jump .chip{text-decoration:none}.store-group{margin-top:1.5rem}
