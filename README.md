@@ -1,29 +1,49 @@
 # Homegrown Plate
 
-A single-page website for growing your own food in any size of garden: garden-size guidance, a 28-crop plant guide, a UK planting calendar, how-to and harvesting advice, and recipes built around what you grow.
+Source for [homegrownplate.co.uk](https://www.homegrownplate.co.uk): a guide to growing your own food in any size of garden. 28 crops, a UK planting calendar, how-to and harvesting advice, storage tips and recipes.
 
-## Files
+The site is built into plain static HTML, so every crop, recipe and garden size has its own real page (for example `/plants/tomato/`) that search engines can index. There are no dependencies to install.
 
-- `index.html`: the whole site (content, styles and scripts)
-- `_headers`: security headers for Cloudflare Pages
-- `README.md`: this file
+## Folder layout
 
-## Preview locally
+| Path | What it is |
+| --- | --- |
+| `src/data/` | All the content: `plants.mjs`, `sizes.mjs`, `recipes.mjs`, `guide.mjs`, `calendar.mjs` |
+| `src/assets/` | `style.css`, `site.js` (filters and month highlight), `favicon.svg` |
+| `static/` | Files copied as-is to the site root, e.g. `_headers` |
+| `build.mjs` | The generator. Writes everything to `dist/` |
 
-Open `index.html` in a browser, or run `python -m http.server 8000` in this folder and visit http://localhost:8000.
+`dist/` is created by the build and is not stored in Git.
+
+## Build and preview
+
+Needs Node 18 or newer.
+
+```
+node build.mjs
+python3 -m http.server -d dist 8000
+```
+
+Then open http://localhost:8000. The build stops with a clear error if the data has a mistake (unknown crop id, missing calendar entry, duplicate id), and prints a warning if a garden size recommends a crop that does not list that size.
 
 ## Deploy (Cloudflare Pages)
 
-1. Push this folder's contents to a GitHub repository, with `index.html` at the top level.
-2. In the Cloudflare dashboard, go to Workers & Pages > Create > Pages > Connect to Git, and select the repo.
-3. Use these build settings:
-   - Framework preset: None
-   - Build command: (leave blank)
-   - Build output directory: / (or leave blank)
-4. Save and deploy, then add homegrownplate.co.uk and www.homegrownplate.co.uk under Custom domains.
+In Workers & Pages, open the project, then Settings > Builds:
+
+- Framework preset: None
+- Build command: `npm run build`
+- Build output directory: `dist`
+
+Custom domains are `www.homegrownplate.co.uk` (the canonical address used in page tags and the sitemap) and the bare domain. Set up a redirect from the bare domain to `www`. To use a different canonical address, set the `SITE_URL` environment variable in Cloudflare (for example `https://homegrownplate.co.uk`).
 
 ## Updating content
 
-Edit the arrays at the top of the `<script>` section in `index.html`: `PLANTS`, `SIZES`, `RECIPES`, `HOWTO`, `HARVEST`, and `CALENDAR` (monthly timings, as 12-character strings of 1s and 0s).
+- **Add a crop:** copy an entry in `src/data/plants.mjs`, give it a unique lowercase `id`, list the garden sizes it suits, then add a matching line in `src/data/calendar.mjs` and (optionally) list it under the sizes in `sizes.mjs`.
+- **Add a recipe:** copy an entry in `src/data/recipes.mjs`. The `id` becomes the web address.
+- **Calendar timings:** each is 12 characters, January to December, `1` meaning active. `i` = sow indoors, `o` = sow or plant outside, `h` = harvest.
 
 Timings are typical UK estimates. Check them against your local frost dates.
+
+## What the build produces
+
+A page per section, crop, garden size and recipe, plus `sitemap.xml`, `robots.txt`, a `404.html`, page titles and descriptions, canonical and social tags, and recipe and breadcrumb structured data. Old `/#/plants/tomato` style links forward to the new addresses.
