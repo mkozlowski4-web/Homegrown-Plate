@@ -13,6 +13,7 @@ import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
 import { STORAGE } from './src/data/storage.mjs';
 import { ZONES, AREA_ZONE } from './src/data/zones.mjs';
+import { GLOSSARY } from './src/data/glossary.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
@@ -234,7 +235,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region.</div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -675,7 +676,7 @@ ${careSection(p)}
 ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
 <div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}`;
     addPage({
-      path: `/plants/${p.id}/`, section: 'plants', body: body2, title: `How to grow ${p.name} in the UK`,
+      path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: `How to grow ${p.name} in the UK`,
       description: `How to grow ${lower(p.name)} in the UK: when and how to sow, growing care, harvesting, storage and cooking tips. ${p.sunText}.`,
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
       image: PHOTOS.get(p.id)?.src || '',
@@ -936,6 +937,59 @@ ${sections}
   });
 }
 
+/* ---------- glossary links: the first use of each hard word on a plant page links to its plain-English meaning ---------- */
+const GLOSS_AUTO = GLOSSARY.filter((g) => g.re).map((g) => ({ ...g, rx: new RegExp(g.re, g.re.includes('pH') || g.re.includes('F1') ? '' : 'i') }));
+const GLOSS_SKIP = new Set(['a', 'button', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'script', 'style', 'label', 'option', 'select', 'figcaption', 'dt', 'title']);
+function glossify(html) {
+  const seen = new Set();
+  let skipName = null; let skipDepth = 0;
+  return html.split(/(<[^>]+>)/).map((part) => {
+    if (part.startsWith('<')) {
+      const m = part.match(/^<(\/?)([a-z0-9]+)([^>]*)>/i);
+      if (!m) return part;
+      const closing = m[1] === '/'; const name = m[2].toLowerCase();
+      if (skipName) { if (name === skipName) skipDepth += closing ? -1 : 1; if (skipDepth <= 0) skipName = null; return part; }
+      if (!closing && (GLOSS_SKIP.has(name) || (name === 'span' && /class="[^"]*\b(?:tag|care-when|mlabel|keeps|count)\b/.test(m[3])) || (name === 'p' && /class="[^"]*\blatin\b/.test(m[3])))) {
+        if (!part.endsWith('/>')) { skipName = name; skipDepth = 1; }
+      }
+      return part;
+    }
+    if (skipName || !part.trim()) return part;
+    const hits = [];
+    for (const g of GLOSS_AUTO) {
+      if (seen.has(g.id)) continue;
+      const mm = g.rx.exec(part);
+      if (mm) hits.push({ start: mm.index, end: mm.index + mm[0].length, g });
+    }
+    if (!hits.length) return part;
+    hits.sort((x, y) => x.start - y.start);
+    let out = ''; let pos = 0;
+    for (const h of hits) {
+      if (h.start < pos) continue;
+      seen.add(h.g.id);
+      out += part.slice(pos, h.start) + `<a class="gloss" href="/glossary/#${h.g.id}" title="${esc(h.g.plain)}">${part.slice(h.start, h.end)}</a>`;
+      pos = h.end;
+    }
+    return out + part.slice(pos);
+  }).join('');
+}
+
+function buildGlossary() {
+  const sorted = [...GLOSSARY].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
+  const body = `
+<h1>Gardening Words Explained</h1>
+<p class="lead">Plain-English meanings for the gardening words used on this site. On each plant page, the first time one of these words appears, you can tap it to come here.</p>
+<dl class="glossary">
+${sorted.map((g) => `<div class="gloss-item" id="${g.id}"><dt>${esc(g.name)}</dt><dd>${esc(g.plain)}</dd></div>`).join('\n')}
+</dl>
+<p class="muted small-note">Is a word missing or still confusing? Tell us and we will add it.</p>`;
+  addPage({
+    path: '/glossary/', section: 'glossary', body, title: 'Gardening Words Explained: a plain-English glossary',
+    description: `Simple meanings for ${GLOSSARY.length} gardening words, from mulch and fleece to hardy, bolting and brassica.`,
+    crumbs: [['Home', '/'], ['Glossary', '/glossary/']],
+  });
+}
+
 function build404() {
   const body = `
 <h1>Page not found</h1>
@@ -976,6 +1030,7 @@ buildPlants();
 buildRecipes();
 buildPests();
 buildPreserving();
+buildGlossary();
 buildMyGarden();
 buildCalendar();
 buildGuides();

@@ -5,7 +5,7 @@ export const MORE_VEG = [
     facts: [["Type", "Hardy annual salad leaf"], ["Sow", "Jun–Aug, direct or in modules"], ["Height", "20–30 cm"], ["Spacing", "25–30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "10–14 weeks from sowing"], ["Good companions", "Leeks, celery, fennel"]],
     info: [
       "Endive is a bitter-sweet salad plant related to chicory, forming frilly curly heads (frisée) or broad-leaved heads (escarole). It is at its best in autumn and early winter, when lettuce is over, and its slight bitterness is a welcome change.",
-      "Sown in summer, endive resists bolting better than lettuce. Blanching the hearts by covering them for a few days reduces the bitterness and gives tender, pale leaves."],
+      "Sown in summer, endive resists bolting better than lettuce. Covering the hearts for a few days to keep the light out makes them paler and less bitter and gives tender, pale leaves."],
     varieties: ["Frisée de Louviers (curly)", "Bubikopf (curly, compact)", "Cornet de Bordeaux (curly)", "Batavian Full Heart (escarole, broad-leaved)", "Nuance (escarole)"],
     sow: { p: [
       "Sow from June to August, 1 cm deep, in modules or directly in rows 30 cm apart, and thin or plant out to 25–30 cm. Sowing before June risks bolting. Seeds germinate best in cool conditions, so sow in the evening in summer.",
@@ -17,7 +17,7 @@ export const MORE_VEG = [
       tips: ["Water evenly.", "Blanch 10 days before harvest.", "Blanch only in dry weather.", "Check for slugs."] },
     pests: ["Slugs", "Aphids", "Rot when blanched in wet weather", "Bolting from early sowing"],
     harvest: { p: [
-      "Cut whole heads when they are firm and 20–25 cm across, from September to December, once blanched. Cut at ground level with a knife. The plants are hardy to about -5°C, but heads rot in prolonged wet or hard frost.",
+      "Cut whole heads when they are firm and 20–25 cm across, from September to December, once the hearts have turned pale. Cut at ground level with a knife. The plants are hardy to about -5°C, but heads rot in prolonged wet or hard frost.",
       "Loose outer leaves can be picked as needed. Take heads in before severe frost, or protect with fleece."],
       tips: ["Cut blanched heads at ground level.", "Protect from hard frost.", "Pick outer leaves as needed.", "Harvest before wet rot."] },
     use: { p: [

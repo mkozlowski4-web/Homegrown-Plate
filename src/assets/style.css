@@ -311,3 +311,11 @@ main .hero .hero-links a:not(.tag):not(.btn):hover { background: rgba(255,255,25
 @media (max-width: 560px) { .brand-name { font-size: 1.2rem; } .brand-tag { font-size: .58rem; letter-spacing: .1em; } .brand-mark { width: 38px; height: 38px; } }
 .brand-text .brand-name { color: var(--green); }
 .brand-text .brand-name span { color: var(--leaf); }
+a.gloss { color: inherit; text-decoration: underline dotted var(--leaf); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+a.gloss:hover { color: var(--green); text-decoration-style: solid; }
+.glossary { margin: 1rem 0; }
+.gloss-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1rem; margin-bottom: .6rem; scroll-margin-top: 90px; }
+.gloss-item:target { border-color: var(--leaf); box-shadow: 0 0 0 3px #d7efe0; }
+.gloss-item dt { font-weight: 800; color: var(--green); }
+.gloss-item dd { margin: .2rem 0 0; }
+.site-footer a { color: #b7e4c7; margin-left: .4rem; }

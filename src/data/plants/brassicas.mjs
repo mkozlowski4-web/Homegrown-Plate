@@ -129,22 +129,22 @@ export const BRASSICAS = [
     sun: ["full"], sunText: "Full sun, in an open site",
     facts: [["Type", "Hardy annual brassica"], ["Sow", "Mar–May indoors; plant out May–Jul"], ["Height", "45–60 cm"], ["Spacing", "45–60 cm apart each way"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "16–24 weeks from sowing"], ["Good companions", "Celery, beetroot, onions"]],
     info: [
-      "Cauliflower has a reputation as a fussy crop, but with steady growth, regular water and firm soil it can be very rewarding, and fresh-cut curds are sweeter and more delicate than shop-bought ones. Summer and autumn types are the easiest in the UK.",
+      "Cauliflower has a reputation as a fussy crop, but with steady growth, regular water and firm soil it can be very rewarding, and fresh-cut heads are sweeter and more delicate than shop-bought ones. Summer and autumn types are the easiest in the UK.",
       "Plants dislike any check to growth, such as drought, transplant shock or cold, so keep them growing steadily from sowing to cutting. Coloured varieties, including purple, orange and lime-green Romanesco, make the plot look attractive."],
-    varieties: ["All The Year Round (traditional, reliable)", "Snowball (early and quick)", "Romanesco (lime-green spiral curds)", "Graffiti (purple curds)", "Cheddar (orange curds, high in vitamins)"],
+    varieties: ["All The Year Round (traditional, reliable)", "Snowball (early and quick)", "Romanesco (lime-green spiral heads)", "Graffiti (purple heads)", "Cheddar (orange heads, high in vitamins)"],
     sow: { p: [
       "Sow in March to May in modules or small pots indoors, 1–2 cm deep, at 15–20°C, and grow on in a cool, bright place. Harden off and plant out when seedlings are about 10 cm tall, from May to July. Space 45–60 cm apart in both directions in firm, well-drained, fertile soil in full sun.",
-      "Avoid letting seedlings get pot-bound or dry, as stress causes ‘buttoning’, where small curds form too early. Water the plants in thoroughly, and put brassica collars around stems to deter cabbage root fly. Net against pigeons from planting."],
+      "Avoid letting seedlings get pot-bound or dry, as stress causes ‘buttoning’, where tiny heads form too early. Water the plants in thoroughly, and put brassica collars around stems to deter cabbage root fly. Net against pigeons from planting."],
       tips: ["Never let seedlings dry out or get root-bound.", "Plant into firm soil and firm in well.", "Fit a root-fly collar around each stem.", "Choose summer or autumn varieties for an easier crop."] },
     grow: { p: [
-      "Water steadily throughout, particularly in dry spells, and feed with a high-nitrogen fertiliser every few weeks. Mulch to hold moisture and keep weeds down. As the curd begins to form, bend a few inner leaves over it, or tie them loosely, to keep the curd white and protected from sun and frost.",
+      "Water steadily throughout, particularly in dry spells, and feed with a high-nitrogen fertiliser every few weeks. Mulch to hold moisture and keep weeds down. When the white head (the curd) begins to form, bend a few of the inner leaves over it, or tie them loosely, to keep it white and protected from sun and frost.",
       "Cauliflowers suffer from the usual brassica problems: caterpillars, aphids, flea beetle, pigeons and clubroot. Net from the start and inspect regularly. Limed, firm soil and a four-year rotation give the best chance of healthy plants."],
-      tips: ["Fold leaves over the curd to blanch it.", "Water regularly while the curd develops.", "Net against pigeons and butterflies.", "Lime acid soils and rotate brassicas."] },
+      tips: ["Tie leaves loosely over the head to keep it white.", "Water regularly while the head develops.", "Net against pigeons and butterflies.", "Lime acid soils and rotate brassicas."] },
     pests: ["Cabbage white caterpillars", "Pigeons", "Cabbage root fly", "Aphids", "Clubroot"],
     harvest: { p: [
-      "Cut when the curd is firm, compact and 10–15 cm across, before it begins to separate and look ‘ricey’. Cut with a sharp knife just below the head, with a few leaves attached to protect it. Summer and autumn varieties ripen from July to November.",
-      "Harvest promptly, as curds deteriorate quickly in warm weather. If several ripen at once, cut them early as small curds, or lift the plants and hang them in a cool shed for a week or two. Coloured types turn green if they lose their colour when overcooked."],
-      tips: ["Cut while the curd is tight and smooth.", "Leave a few wrapper leaves on the head.", "Cut early rather than late.", "Check daily in hot weather."] },
+      "Cut when the head is firm, compact and 10–15 cm across, before it begins to separate and look ‘ricey’. Cut with a sharp knife just below the head, with a few leaves attached to protect it. Summer and autumn varieties ripen from July to November.",
+      "Harvest promptly, as heads deteriorate quickly in warm weather. If several ripen at once, cut them early as small heads, or lift the plants and hang them in a cool shed for a week or two. Coloured types turn green if they lose their colour when overcooked."],
+      tips: ["Cut while the head is tight and smooth.", "Leave a few wrapper leaves on the head.", "Cut early rather than late.", "Check daily in hot weather."] },
     use: { p: [
       "Cauliflower is endlessly versatile: steam florets, roast them with spices, make cauliflower cheese or soup, shred into a rice substitute, or eat raw with a dip. Romanesco is delicious lightly steamed, and coloured varieties keep their hue best when cooked briefly.",
       "Whole heads keep in the fridge for up to a week, or hang in a cool shed in a net for two weeks. Cut into florets, blanch for three minutes, cool quickly and freeze on trays before bagging. Do not store cut cauliflower near strong-smelling foods."],

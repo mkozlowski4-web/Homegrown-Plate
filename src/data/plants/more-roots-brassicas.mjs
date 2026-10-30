@@ -179,7 +179,7 @@ export const MORE_ROOTS_BRASSICAS = [
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy biennial brassica, grown as an annual"], ["Sow", "Apr–May indoors or in a seedbed"], ["Height", "60–75 cm"], ["Spacing", "60 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "18–24 weeks from sowing"], ["Good companions", "Beetroot, onions, dill"]],
     info: [
-      "Romanesco is a striking brassica with lime-green, spiralling fractal curds and a nutty, delicate flavour, milder than cauliflower. It is as much a conversation piece as a vegetable, and crops from late summer to autumn.",
+      "Romanesco is a striking brassica with lime-green, spiralling fractal heads and a nutty, delicate flavour, milder than cauliflower. It is as much a conversation piece as a vegetable, and crops from late summer to autumn.",
       "It is somewhat easier than cauliflower but still needs steady moisture, firm soil, and a protective net. Good for medium to large plots."],
     varieties: ["Veronica (the usual choice)", "Natalino (earlier, compact)", "Romanesco Navona (reliable)"],
     sow: { p: [
@@ -187,9 +187,9 @@ export const MORE_ROOTS_BRASSICAS = [
       "Bury the stems up to the first leaves and firm in well, as loose soil causes small, ‘blown’ heads. Cover with mesh at planting to protect from cabbage root fly, pigeons and butterflies."],
       tips: ["Plant firm.", "Lime acid soil.", "Use fine mesh.", "Don’t sow before April."] },
     grow: { p: [
-      "Water regularly, especially in dry summers, as a check in growth means small curds. Feed in mid-summer with a nitrogen-rich fertiliser. Weed with care.",
-      "Protect from cabbage white caterpillars, aphids, pigeons and slugs. Bend a few outer leaves over the developing curd to protect it from sun and frost. Club root is a risk in acid soils."],
-      tips: ["Never let it dry out.", "Feed in midsummer.", "Cover with mesh.", "Cover developing curds with leaves."] },
+      "Water regularly, especially in dry summers, as a check in growth means small heads. Feed in mid-summer with a nitrogen-rich fertiliser. Weed with care.",
+      "Protect from cabbage white caterpillars, aphids, pigeons and slugs. Bend a few outer leaves over the developing head to protect it from sun and frost. Club root is a risk in acid soils."],
+      tips: ["Never let it dry out.", "Feed in midsummer.", "Cover with mesh.", "Tie leaves loosely over the developing heads."] },
     pests: ["Cabbage white caterpillars", "Cabbage root fly", "Pigeons", "Club root", "Aphids"],
     harvest: { p: [
       "Cut heads when the florets are tight and well-formed, usually 10–15 cm across, between September and November. Cut with a sharp knife, leaving some leaves attached to protect the head.",
@@ -279,7 +279,7 @@ export const MORE_ROOTS_BRASSICAS = [
     sun: ["full", "partial"], sunText: "Full sun to light shade; free-draining soil",
     facts: [["Type", "Hardy perennial brassica"], ["Sow", "Plant root cuttings (thongs) Mar–Apr"], ["Height", "60–75 cm"], ["Spacing", "60 cm apart"], ["Planting depth", "Crown at soil level"], ["Time to harvest", "Light picking in year 2; full from year 3"], ["Good companions", "Asparagus, rhubarb"]],
     info: [
-      "Sea kale is a British native of the shingle coast, grown as a gourmet perennial vegetable for its tender, blanched shoots in early spring, a Victorian delicacy. The blue-green waved leaves and white honey-scented flowers are also attractive.",
+      "Sea kale is a British native of the shingle coast, grown as a gourmet perennial vegetable for its tender, pale shoots, grown in the dark, in early spring, a Victorian delicacy. The blue-green waved leaves and white honey-scented flowers are also attractive.",
       "Plants live for 10 years or more. They thrive in free-draining, even stony or sandy soil, and need very little care once established. A good choice for the vegetable border or ornamental bed."],
     varieties: ["Lily White (the usual commercial form)", "Common sea kale (blue-green leaves)"],
     sow: { p: [
@@ -292,11 +292,11 @@ export const MORE_ROOTS_BRASSICAS = [
       tips: ["Mulch every spring.", "Blanch with a pot in early spring.", "Cut leaves in autumn.", "Watch for slugs."] },
     pests: ["Slugs", "Cabbage white caterpillars", "Flea beetle", "Club root"],
     harvest: { p: [
-      "Force the crowns from year 3: cover with a bucket in February, and cut the blanched, pale shoots when they are 15–20 cm long, in April, with a sharp knife just below the soil surface. Cut over 3–4 weeks, then remove the cover to let the plant recover.",
+      "Force the crowns from year 3: cover with a bucket in February, and cut the pale shoots when they are 15–20 cm long, in April, with a sharp knife just below the soil surface. Cut over 3–4 weeks, then remove the cover to let the plant recover.",
       "Unblanched young leaves can be eaten raw or cooked like kale. Flower buds, harvested in May, are like purple sprouting broccoli."],
       tips: ["Blanch under a bucket.", "Cut shoots 15–20 cm tall.", "Stop cutting after 4 weeks.", "Eat the flower buds."] },
     use: { p: [
-      "Steam blanched shoots for 10 minutes and serve with butter, hollandaise sauce, or a squeeze of lemon, like asparagus. The flavour is delicate and nutty, with a faint cabbage tang. The flower buds are good steamed or stir-fried.",
+      "Steam the pale shoots for 10 minutes and serve with butter, hollandaise sauce, or a squeeze of lemon, like asparagus. The flavour is delicate and nutty, with a faint cabbage tang. The flower buds are good steamed or stir-fried.",
       "Shoots keep for a few days in the fridge, wrapped in damp paper. They are best fresh. Cooked shoots can be frozen."],
       tips: ["Steam like asparagus.", "Serve with butter or hollandaise.", "Eat the flower buds.", "Use fresh."] } },
 ];

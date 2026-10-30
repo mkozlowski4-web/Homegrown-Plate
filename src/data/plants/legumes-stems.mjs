@@ -105,15 +105,15 @@ export const LEGUMES_STEMS = [
     facts: [["Type", "Hardy biennial, grown as an annual"], ["Sow", "Mar–Apr indoors; plant out late May–June"], ["Height", "40–60 cm"], ["Spacing", "25–30 cm apart"], ["Sowing depth", "Surface, lightly covered"], ["Time to harvest", "20–28 weeks from sowing"], ["Good companions", "Leeks, beans, brassicas, tomatoes"]],
     info: [
       "Homegrown celery has a stronger, more aromatic flavour than shop celery, and is delicious cooked as well as raw. It needs a long season, rich soil and plenty of water, making it one of the more demanding crops, but it is worth the effort for a well-flavoured result.",
-      "Self-blanching types, grown close together to exclude light, are easier than traditional trench celery. Leaf celery and celeriac are easier alternatives with a similar flavour, while red varieties are hardier and tastier."],
-    varieties: ["Celebrity (self-blanching, reliable)", "Victoria (self-blanching, good flavour)", "Loretta (green, reliable)", "Giant Red (hardy, strong flavour)", "Par-Cel (leaf celery, easy and strong)"],
+      "Types that stay pale on their own, grown close together so they shade each other, are easier than traditional trench celery. Leaf celery and celeriac are easier alternatives with a similar flavour, while red varieties are hardier and tastier."],
+    varieties: ["Celebrity (stays pale without covering, reliable)", "Victoria (stays pale without covering, good flavour)", "Loretta (green, reliable)", "Giant Red (hardy, strong flavour)", "Par-Cel (leaf celery, easy and strong)"],
     sow: { p: [
       "Sow in March to April on the surface of seed compost, pressing in lightly but not covering, as light helps germination. Keep at 15–20°C; seed is slow and may take 2–3 weeks. Prick out into individual modules when large enough to handle.",
-      "Harden off in late May and plant out in early June, 25–30 cm apart in blocks, not rows, in rich, moisture-retentive soil in a sunny site. Self-blanching types are best planted close together to exclude light. Never let seedlings dry out or get cold, which makes them bolt."],
+      "Harden off in late May and plant out in early June, 25–30 cm apart in blocks, not rows, in rich, moisture-retentive soil in a sunny site. Types that stay pale on their own are best planted close together so they shade each other. Never let seedlings dry out or get cold, which makes them bolt."],
       tips: ["Do not cover seeds with compost.", "Keep seedlings warm and moist.", "Plant in blocks.", "Plant out only after frost."] },
     grow: { p: [
       "Celery needs constant moisture: water deeply and regularly, and mulch thickly with compost. Feed fortnightly with a general liquid fertiliser. Dry spells cause stringy, hollow stalks and bolting.",
-      "Self-blanching varieties may be wrapped in cardboard or paper to hasten blanching in the last weeks. Slugs and celery fly (leaf miner) are the main problems; pick off affected leaves and use fleece to protect plants. Celery leaf spot can be avoided with clean seed and good rotation."],
+      "These varieties can be wrapped in cardboard or paper in the last few weeks to keep out the light and keep the stalks pale and mild. Slugs and celery fly (leaf miner) are the main problems; pick off affected leaves and use fleece to protect plants. Celery leaf spot can be avoided with clean seed and good rotation."],
       tips: ["Never let the soil dry out.", "Mulch thickly.", "Feed fortnightly.", "Cover with fleece against celery fly."] },
     pests: ["Celery fly (leaf miner)", "Slugs", "Celery leaf spot", "Bolting if checked by cold or drought"],
     harvest: { p: [
@@ -137,7 +137,7 @@ export const LEGUMES_STEMS = [
       "Choose a sunny spot with light, fertile, well-drained, moisture-retentive soil. Fennel dislikes root disturbance, so sow in modules or biodegradable pots. A later sowing in July gives a late autumn crop. Fleece protects early plantings against cold snaps."],
       tips: ["Sow after mid-May to avoid bolting.", "Sow in modules to avoid root disturbance.", "Choose a bolt-resistant variety.", "Keep away from dill."] },
     grow: { p: [
-      "Water regularly and consistently, since drought or irregular watering leads to bolting. Weed carefully. When the bulbs begin to swell, in late summer, earth up the soil around them to blanch them, producing tender, white bulbs.",
+      "Water regularly and consistently, since drought or irregular watering leads to bolting. Weed carefully. When the bulbs begin to swell, in late summer, draw soil up around them to keep the light out, producing tender, white bulbs.",
       "Slugs and aphids are the main pests. Fennel is generally trouble-free, but flower stems should be removed as soon as they appear. Mulching helps keep the roots cool and moist. The foliage is an excellent insect-attracting plant, especially for hoverflies."],
       tips: ["Water evenly.", "Earth up bulbs as they swell.", "Remove flower stems promptly.", "Mulch to keep roots cool."] },
     pests: ["Slugs", "Aphids", "Bolting from cold or drought"],
