@@ -272,7 +272,7 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .burger, .burger::before, .burger::after { display: block; width: 18px; height: 2px; background: var(--green); border-radius: 2px; position: relative; content: ""; }
 .burger::before { position: absolute; top: -6px; }
 .burger::after { position: absolute; top: 6px; }
-@media (max-width: 1240px) {
+@media (max-width: 1300px) {
   .nav-toggle { display: inline-flex; }
   .site-nav .nav-home { display: block; }
   html.js-nav .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 10px 20px rgba(31,42,36,.08); flex-direction: column; align-items: stretch; padding: 8px 20px 16px; gap: 2px; }
