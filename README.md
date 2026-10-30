@@ -61,3 +61,5 @@ Every plant has a drawn illustration (generated from `src/illustrations.mjs`). T
 
 
 - `src/data/storage.mjs` (with `src/data/storage/`): ways to store a surplus of each crop (3+ methods each), shown on plant pages under Usage and storage.
+
+- `src/data/zones.mjs`: six regional timing zones and the postcode-area lookup. The site script shifts sowing, planting and harvest dates in half-month steps for the visitor’s area (saved in the browser only).

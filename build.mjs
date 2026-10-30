@@ -12,6 +12,7 @@ import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
 import { STORAGE } from './src/data/storage.mjs';
+import { ZONES, AREA_ZONE } from './src/data/zones.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
@@ -309,9 +310,9 @@ function growCard(p, cal) {
       <div><dt>Difficulty</dt><dd>${esc(p.difficulty)}</dd></div>
       ${harvestTime ? `<div><dt>Time to harvest</dt><dd>${esc(harvestTime[1])}</dd></div>` : ''}
     </dl>
-    <div class="mbar">
+    <div class="mbar" data-i="${cal.i}" data-o="${cal.o}" data-h="${cal.h}">
       <div class="mrow mhead"><span class="mlabel"></span><span class="mcells" aria-hidden="true">${[...MONTH_LETTERS].map((c, k) => `<b data-m="${k}">${c}</b>`).join('')}</span></div>
-      ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n      ')}
+      ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}" data-row="${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n      ')}
     </div>
   </div>
 </section>`;
@@ -386,6 +387,7 @@ function buildHome() {
 </section>
 
 <section class="month-box" id="thisMonth">
+  ${regionBar('homeRegion')}
   ${monthPanels}
 </section>
 
@@ -426,17 +428,55 @@ function buildHome() {
   });
 }
 
-function buildMyGarden() {
+let gardenMemo = null;
+function gardenData() {
+  if (gardenMemo) return gardenMemo;
   const data = {
     plants: PLANTS.map((p) => ({ id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, c: careFor(p.id) })),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
   };
   const json = JSON.stringify(data);
-  const ver = createHash('sha1').update(json).digest('hex').slice(0, 8);
+  gardenMemo = { json, ver: createHash('sha1').update(json).digest('hex').slice(0, 8) };
+  return gardenMemo;
+}
+let zonesMemo = null;
+function zonesData() {
+  if (zonesMemo) return zonesMemo;
+  const json = JSON.stringify({ zones: ZONES.map(({ id, name, off }) => ({ id, name, off })), areas: AREA_ZONE });
+  zonesMemo = { json, ver: createHash('sha1').update(json).digest('hex').slice(0, 8) };
+  return zonesMemo;
+}
+/* "Your location" bar. The site script unhides it and applies regional timings; without JavaScript the default dates stay. */
+function regionBar(id = 'regionBar') {
+  const g = gardenData(); const z = zonesData();
+  return `<section class="region-bar" id="${id}" data-region-bar data-zones="/assets/zones.json?v=${z.ver}" data-garden="/assets/garden-data.json?v=${g.ver}" aria-label="Adjust dates for your location" hidden>
+  <p class="region-status" aria-live="polite"><strong>Dates for your area.</strong> <span data-region-text>Showing typical dates for central England.</span> <button type="button" class="chip chip-reset" data-region-clear hidden>Reset</button></p>
+  <details class="region-more" data-region-more><summary>Enter your postcode or choose a region</summary>
+  <form class="region-form" data-region-form>
+    <label for="${id}-pc">Your postcode</label>
+    <input type="text" id="${id}-pc" inputmode="text" autocomplete="postal-code" maxlength="8" placeholder="For example EX4 or SW1A 1AA" data-region-pc>
+    <button type="submit" class="btn">Adjust dates</button>
+  </form>
+  <p class="muted small-note" data-region-msg>Only the first letters of your postcode are used, and they are saved in this browser only. Nothing is sent anywhere.</p>
+  <div class="region-manual">
+    <label for="${id}-zone">Or choose your region</label><br>
+    <select id="${id}-zone" data-region-zone>
+      <option value="">Choose a region</option>
+      ${ZONES.map((zn) => `<option value="${zn.id}" data-off="${zn.off}">${esc(zn.name)}</option>`).join('\n      ')}
+    </select>
+  </div>
+  </details>
+</section>`;
+}
+
+function buildMyGarden() {
+  const { json, ver } = gardenData();
   writeFileSync(join(DIST, 'assets', 'garden-data.json'), json);
+  writeFileSync(join(DIST, 'assets', 'zones.json'), zonesData().json);
   const body = `
 <h1>My Garden</h1>
 <p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed.</p>
+${regionBar()}
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
 <div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
   <div class="garden-layout">
@@ -613,6 +653,7 @@ ${STORAGE[p.id].map(([m, how, keeps]) => `<li><strong>${esc(m)}</strong> ${esc(h
 <h1>${esc(p.name)}</h1>
 <p class="latin">${esc(p.latin)}</p>
 ${growCard(p, cal)}
+${regionBar()}
 <p class="garden-add-row"><button type="button" class="btn-garden" data-garden-add="${p.id}" data-name="${esc(p.name)}" hidden>+ Add ${esc(p.name)} to my garden</button> <a class="garden-link" href="/my-garden/" hidden>Open my garden</a></p>
 <p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
 ${accordion('info', 'Info', infoBody, true)}
@@ -771,11 +812,12 @@ function buildCalendar() {
       ].join('');
       return `<td>${bits}</td>`;
     }).join('');
-    return `<tr data-calrow data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/"><span aria-hidden="true">${p.emoji}</span> ${esc(p.name)}</a></th>${cells}</tr>`;
+    return `<tr data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/"><span aria-hidden="true">${p.emoji}</span> ${esc(p.name)}</a></th>${cells}</tr>`;
   }).join('\n      ');
   const body = `
 <h1>Planting Calendar</h1>
-<p class="lead">When to plant indoors, plant or sow outside, and harvest, month by month. Based on typical UK timings; the current month is highlighted.</p>
+<p class="lead">When to plant indoors, plant or sow outside, and harvest, month by month. Based on typical UK timings, and you can enter your postcode to adjust them for your area. The current month is highlighted.</p>
+${regionBar()}
 <div class="legend">
   <span><i class="sw-ind"></i>Plant indoors</span>
   <span><i class="sw-out"></i>Sow or plant outside</span>

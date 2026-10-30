@@ -231,3 +231,18 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .store-ul li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--leaf);border-radius:6px;padding:.6rem .8rem;line-height:1.5}
 .store-ul .keeps{display:block;color:var(--green);font-size:.9em;margin-top:.15rem}
 .jump{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 1.5rem}.jump .chip{text-decoration:none}.store-group{margin-top:1.5rem}
+
+.region-bar{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--leaf);border-radius:10px;padding:.8rem 1rem;margin:1rem 0}
+.region-bar p{margin:.2rem 0}
+.region-form{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+.region-form label{font-weight:600}
+.region-form input{flex:1 1 12rem;min-width:0;padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;font:inherit}
+.region-manual{margin-top:.4rem}.region-manual summary{cursor:pointer;color:var(--green)}
+.region-manual select{margin-top:.4rem;max-width:100%;padding:.5rem;font:inherit}
+.bar.h1{width:50%}.bar.h2{width:50%;margin-left:auto}
+.m-i{--c:#5aa9c9}.m-o{--c:var(--leaf)}.m-h{--c:#f0a030}
+.mrow .mcells i.on.h1{background:linear-gradient(90deg,var(--c) 50%,#edf1ec 50%)}
+.mrow .mcells i.on.h2{background:linear-gradient(90deg,#edf1ec 50%,var(--c) 50%)}
+.region-more>summary{cursor:pointer;color:var(--green);font-weight:600;margin-top:.3rem}
+.region-status{line-height:1.5}
+.region-manual{margin-top:.5rem}.region-manual label{font-weight:600}

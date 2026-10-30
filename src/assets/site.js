@@ -19,6 +19,195 @@
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
 
+
+  /* ---- Regional timings: shift the default (central England) dates for the visitor's area ---- */
+  var mk = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var Region = (function () {
+    var KEY_R = 'hp-region';
+    var cur = null, listeners = [], zonesPromise = null;
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY_R) || 'null');
+      if (v && typeof v.off === 'number' && v.off >= -3 && v.off <= 4 && typeof v.name === 'string') cur = v;
+    } catch (e) { cur = null; }
+
+    function slotsOf(bits) { var s = [], k; for (k = 0; k < 24; k++) s.push(bits.charAt(k >> 1) === '1' ? 1 : 0); return s; }
+    /* Runs of 1s around the 24 half-month slots, with unwrapped (possibly > 23) start and end positions. */
+    function runsOf(s) {
+      var z = s.indexOf(0), runs = [], run = null, k, idx;
+      if (z < 0) return null;
+      for (k = 1; k <= 24; k++) {
+        idx = (z + k) % 24;
+        if (s[idx]) { if (!run) { run = { s: z + k, e: z + k }; runs.push(run); } else run.e = z + k; } else run = null;
+      }
+      return runs;
+    }
+    /* kind is 'i' (sow indoors), 'o' (sow or plant outside) or 'h' (harvest). Returns 24 half-month slots. */
+    function shifted(bits, kind, off) {
+      var s = slotsOf(bits), out = [], k;
+      if (kind === 'h') off = (off < 0 ? -1 : 1) * Math.ceil(Math.abs(off) / 2) * (off ? 1 : 0); /* summer harvests vary less than frost dates */
+      var runs = off ? runsOf(s) : null;
+      if (!runs || !runs.length) return s;
+      for (k = 0; k < 24; k++) out.push(0);
+      runs.forEach(function (r) {
+        var sm = Math.floor((r.s % 24) / 2), em = Math.floor((r.e % 24) / 2);
+        var ds = kind === 'h' ? (sm <= 8 ? off : 0) : (sm <= 6 ? off : -off);
+        var de = em <= 4 ? off : (em <= 7 ? 0 : -off);
+        var ns = r.s + ds, ne = r.e + de, p, mid;
+        if (ne < ns) { mid = Math.round((ns + ne) / 2); ns = mid; ne = mid + 1; }
+        if (ne - ns >= 23) { for (p = 0; p < 24; p++) out[p] = 1; return; }
+        for (p = ns; p <= ne; p++) out[((p % 24) + 24) % 24] = 1;
+      });
+      return out;
+    }
+    /* 0 = none, 1 = first half, 2 = second half, 3 = whole month */
+    function monthState(s, m) { return s[m * 2] + s[m * 2 + 1] * 2; }
+    function monthBits(s) { var b = '', m; for (m = 0; m < 12; m++) b += monthState(s, m) ? '1' : '0'; return b; }
+    function describe(s) {
+      var runs = runsOf(s);
+      if (!runs) return 'All year';
+      if (!runs.length) return '';
+      runs.sort(function (a, b) { return (a.s % 24) - (b.s % 24); });
+      return runs.map(function (r) {
+        var sm = Math.floor((r.s % 24) / 2), em = Math.floor((r.e % 24) / 2);
+        if (sm === em && r.e - r.s < 2) return (r.s % 2 ? 'late ' : 'early ') + MON[sm];
+        var a = (r.s % 2 ? 'mid ' : '') + MON[sm], b = (r.e % 2 === 0 ? 'mid ' : '') + MON[em];
+        return a === b ? a : a + '–' + b;
+      }).join(', ');
+    }
+    function loadZones(url) {
+      if (!zonesPromise) zonesPromise = fetch(url).then(function (r) { return r.json(); });
+      return zonesPromise;
+    }
+    function set(r) {
+      cur = r;
+      try { if (r) localStorage.setItem(KEY_R, JSON.stringify(r)); else localStorage.removeItem(KEY_R); } catch (e) { /* storage unavailable */ }
+      listeners.forEach(function (fn) { fn(); });
+    }
+    return {
+      off: function () { return cur ? cur.off : 0; },
+      current: function () { return cur; },
+      set: set, shifted: shifted, monthState: monthState, monthBits: monthBits, describe: describe, loadZones: loadZones,
+      onChange: function (fn) { listeners.push(fn); },
+    };
+  })();
+
+  /* The "Your location" bar */
+  var regionBars = $$('[data-region-bar]');
+  regionBars.forEach(function (bar) {
+    bar.hidden = false;
+    var txt = bar.querySelector('[data-region-text]'), clear = bar.querySelector('[data-region-clear]');
+    var form = bar.querySelector('[data-region-form]'), pc = bar.querySelector('[data-region-pc]');
+    var msg = bar.querySelector('[data-region-msg]'), sel = bar.querySelector('[data-region-zone]');
+    var manual = bar.querySelector('.region-manual'), more = bar.querySelector('[data-region-more]');
+    var origMsg = msg.textContent;
+    var refresh = function () {
+      var r = Region.current();
+      if (!r) { txt.textContent = 'Showing typical dates for central England.'; clear.hidden = true; sel.value = ''; return; }
+      var weeks = Math.abs(r.off) * 2;
+      txt.textContent = r.off === 0
+        ? 'Dates for ' + r.name + (r.pc ? ' (postcode area ' + r.pc + ')' : '') + ', the same as the site default.'
+        : 'Adjusted for ' + r.name + (r.pc ? ' (postcode area ' + r.pc + ')' : '') + ': about ' + weeks + ' weeks ' + (r.off < 0 ? 'earlier' : 'later') + ' than central England.';
+      clear.hidden = false; sel.value = r.z || '';
+    };
+    Region.onChange(refresh);
+    refresh();
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var v = pc.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), m = v.match(/^([A-Z]{1,2})[0-9]/);
+      if (!m) { msg.textContent = 'Please enter your postcode, for example EX4 or SW1A 1AA.'; return; }
+      msg.textContent = 'Looking up your area…';
+      Region.loadZones(bar.getAttribute('data-zones')).then(function (d) {
+        var zid = d.areas[m[1]], zone = null;
+        d.zones.forEach(function (z) { if (z.id === zid) zone = z; });
+        if (!zone) { msg.textContent = 'Sorry, we do not recognise that postcode area. Please choose your region instead.'; more.open = true; return; }
+        msg.textContent = origMsg; pc.value = '';
+        more.open = false;
+        Region.set({ z: zone.id, off: zone.off, name: zone.name, pc: m[1] });
+      }).catch(function () { msg.textContent = 'Sorry, the lookup did not load. Please choose your region instead.'; more.open = true; });
+    });
+    sel.addEventListener('change', function () {
+      var o = sel.options[sel.selectedIndex];
+      more.open = false;
+      if (!o.value) { Region.set(null); return; }
+      Region.set({ z: o.value, off: Number(o.getAttribute('data-off')), name: o.textContent.trim(), pc: '' });
+    });
+    clear.addEventListener('click', function () { msg.textContent = origMsg; Region.set(null); });
+  });
+
+  /* Plant page: month bars and the "Sow" and "Harvest" rows */
+  var mbar = $('.mbar[data-i]');
+  if (mbar) {
+    var rowLabels = { i: 'Sow or start indoors', o: 'Sow or plant outside', h: 'Harvest months' };
+    var factCells = {};
+    $$('.info-row > div').forEach(function (d) {
+      Object.keys(rowLabels).forEach(function (k) { if (d.textContent === rowLabels[k] && d.nextElementSibling) factCells[k] = d.nextElementSibling; });
+    });
+    Object.keys(factCells).forEach(function (k) { factCells[k].setAttribute('data-orig', factCells[k].textContent); });
+    var paintPlant = function () {
+      var off = Region.off();
+      $$('.mbar .mrow[data-row]').forEach(function (row) {
+        var k = row.getAttribute('data-row'), s = Region.shifted(mbar.getAttribute('data-' + k), k, off);
+        Array.prototype.slice.call(row.querySelectorAll('.mcells i')).forEach(function (c, m) {
+          var st = Region.monthState(s, m);
+          c.className = (c.className.indexOf('now') > -1 ? 'now ' : '') + (st ? 'on' : '') + (st === 1 ? ' h1' : st === 2 ? ' h2' : '');
+        });
+        var sr = row.querySelector('.sr-only'); if (sr) sr.textContent = Region.describe(s);
+        if (factCells[k]) factCells[k].textContent = off ? Region.describe(s) : factCells[k].getAttribute('data-orig');
+      });
+    };
+    Region.onChange(paintPlant);
+    if (Region.off()) paintPlant();
+  }
+
+  /* Planting calendar */
+  var calRows = $$('[data-calrow]');
+  if (calRows.length) {
+    var barHtml = function (cls, label, st) { return '<span class="bar ' + cls + (st === 1 ? ' h1' : st === 2 ? ' h2' : '') + '"></span><span class="sr-only">' + label + (st === 1 ? ' (first half)' : st === 2 ? ' (second half)' : '') + '</span>'; };
+    var paintCal = function () {
+      var off = Region.off();
+      calRows.forEach(function (tr) {
+        var si = Region.shifted(tr.getAttribute('data-i'), 'i', off), so = Region.shifted(tr.getAttribute('data-o'), 'o', off), sh = Region.shifted(tr.getAttribute('data-h'), 'h', off);
+        Array.prototype.slice.call(tr.querySelectorAll('td')).forEach(function (td, m) {
+          var a = Region.monthState(si, m), b = Region.monthState(so, m), c = Region.monthState(sh, m);
+          td.innerHTML = (a ? barHtml('ind', 'Sow indoors', a) : '') + (b ? barHtml('out', 'Sow or plant outside', b) : '') + (c ? barHtml('har', 'Harvest', c) : '');
+        });
+      });
+    };
+    Region.onChange(paintCal);
+    if (Region.off()) paintCal();
+  }
+
+  /* Home page: this month's panel */
+  var homePanel = $('.month-panel[data-month-panel]:not([hidden])');
+  if (homePanel && $('#homeRegion')) {
+    var origPanel = homePanel.innerHTML, homeData = null, homeLoad = null;
+    var rankOf = { Easy: 0, Medium: 1, Hard: 2 };
+    var paintHome = function () {
+      var off = Region.off();
+      if (!off) { homePanel.innerHTML = origPanel; return; }
+      var m = Number(homePanel.getAttribute('data-month-panel'));
+      if (!homeLoad) homeLoad = fetch($('#homeRegion').getAttribute('data-garden')).then(function (r) { return r.json(); });
+      homeLoad.then(function (d) {
+        if (Region.off() !== off) return;
+        var plants = d.plants.slice().sort(function (a, b) { return rankOf[a.d] - rankOf[b.d] || a.n.localeCompare(b.n, 'en-GB'); });
+        var inMonth = function (p, keys) { return keys.some(function (k) { return Region.monthState(Region.shifted(p[k], k, off), m) > 0; }); };
+        var sow = plants.filter(function (p) { return inMonth(p, ['i', 'o']); }), har = plants.filter(function (p) { return inMonth(p, ['h']); });
+        var cols = Array.prototype.slice.call(homePanel.querySelectorAll('.month-cols > div'));
+        [sow, har].forEach(function (items, n) {
+          var col = cols[n]; if (!col) return;
+          col.querySelector('.count').textContent = '(' + items.length + ')';
+          var tags = col.querySelector('.card-tags'); tags.textContent = '';
+          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link', p.e + ' ' + p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
+          if (items.length > 14) { var more = mk('a', 'tag tag-link more', '+' + (items.length - 14) + ' more'); more.href = '/calendar/'; tags.appendChild(more); }
+          if (!items.length) tags.appendChild(mk('span', 'muted', 'Nothing this month: a good time to plan and tidy.'));
+        });
+      }).catch(function () { /* keep the default panel */ });
+    };
+    Region.onChange(paintHome);
+    if (Region.off()) paintHome();
+  }
+
   /* ---- Plant guide: sunlight and garden-size buttons, plus name search ---- */
   var plantFilters = $('#plantFilters');
   if (plantFilters) {
@@ -354,7 +543,17 @@
 
     fetch(gRoot.getAttribute('data-src')).then(function (r) { return r.json(); }).then(function (d) {
       gData = d;
-      d.plants.forEach(function (p) { byId[p.id] = p; });
+      d.plants.forEach(function (p) { byId[p.id] = p; p.i0 = p.i; p.o0 = p.o; p.h0 = p.h; });
+      var regionize = function () {
+        var off = Region.off();
+        d.plants.forEach(function (p) {
+          p.i = Region.monthBits(Region.shifted(p.i0, 'i', off));
+          p.o = Region.monthBits(Region.shifted(p.o0, 'o', off));
+          p.h = Region.monthBits(Region.shifted(p.h0, 'h', off));
+        });
+      };
+      regionize();
+      Region.onChange(function () { regionize(); renderMonth(); });
       garden = loadGarden().filter(function (id) { return byId[id]; });
       gRoot.hidden = false;
       renderResults(); renderMine(); renderMonth();
