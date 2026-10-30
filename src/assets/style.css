@@ -64,8 +64,6 @@ table.cal td { min-width: 40px; }
 .site-footer { background: #1f2a24; color: #cfd8d2; padding: 24px 0; font-size: .9rem; }
 .muted { color: var(--muted); }
 .empty { padding: 24px; text-align: center; color: var(--muted); }
-</style>
-</head>
 
 /* ---- Additions for the static build ---- */
 [hidden] { display: none !important; }
