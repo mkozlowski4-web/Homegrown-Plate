@@ -1,0 +1,172 @@
+/* Care tasks, batch 3. Format as in ../care.mjs. */
+export const CARE_3 = {
+  angelica: [
+    ['3-4', 'Mulch with compost in spring and give plants plenty of room, as angelica grows into a large, statuesque plant.'],
+    ['5-8', 'Water in dry weather, as angelica likes moist soil and partial shade, and cut off flower heads if you want to extend the life of the plant.'],
+    ['6-7', 'Cut young stems for candying in late spring or early summer, before they become tough.'],
+    ['10-11', 'Cut dead stems to the ground after the foliage dies back and mulch the crown.'],
+  ],
+  apricot: [
+    ['2-3', 'Protect blossom on wall-trained trees with fleece on frosty nights, as apricots flower very early. Hand-pollinate with a soft brush on warm days.'],
+    ['5-6', 'Thin fruitlets to about 8 to 10 cm apart, and tie in new shoots on fan-trained trees.'],
+    ['6-8', 'Water consistently in dry spells and feed with a high-potash feed once the fruit is swelling.'],
+    ['7-8', 'Prune only in summer, never in winter, to avoid silver leaf and bacterial canker. Cut out dead wood and crossing branches.'],
+  ],
+  bay: [
+    ['4-5', 'Trim shoots lightly in spring to keep the shape, and feed potted plants with a slow-release fertiliser.'],
+    ['6-8', 'Water pots in dry weather, as bay hates drying out completely, but never leave it standing in water.'],
+    ['7-8', 'Clip topiary shapes in summer, cutting with secateurs rather than shears so the large leaves are not damaged.'],
+    ['11-2', 'Move pots to a sheltered spot against a wall or wrap in fleece in hard frosts, as bay can be damaged by cold winds.'],
+  ],
+  borage: [
+    ['5-6', 'Thin seedlings to about 45 cm apart, as borage grows large and bushy, and keep it away from delicate plants that it could swamp.'],
+    ['6-9', 'Pick flowers regularly for salads and drinks, which keeps the plants blooming and attracts bees all summer.'],
+    ['8-9', 'Let a few plants set seed so borage self-sows for the following year, and pull up the rest in autumn.'],
+  ],
+  'borlotti-bean': [
+    ['5-6', 'Plant out after the last frost and provide canes or netting for climbing types, and protect young plants from slugs.'],
+    ['6-9', 'Water well during flowering and pod swelling, as dry soil makes flowers drop, and mulch to keep roots cool.'],
+    ['8-9', 'Pinch out the tips of climbing types once they reach the top of the supports.'],
+    ['9-10', 'Leave pods to mature on the plant until they turn mottled red and papery, picking before the first frosts and finishing the drying indoors.'],
+  ],
+  'bronze-fennel': [
+    ['3-4', 'Cut back last year\'s dead stems and feed lightly in spring, then thin or move clumps if overcrowded.'],
+    ['5-8', 'Pick fronds regularly for flavour and cut off flower heads if you do not want self-sown seedlings everywhere.'],
+    ['7-9', 'Leave some flowers for hoverflies and ladybirds, which feed on aphids, and keep it away from dill to prevent cross-pollination.'],
+    ['10-11', 'Cut stems down to ground level once the foliage fades.'],
+  ],
+  calendula: [
+    ['4-5', 'Thin seedlings to 20 to 30 cm apart and pinch out the tips to produce bushy plants with more flowers.'],
+    ['6-10', 'Deadhead regularly to keep flowers coming, and pick petals for salads and rice dishes while they are fresh.'],
+    ['7-9', 'Check for aphids and encourage hoverflies by leaving some flowers, as calendula attracts the insects that eat pests.'],
+    ['9-10', 'Leave a few seed heads to self-sow, then pull up spent plants.'],
+  ],
+  celeriac: [
+    ['5-6', 'Plant out after the last frost with the crown just above the soil, 30 to 40 cm apart, and water in well.'],
+    ['6-9', 'Water heavily and regularly, as celeriac is thirsty, and mulch to keep the roots moist and cool.'],
+    ['7-9', 'Feed every two weeks with a general liquid feed and remove the lower leaves in late summer to expose the swelling root.'],
+    ['10-12', 'Lift before hard frosts or cover with straw for protection, and store trimmed roots in a cool, dry place.'],
+  ],
+  chamomile: [
+    ['4-5', 'Thin seedlings to 15 to 20 cm apart and keep the bed weed-free while plants are small.'],
+    ['6-8', 'Pick flowers regularly when fully open, as this keeps plants producing, and water only in dry spells.'],
+    ['8-9', 'Let a few plants set seed so annual German chamomile self-sows, and cut back perennial Roman chamomile after flowering.'],
+  ],
+  chervil: [
+    ['3-4', 'Sow in a shady spot where it will not dry out, as chervil bolts quickly in hot, dry conditions.'],
+    ['4-9', 'Water in dry weather and pick leaves regularly from the outside, since chervil is best used fresh and young.'],
+    ['6-8', 'Give plants light shade in summer, and let one or two flower to self-sow for autumn and spring crops.'],
+    ['10-11', 'Protect autumn sowings with a cloche to keep leaves coming into winter.'],
+  ],
+  chicory: [
+    ['5-8', 'Thin seedlings to about 25 cm apart, and water in dry weather to prevent bolting and bitterness.'],
+    ['9-10', 'Cut leaves of forcing types down to 2 cm above the soil, then lift roots for forcing in a dark place.'],
+    ['11-12', 'Pot forcing roots in damp compost and cover with a black pot or bucket in a dark, cool place so they produce pale chicons.'],
+    ['5-6', 'Remove any plants that bolt in spring, as the flowering stems turn the leaves bitter, and keep the soil moist.'],
+  ],
+  'chinese-cabbage': [
+    ['7-9', 'Water regularly and keep the soil moist, as dry spells make plants bolt, and cover with fine mesh against flea beetle.'],
+    ['8-10', 'Check for slugs and caterpillars, and pick off any you find, as the tender leaves are a favourite.'],
+    ['9-10', 'Cover plants with fleece in cool weather and cut the heads before hard frost.'],
+  ],
+  cobnut: [
+    ['2-3', 'Prune in late winter, shortening side shoots to leave a few buds and removing suckers, to keep an open framework.'],
+    ['6-8', 'Water young trees in dry spells and keep the base clear of weeds.'],
+    ['8-9', 'Net or protect nuts from squirrels as they ripen, and pick them as they fall or when the husks turn brown.'],
+    ['11-2', 'Plant new trees bare-root in winter and mulch the base each spring.'],
+  ],
+  edamame: [
+    ['5-6', 'Plant out after the last frost and water in well, as edamame needs warmth to thrive.'],
+    ['6-8', 'Water regularly during flowering and podding, and mulch to keep the roots cool.'],
+    ['8-9', 'Pick pods when they are plump and still bright green, before they turn yellow.'],
+  ],
+  elderberry: [
+    ['2-3', 'Prune in late winter, cutting out the oldest wood and shortening branches to keep the bush manageable and productive.'],
+    ['5-6', 'Keep the plant in check by cutting back suckers, and feed with a general fertiliser if growth is weak.'],
+    ['9-10', 'Pick berries when fully ripe and dark, removing stalks, and always cook them before eating. Raw elderberries are mildly poisonous.'],
+    ['11-2', 'Plant new bushes bare-root in winter and mulch the base each spring.'],
+  ],
+  'elephant-garlic': [
+    ['3-5', 'Keep beds weed-free and water in dry spring weather, as elephant garlic needs steady moisture while the bulbs swell.'],
+    ['5-6', 'Cut off the flower stems when they appear so the energy goes into the bulb.'],
+    ['6-7', 'Stop watering once the leaves yellow, and lift the bulbs when the tops die back.'],
+    ['10-11', 'Check autumn-planted cloves are firm in the soil and mulch beds in cold areas.'],
+  ],
+  endive: [
+    ['6-9', 'Thin seedlings to 25 to 30 cm apart, and water regularly to avoid bitterness and bolting.'],
+    ['8-10', 'Blanch the hearts by tying the outer leaves loosely together or covering with a plate for about 10 days before cutting, to reduce bitterness.'],
+    ['10-11', 'Protect late plants with a cloche from frost and cut before hard freezing weather.'],
+  ],
+  fennel: [
+    ['5-6', 'Thin seedlings to 20 to 30 cm apart, as crowded plants bolt, and avoid disturbing the roots.'],
+    ['6-8', 'Water regularly and consistently, as dry spells cause bolting, and keep fennel away from dill to avoid cross-pollination.'],
+    ['7-9', 'Earth up the swelling bulbs when they reach the size of an egg to blanch them and keep them tender.'],
+    ['10-10', 'Lift bulbs before hard frost and cut off the feathery tops for use as herbs.'],
+  ],
+  tarragon: [
+    ['3-4', 'Cut back old stems and divide plants every three years in spring, as clumps lose flavour as they age.'],
+    ['5-8', 'Pinch out the growing tips to keep plants bushy and water pots lightly, as tarragon hates wet roots.'],
+    ['8-9', 'Cut stems back by half in late summer, drying or freezing the trimmings for winter use.'],
+    ['11-2', 'Protect French tarragon pots from winter wet by moving them under cover or into a sheltered position.'],
+  ],
+  'garlic-chives': [
+    ['3-4', 'Divide congested clumps in spring and replant, giving them plenty of water to re-establish.'],
+    ['4-9', 'Cut leaves to 5 cm above the soil regularly, as this encourages fresh, tender growth.'],
+    ['7-9', 'Deadhead flowers before they set seed, as garlic chives self-sow freely, or enjoy the star-shaped flowers in salads.'],
+    ['10-11', 'Cut back dead foliage and mulch the clumps lightly.'],
+  ],
+  gherkin: [
+    ['5-6', 'Plant out after the last frost in a sunny, sheltered spot and give climbing types a support to scramble up.'],
+    ['6-9', 'Water regularly, as dry soil causes bitter, misshapen fruit, and feed every two weeks with a tomato feed.'],
+    ['7-9', 'Pick small gherkins regularly, as leaving fruit to grow stops the plant producing more.'],
+    ['8-9', 'Watch for powdery mildew on the leaves and remove affected foliage, keeping plants well watered and spaced.'],
+  ],
+  'globe-artichoke': [
+    ['3-4', 'Mulch with well-rotted compost in spring, remove any frost-damaged growth and feed generously, as artichokes are hungry plants.'],
+    ['5-7', 'Water in dry weather and remove side shoots (suckers) to leave two or three of the strongest on each plant.'],
+    ['6-8', 'Cut the central bud when plump and tight before the scales open, and cut the smaller side buds after.'],
+    ['10-11', 'Cut stems to the ground after cropping and protect crowns with a thick mulch or straw for winter.'],
+  ],
+  'hardy-kiwi': [
+    ['2-3', 'Prune in late winter to remove dead and crossing growth, and tie in shoots to wires or trellis.'],
+    ['6-7', 'Summer prune by cutting side shoots back to five or six leaves beyond the last fruit, and cut away unwanted growth.'],
+    ['6-8', 'Water well in dry weather and mulch around the roots, keeping it away from the stem.'],
+    ['9-10', 'Pick fruit when it is slightly soft and sweet, and net against birds if necessary.'],
+  ],
+  horseradish: [
+    ['3-4', 'Weed around the plants and mulch with compost, and contain the roots in a bed or large pot, as horseradish spreads.'],
+    ['5-8', 'Water in dry spells to keep the roots tender, and remove any flower stems that form.'],
+    ['10-11', 'Lift roots after the foliage dies back and replant a few pencil-thick pieces to keep a supply going.'],
+  ],
+  hyssop: [
+    ['3-4', 'Trim plants lightly in spring and remove any winter-damaged growth.'],
+    ['6-8', 'Deadhead to prolong flowering, or let the blue flowers feed bees and butterflies, and water pots sparingly.'],
+    ['8-9', 'Cut plants back by about a third after flowering to keep them tidy and prevent them becoming woody.'],
+  ],
+  kohlrabi: [
+    ['4-8', 'Thin seedlings to 15 to 20 cm apart and water evenly, as irregular watering makes bulbs woody and split.'],
+    ['5-8', 'Cover with mesh against flea beetle and cabbage root fly, and keep weeds down around the shallow roots.'],
+    ['6-9', 'Harvest bulbs at golf-ball to tennis-ball size for the best flavour and tenderness.'],
+  ],
+  komatsuna: [
+    ['4-9', 'Water regularly and cover with fine mesh against flea beetles, which can pepper the leaves with holes.'],
+    ['5-9', 'Harvest leaves young and often, as this keeps the plant productive and prevents bolting.'],
+    ['10-3', 'Protect plants with a cloche for winter leaves and sow a fresh batch every few weeks.'],
+  ],
+  'lambs-lettuce': [
+    ['8-10', 'Thin seedlings to 5 to 10 cm apart and keep weeds away, as lamb\'s lettuce is small and slow growing.'],
+    ['10-3', 'Cover with a cloche or fleece in very hard frost, though it is hardy, and pick rosettes whole or leaf by leaf.'],
+    ['4-5', 'Let a few plants flower in spring to self-sow for autumn, or pull up spent plants.'],
+  ],
+  'land-cress': [
+    ['9-10', 'Water well in dry weather, as dry soil makes leaves tough and hot, and thin seedlings to 15 cm apart.'],
+    ['10-3', 'Pick leaves regularly from the outside through autumn and winter, and cover plants in severe frost.'],
+    ['4-5', 'Pull up plants as they flower in spring, or let a few self-sow.'],
+  ],
+  lavender: [
+    ['3-4', 'Remove any frost-damaged growth in spring but avoid hard pruning into old wood, as it may not reshoot.'],
+    ['6-8', 'Cut flower stems when about half the buds have opened for drying, and water pots only when the compost is dry.'],
+    ['8-9', 'Trim plants straight after flowering, taking off the flower stalks and about 2.5 cm of green growth, to keep them compact.'],
+    ['4-5', 'Replace plants every 8 to 10 years once they become woody, taking softwood cuttings to propagate new ones.'],
+  ],
+};

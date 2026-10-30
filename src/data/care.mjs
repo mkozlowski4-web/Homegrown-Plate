@@ -3,6 +3,8 @@
    Each task is [months, text]. Months are numbers 1 (Jan) to 12 (Dec): "4-8" is April to August,
    "11-2" wraps over the new year, "4,9" lists separate months. Keep each task to one clear job. */
 import { CARE_2 } from './care/batch2.mjs';
+import { CARE_3 } from './care/batch3.mjs';
+import { CARE_4 } from './care/batch4.mjs';
 
 const CARE_1 = {
   tomato: [
@@ -222,4 +224,4 @@ const CARE_1 = {
   ],
 };
 
-export const CARE = { ...CARE_1, ...CARE_2 };
+export const CARE = { ...CARE_1, ...CARE_2, ...CARE_3, ...CARE_4 };

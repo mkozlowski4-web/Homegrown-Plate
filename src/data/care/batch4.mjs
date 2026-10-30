@@ -1,0 +1,211 @@
+/* Care tasks, batch 4. Format as in ../care.mjs. */
+export const CARE_4 = {
+  'lemon-balm': [
+    ['3-4', 'Divide clumps in spring and cut back dead stems, and contain the plant in a pot or bed edge, as it spreads and self-seeds freely.'],
+    ['5-9', 'Cut stems back by half every few weeks for fresh, flavourful leaves, and remove flowers before they set seed.'],
+    ['7-8', 'Give plants a hard cut back mid-summer if they look tired, then water and feed to encourage fresh growth.'],
+    ['10-11', 'Cut dead stems to the ground and mulch the crown lightly.'],
+  ],
+  'lemon-verbena': [
+    ['5-6', 'Move pots outdoors only once frost has passed, and harden off gradually, as lemon verbena is tender.'],
+    ['6-9', 'Water in dry weather and feed pots every two weeks, and pinch out the tips to keep plants bushy.'],
+    ['10-11', 'Bring pots indoors before the first frost to a cool, bright, frost-free place. Leaves will drop, which is normal.'],
+    ['12-2', 'Water sparingly through winter and prune back by about a third in early spring as new growth appears.'],
+  ],
+  lemongrass: [
+    ['5-6', 'Plant out or move pots outside only after the last frost, and place in the sunniest, warmest spot.'],
+    ['6-9', 'Water generously and feed every two weeks, as lemongrass is a thirsty, hungry plant, and harvest stalks from the outside.'],
+    ['10-11', 'Bring pots indoors before frost and cut leaves back to about 15 cm, keeping plants on a bright windowsill.'],
+    ['12-2', 'Water sparingly over winter, as lemongrass hates cold and wet together.'],
+  ],
+  loganberry: [
+    ['2-3', 'Tie in last year\'s canes to supports and cut out any dead or weak wood, then feed and mulch around the base.'],
+    ['5-7', 'Keep this year\'s new canes separate from the fruiting canes by tying them in a different part of the support.'],
+    ['6-8', 'Water in dry weather and net against birds as the fruit reddens.'],
+    ['8-10', 'After fruiting, cut the old fruited canes to the ground and tie in the new ones in their place.'],
+  ],
+  lovage: [
+    ['3-4', 'Mulch with compost and feed in spring, as lovage is a large, hungry perennial, and divide clumps every few years.'],
+    ['5-8', 'Cut stems back regularly to encourage fresh young leaves, and cut flower stems as they appear unless you want seed.'],
+    ['6-8', 'Water in dry weather, as plants can wilt in drought, and stake very tall plants.'],
+    ['10-11', 'Cut stems to the ground when they die back and mulch the crown.'],
+  ],
+  marrow: [
+    ['5-6', 'Harden off and plant out after the last frost on a rich, sunny mound, leaving plenty of room for trailing stems.'],
+    ['6-9', 'Water generously at the base and feed every one to two weeks with a tomato feed once fruits form.'],
+    ['6-7', 'Hand-pollinate if fruit does not set, by dabbing a male flower into a female one.'],
+    ['8-9', 'Cut marrows when 30 to 40 cm long for eating fresh, or leave on the plant to harden for storing.'],
+  ],
+  melon: [
+    ['5-6', 'Plant in a greenhouse, polytunnel or sheltered, sunny spot after the last frost, and train the main stem up a support.'],
+    ['6-7', 'Pinch out the tip after about five leaves, then train the side shoots and pinch them back after two leaves beyond a female flower.'],
+    ['6-7', 'Hand-pollinate female flowers with male flowers in the morning, and limit each plant to three or four fruits.'],
+    ['6-9', 'Water regularly and feed weekly with tomato feed once fruits start to swell, and support heavy fruits in nets.'],
+    ['8-9', 'Reduce watering slightly as fruits ripen to concentrate the sugars, and check for the fruit stalk cracking.'],
+  ],
+  microgreens: [
+    ['1-12', 'Water from below or with a fine mist once or twice a day, keeping the compost moist but not soggy.'],
+    ['1-12', 'Keep trays in bright light but out of direct midday sun, and make sure there is airflow to avoid mould.'],
+    ['1-12', 'Harvest with scissors once the first true leaves appear, usually in one to three weeks, and resow a tray every week.'],
+  ],
+  mizuna: [
+    ['4-9', 'Water regularly and cover with fine mesh against flea beetles, which can riddle the leaves with holes.'],
+    ['5-9', 'Harvest the outer leaves regularly, as this keeps plants productive, and cut the whole plant 5 cm above the soil to regrow.'],
+    ['10-3', 'Protect plants with a cloche or fleece in winter, as mizuna is hardy but benefits from shelter.'],
+  ],
+  mooli: [
+    ['6-9', 'Water regularly and evenly, as dry spells make roots woody and fiery, and thin seedlings to 15 cm apart.'],
+    ['6-9', 'Cover with fine mesh against flea beetles and cabbage root fly, which attack all brassica roots.'],
+    ['9-11', 'Lift roots before hard frosts and store them in damp sand, trimming the tops.'],
+  ],
+  'mustard-greens': [
+    ['4-9', 'Water regularly to stop plants bolting and cover with fine mesh against flea beetles.'],
+    ['5-9', 'Pick leaves while young, as older leaves become hot and tough, and sow a little every few weeks.'],
+    ['10-3', 'Protect with a cloche or fleece in cold weather, as some winter types are very hardy and will carry on cropping.'],
+  ],
+  nasturtium: [
+    ['5-6', 'Plant out after the last frost and avoid rich soil, as too much fertiliser makes lots of leaves but few flowers.'],
+    ['6-9', 'Deadhead and pick flowers and leaves regularly for salads, which keeps plants blooming right up to the first frosts.'],
+    ['7-9', 'Check for blackfly and cabbage white caterpillars, and hose off or hand-pick as needed. They often draw pests away from vegetables.'],
+    ['9-10', 'Leave a few seed pods to self-sow, or collect the large seeds and dry them for next year.'],
+  ],
+  orache: [
+    ['4-8', 'Thin seedlings to 30 cm apart, and water in dry weather to prevent bolting.'],
+    ['5-9', 'Pick leaves regularly and pinch out the growing tips to keep plants bushy and productive.'],
+    ['7-9', 'Remove flower spikes if you want more leaves, or let a few set seed, as orache self-sows readily.'],
+  ],
+  'pak-choi': [
+    ['5-9', 'Cover with fine mesh straight after sowing or planting against flea beetles and cabbage root fly.'],
+    ['6-9', 'Water regularly, as dry spells cause bolting, and keep slugs under control.'],
+    ['7-10', 'Harvest the whole head when about 15 to 20 cm tall, or pick outer leaves for a cut-and-come-again crop.'],
+  ],
+  'patty-pan': [
+    ['5-6', 'Harden off and plant out after the last frost in a sunny spot with plenty of space.'],
+    ['6-9', 'Water at the base regularly and feed every one to two weeks with a tomato feed once fruits form.'],
+    ['7-10', 'Pick patty pans at about 5 to 8 cm across, while the skin is tender, and check plants every couple of days.'],
+  ],
+  'perpetual-spinach': [
+    ['4-9', 'Water in dry spells and pick leaves regularly from the outside to keep growth coming.'],
+    ['6-8', 'Cut off any flower stalks that appear to prolong cropping, and feed with a nitrogen-rich fertiliser if growth slows.'],
+    ['10-3', 'Cover plants with a cloche or fleece in winter and pick sparingly through cold weather.'],
+  ],
+  physalis: [
+    ['5-6', 'Harden off and plant out after the last frost in a sunny, sheltered spot or greenhouse, and support plants with canes.'],
+    ['6-9', 'Water regularly and feed every two weeks with a tomato feed once flowers appear, and pinch out the tips to keep plants compact.'],
+    ['9-10', 'Pick fruits when the papery husks turn pale gold and dry, or when they fall naturally.'],
+  ],
+  quince: [
+    ['2-3', 'Prune lightly in late winter, taking out dead, crossing and congested branches, and feed and mulch around the base.'],
+    ['4-5', 'Protect blossom with fleece when frosts are forecast, as quinces flower relatively early.'],
+    ['6-8', 'Water young trees in dry spells and thin heavy crops of fruit for larger quinces.'],
+    ['10-11', 'Pick fruit when it turns golden yellow and is fragrant, before the first hard frosts, and store carefully as it bruises easily.'],
+  ],
+  radicchio: [
+    ['6-9', 'Thin seedlings to 25 to 30 cm apart and water regularly to prevent bitterness and bolting.'],
+    ['8-9', 'In late summer, cut back plants that have not hearted up to 2.5 cm above the soil to encourage a tight new heart to form.'],
+    ['10-12', 'Protect hearts from frost with a cloche or fleece and cut when firm and tightly closed.'],
+  ],
+  rocket: [
+    ['4-9', 'Water regularly and give plants light shade in summer, as rocket bolts quickly in hot, dry conditions and turns hot and bitter.'],
+    ['4-9', 'Cover with fine mesh against flea beetles, which make small holes in the leaves.'],
+    ['5-9', 'Pick leaves regularly from the outside, and sow a little every two to three weeks for a constant supply.'],
+    ['10-3', 'Protect winter rocket with a cloche or fleece and pick sparingly through the colder months.'],
+  ],
+  romanesco: [
+    ['5-7', 'Plant firmly 60 cm apart and cover with mesh from day one against pigeons and cabbage white butterflies.'],
+    ['6-9', 'Water consistently and feed with a nitrogen-rich fertiliser, as romanesco is a hungry plant that sulks if checked.'],
+    ['9-11', 'Bend a few leaves over the developing head to shield it from frost and sun, and cut when firm and bright.'],
+  ],
+  salsify: [
+    ['5-8', 'Thin seedlings to 10 to 15 cm apart and keep the bed weed-free, as salsify is slow to start.'],
+    ['6-9', 'Water in dry spells to prevent woody roots, and cover with fine mesh if carrot fly is a problem.'],
+    ['10-3', 'Leave roots in the ground over winter and lift as needed, taking care not to damage them, as they bleed milky sap.'],
+  ],
+  savory: [
+    ['4-5', 'Cut back winter savory in spring to encourage fresh growth, and thin summer savory seedlings to 10 to 15 cm apart.'],
+    ['6-8', 'Pinch out the tips to keep plants bushy and cut stems regularly, particularly before they flower.'],
+    ['8-9', 'Cut summer savory stems to dry just as flowers begin to open, when the flavour is strongest.'],
+  ],
+  scorzonera: [
+    ['5-8', 'Thin seedlings to 10 to 15 cm apart and weed carefully, as roots grow slowly and are easily outcompeted.'],
+    ['6-9', 'Water in dry spells to prevent woody roots and avoid heavy feeding, which makes roots fork.'],
+    ['10-3', 'Leave roots in the ground over winter and lift carefully as needed, taking care not to snap them.'],
+  ],
+  'sea-kale': [
+    ['3-4', 'Mulch with compost in spring and give plants space, as sea kale is a long-lived perennial that forms a large clump.'],
+    ['4-5', 'Cover crowns with a bucket or forcing pot in early spring for blanched shoots, and cut when 20 cm tall.'],
+    ['6-8', 'Remove the cover once cropping ends, let the plant grow freely to build up strength, and water in dry weather.'],
+    ['10-11', 'Cut dead foliage down in autumn and protect crowns with a mulch for winter.'],
+  ],
+  sorrel: [
+    ['3-4', 'Divide clumps every three or four years in spring and feed with a general fertiliser.'],
+    ['5-9', 'Cut off flower stems as soon as they appear to keep the leaves tender, and pick regularly from the outside.'],
+    ['6-8', 'Water in dry weather, as sorrel leaves turn tough and bitter if the plants dry out.'],
+    ['10-11', 'Cut back old foliage in autumn and mulch the crowns lightly.'],
+  ],
+  swede: [
+    ['5-8', 'Thin seedlings to about 25 cm apart, and water evenly, as irregular watering splits roots.'],
+    ['6-9', 'Cover with fine mesh against flea beetles and cabbage root fly, and watch for club root in brassicas.'],
+    ['7-9', 'Feed lightly with a general fertiliser if growth is slow, but avoid fresh manure.'],
+    ['10-12', 'Lift roots before hard frosts or protect with a thick layer of straw, and store in boxes of sand.'],
+  ],
+  'sweet-cicely': [
+    ['3-4', 'Mulch with compost in spring and give plants room, as sweet cicely forms a large clump in light shade.'],
+    ['5-8', 'Pick leaves for sweetening rhubarb and tart fruit, and cut stems back after flowering if you do not want self-sown seedlings.'],
+    ['8-9', 'Collect the green seeds, which taste of aniseed, or let them self-sow for new plants.'],
+    ['10-11', 'Cut stems to the ground when they die back.'],
+  ],
+  'sweet-marjoram': [
+    ['5-6', 'Plant out after the last frost, as sweet marjoram is less hardy than oregano, and pinch out the tips for bushy plants.'],
+    ['6-9', 'Water pots only when dry, and cut stems before flowering for the best flavour.'],
+    ['9-10', 'Harvest stems for drying before the first frost and bring potted plants indoors to a bright windowsill.'],
+  ],
+  'sweet-potato': [
+    ['5-6', 'Plant out slips after the last frost, ideally under cloches or fleece, in a sunny spot with loose, well-drained soil.'],
+    ['6-9', 'Water in dry spells but avoid overwatering, and mulch around the plants to keep roots warm and moist.'],
+    ['7-9', 'Lift the trailing stems occasionally so they do not root along their length, which reduces tuber size.'],
+    ['9-10', 'Lift tubers before the first frost, handling carefully, and cure them in a warm, humid place for about ten days.'],
+  ],
+  tatsoi: [
+    ['4-9', 'Water regularly and cover with fine mesh against flea beetles and cabbage white butterflies.'],
+    ['5-9', 'Pick outer leaves or cut whole rosettes when about 15 cm across, leaving the plant to regrow.'],
+    ['10-3', 'Protect with a cloche in winter, as tatsoi is hardy but benefits from shelter and keeps cropping.'],
+  ],
+  tomatillo: [
+    ['5-6', 'Harden off and plant out after the last frost in a sunny, sheltered spot, and stake or cage plants as they grow tall.'],
+    ['6-9', 'Plant at least two for pollination, water regularly and feed every two weeks with a tomato feed once fruit sets.'],
+    ['8-10', 'Pick fruits when the husk is filled and splitting, before the fruit turns yellow, and clear plants after the first frost.'],
+  ],
+  turnip: [
+    ['4-9', 'Thin seedlings to 10 to 15 cm apart and water evenly, as dry spells make roots woody and strong-flavoured.'],
+    ['5-9', 'Cover with fine mesh against flea beetles and cabbage root fly.'],
+    ['10-11', 'Lift maincrop turnips before hard frosts and store in boxes of sand or leave in the ground under straw.'],
+  ],
+  viola: [
+    ['4-5', 'Plant out after any hard frosts and water in well, in partial shade for the best flowers.'],
+    ['5-10', 'Deadhead regularly to keep violas flowering, pick flowers for salads and cakes, and feed pots every two weeks.'],
+    ['7-8', 'Cut back leggy plants by half in mid-summer, water and feed to encourage a second flush of flowers.'],
+  ],
+  watercress: [
+    ['4-9', 'Keep roots constantly wet by standing the pot in a saucer of water that is changed every day or two, and grow in partial shade.'],
+    ['5-9', 'Pinch out the tips regularly to encourage bushy growth, and cut leaves often, since flowering makes leaves bitter.'],
+    ['10-3', 'Keep plants sheltered over winter or take cuttings in a jar of water on a windowsill to start new plants.'],
+  ],
+  whitecurrant: [
+    ['2-3', 'Prune in late winter, shortening the previous year\'s growth on side shoots to two buds and removing crossing branches.'],
+    ['3-4', 'Mulch around the base with compost and feed with a potash-rich fertiliser.'],
+    ['6-7', 'Net bushes against birds before the fruit ripens, and water in dry spells.'],
+    ['6-7', 'Check for sawfly caterpillars on the leaf undersides and pick them off promptly.'],
+  ],
+  'wild-garlic': [
+    ['2-4', 'Mulch with leaf mould after winter and keep the soil moist, as wild garlic thrives in damp, shady spots.'],
+    ['5-6', 'Allow the flowers to appear and set seed so the patch spreads, or pick the buds and flowers for salads.'],
+    ['6-7', 'Leave the leaves to die back naturally in summer, rather than cutting them off, so the bulbs can recover.'],
+    ['9-10', 'Divide dense clumps or scatter fresh seed in a shady, moist spot, as wild garlic spreads freely and can become invasive.'],
+  ],
+  'winter-purslane': [
+    ['9-10', 'Thin seedlings to 10 cm apart and keep weeds down, as the plants are small and slow growing.'],
+    ['10-3', 'Pick leaves regularly through winter, and cover with a cloche or fleece in harsh weather, though purslane is very hardy.'],
+    ['4-5', 'Let a few plants flower in spring to self-sow for the following year, or pull up spent plants.'],
+  ],
+};
