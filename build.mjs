@@ -575,7 +575,7 @@ const DIFFICULTIES = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard']];
 function careSection(p) {
   const tasks = careFor(p.id);
   if (!tasks.length) return '';
-  const rows = tasks.map(([bits, text]) => `<li><span class="care-when">${esc(monthRanges(bits))}</span> ${esc(text)}</li>`).join('\n  ');
+  const rows = tasks.map(([bits, text]) => `<li data-bits="${bits}"><span class="care-when">${esc(monthRanges(bits))}</span> ${esc(text)}</li>`).join('\n  ');
   return `<section class="care-list" aria-labelledby="care-h"><h2 id="care-h">Care through the year</h2>
 <ul class="care-ul">
   ${rows}

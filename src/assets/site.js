@@ -55,6 +55,7 @@
         var de = em <= 4 ? off : (em <= 7 ? 0 : -off);
         var ns = r.s + ds, ne = r.e + de, p, mid;
         if (ne < ns) { mid = Math.round((ns + ne) / 2); ns = mid; ne = mid + 1; }
+        if (ne - ns + 1 < Math.min(r.e - r.s + 1, 4)) ne = ns + Math.min(r.e - r.s + 1, 4) - 1; /* keep a usable window */
         if (ne - ns >= 23) { for (p = 0; p < 24; p++) out[p] = 1; return; }
         for (p = ns; p <= ne; p++) out[((p % 24) + 24) % 24] = 1;
       });
@@ -158,6 +159,22 @@
     };
     Region.onChange(paintPlant);
     if (Region.off()) paintPlant();
+  }
+
+
+  /* Plant page: "Care through the year" months */
+  var careItems = $$('.care-ul li[data-bits]');
+  if (careItems.length) {
+    careItems.forEach(function (li) { var w = li.querySelector('.care-when'); if (w) w.setAttribute('data-orig', w.textContent); });
+    var paintCare = function () {
+      var off = Region.off();
+      careItems.forEach(function (li) {
+        var w = li.querySelector('.care-when'); if (!w) return;
+        w.textContent = off ? Region.describe(Region.shifted(li.getAttribute('data-bits'), 'o', off)) : w.getAttribute('data-orig');
+      });
+    };
+    Region.onChange(paintCare);
+    if (Region.off()) paintCare();
   }
 
   /* Planting calendar */
@@ -543,13 +560,14 @@
 
     fetch(gRoot.getAttribute('data-src')).then(function (r) { return r.json(); }).then(function (d) {
       gData = d;
-      d.plants.forEach(function (p) { byId[p.id] = p; p.i0 = p.i; p.o0 = p.o; p.h0 = p.h; });
+      d.plants.forEach(function (p) { byId[p.id] = p; p.i0 = p.i; p.o0 = p.o; p.h0 = p.h; p.c0 = p.c; });
       var regionize = function () {
         var off = Region.off();
         d.plants.forEach(function (p) {
           p.i = Region.monthBits(Region.shifted(p.i0, 'i', off));
           p.o = Region.monthBits(Region.shifted(p.o0, 'o', off));
           p.h = Region.monthBits(Region.shifted(p.h0, 'h', off));
+          p.c = p.c0.map(function (t) { return [Region.monthBits(Region.shifted(t[0], 'o', off)), t[1]]; });
         });
       };
       regionize();
