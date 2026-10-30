@@ -97,6 +97,9 @@ function validate() {
     else if (!p.facts.some(([l]) => l === 'Sow')) errors.push(`Plant ${p.id} needs a short 'Sow' fact (used on the plant cards)`);
     if (!p.info || !p.info.length) errors.push(`Plant ${p.id} has no info paragraphs`);
     if (!p.varieties || !p.varieties.length) errors.push(`Plant ${p.id} has no varieties`);
+    for (const g of p.groups || []) {
+      if (!g.name || !g.when || !g.note || !g.varieties || !g.varieties.length) errors.push(`Plant ${p.id}: each variety group needs name, when, note and varieties`);
+    }
     if (!p.pests || !p.pests.length) errors.push(`Plant ${p.id} has no pests list`);
     let total = (p.info || []).reduce((n, t) => n + wordCount(t), 0);
     for (const k of SECTION_KEYS) {
@@ -302,11 +305,11 @@ const chip = (group, value, label, pressed = false) =>
   `<button type="button" class="chip" data-filter="${group}" data-value="${value}" aria-pressed="${pressed}">${label}</button>`;
 
 function buildPlants() {
-  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-search="${esc(lower(`${p.name} ${p.latin}`))}">
+  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${emoji(p.emoji)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
-    <span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span>
+    <span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
     <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>
   </a>`).join('\n  ');
   const sunChips = [chip('sun', 'any', 'Any sunlight', true), ...SUN_LEVELS.map((s) => chip('sun', s.id, `<span aria-hidden="true">${s.icon}</span> ${s.label}`))].join('\n      ');
@@ -347,7 +350,9 @@ function buildPlants() {
     const infoBody = [
       factRows([['Sunlight', p.sunText], ...p.facts]),
       paras(p.info),
-      `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
+      p.groups && p.groups.length
+        ? `<h3>Types and varieties</h3>\n<p>${esc(p.groupsIntro || 'This crop is grown in different groups, which are sown and harvested at different times. Choose one or more to spread the harvest.')}</p>\n<div class="vgroups">${p.groups.map((g) => `<div class="vgroup"><h4>${esc(g.name)}</h4><p class="vwhen">${esc(g.when)}</p><p>${esc(g.note)}</p><p>${g.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p></div>`).join('')}</div>`
+        : `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
     ].join('\n');
     const sowBody = [sowCal.length ? factRows(sowCal) : '', paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
     const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => `<span class="tag red">${esc(x)}</span>`).join('')}</p>`].filter(Boolean).join('\n');

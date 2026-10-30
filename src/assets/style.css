@@ -115,3 +115,11 @@ main p a:not(.tag):not(.btn), main li a { color: var(--green); }
 .acc-body p { margin: 12px 0; }
 .acc-body .info-row { margin: 12px 0 16px; }
 @media (max-width: 640px) { .site-header { position: static; } }
+
+/* Variety groups (e.g. first early / second early / maincrop) */
+.vgroups { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 10px 0 16px; }
+.vgroup { background: #f4faf6; border: 1px solid #d6eadd; border-radius: 12px; padding: 12px 14px; }
+.vgroup h4 { margin: 0 0 2px; font-size: 1.02rem; color: var(--green); }
+.vgroup p { margin: 6px 0; }
+.vgroup .vwhen { font-size: .85rem; font-weight: 600; color: #5a4a1a; }
+.card .badge-types { display: inline-block; font-size: .72rem; background: #fbe9d7; color: #8a4b12; padding: 1px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
