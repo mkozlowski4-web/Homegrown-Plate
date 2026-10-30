@@ -26,6 +26,7 @@ p.lead { font-size: 1.1rem; color: var(--muted); max-width: 720px; }
 .emoji { font-size: 2rem; }
 .tag { display: inline-block; font-size: .78rem; background: #e6f4ec; color: var(--green); padding: 2px 9px; border-radius: 999px; margin: 2px 4px 2px 0; }
 .tag.warm { background: #fbe9d7; color: #8a4b12; }
+.tag.blue { background: #e3eef9; color: #1d4a7a; }
 .tag.red { background: #f9dfe3; color: #8e1d2f; }
 ul.tips li { margin-bottom: 6px; }
 .info-row { display: grid; grid-template-columns: 150px 1fr; gap: 6px 14px; margin: 14px 0; }

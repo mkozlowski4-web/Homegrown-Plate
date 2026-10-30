@@ -29,7 +29,7 @@
     var plantCount = $('#plantCount');
     var plantEmpty = $('#plantEmpty');
     var resetBtn = $('#plantReset');
-    var state = { sun: 'any', size: 'any', q: '' };
+    var state = { sun: 'any', size: 'any', diff: 'any', q: '' };
 
     var isValid = function (group, value) {
       return chips.some(function (c) {
@@ -37,7 +37,7 @@
       });
     };
     var params = new URLSearchParams(location.search);
-    ['sun', 'size'].forEach(function (group) {
+    ['sun', 'size', 'diff'].forEach(function (group) {
       var v = params.get(group);
       if (v && isValid(group, v)) state[group] = v;
     });
@@ -50,8 +50,9 @@
       plantCards.forEach(function (card) {
         var okSun = state.sun === 'any' || card.getAttribute('data-sun').split(' ').indexOf(state.sun) > -1;
         var okSize = state.size === 'any' || card.getAttribute('data-sizes').split(' ').indexOf(state.size) > -1;
+        var okDiff = state.diff === 'any' || card.getAttribute('data-diff') === state.diff;
         var okText = !term || card.getAttribute('data-search').indexOf(term) > -1;
-        card.hidden = !(okSun && okSize && okText);
+        card.hidden = !(okSun && okSize && okDiff && okText);
         if (!card.hidden) shown++;
       });
       chips.forEach(function (c) {
@@ -59,10 +60,11 @@
       });
       plantCount.textContent = 'Showing ' + shown + ' of ' + plantCards.length + ' crops';
       plantEmpty.hidden = shown > 0;
-      resetBtn.hidden = state.sun === 'any' && state.size === 'any' && !term;
+      resetBtn.hidden = state.sun === 'any' && state.size === 'any' && state.diff === 'any' && !term;
       var qs = new URLSearchParams();
       if (state.sun !== 'any') qs.set('sun', state.sun);
       if (state.size !== 'any') qs.set('size', state.size);
+      if (state.diff !== 'any') qs.set('diff', state.diff);
       if (term) qs.set('q', state.q.trim());
       try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs.toString() : '')); } catch (e) { /* ignore */ }
     };
@@ -74,7 +76,7 @@
     });
     search.addEventListener('input', function () { state.q = search.value; applyPlants(); });
     resetBtn.addEventListener('click', function () {
-      state.sun = 'any'; state.size = 'any'; state.q = ''; search.value = '';
+      state.sun = 'any'; state.size = 'any'; state.diff = 'any'; state.q = ''; search.value = '';
       applyPlants();
     });
     applyPlants();

@@ -175,7 +175,7 @@ export const FRUIT = [
       "Fresh berries keep for only 2–3 days in the fridge, so process quickly. Freeze unwashed on a tray, then bag for up to a year, and use straight from the freezer in crumbles and jam. Bottled blackberry syrup and jelly store well on a shelf."],
       tips: ["Pair with apple in crumbles.", "Freeze on a tray and bag.", "Make jelly from surplus.", "Sieve for seedless syrup."] } },
 
-  { id: "apple", name: "Apple", latin: "Malus domestica", emoji: "🍎", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
+  { id: "apple", name: "Apple", latin: "Malus domestica", emoji: "🍎", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
     sun: ["full", "partial"], sunText: "Full sun; sheltered from strong wind",
     facts: [["Type", "Hardy deciduous tree"], ["Sow", "Plant bare-root trees Nov–Mar"], ["Height", "2–5 m, depending on rootstock"], ["Spacing", "1.2–5 m apart, depending on form and rootstock"], ["Planting depth", "Graft union 5 cm above soil"], ["Time to harvest", "Aug–Nov, from year 2–4"], ["Good companions", "Chives, nasturtium, daffodils"]],
     info: [

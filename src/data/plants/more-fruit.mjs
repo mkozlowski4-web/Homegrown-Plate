@@ -25,7 +25,7 @@ export const MORE_FRUIT = [
       "Fresh cherries keep for 3–5 days in the fridge. Freeze stoned cherries on a tray, then pack in bags for up to a year. Morello cherries can be bottled in syrup or preserved in alcohol."],
       tips: ["Freeze stoned cherries on a tray.", "Use a cherry stoner.", "Make Morello jam.", "Preserve in brandy."] } },
 
-  { id: "pear", name: "Pear", latin: "Pyrus communis", emoji: "🍐", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
+  { id: "pear", name: "Pear", latin: "Pyrus communis", emoji: "🍐", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
     sun: ["full", "partial"], sunText: "Full sun; sheltered from wind",
     facts: [["Type", "Hardy deciduous tree"], ["Sow", "Plant bare-root trees Nov–Mar"], ["Height", "2–5 m, depending on form"], ["Spacing", "1.5–4 m apart"], ["Planting depth", "Graft union 5 cm above soil"], ["Time to harvest", "Aug–Nov, from year 3–5"], ["Good companions", "Chives, nasturtium, comfrey"]],
     info: [

@@ -341,7 +341,7 @@ function buildSizes() {
 <h2>Recommended crops (${crops.length})</h2>
 <p><a href="/plants/?size=${s.id}">Filter the Plant Guide for this garden size &rarr;</a></p>
 <div class="grid">
-  ${crops.map((p) => `<div class="card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
+  ${crops.map((p) => `<div class="card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
 </div>`;
     addPage({
       path: `/sizes/${s.id}/`, section: 'sizes', body: detail,
@@ -365,19 +365,25 @@ ${inner}
 const chip = (group, value, label, pressed = false) =>
   `<button type="button" class="chip" data-filter="${group}" data-value="${value}" aria-pressed="${pressed}">${label}</button>`;
 
+/* Tiles show the minimum a crop needs: the shadiest level it tolerates and the smallest garden it suits. */
+const minSun = (p) => [...SUN_LEVELS].reverse().find((s) => p.sun.includes(s.id)).id;
+const minSize = (p) => SIZES.find((s) => p.sizes.includes(s.id)).id;
+const DIFFICULTIES = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard']];
+
 function buildPlants() {
-  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
+  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
-    <span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
+    <span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
     <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>
   </a>`).join('\n  ');
   const sunChips = [chip('sun', 'any', 'Any sunlight', true), ...SUN_LEVELS.map((s) => chip('sun', s.id, `<span aria-hidden="true">${s.icon}</span> ${s.label}`))].join('\n      ');
   const sizeChips = [chip('size', 'any', 'Any size', true), ...SIZES.map((s) => chip('size', s.id, `<span aria-hidden="true">${s.emoji}</span> ${esc(s.short)}`))].join('\n      ');
+  const diffChips = [chip('diff', 'any', 'Any difficulty', true), ...DIFFICULTIES.map(([id, label]) => chip('diff', id, label))].join('\n      ');
   const body = `
 <h1>Plant Guide</h1>
-<p class="lead">${PLANTS.length} crops for UK gardens, each with detailed advice on sowing, growing, harvesting and storing. Pick the sunlight you have and your garden size to narrow the list.</p>
+<p class="lead">${PLANTS.length} crops for UK gardens, each with detailed advice on sowing, growing, harvesting and storing. Pick the sunlight you have, your garden size and how much experience you have to narrow the list. Each tile shows the minimum a crop needs.</p>
 <div class="filter-panel" id="plantFilters" hidden>
   <div class="filter-search"><label for="plantSearch">Search by name</label><input type="search" id="plantSearch" placeholder="For example: tomato, thyme, apple"></div>
   <fieldset class="chip-group">
@@ -388,16 +394,20 @@ function buildPlants() {
     <legend>Garden size</legend>
       ${sizeChips}
   </fieldset>
+  <fieldset class="chip-group">
+    <legend>Difficulty</legend>
+      ${diffChips}
+  </fieldset>
   <p class="muted small-note">${SUN_LEVELS.map((s) => `${s.label}: ${s.hint}`).join('. ')}. Many crops cope with more than one level, so they appear under each.</p>
   <p class="filter-status"><span id="plantCount" aria-live="polite"></span> <button type="button" class="chip chip-reset" id="plantReset" hidden>Clear filters</button></p>
 </div>
 <div class="grid" id="plantGrid">
   ${cards}
 </div>
-<div class="empty" id="plantEmpty" hidden>No crops match those filters. Try a different sunlight or garden size.</div>`;
+<div class="empty" id="plantEmpty" hidden>No crops match those filters. Try a different sunlight, garden size or difficulty.</div>`;
   addPage({
     path: '/plants/', section: 'plants', body, title: `Plant Guide: ${PLANTS.length} crops to grow in the UK`,
-    description: `Detailed sowing, growing, harvesting and storage advice for ${PLANTS.length} crops that grow well in the UK. Filter by sunlight and garden size.`,
+    description: `Detailed sowing, growing, harvesting and storage advice for ${PLANTS.length} crops that grow well in the UK. Filter by sunlight, garden size and difficulty.`,
     crumbs: [['Home', '/'], ['Plant Guide', '/plants/']],
   });
 
