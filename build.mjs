@@ -248,6 +248,8 @@ async function writePlantImages() {
     } else {
       cpSync(ph.file, join(DIST, 'img/photos', `${id}.${ph.ext}`));
       ph.src = ph.small = `/img/photos/${id}.${ph.ext}`; ph.srcset = '';
+      const thumb = join(PHOTO_DIR, `${id}-thumb.${ph.ext}`);
+      if (existsSync(thumb)) { cpSync(thumb, join(DIST, 'img/photos', `${id}-thumb.${ph.ext}`)); ph.small = `/img/photos/${id}-thumb.${ph.ext}`; }
     }
   }
 }
@@ -285,30 +287,86 @@ function growCard(p, cal) {
 }
 
 /* ---------- pages ---------- */
+const FULL_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function buildHome() {
+  const rank = { Easy: 0, Medium: 1, Hard: 2 };
+  const byEase = [...PLANTS].sort((x, y) => rank[x.difficulty] - rank[y.difficulty] || x.name.localeCompare(y.name, 'en-GB'));
+  const nowMonth = new Date().getMonth();
+  const monthPanels = FULL_MONTHS.map((name, m) => {
+    const sow = byEase.filter((p) => CALENDAR[p.id].i[m] === '1' || CALENDAR[p.id].o[m] === '1');
+    const harvest = byEase.filter((p) => CALENDAR[p.id].h[m] === '1');
+    const list = (items, label) => `<div><h3>${label} <span class="count">(${items.length})</span></h3>
+      <p class="card-tags">${items.slice(0, 14).map(plantLink).join('')}${items.length > 14 ? `<a class="tag tag-link more" href="/calendar/">+${items.length - 14} more</a>` : ''}${items.length === 0 ? '<span class="muted">Nothing this month: a good time to plan and tidy.</span>' : ''}</p></div>`;
+    return `<div class="month-panel" data-month-panel="${m}"${m === nowMonth ? '' : ' hidden'}>
+    <h2 class="month-title">In the garden in <span data-month-name>${name}</span></h2>
+    <div class="month-cols">${list(sow, 'Sow or plant')}${list(harvest, 'Harvest')}</div>
+    <p><a href="/calendar/">See the full planting calendar &rarr;</a></p>
+  </div>`;
+  }).join('\n  ');
+
+  const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale'].map((id) => plantMap.get(id)).filter(Boolean);
+  const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
+  const featuredRecipes = ['summer-pudding', 'pizza-margherita', 'butternut-squash-soup', 'apple-blackberry-crumble'].map((id) => RECIPES.find((r) => r.id === id)).filter(Boolean);
+  const recipeCards = featuredRecipes.map((r) => `<a href="/recipes/${r.id}/" class="card card-link">
+    <h3>${esc(r.title)}</h3>
+    <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
+    <p class="card-tags">${r.uses.slice(0, 3).map((u) => { const p = plantMap.get(u); return `<span class="tag">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
+  </a>`).join('\n  ');
+  const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
+
   const body = `
 <section class="hero">
   <h1>Grow your own food, whatever your garden size</h1>
   <p>From a single windowsill to a full allotment, find out what to plant, how to look after it, how to harvest it, and what to cook with it.</p>
-  <a class="btn" href="/sizes/">Find my garden size</a>
+  <form class="hero-search" action="/plants/" method="get" role="search">
+    <label class="sr-only" for="heroSearch">Search the plant guide</label>
+    <input type="search" id="heroSearch" name="q" placeholder="Search ${PLANTS.length} crops, for example tomato, mint, apple" autocomplete="off">
+    <button type="submit" class="btn">Search plants</button>
+  </form>
+  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/howto/">How to get started</a></p>
+  <ul class="hero-stats">
+    <li><strong>${PLANTS.length}</strong> crops</li>
+    <li><strong>${RECIPES.length}</strong> recipes</li>
+    <li><strong>4</strong> garden sizes</li>
+    <li><strong>12</strong> months of growing</li>
+  </ul>
 </section>
-<h2>Explore</h2>
+
+<section class="month-box" id="thisMonth">
+  ${monthPanels}
+</section>
+
+<h2>Pick your garden size</h2>
 <div class="grid">
-  ${SIZES.map((s) => `<div class="card size-card ${s.cls}">${emoji(s.emoji)}<h3>${esc(s.title)}</h3><p class="muted">${esc(s.desc)}</p><a href="/sizes/${s.id}/">See ideas &rarr;</a></div>`).join('\n  ')}
+  ${SIZES.map((s) => `<a href="/sizes/${s.id}/" class="card card-link size-card ${s.cls}">${emoji(s.emoji)}<h3>${esc(s.title)}</h3><p class="muted">${esc(s.desc)}</p><span class="more-link">See ideas &rarr;</span></a>`).join('\n  ')}
 </div>
-<h2>Quick start</h2>
+
+<h2>Popular crops to start with</h2>
+<div class="grid pop-grid">
+  ${popularCards}
+</div>
+<p><a href="/plants/">Browse all ${PLANTS.length} crops &rarr;</a></p>
+
+<h2>From the garden to the table</h2>
 <div class="grid">
-  <div class="card"><h3>Plant Guide</h3><p class="muted">${PLANTS.length} crops with sowing, care, pests and harvest.</p><a href="/plants/">Browse plants &rarr;</a></div>
-  <div class="card"><h3>Planting Calendar</h3><p class="muted">What to sow and harvest, month by month.</p><a href="/calendar/">See the calendar &rarr;</a></div>
-  <div class="card"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><a href="/howto/">Read the guide &rarr;</a></div>
-  <div class="card"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><a href="/harvest/">Learn to harvest &rarr;</a></div>
-  <div class="card"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes built around what you grow.</p><a href="/recipes/">Start cooking &rarr;</a></div>
+  ${recipeCards}
+</div>
+<p><a href="/recipes/">Browse all ${RECIPES.length} recipes &rarr;</a></p>
+
+<h2>Everything you need</h2>
+<div class="grid grid-3">
+  <a href="/plants/" class="card card-link"><h3>Plant Guide</h3><p class="muted">${PLANTS.length} crops with sowing, care, pests and harvest. Filter by sunlight, garden size and difficulty.</p><span class="more-link">Browse plants &rarr;</span></a>
+  <a href="/calendar/" class="card card-link"><h3>Planting Calendar</h3><p class="muted">What to sow and harvest, month by month.</p><span class="more-link">See the calendar &rarr;</span></a>
+  <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
+  <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
+  <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/plants/?diff=easy" class="card card-link"><h3>Beginner-friendly crops</h3><p class="muted">${easyCount} easy crops that forgive mistakes and reward you quickly.</p><span class="more-link">See easy crops &rarr;</span></a>
 </div>`;
   addPage({
     path: '/', section: 'home', fullTitle: true, body,
     title: `${SITE_NAME}: grow your own food in any size of garden`,
-    description: `Grow your own food on a balcony, patio or allotment. UK sowing and harvesting guides, a planting calendar, storage tips and recipes for ${PLANTS.length} crops.`,
-    ld: [{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: `${SITE}/` }],
+    description: `Grow your own food on a balcony, patio or allotment. UK sowing and harvesting guides, a planting calendar, storage tips and ${RECIPES.length} recipes for ${PLANTS.length} crops.`,
+    ld: [{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: `${SITE}/`, potentialAction: { '@type': 'SearchAction', target: `${SITE}/plants/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }],
   });
 }
 

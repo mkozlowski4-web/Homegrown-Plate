@@ -140,6 +140,13 @@
     applyRecipes();
   }
 
+  /* ---- Home page: show this month's panel ---- */
+  var monthPanels = $$('[data-month-panel]');
+  if (monthPanels.length) {
+    var thisMonth = String(new Date().getMonth());
+    monthPanels.forEach(function (p) { p.hidden = p.getAttribute('data-month-panel') !== thisMonth; });
+  }
+
   /* ---- Plant page: mark the current month on the at-a-glance bars ---- */
   var nowMonth = String(new Date().getMonth());
   $$('.mbar [data-m]').forEach(function (el) {
