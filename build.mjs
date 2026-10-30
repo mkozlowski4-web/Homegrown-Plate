@@ -194,7 +194,8 @@ function layout({ title, description, path, body, section, ld = [], noindex = fa
   description = trimDesc(description);
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
-  const nav = NAV.map(([label, href, key]) => `<a href="${href}"${key === section ? ' aria-current="page"' : ''}>${label}</a>`).join('\n      ');
+  const SHORT = { 'Planting Calendar': 'Calendar' };
+  const nav = NAV.filter(([, , key]) => key !== 'home').map(([label, href, key]) => `<a${key === 'garden' ? ' class="nav-cta"' : ''} href="${href}"${key === section ? ' aria-current="page"' : ''}>${SHORT[label] || label}</a>`).join('\n      ');
   return `<!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -218,9 +219,11 @@ ${ld.map(jsonLd).join('\n')}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="/">Homegrown <span>Plate</span></a>
-    <nav class="site-nav" aria-label="Main">
+  <div class="wrap header-bar">
+    <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="38" height="38" alt=""><span class="brand-text">Homegrown <span>Plate</span></span></a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
+    <nav class="site-nav" id="siteNav" aria-label="Main">
+      <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>
       ${nav}
     </nav>
   </div>
@@ -358,6 +361,7 @@ function buildHome() {
   </div>`;
   }).join('\n  ');
 
+  const heroPhotos = ['tomato', 'strawberry', 'courgette', 'potato'].map((id) => { const p = plantMap.get(id); const ph = PHOTOS.get(id); return p && ph ? `<a href="/plants/${id}/" tabindex="-1"><img src="${ph.small}" width="240" height="240" alt="" loading="eager" decoding="async"><span>${esc(p.name)}</span></a>` : ''; }).join('\n  ');
   const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale'].map((id) => plantMap.get(id)).filter(Boolean);
   const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
   const featuredRecipes = ['summer-pudding', 'pizza-margherita', 'butternut-squash-soup', 'apple-blackberry-crumble'].map((id) => RECIPES.find((r) => r.id === id)).filter(Boolean);
@@ -370,6 +374,7 @@ function buildHome() {
 
   const body = `
 <section class="hero">
+ <div class="hero-copy">
   <h1>Grow your own food, whatever your garden size</h1>
   <p>From a single windowsill to a full allotment, find out what to plant, how to look after it, how to harvest it, and what to cook with it.</p>
   <form class="hero-search" action="/plants/" method="get" role="search">
@@ -384,6 +389,10 @@ function buildHome() {
     <li><strong>4</strong> garden sizes</li>
     <li><strong>12</strong> months of growing</li>
   </ul>
+ </div>
+ <div class="hero-photos" aria-hidden="true">
+  ${heroPhotos}
+ </div>
 </section>
 
 <section class="month-box" id="thisMonth">

@@ -225,6 +225,18 @@
     if (Region.off()) paintHome();
   }
 
+
+  /* ---- Mobile menu ---- */
+  var navToggle = $('#navToggle'), siteNav = $('#siteNav');
+  if (navToggle && siteNav) {
+    document.documentElement.classList.add('js-nav');
+    navToggle.hidden = false;
+    var setNav = function (open) { siteNav.classList.toggle('open', open); navToggle.setAttribute('aria-expanded', String(open)); };
+    navToggle.addEventListener('click', function () { setNav(navToggle.getAttribute('aria-expanded') !== 'true'); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setNav(false); });
+    document.addEventListener('click', function (e) { if (!siteNav.contains(e.target) && !navToggle.contains(e.target)) setNav(false); });
+  }
+
   /* ---- Plant guide: sunlight and garden-size buttons, plus name search ---- */
   var plantFilters = $('#plantFilters');
   if (plantFilters) {
