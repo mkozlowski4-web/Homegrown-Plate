@@ -123,3 +123,34 @@ main p a:not(.tag):not(.btn), main li a { color: var(--green); }
 .vgroup p { margin: 6px 0; }
 .vgroup .vwhen { font-size: .85rem; font-weight: 600; color: #5a4a1a; }
 .card .badge-types { display: inline-block; font-size: .72rem; background: #fbe9d7; color: #8a4b12; padding: 1px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+
+/* Plant images and the "at a glance" card on plant pages */
+.pimg { display: block; border-radius: 18px; background: #eef5ee; }
+.pimg.small { width: 72px; height: 72px; margin-bottom: 8px; }
+.pimg.large { width: 160px; height: 160px; border-radius: 22px; }
+.pimg.photo { object-fit: cover; }
+.pimg.photo.large { width: 100%; height: auto; aspect-ratio: 1 / 1; }
+.grow-card { display: grid; grid-template-columns: 160px 1fr; gap: 22px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin: 14px 0 20px; }
+.gc-media { margin: 0; }
+.gc-media figcaption { font-size: .72rem; color: var(--muted); margin-top: 4px; }
+.gc-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; margin: 0 0 14px; }
+.gc-facts div { margin: 0; }
+.gc-facts dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.gc-facts dd { margin: 0; font-weight: 600; }
+.mbar { max-width: 560px; }
+.mrow { display: grid; grid-template-columns: 8.6rem 1fr; align-items: center; gap: 8px; margin: 4px 0; font-size: .82rem; }
+.mlabel { color: var(--muted); }
+.mcells { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+.mcells i { display: block; height: 14px; border-radius: 3px; background: #edf1ec; }
+.mcells b { font-weight: 600; font-size: .68rem; text-align: center; color: var(--muted); }
+.mcells b.now { color: var(--green); text-decoration: underline; }
+.m-i .mcells i.on { background: #5aa9c9; }
+.m-o .mcells i.on { background: var(--leaf); }
+.m-h .mcells i.on { background: #f0a030; }
+.mcells i.now { outline: 2px solid var(--ink); outline-offset: 0; }
+@media (max-width: 640px) {
+  .grow-card { grid-template-columns: 1fr; gap: 14px; }
+  .pimg.large, .pimg.photo.large { width: 120px; height: 120px; }
+  .mrow { grid-template-columns: 1fr; gap: 2px; }
+  .mrow.mhead .mlabel { display: none; }
+}

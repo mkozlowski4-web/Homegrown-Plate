@@ -119,6 +119,12 @@
     });
   }
 
+  /* ---- Plant page: mark the current month on the at-a-glance bars ---- */
+  var nowMonth = String(new Date().getMonth());
+  $$('.mbar [data-m]').forEach(function (el) {
+    if (el.getAttribute('data-m') === nowMonth) el.classList.add('now');
+  });
+
   /* ---- Planting calendar: size filter and current month ---- */
   var calFilters = $('#calFilters');
   if (calFilters) {

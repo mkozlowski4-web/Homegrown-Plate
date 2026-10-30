@@ -53,3 +53,7 @@ Timings are typical UK estimates. Check them against your local frost dates.
 ## What the build produces
 
 A page per section, crop, garden size and recipe, plus `sitemap.xml`, `robots.txt`, a `404.html`, page titles and descriptions, canonical and social tags, and recipe and breadcrumb structured data. Old `/#/plants/tomato` style links forward to the new addresses.
+
+## Plant images
+
+Every plant has a drawn illustration (generated from `src/illustrations.mjs`). To use a real photo instead, drop `src/photos/<plant-id>.jpg` and optionally describe and credit it in `src/photos/photos.json`; see `src/photos/README.md`.

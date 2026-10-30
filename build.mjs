@@ -2,7 +2,7 @@
    Reads the data in src/data, writes a real HTML page for every section, crop,
    garden size and recipe into dist/, plus sitemap.xml, robots.txt and a 404 page.
    No dependencies: run with `node build.mjs` (or `npm run build`). */
-import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,6 +12,7 @@ import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
+import { illustration } from './src/illustrations.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -157,7 +158,7 @@ const NAV = [
   ['Recipes', '/recipes/', 'recipes'],
 ];
 
-function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false }) {
+function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
   const nav = NAV.map(([label, href, key]) => `<a href="${href}"${key === section ? ' aria-current="page"' : ''}>${label}</a>`).join('\n      ');
@@ -175,7 +176,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <meta property="og:title" content="${esc(pageTitle)}">
 <meta property="og:description" content="${esc(description)}">
 ${noindex ? '' : `<meta property="og:url" content="${url}">\n`}<meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
+${image ? `<meta property="og:image" content="${SITE}${image}">\n<meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css?v=${assetVersion['style.css']}">
 ${ld.map(jsonLd).join('\n')}
@@ -220,6 +221,66 @@ function addPage({ path, ...opts }) {
 
 const emoji = (e) => `<span class="emoji" aria-hidden="true">${e}</span>`;
 const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link">${p.emoji} ${esc(p.name)}</a>`;
+
+
+/* ---------- plant images: drop-in photos, otherwise a drawn illustration ---------- */
+const PHOTO_DIR = join(ROOT, 'src/photos');
+const photoMeta = existsSync(join(PHOTO_DIR, 'photos.json')) ? JSON.parse(readFileSync(join(PHOTO_DIR, 'photos.json'), 'utf8')) : {};
+let sharp = null;
+try { sharp = (await import('sharp')).default; } catch { /* optional: photos are copied as-is without it */ }
+const PHOTOS = new Map();
+for (const p of PLANTS) {
+  const ext = ['jpg', 'jpeg', 'png', 'webp'].find((e) => existsSync(join(PHOTO_DIR, `${p.id}.${e}`)));
+  if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '' });
+}
+async function writePlantImages() {
+  mkdirSync(join(DIST, 'img/plants'), { recursive: true });
+  for (const p of PLANTS) writeFileSync(join(DIST, 'img/plants', `${p.id}.svg`), illustration(p.id));
+  if (!PHOTOS.size) return;
+  mkdirSync(join(DIST, 'img/photos'), { recursive: true });
+  for (const [id, ph] of PHOTOS) {
+    if (sharp) {
+      for (const w of [480, 960]) await sharp(ph.file).rotate().resize({ width: w, withoutEnlargement: true }).webp({ quality: 78 }).toFile(join(DIST, 'img/photos', `${id}-${w}.webp`));
+      ph.src = `/img/photos/${id}-960.webp`; ph.small = `/img/photos/${id}-480.webp`;
+      ph.srcset = `/img/photos/${id}-480.webp 480w, /img/photos/${id}-960.webp 960w`;
+    } else {
+      cpSync(ph.file, join(DIST, 'img/photos', `${id}.${ph.ext}`));
+      ph.src = ph.small = `/img/photos/${id}.${ph.ext}`; ph.srcset = '';
+    }
+  }
+}
+/* Small image for cards and lists: the photo if there is one, else the illustration. */
+function plantImg(p, size = 'small') {
+  const ph = PHOTOS.get(p.id);
+  const px = size === 'large' ? 160 : 72;
+  if (ph) return `<img class="pimg photo ${size}" src="${size === 'large' ? ph.src : ph.small}" width="${px}" height="${px}" alt="${size === 'large' ? esc(ph.alt) : ''}" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
+  return `<img class="pimg ${size}" src="/img/plants/${p.id}.svg" width="${px}" height="${px}" alt="" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
+}
+const MONTH_LETTERS = 'JFMAMJJASOND';
+function growCard(p, cal) {
+  const rows = [['Sow or start indoors', cal.i, 'i'], ['Sow or plant outside', cal.o, 'o'], ['Harvest', cal.h, 'h']].filter(([, bits]) => bits.includes('1'));
+  const cells = (bits) => [...bits].map((b, k) => `<i${b === '1' ? ' class="on"' : ''} data-m="${k}"></i>`).join('');
+  const ph = PHOTOS.get(p.id);
+  const harvestTime = p.facts.find(([l]) => l === 'Time to harvest');
+  const media = ph
+    ? `<figure class="gc-media">${plantImg(p, 'large')}${ph.credit ? `<figcaption>${ph.creditUrl ? `<a href="${esc(ph.creditUrl)}" rel="noopener">${esc(ph.credit)}</a>` : esc(ph.credit)}</figcaption>` : ''}</figure>`
+    : `<div class="gc-media">${plantImg(p, 'large')}</div>`;
+  return `<section class="grow-card" aria-label="${esc(p.name)} at a glance">
+  ${media}
+  <div class="gc-body">
+    <dl class="gc-facts">
+      <div><dt>Sunlight</dt><dd>${p.sun.map((id) => `${sunLevel.get(id).icon} ${esc(sunLevel.get(id).label)}`).join(', ')}</dd></div>
+      <div><dt>Garden sizes</dt><dd>${p.sizes.map((id) => esc(sizeMap.get(id).short)).join(', ')}</dd></div>
+      <div><dt>Difficulty</dt><dd>${esc(p.difficulty)}</dd></div>
+      ${harvestTime ? `<div><dt>Time to harvest</dt><dd>${esc(harvestTime[1])}</dd></div>` : ''}
+    </dl>
+    <div class="mbar">
+      <div class="mrow mhead"><span class="mlabel"></span><span class="mcells" aria-hidden="true">${[...MONTH_LETTERS].map((c, k) => `<b data-m="${k}">${c}</b>`).join('')}</span></div>
+      ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n      ')}
+    </div>
+  </div>
+</section>`;
+}
 
 /* ---------- pages ---------- */
 function buildHome() {
@@ -280,7 +341,7 @@ function buildSizes() {
 <h2>Recommended crops (${crops.length})</h2>
 <p><a href="/plants/?size=${s.id}">Filter the Plant Guide for this garden size &rarr;</a></p>
 <div class="grid">
-  ${crops.map((p) => `<div class="card">${emoji(p.emoji)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
+  ${crops.map((p) => `<div class="card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
 </div>`;
     addPage({
       path: `/sizes/${s.id}/`, section: 'sizes', body: detail,
@@ -306,7 +367,7 @@ const chip = (group, value, label, pressed = false) =>
 
 function buildPlants() {
   const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
-    ${emoji(p.emoji)}
+    ${plantImg(p)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
     <span class="tag warm">${esc(sunLevel.get(p.sun[0]).label)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
@@ -361,13 +422,9 @@ function buildPlants() {
 
     const body2 = `
 <a class="back" href="/plants/">&larr; Plant Guide</a>
-<h1>${emoji(p.emoji)} ${esc(p.name)}</h1>
+<h1>${esc(p.name)}</h1>
 <p class="latin">${esc(p.latin)}</p>
-<p>
-  <span class="tag">Difficulty: ${esc(p.difficulty)}</span>
-  ${p.sun.map((id) => `<a class="tag warm tag-link" href="/plants/?sun=${id}">${sunLevel.get(id).icon} ${esc(sunLevel.get(id).label)}</a>`).join('\n  ')}
-  ${p.sizes.map((id) => `<a class="tag tag-link" href="/sizes/${id}/">${esc(sizeMap.get(id).short)}</a>`).join('\n  ')}
-</p>
+${growCard(p, cal)}
 <p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
 ${accordion('info', 'Info', infoBody, true)}
 ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
@@ -381,6 +438,7 @@ ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
       path: `/plants/${p.id}/`, section: 'plants', body: body2, title: `How to grow ${p.name} in the UK`,
       description: `How to grow ${lower(p.name)} in the UK: when and how to sow, growing care, harvesting, storage and cooking tips. ${p.sunText}.`,
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
+      image: PHOTOS.get(p.id)?.src || '',
     });
   }
 }
@@ -553,6 +611,7 @@ for (const f of ['style.css', 'site.js']) {
 cpSync(join(ROOT, 'src/assets/favicon.svg'), join(DIST, 'favicon.svg'));
 cpSync(join(ROOT, 'static'), DIST, { recursive: true });
 
+await writePlantImages();
 buildHome();
 buildSizes();
 buildPlants();
