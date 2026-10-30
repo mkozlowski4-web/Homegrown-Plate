@@ -658,11 +658,36 @@
     calFilters.hidden = false;
     var calSel = $('#calSize');
     var rows = $$('[data-calrow]');
-    calSel.addEventListener('change', function () {
-      var size = calSel.value;
+    var calMine = $('#calMine');
+    var applyCal = function () {
+      var size = calSel.value, mineOnly = calMine.checked, mine = loadGarden(), shown = 0;
       rows.forEach(function (row) {
-        row.hidden = !(size === 'all' || row.getAttribute('data-sizes').split(' ').indexOf(size) > -1);
+        var ok = (size === 'all' || row.getAttribute('data-sizes').split(' ').indexOf(size) > -1) && (!mineOnly || mine.indexOf(row.getAttribute('data-id')) > -1);
+        row.hidden = !ok; if (ok) shown++;
       });
+      var empty = $('#calEmpty');
+      if (empty) empty.hidden = shown > 0;
+    };
+    calSel.addEventListener('change', applyCal);
+    calMine.addEventListener('change', applyCal);
+    /* Add to my garden: a button beside each crop name */
+    rows.forEach(function (row) {
+      var id = row.getAttribute('data-id'), th = row.querySelector('th'), name = th.textContent.trim();
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'cal-add';
+      var paint = function () {
+        var has = loadGarden().indexOf(id) > -1;
+        b.setAttribute('aria-pressed', String(has));
+        b.textContent = has ? '\u2713' : '+';
+        b.title = has ? 'In my garden (tap to remove)' : 'Add to my garden';
+        b.setAttribute('aria-label', has ? name + ' is in my garden. Remove it' : 'Add ' + name + ' to my garden');
+      };
+      b.addEventListener('click', function () {
+        var list = loadGarden(), at = list.indexOf(id);
+        if (at > -1) list.splice(at, 1); else list.push(id);
+        saveGarden(list); paint(); if (calMine.checked) applyCal();
+      });
+      paint(); th.appendChild(b);
     });
     var now = String(new Date().getMonth());
     $$('[data-month]').forEach(function (th) {

@@ -824,7 +824,7 @@ ${regionBar()}
   <span><i class="sw-har"></i>Harvest</span>
 </div>
 <div class="filters" id="calFilters" hidden>
-  <div></div>
+  <div><label class="check"><input type="checkbox" id="calMine"> Show only crops in my garden</label> <a class="garden-link" href="/my-garden/">Open my garden</a></div>
   <div><label for="calSize">Garden size</label>
     <select id="calSize">
       <option value="all">All garden sizes</option>
@@ -832,6 +832,7 @@ ${regionBar()}
     </select>
   </div>
 </div>
+<p class="empty" id="calEmpty" hidden>No crops to show. Add crops with the + button beside each name, or clear the filters.</p>
 <div class="cal-wrap">
   <table class="cal">
     <caption class="sr-only">UK planting calendar by month</caption>

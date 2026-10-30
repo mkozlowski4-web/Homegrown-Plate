@@ -246,3 +246,9 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .region-more>summary{cursor:pointer;color:var(--green);font-weight:600;margin-top:.3rem}
 .region-status{line-height:1.5}
 .region-manual{margin-top:.5rem}.region-manual label{font-weight:600}
+
+.cal-add{margin-left:8px;width:26px;height:26px;border-radius:50%;border:1px solid var(--green);background:#fff;color:var(--green);font:inherit;font-weight:700;line-height:1;cursor:pointer;vertical-align:middle}
+.cal-add[aria-pressed="true"]{background:var(--green);color:#fff}
+.check{display:inline-flex;gap:.4rem;align-items:center;font-weight:600}
+@media (pointer: coarse){.cal-add{width:34px;height:34px}}
+.filters .garden-link{color:var(--green);font-weight:600;margin-left:.5rem}
