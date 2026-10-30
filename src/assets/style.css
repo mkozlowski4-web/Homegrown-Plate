@@ -178,3 +178,29 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr 1fr; } .month-cols { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .grid-3 { grid-template-columns: 1fr; } .hero { padding: 32px 20px; } .hero-search { flex-direction: column; } .hero-search .btn { width: 100%; } }
 @media (max-width: 560px) { .pop-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---- My Garden ---- */
+.garden-layout { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; margin-top: 16px; }
+.garden-layout h2, .month-nav h2 { margin-top: 0; }
+.garden-results, .garden-chips, .job-list { list-style: none; padding: 0; margin: 8px 0 0; }
+.garden-results { max-height: 320px; overflow: auto; }
+.garden-results li { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.garden-results img, .garden-chips img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; background: #eef5ee; flex: none; }
+.garden-results .g-name { flex: 1; }
+.g-btn, .btn-garden { background: var(--green); color: #fff; border: 0; border-radius: 999px; padding: 6px 14px; font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+.g-btn[aria-pressed="true"], .btn-garden[aria-pressed="true"] { background: #e6f4ec; color: var(--green); }
+.garden-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.garden-chips li { display: flex; align-items: center; gap: 8px; background: #e6f4ec; border-radius: 999px; padding: 4px 6px 4px 6px; }
+.garden-chips .g-x { background: none; border: 0; cursor: pointer; font-size: 1.1rem; color: var(--green); padding: 0 6px; }
+.month-nav { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.month-nav h2 { flex: 0 1 auto; }
+.jobs-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); margin-top: 12px; }
+.job-card h3 { margin-bottom: 4px; }
+.job-card .job-list li { padding: 5px 0; }
+.job-card label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.job-card input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--green); flex: none; }
+.job-card input:checked + span { text-decoration: line-through; color: var(--muted); }
+.job-card .none { color: var(--muted); }
+.garden-add-row { margin: 12px 0; }
+.garden-link { margin-left: 8px; font-weight: 600; }
+@media (max-width: 800px) { .garden-layout, .jobs-grid { grid-template-columns: 1fr; } }

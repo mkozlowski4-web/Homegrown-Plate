@@ -158,6 +158,7 @@ const NAV = [
   ['How-To', '/howto/', 'howto'],
   ['Harvesting', '/harvest/', 'harvest'],
   ['Recipes', '/recipes/', 'recipes'],
+  ['My Garden', '/my-garden/', 'garden'],
 ];
 
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
@@ -323,7 +324,7 @@ function buildHome() {
     <input type="search" id="heroSearch" name="q" placeholder="Search ${PLANTS.length} crops, for example tomato, mint, apple" autocomplete="off">
     <button type="submit" class="btn">Search plants</button>
   </form>
-  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/howto/">How to get started</a></p>
+  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/my-garden/">Build my garden</a> <span aria-hidden="true">&middot;</span> <a href="/howto/">How to get started</a></p>
   <ul class="hero-stats">
     <li><strong>${PLANTS.length}</strong> crops</li>
     <li><strong>${RECIPES.length}</strong> recipes</li>
@@ -360,6 +361,7 @@ function buildHome() {
   <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
   <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
   <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/my-garden/" class="card card-link"><h3>My Garden</h3><p class="muted">Add the crops you grow and get a checklist of jobs and recipes for every month. Free, no sign-up.</p><span class="more-link">Build my garden &rarr;</span></a>
   <a href="/plants/?diff=easy" class="card card-link"><h3>Beginner-friendly crops</h3><p class="muted">${easyCount} easy crops that forgive mistakes and reward you quickly.</p><span class="more-link">See easy crops &rarr;</span></a>
 </div>`;
   addPage({
@@ -367,6 +369,52 @@ function buildHome() {
     title: `${SITE_NAME}: grow your own food in any size of garden`,
     description: `Grow your own food on a balcony, patio or allotment. UK sowing and harvesting guides, a planting calendar, storage tips and ${RECIPES.length} recipes for ${PLANTS.length} crops.`,
     ld: [{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: `${SITE}/`, potentialAction: { '@type': 'SearchAction', target: `${SITE}/plants/?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }],
+  });
+}
+
+function buildMyGarden() {
+  const data = {
+    plants: PLANTS.map((p) => ({ id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg` })),
+    recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
+  };
+  const json = JSON.stringify(data);
+  const ver = createHash('sha1').update(json).digest('hex').slice(0, 8);
+  writeFileSync(join(DIST, 'assets', 'garden-data.json'), json);
+  const body = `
+<h1>My Garden</h1>
+<p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed.</p>
+<noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
+<div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
+  <div class="garden-layout">
+    <section class="card garden-picker" aria-labelledby="gPickTitle">
+      <h2 id="gPickTitle">Add crops</h2>
+      <label class="sr-only" for="gSearch">Search crops to add</label>
+      <input type="search" id="gSearch" placeholder="Search ${PLANTS.length} crops, for example tomato" autocomplete="off">
+      <p class="muted small-note" id="gHint">Popular crops to start with:</p>
+      <ul class="garden-results" id="gResults"></ul>
+    </section>
+    <section class="card garden-mine" aria-labelledby="gMineTitle">
+      <h2 id="gMineTitle">Your garden <span class="count" id="gCount"></span></h2>
+      <p class="muted" id="gEmpty">Nothing here yet. Add a few crops on the left and your monthly jobs will appear below.</p>
+      <ul class="garden-chips" id="gSelected"></ul>
+      <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
+    </section>
+  </div>
+  <div class="month-nav">
+    <button type="button" class="chip" id="gPrev" aria-label="Previous month">&larr;</button>
+    <h2 id="gMonthTitle" aria-live="polite"></h2>
+    <button type="button" class="chip" id="gNext" aria-label="Next month">&rarr;</button>
+    <button type="button" class="chip" id="gToday" hidden>Back to this month</button>
+  </div>
+  <div id="gJobs" class="jobs-grid"></div>
+  <p class="muted small-note">Tick jobs off as you go and your ticks are remembered. Sowing and harvest months follow typical UK conditions, so adjust for your local frost dates and weather. Reminders for watering, feeding and pruning are planned for a later version.</p>
+  <h2 id="gRecipeTitle">Recipes for this month</h2>
+  <div class="grid" id="gRecipes"></div>
+</div>`;
+  addPage({
+    path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for the crops you grow',
+    description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free, no sign-up.',
+    crumbs: [['Home', '/'], ['My Garden', '/my-garden/']],
   });
 }
 
@@ -495,6 +543,7 @@ function buildPlants() {
 <h1>${esc(p.name)}</h1>
 <p class="latin">${esc(p.latin)}</p>
 ${growCard(p, cal)}
+<p class="garden-add-row"><button type="button" class="btn-garden" data-garden-add="${p.id}" data-name="${esc(p.name)}" hidden>+ Add ${esc(p.name)} to my garden</button> <a class="garden-link" href="/my-garden/" hidden>Open my garden</a></p>
 <p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
 ${accordion('info', 'Info', infoBody, true)}
 ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
@@ -690,6 +739,7 @@ buildHome();
 buildSizes();
 buildPlants();
 buildRecipes();
+buildMyGarden();
 buildCalendar();
 buildGuides();
 build404();

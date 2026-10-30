@@ -140,6 +140,193 @@
     applyRecipes();
   }
 
+  /* ---- My Garden: crops saved in this browser, monthly jobs and recipes ---- */
+  var KEY = 'hp-garden';
+  var loadGarden = function () {
+    try { var v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v.filter(function (x) { return typeof x === 'string'; }) : []; } catch (e) { return []; }
+  };
+  var saveGarden = function (list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* storage unavailable */ } };
+  var garden = loadGarden();
+
+  /* Add / remove button on each plant page */
+  var addBtn = $('[data-garden-add]');
+  if (addBtn) {
+    var openLink = $('.garden-link');
+    var gid = addBtn.getAttribute('data-garden-add');
+    var gname = addBtn.getAttribute('data-name');
+    var paintAdd = function () {
+      var has = garden.indexOf(gid) > -1;
+      addBtn.setAttribute('aria-pressed', String(has));
+      addBtn.textContent = has ? '✓ ' + gname + ' is in my garden (remove)' : '+ Add ' + gname + ' to my garden';
+      if (openLink) openLink.hidden = !has;
+    };
+    addBtn.hidden = false;
+    addBtn.addEventListener('click', function () {
+      garden = loadGarden();
+      var at = garden.indexOf(gid);
+      if (at > -1) garden.splice(at, 1); else garden.push(gid);
+      saveGarden(garden);
+      paintAdd();
+    });
+    paintAdd();
+  }
+
+  var gRoot = $('#myGarden');
+  if (gRoot) {
+    var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var POPULAR = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale', 'lettuce', 'mint', 'apple', 'garlic'];
+    var gData = null, byId = {};
+    var now = new Date();
+    var view = { y: now.getFullYear(), m: now.getMonth() };
+    var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+    var doneKey = function () { return 'hp-garden-done-' + view.y + '-' + view.m; };
+    var loadDone = function () { try { var v = JSON.parse(localStorage.getItem(doneKey()) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+    var saveDone = function (list) { try { localStorage.setItem(doneKey(), JSON.stringify(list)); } catch (e) { /* ignore */ } };
+    var gSearch = $('#gSearch'), gResults = $('#gResults'), gHint = $('#gHint');
+    var gSelected = $('#gSelected'), gEmpty = $('#gEmpty'), gCount = $('#gCount'), gClear = $('#gClear');
+    var gJobs = $('#gJobs'), gRecipes = $('#gRecipes');
+
+    var plantImgEl = function (p) { var i = el('img'); i.src = p.img; i.alt = ''; i.width = 36; i.height = 36; i.loading = 'lazy'; return i; };
+
+    var renderResults = function () {
+      var term = gSearch.value.trim().toLowerCase();
+      var list;
+      if (term) {
+        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1; }).slice(0, 30);
+        gHint.textContent = list.length ? 'Matching crops:' : 'No crops match that search.';
+      } else {
+        list = POPULAR.map(function (id) { return byId[id]; }).filter(Boolean);
+        gHint.textContent = 'Popular crops to start with:';
+      }
+      gResults.textContent = '';
+      list.forEach(function (p) {
+        var has = garden.indexOf(p.id) > -1;
+        var li = el('li');
+        li.appendChild(plantImgEl(p));
+        li.appendChild(el('span', 'g-name', p.n));
+        var b = el('button', 'g-btn', has ? 'Added ✓' : 'Add');
+        b.type = 'button';
+        b.setAttribute('aria-pressed', String(has));
+        b.setAttribute('aria-label', (has ? 'Remove ' : 'Add ') + p.n + (has ? ' from' : ' to') + ' my garden');
+        b.addEventListener('click', function () { toggle(p.id); });
+        li.appendChild(b);
+        gResults.appendChild(li);
+      });
+    };
+
+    var renderMine = function () {
+      gSelected.textContent = '';
+      var mine = garden.map(function (id) { return byId[id]; }).filter(Boolean);
+      mine.forEach(function (p) {
+        var li = el('li');
+        li.appendChild(plantImgEl(p));
+        var a = el('a', null, p.n); a.href = '/plants/' + p.id + '/'; li.appendChild(a);
+        var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + p.n);
+        x.addEventListener('click', function () { toggle(p.id); });
+        li.appendChild(x);
+        gSelected.appendChild(li);
+      });
+      gEmpty.hidden = mine.length > 0;
+      gClear.hidden = mine.length === 0;
+      gCount.textContent = mine.length ? '(' + mine.length + ')' : '';
+    };
+
+    var jobCard = function (title, hint, plants, type, done) {
+      var card = el('section', 'card job-card');
+      card.appendChild(el('h3', null, title));
+      card.appendChild(el('p', 'muted small-note', hint));
+      var ul = el('ul', 'job-list');
+      if (!plants.length) ul.appendChild(el('li', 'none', 'Nothing to do here this month.'));
+      plants.forEach(function (p) {
+        var id = p.id + ':' + type;
+        var li = el('li');
+        var lab = el('label');
+        var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
+        cb.addEventListener('change', function () {
+          var d = loadDone(); var at = d.indexOf(id);
+          if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1);
+          saveDone(d);
+        });
+        lab.appendChild(cb);
+        lab.appendChild(el('span', null, p.e + ' ' + p.n));
+        li.appendChild(lab);
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      return card;
+    };
+
+    var renderMonth = function () {
+      var m = view.m;
+      var isNow = view.y === now.getFullYear() && m === now.getMonth();
+      $('#gMonthTitle').textContent = MONTH_NAMES[m] + ' ' + view.y;
+      $('#gToday').hidden = isNow;
+      $('#gRecipeTitle').textContent = 'Recipes for ' + MONTH_NAMES[m];
+      var mine = garden.map(function (id) { return byId[id]; }).filter(Boolean);
+      var done = loadDone();
+      gJobs.textContent = '';
+      gRecipes.textContent = '';
+      if (!mine.length) {
+        gJobs.appendChild(el('p', 'empty', 'Add some crops to see your jobs for ' + MONTH_NAMES[m] + '.'));
+        return;
+      }
+      var at = function (key) { return mine.filter(function (p) { return p[key].charAt(m) === '1'; }); };
+      var harvest = at('h');
+      gJobs.appendChild(jobCard('Sow indoors', 'Start under cover on a windowsill or in a greenhouse.', at('i'), 'i', done));
+      gJobs.appendChild(jobCard('Sow or plant outside', 'Direct sow, or plant out young plants, bare-root trees and bushes.', at('o'), 'o', done));
+      gJobs.appendChild(jobCard('Harvest', 'Ready to pick or lift this month.', harvest, 'h', done));
+
+      var inGarden = {}, inHarvest = {};
+      mine.forEach(function (p) { inGarden[p.id] = true; });
+      harvest.forEach(function (p) { inHarvest[p.id] = true; });
+      var scored = gData.recipes.map(function (r) {
+        var hv = r.u.filter(function (u) { return inHarvest[u]; });
+        var gd = r.u.filter(function (u) { return inGarden[u]; });
+        return { r: r, hv: hv, gd: gd, score: hv.length * 3 + gd.length };
+      }).filter(function (s) { return s.score > 0; }).sort(function (a, b) { return b.score - a.score || a.r.t.localeCompare(b.r.t); }).slice(0, 6);
+      if (!scored.length) {
+        gRecipes.appendChild(el('p', 'empty', 'No recipes match your crops yet. Add more crops to get ideas.'));
+        return;
+      }
+      scored.forEach(function (s) {
+        var a = el('a', 'card card-link'); a.href = '/recipes/' + s.r.id + '/';
+        a.appendChild(el('h3', null, s.r.t));
+        a.appendChild(el('p', 'muted card-meta', s.r.m));
+        var tags = el('p', 'card-tags');
+        s.gd.forEach(function (u) { tags.appendChild(el('span', 'tag' + (inHarvest[u] ? '' : ' warm'), byId[u].e + ' ' + byId[u].n + (inHarvest[u] ? ' (in season)' : ''))); });
+        a.appendChild(tags);
+        gRecipes.appendChild(a);
+      });
+    };
+
+    var toggle = function (id) {
+      var at = garden.indexOf(id);
+      if (at > -1) garden.splice(at, 1); else garden.push(id);
+      saveGarden(garden);
+      renderResults(); renderMine(); renderMonth();
+    };
+
+    gSearch.addEventListener('input', renderResults);
+    gClear.addEventListener('click', function () {
+      if (window.confirm('Remove every crop from your garden?')) { garden = []; saveGarden(garden); renderResults(); renderMine(); renderMonth(); }
+    });
+    var shift = function (d) { view.m += d; if (view.m < 0) { view.m = 11; view.y--; } if (view.m > 11) { view.m = 0; view.y++; } renderMonth(); };
+    $('#gPrev').addEventListener('click', function () { shift(-1); });
+    $('#gNext').addEventListener('click', function () { shift(1); });
+    $('#gToday').addEventListener('click', function () { view = { y: now.getFullYear(), m: now.getMonth() }; renderMonth(); });
+
+    fetch(gRoot.getAttribute('data-src')).then(function (r) { return r.json(); }).then(function (d) {
+      gData = d;
+      d.plants.forEach(function (p) { byId[p.id] = p; });
+      garden = loadGarden().filter(function (id) { return byId[id]; });
+      gRoot.hidden = false;
+      renderResults(); renderMine(); renderMonth();
+    }).catch(function () {
+      gRoot.hidden = false;
+      gRoot.textContent = 'Sorry, My Garden could not load. Please refresh the page.';
+    });
+  }
+
   /* ---- Home page: show this month's panel ---- */
   var monthPanels = $$('[data-month-panel]');
   if (monthPanels.length) {
