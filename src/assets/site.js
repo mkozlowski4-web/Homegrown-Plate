@@ -256,6 +256,42 @@
       return card;
     };
 
+    var careCard = function (mine, m, done) {
+      var card = el('section', 'card job-card care-card');
+      card.appendChild(el('h3', null, 'Care jobs'));
+      card.appendChild(el('p', 'muted small-note', 'Watering, feeding, pruning and protecting your crops this month.'));
+      var ul = el('ul', 'job-list');
+      var count = 0, missing = 0;
+      mine.forEach(function (p) {
+        if (!p.c || !p.c.length) { missing++; return; }
+        p.c.forEach(function (t, idx) {
+          if (t[0].charAt(m) !== '1') return;
+          count++;
+          var id = p.id + ':c' + idx;
+          var li = el('li');
+          var lab = el('label');
+          var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
+          cb.addEventListener('change', function () {
+            var d = loadDone(); var at = d.indexOf(id);
+            if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1);
+            saveDone(d);
+          });
+          lab.appendChild(cb);
+          var sp = el('span', 'care-text');
+          var strong = el('strong', null, p.e + ' ' + p.n + ': ');
+          sp.appendChild(strong);
+          sp.appendChild(document.createTextNode(t[1]));
+          lab.appendChild(sp);
+          li.appendChild(lab);
+          ul.appendChild(li);
+        });
+      });
+      if (!count) ul.appendChild(el('li', 'none', 'No care jobs for your crops this month.'));
+      card.appendChild(ul);
+      if (missing) card.appendChild(el('p', 'muted small-note', 'Care jobs are still being written for ' + missing + (missing === 1 ? ' of your crops' : ' of your crops') + '. More are added regularly.'));
+      return card;
+    };
+
     var renderMonth = function () {
       var m = view.m;
       var isNow = view.y === now.getFullYear() && m === now.getMonth();
@@ -275,6 +311,7 @@
       gJobs.appendChild(jobCard('Sow indoors', 'Start under cover on a windowsill or in a greenhouse.', at('i'), 'i', done));
       gJobs.appendChild(jobCard('Sow or plant outside', 'Direct sow, or plant out young plants, bare-root trees and bushes.', at('o'), 'o', done));
       gJobs.appendChild(jobCard('Harvest', 'Ready to pick or lift this month.', harvest, 'h', done));
+      gJobs.appendChild(careCard(mine, m, done));
 
       var inGarden = {}, inHarvest = {};
       mine.forEach(function (p) { inGarden[p.id] = true; });

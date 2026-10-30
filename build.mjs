@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { PLANTS } from './src/data/plants.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
+import { CARE } from './src/data/care.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
@@ -123,6 +124,10 @@ function validate() {
       if (!p) soft(`Size ${s.id} recommends unknown plant "${id}"`);
       else if (!p.sizes.includes(s.id)) errors.push(`Size ${s.id} recommends ${id}, but ${id} does not list ${s.id} in its sizes`);
     }
+  }
+  for (const [id, tasks] of Object.entries(CARE)) {
+    if (!plantMap.has(id)) { errors.push(`Care data for unknown plant "${id}"`); continue; }
+    tasks.forEach(([spec, text], k) => { if (!careBits(spec)) errors.push(`Care task ${k + 1} for ${id} has bad months "${spec}"`); if (!text || text.length < 25) errors.push(`Care task ${k + 1} for ${id} is too short`); });
   }
   for (const r of RECIPES) if (!RECIPE_CATEGORY_OF.has(r.id)) errors.push(`Recipe ${r.id} has no category in recipe-categories.mjs`);
   for (const r of RECIPES) for (const id of r.uses) if (!plantMap.has(id)) soft(`Recipe ${r.id} uses unknown plant "${id}"`);
@@ -287,6 +292,21 @@ function growCard(p, cal) {
 </section>`;
 }
 
+
+/* Care tasks: expand "4-8", "11-2" or "4,9" into a 12-character 0/1 string. */
+function careBits(spec) {
+  const bits = Array(12).fill('0');
+  for (const part of String(spec).split(',')) {
+    const m = part.trim().match(/^(\d{1,2})(?:-(\d{1,2}))?$/);
+    if (!m) return null;
+    const from = Number(m[1]); const to = m[2] ? Number(m[2]) : from;
+    if (from < 1 || from > 12 || to < 1 || to > 12) return null;
+    for (let k = from; ; k = (k % 12) + 1) { bits[k - 1] = '1'; if (k === to) break; }
+  }
+  return bits.join('');
+}
+const careFor = (id) => (CARE[id] || []).map(([spec, text]) => [careBits(spec), text]);
+
 /* ---------- pages ---------- */
 const FULL_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function buildHome() {
@@ -374,7 +394,7 @@ function buildHome() {
 
 function buildMyGarden() {
   const data = {
-    plants: PLANTS.map((p) => ({ id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg` })),
+    plants: PLANTS.map((p) => ({ id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, c: careFor(p.id) })),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
   };
   const json = JSON.stringify(data);
@@ -478,6 +498,16 @@ const minSun = (p) => [...SUN_LEVELS].reverse().find((s) => p.sun.includes(s.id)
 const minSize = (p) => SIZES.find((s) => p.sizes.includes(s.id)).id;
 const DIFFICULTIES = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard']];
 
+function careSection(p) {
+  const tasks = careFor(p.id);
+  if (!tasks.length) return '';
+  const rows = tasks.map(([bits, text]) => `<li><span class="care-when">${esc(monthRanges(bits))}</span> ${esc(text)}</li>`).join('\n  ');
+  return `<section class="care-list" aria-labelledby="care-h"><h2 id="care-h">Care through the year</h2>
+<ul class="care-ul">
+  ${rows}
+</ul></section>`;
+}
+
 function buildPlants() {
   const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
@@ -550,6 +580,7 @@ ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
 ${accordion('how-to-grow', 'How to grow', growBody)}
 ${accordion('how-to-harvest', 'How to harvest', harvestBody)}
 ${accordion('usage-and-storage', 'Usage and storage', useBody)}
+${careSection(p)}
 <p class="muted small-note">Timings are typical for the UK and vary with region, frost dates and variety. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>
 ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
 <div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}`;

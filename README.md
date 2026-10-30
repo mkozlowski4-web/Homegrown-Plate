@@ -46,6 +46,7 @@ Custom domains are `homegrownplate.co.uk` (the canonical address used in page ta
 
 - **Add a crop:** copy an entry in `src/data/plants.mjs`, give it a unique lowercase `id`, list the garden sizes it suits, then add a matching line in `src/data/calendar.mjs` and (optionally) list it under the sizes in `sizes.mjs`.
 - **Add a recipe:** copy an entry in one of the files in `src/data/recipes/` (or the starter list in `src/data/recipes.mjs`). The `id` becomes the web address, and `uses` lists the crop ids it features.
+- **Add care tasks:** edit `src/data/care.mjs`. Each crop has a list of `[months, text]` jobs (months like `"4-8"` or `"11-2"`). They show on the plant page and in My Garden.
 - **Calendar timings:** each is 12 characters, January to December, `1` meaning active. `i` = sow indoors, `o` = sow or plant outside, `h` = harvest.
 
 Timings are typical UK estimates. Check them against your local frost dates.
