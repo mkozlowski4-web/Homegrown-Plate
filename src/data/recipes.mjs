@@ -1,5 +1,6 @@
 import { SALADS_SOUPS_LEAVES } from './recipes/salads-soups-leaves.mjs';
 import { MAINS_VEG } from './recipes/mains-veg.mjs';
+import { DRINKS } from './recipes/drinks.mjs';
 import { FRUIT_HERBS_PRESERVES } from './recipes/fruit-herbs-preserves.mjs';
 /* Recipes. 'uses' lists crop ids; each ingredient is [crop id or keyword, label, quantity]. */
 const BASE_RECIPES = [
@@ -32,4 +33,4 @@ const BASE_RECIPES = [
     steps:["Blitz basil, garlic and nuts in a food processor.","Slowly add oil while blending.","Stir in parmesan and season.","Store in a jar covered with a layer of oil."] }
 ];
 
-export const RECIPES = [...BASE_RECIPES, ...SALADS_SOUPS_LEAVES, ...MAINS_VEG, ...FRUIT_HERBS_PRESERVES];
+export const RECIPES = [...BASE_RECIPES, ...SALADS_SOUPS_LEAVES, ...MAINS_VEG, ...FRUIT_HERBS_PRESERVES, ...DRINKS];

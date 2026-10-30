@@ -1,6 +1,6 @@
 # Homegrown Plate
 
-Source for [homegrownplate.co.uk](https://homegrownplate.co.uk): a guide to growing your own food in any size of garden. 128 crops, each with five detailed collapsible sections (info, how to sow, how to grow, how to harvest, usage and storage), sun, garden-size and difficulty filter buttons, variety groups (for example first early, second early and maincrop potatoes), a UK planting calendar, how-to and harvesting advice, storage tips and 95 recipes (every crop appears in at least one).
+Source for [homegrownplate.co.uk](https://homegrownplate.co.uk): a guide to growing your own food in any size of garden. 128 crops, each with five detailed collapsible sections (info, how to sow, how to grow, how to harvest, usage and storage), sun, garden-size and difficulty filter buttons, variety groups (for example first early, second early and maincrop potatoes), a UK planting calendar, how-to and harvesting advice, storage tips and 103 recipes (every crop appears in at least one).
 
 The site is built into plain static HTML, so every crop, recipe and garden size has its own real page (for example `/plants/tomato/`) that search engines can index. There are no dependencies to install.
 
