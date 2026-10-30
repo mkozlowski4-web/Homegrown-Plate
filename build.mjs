@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { PLANTS } from './src/data/plants.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
+import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
@@ -123,6 +124,7 @@ function validate() {
       else if (!p.sizes.includes(s.id)) errors.push(`Size ${s.id} recommends ${id}, but ${id} does not list ${s.id} in its sizes`);
     }
   }
+  for (const r of RECIPES) if (!RECIPE_CATEGORY_OF.has(r.id)) errors.push(`Recipe ${r.id} has no category in recipe-categories.mjs`);
   for (const r of RECIPES) for (const id of r.uses) if (!plantMap.has(id)) soft(`Recipe ${r.id} uses unknown plant "${id}"`);
 
   warnings.forEach((w) => console.warn(`warning: ${w}`));
@@ -455,7 +457,7 @@ ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
 
 function buildRecipes() {
   const withRecipes = PLANTS.filter((p) => RECIPES.some((r) => r.uses.includes(p.id)));
-  const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}">
+  const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
     <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
@@ -463,19 +465,23 @@ function buildRecipes() {
   const body = `
 <h1>Garden Recipes</h1>
 <p class="lead">Every recipe is built around crops you can grow yourself.</p>
-<div class="filters" id="recipeFilters" hidden>
-  <div></div>
-  <div><label for="recipeFilter">Crop</label>
+<div class="filter-panel" id="recipeFilters" hidden>
+  <fieldset class="chip-group">
+    <legend>Type of dish</legend>
+      ${[chip('cat', 'any', 'All recipes', true), ...RECIPE_CATEGORIES.map((c) => chip('cat', c.id, esc(c.label)))].join('\n      ')}
+  </fieldset>
+  <div class="filter-search"><label for="recipeFilter">Crop</label>
     <select id="recipeFilter">
       <option value="all">All crops</option>
       ${withRecipes.map((p) => `<option value="${p.id}">${p.emoji} ${esc(p.name)}</option>`).join('\n      ')}
     </select>
   </div>
+  <p class="filter-status"><span id="recipeCount" aria-live="polite"></span></p>
 </div>
 <div class="grid">
   ${cards}
 </div>
-<div class="empty" id="recipeEmpty" hidden>No recipes for that crop yet.</div>`;
+<div class="empty" id="recipeEmpty" hidden>No recipes match those filters. Try a different type of dish or crop.</div>`;
   addPage({
     path: '/recipes/', section: 'recipes', body, title: 'Garden Recipes',
     description: `${RECIPES.length} simple recipes built around crops you can grow yourself, from tomato salad to courgette fritters and fresh pesto.`,

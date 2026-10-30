@@ -109,16 +109,35 @@
     var cropSel = $('#recipeFilter');
     var recipeCards = $$('[data-recipe]');
     var recipeEmpty = $('#recipeEmpty');
-    cropSel.addEventListener('change', function () {
-      var crop = cropSel.value;
+    var recipeCount = $('#recipeCount');
+    var catChips = $$('#recipeFilters [data-filter="cat"]');
+    var rState = { cat: 'any', crop: 'all' };
+    var rParams = new URLSearchParams(location.search);
+    var rCat = rParams.get('cat');
+    if (rCat && catChips.some(function (c) { return c.getAttribute('data-value') === rCat; })) rState.cat = rCat;
+    var rCrop = rParams.get('crop');
+    if (rCrop && Array.prototype.some.call(cropSel.options, function (o) { return o.value === rCrop; })) { rState.crop = rCrop; cropSel.value = rCrop; }
+    var applyRecipes = function () {
       var shown = 0;
       recipeCards.forEach(function (card) {
-        var ok = crop === 'all' || card.getAttribute('data-uses').split(' ').indexOf(crop) > -1;
-        card.hidden = !ok;
-        if (ok) shown++;
+        var okCat = rState.cat === 'any' || card.getAttribute('data-cat') === rState.cat;
+        var okCrop = rState.crop === 'all' || card.getAttribute('data-uses').split(' ').indexOf(rState.crop) > -1;
+        card.hidden = !(okCat && okCrop);
+        if (!card.hidden) shown++;
       });
+      catChips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-value') === rState.cat)); });
+      recipeCount.textContent = 'Showing ' + shown + ' of ' + recipeCards.length + ' recipes';
       recipeEmpty.hidden = shown > 0;
+      var qs = new URLSearchParams();
+      if (rState.cat !== 'any') qs.set('cat', rState.cat);
+      if (rState.crop !== 'all') qs.set('crop', rState.crop);
+      try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs.toString() : '')); } catch (err) { /* ignore */ }
+    };
+    catChips.forEach(function (c) {
+      c.addEventListener('click', function () { rState.cat = c.getAttribute('data-value'); applyRecipes(); });
     });
+    cropSel.addEventListener('change', function () { rState.crop = cropSel.value; applyRecipes(); });
+    applyRecipes();
   }
 
   /* ---- Plant page: mark the current month on the at-a-glance bars ---- */
