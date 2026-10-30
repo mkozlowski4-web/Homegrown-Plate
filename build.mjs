@@ -166,6 +166,10 @@ const NAV = [
   ['My Garden', '/my-garden/', 'garden'],
 ];
 
+/* Site ownership tags for search engines and affiliate networks. Only added to the home page. */
+const VERIFICATION_TAGS = [
+  '<meta name="fo-verify" content="9802a8cf-5857-475b-be4a-7821a8d791c7" />', // FlexOffers
+];
 const trimDesc = (s) => { if (s.length <= 160) return s; const cut = s.slice(0, 157); return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\s]+$/, '') + '...'; };
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
   description = trimDesc(description);
@@ -179,6 +183,7 @@ function layout({ title, description, path, body, section, ld = [], noindex = fa
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(pageTitle)}</title>
 <meta name="description" content="${esc(description)}">
+${path === '/' ? VERIFICATION_TAGS.join('\n') : ''}
 ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`}
 <meta name="theme-color" content="#2d6a4f">
 <meta property="og:type" content="website">
