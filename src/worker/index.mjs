@@ -2,6 +2,8 @@
    Storage: Cloudflare D1 (binding DB). Passwords: PBKDF2-SHA256 with a per-user salt.
    Sessions: random tokens in an HttpOnly cookie; only a SHA-256 hash of each token is stored. */
 
+import { collect, stats, tidyAnalytics } from './analytics.mjs';
+
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 100000; /* the maximum the Workers runtime allows */
 const MAX_BODY = 40000;
@@ -79,7 +81,7 @@ const sessionCookie = (token, maxAge) => `${COOKIE}=${token}; Path=/; HttpOnly; 
 async function currentUser(request, env) {
   const token = getCookie(request, COOKIE);
   if (!/^[0-9a-f]{64}$/.test(token)) return null;
-  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
+  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
     .bind(await sha256(token), Date.now()).first();
   return row || null;
 }
@@ -145,6 +147,7 @@ async function login(request, env) {
   const token = await startSession(env, user.id);
   const row = await env.DB.prepare('SELECT json FROM user_data WHERE user_id = ?').bind(user.id).first();
   tidy(env).catch(() => {});
+  tidyAnalytics(env).catch(() => {});
   return json({ user: { email: user.email }, data: row ? JSON.parse(row.json) : cleanData({}) }, 200, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
 }
 
@@ -205,7 +208,7 @@ async function deleteAccount(request, user, env) {
   return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie('', 0) });
 }
 
-async function api(request, env, url) {
+async function api(request, env, url, ctx) {
   const path = url.pathname.replace(/\/+$/, '');
   const method = request.method;
   if (method !== 'GET' && method !== 'HEAD') {
@@ -214,13 +217,21 @@ async function api(request, env, url) {
   }
   if (path === '/api/me' && method === 'GET') {
     const user = await currentUser(request, env);
-    return json({ user: user ? { email: user.email } : null });
+    return json({ user: user ? { email: user.email, admin: !!user.is_admin } : null });
+  }
+  if (path === '/api/hit' && method === 'POST') {
+    /* Page view and interaction counter (no response body, no cookies). Bots and the owner are filtered out. */
+    return collect(request, env, url, await currentUser(request, env), ctx);
   }
   if (path === '/api/signup' && method === 'POST') return signup(request, env);
   if (path === '/api/login' && method === 'POST') return login(request, env);
   if (path === '/api/logout' && method === 'POST') return logout(request, env);
   const user = await currentUser(request, env);
   if (!user) return fail(401, 'Please sign in.');
+  if (path === '/api/admin/stats' && method === 'GET') {
+    if (!user.is_admin) return fail(404, 'Not found.'); /* do not reveal that the page exists */
+    return json(await stats(env, url.searchParams.get('days')));
+  }
   if (path === '/api/data' && method === 'GET') return getData(user, env);
   if (path === '/api/data' && method === 'PUT') return putData(request, user, env);
   if (path === '/api/export' && method === 'GET') return exportData(user, env);
@@ -230,10 +241,10 @@ async function api(request, env, url) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/')) {
-      try { return await api(request, env, url); } catch (e) { console.error('api error', e && e.message); return fail(500, 'Something went wrong. Please try again.'); }
+      try { return await api(request, env, url, ctx); } catch (e) { console.error('api error', e && e.message); return fail(500, 'Something went wrong. Please try again.'); }
     }
     return env.ASSETS.fetch(request);
   },

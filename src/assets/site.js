@@ -857,7 +857,10 @@
     var root = $('#acct'); if (!root) return;
     root.hidden = false;
     var out = $('#acctOut'), inn = $('#acctIn');
-    var show = function (inState, email) { out.hidden = inState; inn.hidden = !inState; if (email) $('#acctEmail').textContent = email; };
+    var show = function (inState, email) {
+      out.hidden = inState; inn.hidden = !inState; if (email) $('#acctEmail').textContent = email;
+      var adminLink = $('[data-admin-link]'); if (adminLink) { adminLink.hidden = true; if (inState) Acct.api('GET', '/api/me').then(function (r) { adminLink.hidden = !(r.ok && r.body.user && r.body.user.admin); }).catch(function () { /* hidden */ }); }
+    };
     var errorOf = function (form) { return form.querySelector('[data-error]'); };
     var busy = function (form, on) { Array.prototype.forEach.call(form.querySelectorAll('button[type=submit]'), function (b) { b.disabled = on; }); };
     var nice = function (r) { return (r && r.body && r.body.error) || 'Something went wrong. Please check your connection and try again.'; };
@@ -886,7 +889,7 @@
       if (pass.length < 10) { err.textContent = 'Use at least 10 characters for your password.'; busy(fUp, false); return; }
       Acct.api('POST', '/api/signup', { email: $('#upEmail').value, password: pass, data: Acct.collect() }).then(function (r) {
         if (!r.ok) { err.textContent = nice(r); busy(fUp, false); return; }
-        $('#upPass').value = ''; Acct.setIn(); show(true, r.body.user.email); busy(fUp, false);
+        $('#upPass').value = ''; Acct.setIn(); show(true, r.body.user.email); busy(fUp, false); if (window.hpTrack) window.hpTrack('signup');
       }).catch(function () { err.textContent = nice(); busy(fUp, false); });
     });
     $('#acctOutBtn').addEventListener('click', function () {
@@ -917,6 +920,46 @@
       /* A session cookie may exist from before the browser data was cleared: offer it back. */
       Acct.api('GET', '/api/me').then(function (r) { if (r.ok && r.body.user) { Acct.setIn(); Acct.pull().then(function () { show(true, r.body.user.email); }); } }).catch(function () { /* stay signed out */ });
     }
+  })();
+
+  /* ---- Counting visits and interactions: no cookies, nothing stored on your device ---- */
+  (function track() {
+    var skip = false;
+    try { skip = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1' || navigator.globalPrivacyControl === true; } catch (e) { skip = false; }
+    var path = location.pathname;
+    if (skip || !navigator.sendBeacon || /^\/(api|admin|offline)(\/|$)/.test(path)) return;
+    var send = function (name) {
+      var body = { p: path, w: window.innerWidth || 0, wd: navigator.webdriver ? 1 : 0 };
+      if (name) body.e = name; else { try { body.r = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { body.r = ''; } }
+      try { navigator.sendBeacon('/api/hit', new Blob([JSON.stringify(body)], { type: 'application/json' })); } catch (e) { /* counting is optional */ }
+    };
+    /* A page view is counted once the page has been visible for a moment (most bots never get this far). */
+    var counted = false, wait = function () {
+      if (counted) return;
+      setTimeout(function () { if (!counted && document.visibilityState === 'visible') { counted = true; send(''); } }, 1200);
+    };
+    if (document.visibilityState === 'visible') wait(); else document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') wait(); });
+
+    var once = {}, event = function (name) { if (once[name]) return; once[name] = true; send(name); };
+    window.hpTrack = event;
+    /* Interactions are spotted from the saved changes, so every add-crop button and tick is covered. */
+    if (window.Storage) {
+      var prev = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (k, v) {
+        var old = null, self = this; try { old = self.getItem(k); } catch (e) { old = null; }
+        prev.call(self, k, v);
+        try {
+          if (self !== window.localStorage) return;
+          var len = function (s) { try { var a = JSON.parse(s); return Array.isArray(a) ? a.length : 0; } catch (e) { return 0; } };
+          if (k === 'hp-garden' && len(v) > len(old)) send('add_crop');
+          else if (/^hp-garden-done-/.test(k) && len(v) > len(old)) event('tick_job');
+          else if (k === 'hp-region' && v && v !== old) event('region_set');
+          else if (k === 'hp-kids' && v === '1' && old !== '1') send('kids_on');
+        } catch (e) { /* ignore */ }
+      };
+    }
+    document.addEventListener('input', function (e) { var t = e.target; if (t && /^(plantSearch|gSearch|pestSearch|heroSearch)$/.test(t.id) && t.value && t.value.length >= 3) event('search'); });
+    document.addEventListener('click', function (e) { if (e.target && e.target.closest && e.target.closest('[data-install-btn]')) event('install'); });
   })();
 
   /* ---- Installable app ---- */

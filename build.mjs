@@ -1233,7 +1233,7 @@ function buildAccount() {
   </section>
   <section id="acctIn" hidden>
     <p class="lead">Signed in as <strong id="acctEmail"></strong>. <span id="acctStatus" class="muted">Your garden is saved to your account.</span></p>
-    <div class="card"><h2>Your garden</h2><p>Changes you make on any device are saved automatically and appear on your other devices next time you open the site.</p><p><a class="btn-small" href="/my-garden/">Go to My Garden</a></p></div>
+    <div class="card"><h2>Your garden</h2><p>Changes you make on any device are saved automatically and appear on your other devices next time you open the site.</p><p><a class="btn-small" href="/my-garden/">Go to My Garden</a></p><p data-admin-link hidden><a class="btn-small" href="/admin/">Open the visitor dashboard</a></p></div>
     <div class="card"><h2>Look after your account</h2>
       <p><button type="button" class="chip" id="acctOutBtn">Sign out</button> <a class="chip" href="/api/export" download>Download my data</a></p>
       <details><summary>Change password</summary>
@@ -1278,6 +1278,8 @@ function buildPrivacy() {
   <li>a small sign-in record on each device so you stay signed in for up to 30 days, and short-lived technical records (such as failed sign-in attempts) to block password guessing.</li>
 </ul>
 <p>We use this only to give you your saved garden. We do not sell it, share it for advertising, or use it to profile you. The site sets no advertising or tracking cookies; the only cookie is the sign-in cookie, which exists only if you sign in.</p>
+<h2>Counting visits</h2>
+<p>We count how many people visit and which pages and features they use, so we can see what is useful. This is done without cookies and without storing anything on your device. We do not save your IP address or browser details. Each visit is given a short anonymous code that is made from your connection and browser together with a random value that is thrown away every day, so we cannot recognise you from one day to the next or build a profile of you. We also keep your rough country, the type of device (phone, tablet or computer), and the website that sent you here, if any. If your browser sends a Do Not Track or Global Privacy Control signal, we do not count you at all.</p>
 <h2>Where it is kept</h2>
 <p>Account data is stored with Cloudflare, who also host this site, in a database set up in their European region.</p>
 <h2>Your choices</h2>
@@ -1382,6 +1384,22 @@ ${kit(BUY.skip)}
   });
 }
 
+function buildAdmin() {
+  const body = `
+<h1>Dashboard</h1>
+<p class="muted">Visits and interactions with bots and scrapers filtered out. Only the site owner can see the figures.</p>
+<div class="chip-group" role="group" aria-label="Time range">
+  <button type="button" class="chip" data-days="7" aria-pressed="false">7 days</button>
+  <button type="button" class="chip" data-days="30" aria-pressed="true">30 days</button>
+  <button type="button" class="chip" data-days="90" aria-pressed="false">90 days</button>
+  <button type="button" class="chip" data-days="365" aria-pressed="false">1 year</button>
+</div>
+<noscript><p class="empty">The dashboard needs JavaScript.</p></noscript>
+<div id="dash" aria-live="polite"></div>
+<script src="/assets/admin.js?v=${assetVersion['admin.js']}" defer></script>`;
+  outFile('/admin/', layout({ path: '/admin/', section: '', body, noindex: true, title: 'Dashboard', description: 'Site analytics for the owner.' }));
+}
+
 function buildOffline() {
   const body = `
 <h1>You are offline</h1>
@@ -1446,7 +1464,7 @@ validate();
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'assets'), { recursive: true });
 
-for (const f of ['style.css', 'site.js', 'theme.js']) {
+for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js']) {
   const buf = readFileSync(join(ROOT, 'src/assets', f));
   assetVersion[f] = createHash('sha1').update(buf).digest('hex').slice(0, 8);
   writeFileSync(join(DIST, 'assets', f), buf);
@@ -1468,6 +1486,7 @@ buildInstall();
 buildAccount();
 buildPrivacy();
 buildAbout();
+buildAdmin();
 buildMyGarden();
 buildCalendar();
 buildGuides();

@@ -85,3 +85,11 @@ Accounts are optional; the site works fully without one. A small Cloudflare Work
 ## About, contact, disclosure and kit pages
 
 `buildAbout()` in `build.mjs` makes `/about/`, `/contact/`, `/affiliate-disclosure/` and `/kit/` (the kit page reuses the shopping lists in `src/data/beginners.mjs`). The public contact address is `CONTACT_EMAIL` in `build.mjs`; it must be set up to forward (Cloudflare Email Routing). The disclosure page says there are currently no affiliate links: update it when links go live.
+
+## Visitor analytics and the owner dashboard
+
+First-party and cookieless; no third-party scripts. `src/assets/site.js` (the `track` block) sends a small beacon to `POST /api/hit` once a page has been visible for about a second, plus interaction events (add crop, tick job, kids mode, area set, search, install, sign-up). It sends nothing if Do Not Track or Global Privacy Control is on. `src/worker/analytics.mjs` filters bots and scrapers on the server (known crawler/AI/SEO/HTTP-library user agents, automated browsers, cloud hosting networks, missing browser headers, more than 150 hits an hour) and only counts what was filtered, by reason, in `bot_counts`. The owner's own visits are never counted.
+
+Stored per hit: day, page, rough country, device type, referring site and a visitor code (a hash of IP + browser + a random per-day salt, deleted after two days). No IP, user agent or user id is stored, so unique visitors are per day only. Raw rows are deleted after 400 days. Schema in `migrations/0002_analytics.sql`.
+
+The dashboard is `/admin/` (not in the sitemap, `noindex`); its data comes from `GET /api/admin/stats`, which returns 404 unless the signed-in account has `is_admin = 1`. To make an account the owner: `UPDATE users SET is_admin = 1 WHERE email = '...';` in D1.
