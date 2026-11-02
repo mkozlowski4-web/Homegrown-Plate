@@ -651,6 +651,26 @@
     applyStore();
   }
 
+  /* ---- Beginner's guide: garden size and sunlight buttons ---- */
+  var begFilters = $('#begFilters');
+  if (begFilters) {
+    begFilters.hidden = false;
+    var begChips = $$('#begFilters [data-filter]');
+    var begState = { bsize: 'all', bsun: 'all' };
+    var bp = new URLSearchParams(location.search);
+    ['bsize', 'bsun'].forEach(function (g) {
+      var v = bp.get(g === 'bsize' ? 'size' : 'sun');
+      if (v && begChips.some(function (c) { return c.getAttribute('data-filter') === g && c.getAttribute('data-value') === v; })) begState[g] = v;
+    });
+    var applyBeg = function () {
+      $$('[data-bsize]').forEach(function (sec) { sec.hidden = begState.bsize !== 'all' && sec.getAttribute('data-bsize') !== begState.bsize; });
+      $$('[data-bsun]').forEach(function (blk) { blk.hidden = begState.bsun !== 'all' && blk.getAttribute('data-bsun') !== begState.bsun; });
+      begChips.forEach(function (c) { c.setAttribute('aria-pressed', String(begState[c.getAttribute('data-filter')] === c.getAttribute('data-value'))); });
+    };
+    begChips.forEach(function (c) { c.addEventListener('click', function () { begState[c.getAttribute('data-filter')] = c.getAttribute('data-value'); applyBeg(); }); });
+    applyBeg();
+  }
+
   /* ---- Home page: show this month's panel ---- */
   var monthPanels = $$('[data-month-panel]');
   if (monthPanels.length) {

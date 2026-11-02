@@ -14,6 +14,7 @@ import { CARE } from './src/data/care.mjs';
 import { STORAGE } from './src/data/storage.mjs';
 import { ZONES, AREA_ZONE } from './src/data/zones.mjs';
 import { GLOSSARY } from './src/data/glossary.mjs';
+import { PICKS, WHY, SOIL, BUY, YEAR } from './src/data/beginners.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
@@ -136,6 +137,18 @@ function validate() {
     for (const f of ['prevent', 'control']) if (!Array.isArray(e[f]) || e[f].length < 2) errors.push(`Pest ${e.id} needs at least two ${f} points`);
     for (const c of e.crops || []) if (!plantMap.has(c)) errors.push(`Pest ${e.id} lists unknown crop "${c}"`);
     if (pestCrops.get(e.id).size === 0) soft(`Pest ${e.id} is not linked to any crop`);
+  }
+  for (const [size, bySun] of Object.entries(PICKS)) {
+    for (const [sun, ids] of Object.entries(bySun)) {
+      for (const id of ids) {
+        const p = plantMap.get(id);
+        if (!p) { errors.push(`Beginner pick ${id} is not a crop`); continue; }
+        if (p.difficulty !== 'Easy') errors.push(`Beginner pick ${id} is not rated Easy`);
+        if (!p.sizes.includes(size)) errors.push(`Beginner pick ${id} does not suit a ${size} garden`);
+        if (!p.sun.includes(sun)) errors.push(`Beginner pick ${id} does not suit ${sun}`);
+        if (!WHY[id]) errors.push(`Beginner pick ${id} needs a line in WHY`);
+      }
+    }
   }
   for (const p of PLANTS) {
     const st = STORAGE[p.id];
@@ -383,7 +396,7 @@ function buildHome() {
     <input type="search" id="heroSearch" name="q" placeholder="Search ${PLANTS.length} crops, for example tomato, mint, apple" autocomplete="off">
     <button type="submit" class="btn">Search plants</button>
   </form>
-  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/my-garden/">Build my garden</a> <span aria-hidden="true">&middot;</span> <a href="/howto/">How to get started</a></p>
+  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/my-garden/">Build my garden</a> <span aria-hidden="true">&middot;</span> <a href="/beginners/">Beginner’s guide</a></p>
   <ul class="hero-stats">
     <li><strong>${PLANTS.length}</strong> crops</li>
     <li><strong>${RECIPES.length}</strong> recipes</li>
@@ -425,6 +438,7 @@ function buildHome() {
   <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
   <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
   <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/beginners/" class="card card-link"><h3>Beginner’s Guide</h3><p class="muted">New to growing? What to grow for your space, how to prepare soil, and what to buy.</p><span class="more-link">Start here &rarr;</span></a>
   <a href="/preserving/" class="card card-link"><h3>Preserving</h3><p class="muted">Freeze, dry, pickle or store a glut: storage ideas for every crop, grouped by method.</p><span class="more-link">Keep your harvest &rarr;</span></a>
   <a href="/pests/" class="card card-link"><h3>Pests &amp; Diseases</h3><p class="muted">${PESTS.length} common problems, how to spot them and what to do, linked from every crop.</p><span class="more-link">Fix a problem &rarr;</span></a>
   <a href="/my-garden/" class="card card-link"><h3>My Garden</h3><p class="muted">Add the crops you grow and get a checklist of jobs and recipes for every month. Free, no sign-up.</p><span class="more-link">Build my garden &rarr;</span></a>
@@ -863,7 +877,7 @@ ${regionBar()}
 function buildGuides() {
   const how = `
 <h1>How to Grow</h1>
-<p class="lead">A simple seven-step process that works in any garden.</p>
+<p class="lead">A simple seven-step process that works in any garden. Brand new to this? Start with our <a href="/beginners/">beginner’s guide</a>.</p>
 ${HOWTO.map((s, i) => `<div class="step"><div class="num">${i + 1}</div><div><h3>${esc(s.title.replace(/^\d+\.\s*/, ''))}</h3><p>${esc(s.body)}</p></div></div>`).join('\n')}`;
   addPage({
     path: '/howto/', section: 'howto', body: how, title: 'How to Grow Your Own Food: 7 Simple Steps',
@@ -990,6 +1004,85 @@ ${sorted.map((g) => `<div class="gloss-item" id="${g.id}"><dt>${esc(g.name)}</dt
   });
 }
 
+function buildBeginners() {
+  const sunInfo = { full: ['☀️', 'Full sun', '6 or more hours of direct sun'], partial: ['⛅', 'Partial shade', '3 to 6 hours of sun, or bright shade'], shade: ['☁️', 'Shade', 'Less than 3 hours of direct sun'] };
+  const orBits = (a, b) => [...a].map((c, k) => (c === '1' || b[k] === '1' ? '1' : '0')).join('');
+  const cropCard = (id) => {
+    const p = plantMap.get(id); const c = CALENDAR[p.id];
+    return `<a class="beg-crop card-link" href="/plants/${p.id}/">${plantImg(p)}<span class="beg-body"><strong>${esc(p.name)}</strong><span class="beg-why">${esc(WHY[id])}</span><span class="beg-when">Sow or plant: ${esc(monthRanges(orBits(c.i, c.o)) || 'see page')}</span></span></a>`;
+  };
+  const sizeSections = SIZES.map((sz) => `<section class="beg-size" data-bsize="${sz.id}">
+  <h3>${sz.emoji} ${esc(sz.title)}</h3>
+  <div class="beg-suns">
+    ${Object.keys(sunInfo).map((sun) => `<div class="beg-sun" data-bsun="${sun}">
+      <h4>${sunInfo[sun][0]} ${sunInfo[sun][1]} <span class="muted small-note">(${sunInfo[sun][2]})</span></h4>
+      <div class="beg-crops">${PICKS[sz.id][sun].map(cropCard).join('')}</div>
+    </div>`).join('\n    ')}
+  </div>
+</section>`).join('\n');
+  const stepList = (steps) => `<ol class="soil-steps">${steps.map(([h, t]) => `<li><strong>${esc(h)}.</strong> ${esc(t)}</li>`).join('')}</ol>`;
+  const soilAcc = Object.entries(SOIL).map(([id, v]) => accordion(`soil-${id}`, v.title, `${stepList(v.steps)}<p class="callout"><strong>Tip:</strong> ${esc(v.tip)}</p>`, id === 'ground')).join('\n');
+  const li = (items) => `<ul class="tips">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  const buyBody = `
+<h3>Everyone needs</h3>
+<ul class="buy-list">${BUY.essentials.map(([n, t]) => `<li><strong>${esc(n)}.</strong> ${esc(t)}</li>`).join('')}</ul>
+<h3>Then add, for your garden size</h3>
+<div class="grid buy-grid">${SIZES.map((sz) => `<div class="card"><h4>${sz.emoji} ${esc(sz.short)}</h4>${li(BUY.bySize[sz.id])}</div>`).join('')}</div>
+<div class="grid buy-grid">
+  <div class="card"><h4>Buy later, if you need it</h4>${li(BUY.later)}</div>
+  <div class="card"><h4>Skip for now</h4>${li(BUY.skip)}</div>
+</div>
+<h3>A rough first-year budget</h3>
+<table class="budget"><tbody>${BUY.budget.map(([a, b]) => `<tr><th scope="row">${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')}</tbody></table>
+<p class="muted small-note">These are rough guides only and prices vary. You can spend much less by sharing seeds, reusing pots and making your own compost.</p>`;
+  const yearBody = `<ol class="year-list">${YEAR.map(([w, t]) => `<li><strong>${esc(w)}</strong><span>${esc(t)}</span></li>`).join('')}</ol>`;
+  const body = `
+<h1>Beginner’s Guide to Growing Your Own</h1>
+<p class="lead">Never grown anything before? This guide shows you what to grow for your garden size and light, how to get your soil ready, and exactly what to buy. Start small and you will be eating your own food within weeks.</p>
+<nav class="chip-group jump" aria-label="On this page">
+  <a class="chip" href="#crops">1. Choose your crops</a>
+  <a class="chip" href="#soil">2. Prepare your soil</a>
+  <a class="chip" href="#buy">3. What to buy</a>
+  <a class="chip" href="#year">4. Your first year</a>
+</nav>
+<div class="grid grid-3 rules">
+  <div class="card"><h3>Start small</h3><p class="muted">Pick 3 to 5 crops, not 20. A small, well-looked-after patch beats a big, neglected one.</p></div>
+  <div class="card"><h3>Water steadily</h3><p class="muted">Most beginner failures are from too little water in dry spells. Soak well, less often.</p></div>
+  <div class="card"><h3>Pick often</h3><p class="muted">Regular picking keeps beans, courgettes and salad leaves producing for longer.</p></div>
+</div>
+
+<h2 id="crops">1. Choose your crops</h2>
+<p>Every crop below is rated <strong>Easy</strong>, and is chosen because it forgives mistakes and gives you something to eat quickly. Pick your garden size and the sunlight your space gets. Not sure? See our <a href="/sizes/">garden sizes guide</a>.</p>
+<div class="filter-panel" id="begFilters" hidden>
+  <fieldset class="chip-group"><legend>Garden size</legend>
+    ${chip('bsize', 'all', 'All sizes', true)}
+    ${SIZES.map((sz) => chip('bsize', sz.id, esc(sz.short))).join('\n    ')}
+  </fieldset>
+  <fieldset class="chip-group"><legend>Sunlight</legend>
+    ${chip('bsun', 'all', 'Any sunlight', true)}
+    ${Object.entries(sunInfo).map(([id, v]) => chip('bsun', id, `${v[0]} ${v[1]}`)).join('\n    ')}
+  </fieldset>
+</div>
+${sizeSections}
+<p class="callout"><strong>Next:</strong> found a few you like? <a href="/my-garden/">Add them to My Garden</a> and we will tell you what to sow, plant and harvest each month.</p>
+
+<h2 id="soil">2. Prepare your soil</h2>
+<p>Good soil is the biggest thing you can do to help your crops. Choose the way you will be growing.</p>
+${soilAcc}
+
+<h2 id="buy">3. What to buy</h2>
+${buyBody}
+
+<h2 id="year">4. Your first year</h2>
+${yearBody}
+<p>Check the <a href="/calendar/">planting calendar</a> and enter your postcode to see dates for your area. Stuck on a word? See <a href="/glossary/">gardening words explained</a>, and <a href="/pests/">pests and diseases</a> if something goes wrong.</p>`;
+  addPage({
+    path: '/beginners/', section: 'howto', body: glossify(body), title: 'Beginner’s Guide: what to grow, how to prepare soil and what to buy',
+    description: 'A first-time grower’s guide to the easiest crops for your garden size and sunlight, how to prepare soil for planting, and a simple shopping list.',
+    crumbs: [['Home', '/'], ['Beginner’s Guide', '/beginners/']],
+  });
+}
+
 function build404() {
   const body = `
 <h1>Page not found</h1>
@@ -1031,6 +1124,7 @@ buildRecipes();
 buildPests();
 buildPreserving();
 buildGlossary();
+buildBeginners();
 buildMyGarden();
 buildCalendar();
 buildGuides();
