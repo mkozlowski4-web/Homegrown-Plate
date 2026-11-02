@@ -763,4 +763,15 @@
       if (th.getAttribute('data-month') === now) th.classList.add('now');
     });
   }
+  /* ---- Installable app ---- */
+  if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () { /* offline support is optional */ }); });
+  var installBox = $('[data-install-box]'), installBtn = $('[data-install-btn]'), installedMsg = $('[data-installed]'), deferred = null;
+  var standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (installedMsg && standalone) installedMsg.hidden = false;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; if (installBox && !standalone) installBox.hidden = false; });
+  if (installBtn) installBtn.addEventListener('click', function () {
+    if (!deferred) return; deferred.prompt();
+    deferred.userChoice.then(function () { deferred = null; if (installBox) installBox.hidden = true; });
+  });
+  window.addEventListener('appinstalled', function () { if (installBox) installBox.hidden = true; if (installedMsg) installedMsg.hidden = false; });
 })();

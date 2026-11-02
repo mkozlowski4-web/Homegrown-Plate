@@ -233,6 +233,13 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 ${noindex ? '' : `<meta property="og:url" content="${url}">\n`}<meta property="og:locale" content="en_GB">
 ${image ? `<meta property="og:image" content="${SITE}${image}">\n<meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#2d6a4f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Homegrown Plate">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="/assets/theme.js?v=${assetVersion['theme.js']}"></script>
 <link rel="stylesheet" href="/assets/style.css?v=${assetVersion['style.css']}">
 ${ld.map(jsonLd).join('\n')}
@@ -256,7 +263,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -1160,6 +1167,73 @@ ${recipes}
   });
 }
 
+function buildInstall() {
+  const body = `
+<h1>Get the Homegrown Plate app</h1>
+<p class="lead">Add Homegrown Plate to your phone, tablet or computer. It opens full screen like an app, loads faster, and the pages you have visited still work when you have no signal in the garden.</p>
+<div class="callout" data-install-box hidden>
+  <p><strong>Ready to install.</strong> One tap and it is on your home screen.</p>
+  <p><button type="button" class="btn-big" data-install-btn>Install the app</button></p>
+</div>
+<p class="muted" data-installed hidden>You are already using the installed app. Nothing more to do.</p>
+<h2>How to install</h2>
+<div class="grid">
+  <div class="card"><h3>iPhone or iPad</h3><ol><li>Open this site in <strong>Safari</strong>.</li><li>Tap the <strong>Share</strong> button (the square with an arrow).</li><li>Choose <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</li></ol></div>
+  <div class="card"><h3>Android</h3><ol><li>Open this site in <strong>Chrome</strong>.</li><li>Tap the install button above, or the <strong>three dots</strong> menu.</li><li>Choose <strong>Install app</strong> (or <strong>Add to Home screen</strong>).</li></ol></div>
+  <div class="card"><h3>Computer</h3><ol><li>Open this site in <strong>Chrome</strong> or <strong>Edge</strong>.</li><li>Click the install icon at the right of the address bar, or use the browser menu.</li><li>Choose <strong>Install</strong>.</li></ol></div>
+</div>
+<h2>What you get</h2>
+<ul>
+  <li>Quick links on the app icon to My Garden, the Planting Calendar and Growing with Kids.</li>
+  <li>Pages you have already opened work offline. Your garden is saved on your device.</li>
+  <li>No account and no cost. It is the same site, just easier to reach.</li>
+</ul>`;
+  addPage({
+    path: '/install/', section: '', body, title: 'Get the Homegrown Plate app',
+    description: 'Install Homegrown Plate on your phone, tablet or computer for quick access and offline use in the garden.',
+    crumbs: [['Home', '/'], ['Get the app', '/install/']],
+  });
+}
+
+function buildOffline() {
+  const body = `
+<h1>You are offline</h1>
+<p class="lead">This page has not been saved on your device yet, and there is no signal right now. Pages you have visited before still work.</p>
+<div class="grid">
+  <div class="card"><h3>My Garden</h3><a href="/my-garden/">Open My Garden &rarr;</a></div>
+  <div class="card"><h3>Planting Calendar</h3><a href="/calendar/">Open the calendar &rarr;</a></div>
+  <div class="card"><h3>Home</h3><a href="/">Back to the home page &rarr;</a></div>
+</div>`;
+  outFile('/offline/', layout({ path: '/offline/', section: '', body, noindex: true, title: 'You are offline', description: 'You are offline.' }));
+}
+
+/* Service worker: precaches the shell, serves pages network-first (falling back to the saved copy, then the offline page)
+   and everything else stale-while-revalidate. The cache name changes whenever the shell files change. */
+function buildServiceWorker() {
+  const shell = ['/', '/offline/', '/my-garden/', '/calendar/', '/favicon.svg',
+    ...['style.css', 'site.js', 'theme.js'].map((f) => `/assets/${f}?v=${assetVersion[f]}`)];
+  const version = createHash('sha1').update(shell.join('|')).digest('hex').slice(0, 8);
+  writeFileSync(join(DIST, 'sw.js'), `/* Homegrown Plate service worker (generated by build.mjs) */
+const CACHE = 'hp-${version}';
+const SHELL = ${JSON.stringify(shell)};
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith('hp-') && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener('fetch', (e) => {
+  const r = e.request, u = new URL(r.url);
+  if (r.method !== 'GET' || u.origin !== location.origin || r.headers.has('range') || u.pathname === '/sw.js') return;
+  if (r.mode === 'navigate') {
+    e.respondWith(fetch(r).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(r, copy)); } return res; })
+      .catch(() => caches.match(r).then((m) => m || caches.match('/offline/'))));
+    return;
+  }
+  e.respondWith(caches.open(CACHE).then((c) => c.match(r).then((hit) => {
+    const net = fetch(r).then((res) => { if (res.ok) c.put(r, res.clone()); return res; }).catch(() => hit);
+    return hit || net;
+  })));
+});
+`);
+}
+
 function build404() {
   const body = `
 <h1>Page not found</h1>
@@ -1203,10 +1277,13 @@ buildPreserving();
 buildGlossary();
 buildBeginners();
 buildKids();
+buildInstall();
 buildMyGarden();
 buildCalendar();
 buildGuides();
 build404();
+buildOffline();
 buildSupportFiles();
+buildServiceWorker();
 
 console.log(`Built ${pages.length} pages + 404 into dist/ (site URL: ${SITE})`);
