@@ -47,7 +47,7 @@ export const LEAVES = [
       tips: ["Pick little and often from the outside.", "Harvest the whole plant if it starts to bolt.", "Pick in the morning.", "Leave a few leaves on each plant to keep it growing."] },
     use: { p: [
       "Eat baby leaves raw in salads and sandwiches, or wilt larger leaves in a pan with garlic and a squeeze of lemon in a couple of minutes. Spinach goes well in curries, pies, quiches, soups, pasta and omelettes. Cook it briefly to keep its colour and flavour; a large bowlful shrinks to a few spoonfuls.",
-      "Fresh leaves keep for three to five days in the fridge in a bag, so eat them soon after picking. To freeze, wash, blanch for one minute, cool quickly, squeeze out the water and freeze in portions. Spinach also makes a good soup that freezes well."],
+      "Fresh leaves keep for three to five days in the fridge in a bag, so eat them soon after picking. To freeze, wash, blanch for two minutes, cool quickly, squeeze out the water and freeze in portions. Spinach also makes a good soup that freezes well."],
       tips: ["Squeeze out excess water after cooking.", "Blanch for one minute before freezing.", "Add to curries and soups at the last minute.", "Remove thick stalks from large leaves."] } },
 
   { id: "rocket", name: "Rocket", latin: "Eruca vesicaria subsp. sativa", emoji: "🥗", sizes: ["balcony", "small", "medium"], difficulty: "Easy",

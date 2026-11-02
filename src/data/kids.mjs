@@ -43,7 +43,7 @@ export const PROJECTS = [
     wait: '2 to 3 months (or next summer)', start: 'March to April, outside', level: 'Easy', crop: 'strawberry',
     need: ['A pot or hanging basket with holes', 'Compost', '3 small strawberry plants', 'A watering can', 'A sunny spot'],
     steps: ['Fill your pot with compost and make 3 holes, spaced well apart.', 'Put a plant in each hole. Keep the middle (the crown) level with the compost, and not buried.', 'Press the compost down gently and water well.', 'Put the pot in the sunniest place you have, and water whenever the top feels dry.', 'Flowers come first, and then little green berries. They turn white and then red.', 'Only pick the berries that are bright red all over, and wash them before you eat them.'],
-    fact: 'A strawberry has about 200 seeds on the outside. It is the only fruit that wears its seeds like that!',
+    fact: 'A strawberry has about 200 seeds on the outside. Not many fruits wear their seeds on the outside like that!',
     adult: 'A hanging basket keeps berries away from slugs. Net the pot if birds are a problem.' },
 ];
 

@@ -19,7 +19,7 @@ export const STORE_1 = {
   ],
   asparagus: [
     ['Fridge', 'Stand the spears upright in a glass with 2 cm of water, loosely covered, or wrap the ends in damp kitchen paper.', '3–5 days'],
-    ['Freeze', 'Blanch for 2–3 minutes, cool in iced water, dry and freeze on a tray before bagging.', '9–12 months'],
+    ['Freeze', 'Blanch for 2 minutes (thin spears) or 4 (thick), cool in iced water, dry and freeze on a tray before bagging.', '9–12 months'],
     ['Pickle', 'Pack blanched spears upright into jars and cover with hot spiced vinegar brine.', '6–12 months'],
   ],
   aubergine: [
@@ -50,11 +50,11 @@ export const STORE_1 = {
     ['Fridge', 'Spread unwashed berries in a single layer in a shallow container.', '2–3 days'],
     ['Freeze', 'Open freeze on a tray, then bag. Berries stay separate and are ready for baking and smoothies.', '12 months'],
     ['Jam and jelly', 'Blackberry and apple jam is a classic. Jelly removes the seeds if you prefer.', '12 months'],
-    ['Cordial or liqueur', 'Simmer with sugar for a cordial, or steep in gin or vodka with sugar for a few months.', 'Cordial: 6 months; liqueur: 1 year+'],
+    ['Cordial or liqueur', 'Simmer with sugar for a cordial, or steep in gin or vodka with sugar for a few months.', 'Cordial: about 1 month in the fridge; liqueur: 1 year+'],
   ],
   blackcurrant: [
     ['Freeze', 'Strip from the strigs, freeze on a tray, then bag. They are tart and freeze exceptionally well.', '12 months'],
-    ['Cordial', 'Simmer with sugar and a little water, strain and bottle in sterilised bottles. Rich in vitamin C.', '6–12 months'],
+    ['Cordial', 'Simmer with sugar and a little water, strain and bottle in sterilised bottles. Rich in vitamin C.', 'About 1 month in the fridge; up to 12 months frozen'],
     ['Jam and jelly', 'High in pectin, so they set easily. Good for sauces, too.', '12 months'],
     ['Fridge', 'Keep on the stalk in a covered container.', '1 week'],
   ],
@@ -89,7 +89,7 @@ export const STORE_1 = {
   'brussels-sprouts': [
     ['Leave on the plant', 'Sprouts keep best on the stalk. Harvest from the bottom up as needed, and flavour improves after frost.', 'Oct to Mar'],
     ['Fridge', 'Cut whole stalks, or loose sprouts, and keep in the salad drawer.', '2–3 weeks'],
-    ['Freeze', 'Trim, blanch small sprouts for 3 minutes (larger for 4), cool and freeze in bags.', '12 months'],
+    ['Freeze', 'Trim, blanch for 3 minutes (small sprouts), 4 (medium) or 5 (large), cool and freeze in bags.', '12 months'],
     ['Pickle or ferment', 'Halve and ferment in brine, or pickle in vinegar, for a tangy winter condiment.', '3–6 months'],
   ],
   'butternut-squash': [
@@ -143,7 +143,7 @@ export const STORE_1 = {
   chamomile: [
     ['Dry', 'Pick flowers at full bloom and dry on a tray in a warm, airy spot until crisp, then store in a jar for tea.', '1 year'],
     ['Freeze', 'Freeze fresh flowers in ice cube trays for iced teas.', '6 months'],
-    ['Infuse', 'Steep dried flowers in honey or cooled syrup for soothing drinks.', '6 months'],
+    ['Infuse', 'Steep dried flowers in honey or cooled syrup for soothing drinks.', 'Honey: 6 months; syrup: 1 month in the fridge'],
   ],
   cherry: [
     ['Fridge', 'Keep unwashed, with stalks on, in a covered container.', '5–7 days'],

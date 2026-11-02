@@ -9,7 +9,7 @@ export const STORE_3 = {
     ['Freeze', 'Open freeze on a tray, then bag. Perfect for jams and baking later.', '12 months'],
     ['Fridge', 'Keep unwashed in a single layer in a shallow container.', '2–3 days'],
     ['Jam', 'Tart and richly flavoured, with enough pectin to set well.', '12 months'],
-    ['Cordial or liqueur', 'Simmer into a cordial, or steep in gin with sugar.', '6–12 months'],
+    ['Cordial or liqueur', 'Simmer into a cordial, or steep in gin with sugar.', 'Cordial: about 1 month in the fridge; liqueur: 1 year+'],
   ],
   lovage: [
     ['Freeze', 'Chop leaves and freeze in bags or ice cube trays. Very strong, so use sparingly.', '6–12 months'],
@@ -81,7 +81,7 @@ export const STORE_3 = {
   oregano: [
     ['Dry', 'Hang bunches in a warm, airy place until crisp. Oregano is one of the herbs that dries best, with a stronger flavour than fresh.', '1–2 years'],
     ['Freeze', 'Freeze sprigs in bags, or chopped in ice cube trays with oil.', '6–12 months'],
-    ['Herb oil', 'Steep dried sprigs in oil in the fridge for dressings and pizza.', '2–3 weeks in the fridge'],
+    ['Herb oil', 'Steep dried sprigs in oil in the fridge for dressings and pizza. Use within a week and always keep it chilled.', '1 week in the fridge'],
     ['Herb blends', 'Mix dried leaves with thyme and marjoram for a homemade Italian seasoning.', '1 year'],
   ],
   'pak-choi': [
@@ -105,12 +105,12 @@ export const STORE_3 = {
   ],
   'patty-pan': [
     ['Fridge', 'Keep small, firm squashes in a bag in the salad drawer.', '1 week'],
-    ['Freeze', 'Slice, blanch for 2–3 minutes, cool and freeze in bags.', '9–12 months'],
+    ['Freeze', 'Slice, blanch for 3 minutes, cool and freeze in bags.', '9–12 months'],
     ['Pickle', 'Pickle small squashes whole in spiced vinegar.', '6–12 months'],
     ['Relish', 'Chop into relish or chutney with onions and spices.', '12 months'],
   ],
   pea: [
-    ['Freeze', 'Shell, blanch for 1–2 minutes, cool in iced water and freeze on a tray. Freezing straight after picking keeps them sweet.', '12 months'],
+    ['Freeze', 'Shell, blanch for 2 minutes, cool in iced water and freeze on a tray. Freezing straight after picking keeps them sweet.', '12 months'],
     ['Fridge', 'Keep pods unshelled in a bag in the salad drawer and shell just before use.', '3–5 days'],
     ['Dry', 'Leave pods on the plant until brown and rattling, then shell and dry for soups, or save seed.', '1–2 years'],
     ['Soup', 'Make pea and mint soup and freeze in portions.', '6 months frozen'],
@@ -131,7 +131,7 @@ export const STORE_3 = {
   ],
   'perpetual-spinach': [
     ['Fridge', 'Wrap unwashed leaves in damp paper in a bag.', '5–7 days'],
-    ['Freeze', 'Blanch for 1 minute, cool, squeeze out the water and freeze in portions.', '12 months'],
+    ['Freeze', 'Blanch for 2 minutes, cool, squeeze out the water and freeze in portions.', '12 months'],
     ['Pick as needed', 'It crops almost all year and survives frost, so pick fresh from the plant.', 'Nearly all year'],
     ['Cook and freeze', 'Make into soups, sauces, or spinach and ricotta fillings and freeze.', '6 months'],
   ],
@@ -192,13 +192,13 @@ export const STORE_3 = {
     ['Freeze', 'Freeze on the strig, then pull off with a fork when frozen. Bag and freeze.', '12 months'],
     ['Jelly', 'Redcurrant jelly is the classic, with a high pectin set. Serve with meat and cheese.', '12 months'],
     ['Fridge', 'Keep on the strigs in a covered container.', '1 week'],
-    ['Cordial or sauce', 'Simmer into a cordial or Cumberland-style sauce.', '6 months'],
+    ['Cordial or sauce', 'Simmer into a cordial or Cumberland-style sauce.', 'About 1 month in the fridge; up to 12 months frozen'],
   ],
   rhubarb: [
     ['Freeze', 'Chop raw stalks and freeze on a tray, or freeze stewed rhubarb in tubs.', '12 months'],
     ['Fridge', 'Trim leaves, which are poisonous, and keep stalks wrapped in a bag.', '1–2 weeks'],
     ['Jam and chutney', 'Rhubarb and ginger jam is a favourite, with chutney for savoury use.', '12 months'],
-    ['Cordial or syrup', 'Simmer with sugar and orange into a syrup and bottle.', '6 months'],
+    ['Cordial or syrup', 'Simmer with sugar and orange into a syrup and bottle.', 'About 1 month in the fridge; up to 12 months frozen'],
     ['Bottle', 'Preserve in sugar syrup in sterilised jars.', '12 months'],
   ],
 };

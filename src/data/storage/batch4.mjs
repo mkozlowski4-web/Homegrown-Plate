@@ -19,7 +19,7 @@ export const STORE_4 = {
     ['Flavoured vinegar', 'Steep sprigs in white wine vinegar for 2 weeks and strain.', '6 months'],
   ],
   bean: [
-    ['Freeze', 'Top, tail and slice, blanch for 2 minutes, cool and freeze on a tray before bagging. The best way to keep a glut.', '12 months'],
+    ['Freeze', 'Top, tail and slice, blanch for 3 minutes, cool and freeze on a tray before bagging. The best way to keep a glut.', '12 months'],
     ['Fridge', 'Keep unwashed in a bag in the salad drawer.', '5–7 days'],
     ['Chutney or pickle', 'Make runner bean chutney with onions and vinegar, a classic way to use a glut.', '12 months'],
     ['Salt', 'Layer sliced beans with salt in jars, the traditional way. Rinse well before cooking.', '6 months'],
@@ -66,7 +66,7 @@ export const STORE_4 = {
     ['Sauce', 'Cook into a creamy sauce for fish, then freeze in small tubs.', '3 months'],
   ],
   spinach: [
-    ['Freeze', 'Blanch for 1–2 minutes, cool, squeeze out all the water and freeze in portions. This is by far the best way to keep a glut.', '12 months'],
+    ['Freeze', 'Blanch for 2 minutes, cool, squeeze out all the water and freeze in portions. This is by far the best way to keep a glut.', '12 months'],
     ['Fridge', 'Wrap unwashed leaves in damp paper in a bag.', '5–7 days'],
     ['Cook and freeze', 'Make into sauces, soups or spinach and ricotta fillings and freeze.', '6 months'],
     ['Blend', 'Blend raw leaves with water and freeze in ice cube trays for smoothies.', '6 months'],
@@ -79,7 +79,7 @@ export const STORE_4 = {
   ],
   'sprouting-broccoli': [
     ['Fridge', 'Keep unwashed in a loose bag in the salad drawer.', '5–7 days'],
-    ['Freeze', 'Trim, blanch for 2–3 minutes, cool and freeze on a tray before bagging.', '12 months'],
+    ['Freeze', 'Trim, blanch for 3 minutes, cool and freeze on a tray before bagging.', '12 months'],
     ['Pick regularly', 'Harvest frequently and the plant produces more shoots, so pick little and often.', 'Feb to Apr'],
   ],
   strawberry: [
@@ -108,7 +108,7 @@ export const STORE_4 = {
   'sweet-pepper': [
     ['Fridge', 'Keep whole peppers in the salad drawer.', '1–2 weeks'],
     ['Freeze', 'Slice or dice raw, with seeds removed, and freeze in bags. No blanching needed, and they stay usable for cooking.', '12 months'],
-    ['Roast and jar', 'Roast, peel and pack into jars with vinegar, then keep in the fridge. Do not preserve in oil at room temperature.', '2–3 weeks in the fridge'],
+    ['Roast and jar', 'Roast, peel and pack into a jar with vinegar, then keep it in the fridge. Do not preserve in oil at room temperature, and use within a week if you cover with oil.', '1–2 weeks in the fridge'],
     ['Chutney or relish', 'Cook into sweet pepper relish or chutney.', '12 months'],
     ['Dry', 'Slice thinly and dry in a dehydrator.', '1 year'],
   ],
@@ -120,7 +120,7 @@ export const STORE_4 = {
   ],
   sweetcorn: [
     ['Fridge', 'Keep cobs in their husks in the fridge. Sugars convert to starch within a day or so, so eat or freeze quickly.', '1–3 days'],
-    ['Freeze', 'Blanch whole cobs for 4–5 minutes, cool and freeze, or cut off the kernels and freeze in bags.', '12 months'],
+    ['Freeze', 'Blanch whole cobs for 7 minutes (small), 9 (medium) or 11 (large), cool and freeze, or blanch for 4 minutes, cut off the kernels and freeze in bags.', '12 months'],
     ['Relish', 'Cook kernels into sweetcorn relish with peppers and vinegar.', '12 months'],
     ['Dry', 'Leave cobs of grinding or popping types on the plant until dry and use as cornmeal or popcorn.', '1 year'],
   ],
@@ -139,7 +139,7 @@ export const STORE_4 = {
     ['Dry', 'Hang bunches in a warm, airy place and strip the leaves into jars. Thyme dries very well.', '1–2 years'],
     ['Freeze', 'Freeze sprigs in bags, or chopped in ice cube trays with oil.', '12 months'],
     ['Pick fresh', 'Thyme is evergreen, so pick fresh sprigs all year.', 'All year'],
-    ['Thyme honey or syrup', 'Steep sprigs in honey or syrup for coughs and cooking.', '6 months'],
+    ['Thyme honey or syrup', 'Steep sprigs in honey or syrup for coughs and cooking.', 'Honey: 6 months; syrup: 1 month in the fridge'],
   ],
   tomatillo: [
     ['Store in the husk', 'Keep fruit in its husk in a cool, dry place, which protects it.', '2–3 weeks'],
@@ -178,7 +178,7 @@ export const STORE_4 = {
     ['Freeze', 'Freeze on the strig, then pull off with a fork when frozen. Bag and freeze.', '12 months'],
     ['Jelly', 'Make pale white jelly for meat and cheese.', '12 months'],
     ['Fridge', 'Keep on the strigs in a covered container.', '1 week'],
-    ['Cordial', 'Simmer into a cordial with a little sugar.', '6 months'],
+    ['Cordial', 'Simmer into a cordial with a little sugar.', 'About 1 month in the fridge; up to 12 months frozen'],
   ],
   'wild-garlic': [
     ['Freeze', 'Chop or purée leaves with a little oil and freeze in ice cube trays. Better than drying.', '6–12 months'],

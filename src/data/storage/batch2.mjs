@@ -6,7 +6,7 @@ export const STORE_2 = {
     ['Paste', 'Blend leaves with garlic, chilli, ginger and oil and freeze in small portions.', '6 months'],
   ],
   courgette: [
-    ['Freeze', 'Grate, squeeze out the water and freeze in portions for baking and fritters. Or slice, blanch for 1 minute and freeze.', '9–12 months'],
+    ['Freeze', 'Grate, squeeze out the water and freeze in portions for baking and fritters, steam-blanching for 1–2 minutes first if you will keep it for months. Or slice, blanch for 3 minutes and freeze.', '6–12 months'],
     ['Fridge', 'Keep small, firm courgettes unwashed in a bag in the salad drawer.', '1 week'],
     ['Soup and sauces', 'Cook into soup or a tomato and courgette sauce and freeze in tubs.', '6 months'],
     ['Chutney or pickle', 'Make courgette relish or chutney, or pickle thin ribbons in vinegar.', '6–12 months'],
@@ -32,9 +32,9 @@ export const STORE_2 = {
   ],
   elderberry: [
     ['Freeze', 'Strip berries from the stalks with a fork, freeze on a tray and bag. Cook before eating, as raw berries upset the stomach.', '12 months'],
-    ['Cordial or syrup', 'Simmer cooked berries with sugar and spices, strain and bottle in sterilised bottles.', '6–12 months'],
+    ['Cordial or syrup', 'Simmer cooked berries with sugar and spices, strain and bottle in sterilised bottles.', 'About 1 month in the fridge; up to 12 months frozen'],
     ['Dry', 'Dry berries in a dehydrator or low oven until hard, then simmer later for syrups and teas.', '1 year'],
-    ['Elderflower cordial', 'Steep flowers with sugar, lemon and citric acid for 24 hours, strain and bottle or freeze.', '6 months; longer frozen'],
+    ['Elderflower cordial', 'Steep flowers with sugar, lemon and citric acid for 24 hours, strain and bottle or freeze.', 'About 1 month in the fridge; up to 12 months frozen'],
     ['Jelly', 'Combine with apple for a firm set.', '12 months'],
   ],
   'elephant-garlic': [
@@ -62,7 +62,7 @@ export const STORE_2 = {
     ['Fennel seed and fronds', 'Dry seed heads in a paper bag, and freeze the chopped fronds.', 'Seed: 1–2 years'],
   ],
   'french-bean': [
-    ['Freeze', 'Top and tail, blanch for 2–3 minutes, cool and freeze on a tray before bagging.', '12 months'],
+    ['Freeze', 'Top and tail, blanch for 3 minutes, cool and freeze on a tray before bagging.', '12 months'],
     ['Fridge', 'Keep unwashed in a loose bag in the salad drawer.', '5–7 days'],
     ['Pickle', 'Pack whole beans into jars with dill, garlic and hot spiced vinegar for dilly beans.', '6–12 months'],
     ['Ferment', 'Ferment in 3% brine for a tangy, crunchy snack.', '3 months in the fridge'],
@@ -95,14 +95,14 @@ export const STORE_2 = {
   'globe-artichoke': [
     ['Fridge', 'Keep whole, unwashed heads in a bag in the salad drawer.', '1 week'],
     ['Freeze', 'Trim to the hearts, simmer in lemon water for 5 minutes, cool and freeze in bags.', '9–12 months'],
-    ['Marinate', 'Simmer hearts, pack in jars with vinegar and herbs and cover with oil. Keep in the fridge.', '2–3 weeks in the fridge'],
+    ['Marinate', 'Simmer hearts in vinegar and water, pack into a jar with herbs and cover with oil. Keep it in the fridge and use within a week, as vegetables in oil can carry a botulism risk.', '1 week in the fridge'],
     ['Pickle', 'Pickle in a vinegar brine in sterilised jars for longer keeping.', '6–12 months'],
   ],
   gooseberry: [
     ['Freeze', 'Top and tail, then freeze on a tray and bag. They keep their tartness for pies and fools.', '12 months'],
     ['Fridge', 'Keep firm, under-ripe berries in a covered container.', '1–2 weeks'],
     ['Jam and chutney', 'High in pectin, so they set well. Chutney is excellent with cheese and pork.', '12 months'],
-    ['Cordial or sauce', 'Stew with sugar into a sauce for mackerel, or into a cordial with elderflower.', '6 months; longer frozen'],
+    ['Cordial or sauce', 'Stew with sugar into a sauce for mackerel, or into a cordial with elderflower.', 'About 1 month in the fridge; up to 12 months frozen'],
   ],
   grape: [
     ['Fridge', 'Keep bunches unwashed in a bag in the fridge. Remove any split or mouldy fruit.', '2–3 weeks'],
@@ -126,7 +126,7 @@ export const STORE_2 = {
   hyssop: [
     ['Dry', 'Hang small bunches in a warm, airy place, then crumble into jars for teas and cooking.', '1 year'],
     ['Freeze', 'Freeze chopped leaves in ice cube trays.', '6–12 months'],
-    ['Infuse', 'Steep in honey or syrup for a minty, soothing flavour.', '6 months'],
+    ['Infuse', 'Steep in honey or syrup for a minty, soothing flavour.', 'Honey: 6 months; syrup: 1 month in the fridge'],
   ],
   'jerusalem-artichoke': [
     ['Leave in the ground', 'Tubers store best in the soil, so lift as you need them from autumn until the plants regrow in spring.', 'Oct to Mar'],
@@ -136,7 +136,7 @@ export const STORE_2 = {
   ],
   kale: [
     ['Leave on the plant', 'Kale is very hardy and tastes better after frost, so pick as needed all winter.', 'Oct to Apr'],
-    ['Freeze', 'Strip from the stalks, blanch for 2 minutes, cool and freeze in bags.', '12 months'],
+    ['Freeze', 'Strip from the stalks, blanch for 3 minutes, cool and freeze in bags.', '12 months'],
     ['Fridge', 'Wrap unwashed leaves in damp paper in a bag.', '5–7 days'],
     ['Dry', 'Make kale crisps in a low oven or dehydrator, or crumble dried leaves into soups.', '3–6 months'],
     ['Ferment', 'Ferment shredded leaves with salt, similar to sauerkraut.', '3–6 months in the fridge'],
@@ -166,7 +166,7 @@ export const STORE_2 = {
   lavender: [
     ['Dry', 'Cut flower stems just before the buds open fully, bundle and hang in a warm, dark, airy place. Strip buds into jars.', '1–2 years'],
     ['Lavender sugar', 'Layer dried buds with caster sugar in a jar for 2 weeks for baking.', '1 year'],
-    ['Infuse', 'Steep in syrup, honey or cream for desserts and drinks.', '6 months'],
+    ['Infuse', 'Steep in syrup, honey or cream for desserts and drinks.', 'Honey: 6 months; syrup: 1 month in the fridge'],
     ['Sachets', 'Fill small cloth bags with dried buds for drawers and wardrobes.', '1–2 years'],
   ],
   leek: [
@@ -179,13 +179,13 @@ export const STORE_2 = {
   'lemon-balm': [
     ['Dry', 'Dry quickly in a warm place for tea. Colour and flavour fade, so use within the year.', '6–12 months'],
     ['Freeze', 'Freeze leaves in ice cube trays with water for drinks.', '6–12 months'],
-    ['Syrup or cordial', 'Simmer leaves with sugar and water, then strain and bottle.', '3–6 months'],
+    ['Syrup or cordial', 'Simmer leaves with sugar and water, then strain and bottle.', '1 month in the fridge; longer frozen'],
     ['Fridge', 'Stand stems in a glass of water, loosely covered.', '3–5 days'],
   ],
   'lemon-verbena': [
     ['Dry', 'Dry on a tray in a warm, airy place. It keeps its lemon scent well when dried, so is great for tea.', '1 year'],
     ['Freeze', 'Freeze whole leaves in a bag for later use.', '12 months'],
-    ['Infuse', 'Steep leaves in syrup, sugar or milk for desserts.', '3–6 months'],
+    ['Infuse', 'Steep leaves in syrup, sugar or milk for desserts.', 'Syrup: 1 month in the fridge; milk or cream: use within 2–3 days'],
     ['Keep the plant', 'Take cuttings or overwinter in a frost-free place so you can pick fresh again next year.', 'Next season'],
   ],
   lemongrass: [

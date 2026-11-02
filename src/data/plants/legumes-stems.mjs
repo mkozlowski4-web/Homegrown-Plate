@@ -22,7 +22,7 @@ export const LEGUMES_STEMS = [
       tips: ["Pick every day or two at peak.", "Pick before pods turn dull and tough.", "Leave roots in the soil.", "Pick in the morning for best flavour."] },
     use: { p: [
       "Eat peas raw straight from the pod, steam or boil for two to three minutes, or add to risottos, pasta, soups and salads. Mangetout and sugar snaps are good raw or in stir-fries. Pea shoots are delicious in salads and as a garnish.",
-      "Peas turn starchy within hours, so cook them on the day. Freeze surplus peas quickly: shell, blanch for one minute, cool in iced water, drain and freeze on a tray before bagging. They keep for a year. For dried peas, leave the pods on the plant until brown and rattling, then shell and dry."],
+      "Peas turn starchy within hours, so cook them on the day. Freeze surplus peas quickly: shell, blanch for two minutes, cool in iced water, drain and freeze on a tray before bagging. They keep for a year. For dried peas, leave the pods on the plant until brown and rattling, then shell and dry."],
       tips: ["Blanch for one minute before freezing.", "Cook within hours of picking.", "Add pea shoots to salads.", "Cook just two or three minutes."] } },
 
   { id: "broad-bean", name: "Broad bean", latin: "Vicia faba", emoji: "🫘", sizes: ["small", "medium", "large"], difficulty: "Easy",
@@ -72,7 +72,7 @@ export const LEGUMES_STEMS = [
       tips: ["Pick every 2–3 days at the peak.", "Pick while pods are slim and tender.", "Leave some pods to dry for seed.", "Cut plants off at the base."] },
     use: { p: [
       "Top and tail the pods, string if necessary, slice diagonally and steam or boil for 4–5 minutes, until just tender. Serve with butter, add to curries, stir-fries, stews and salads, or pickle for chutney. Use young pods for the best flavour; large, old pods are tough.",
-      "Pods keep for up to a week in the fridge in a bag. Freeze by slicing, blanching for 2 minutes, cooling and freezing in bags for up to a year. Salting beans in layers of coarse salt, as in the old way, also preserves them. Dried mature beans can be used in stews."],
+      "Pods keep for up to a week in the fridge in a bag. Freeze by slicing, blanching for 3 minutes, cooling and freezing in bags for up to a year. Salting beans in layers of coarse salt, as in the old way, also preserves them. Dried mature beans can be used in stews."],
       tips: ["Blanch for 2 minutes before freezing.", "Slice diagonally for tenderness.", "Add to chutney to use gluts.", "String older pods."] } },
 
   { id: "french-bean", name: "French bean", latin: "Phaseolus vulgaris", emoji: "🫛", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
@@ -97,7 +97,7 @@ export const LEGUMES_STEMS = [
       tips: ["Pick every 2–3 days.", "Pick young and slim.", "Use scissors to avoid damaging stems.", "Pick in the morning."] },
     use: { p: [
       "Top and tail the pods and steam or boil for 3–5 minutes until just tender but still crisp. Serve with butter, in salads, or with tomatoes, garlic and olive oil. They are good in stir-fries, stews and pasta, and they pickle well (dilly beans). Yellow and purple types are particularly attractive in salads, though purple pods turn green on cooking.",
-      "Fresh pods keep for up to a week in the fridge in a bag. To freeze, top and tail, blanch for 2 minutes, cool quickly, and freeze whole or sliced for up to a year. Leave a few pods to mature on the plant and dry the beans for winter use."],
+      "Fresh pods keep for up to a week in the fridge in a bag. To freeze, top and tail, blanch for 3 minutes, cool quickly, and freeze whole or sliced for up to a year. Leave a few pods to mature on the plant and dry the beans for winter use."],
       tips: ["Cook briefly to keep crunch.", "Blanch for 2 minutes before freezing.", "Pickle surplus beans.", "Dry mature beans for soups."] } },
 
   { id: "celery", name: "Celery", latin: "Apium graveolens var. dulce", emoji: "🥬", sizes: ["medium", "large"], difficulty: "Hard",
@@ -198,7 +198,7 @@ export const LEGUMES_STEMS = [
       tips: ["Be patient in years 1–2.", "Stop cutting by 21 June.", "Cut every day or two in warm weather.", "Eat as fresh as possible."] },
     use: { p: [
       "Steam or boil spears for 3–4 minutes, or roast or grill them with olive oil and sea salt. Serve with butter, hollandaise, a poached egg or parmesan, or add to risottos, quiches and salads. The thicker spears are the most prized. Snap off the tough ends before cooking.",
-      "Fresh spears keep for 2–3 days in the fridge, standing upright in a jar of water or wrapped in damp paper. To freeze, blanch for 2–4 minutes, cool quickly and freeze on a tray, then bag. Frozen spears are best used cooked."],
+      "Fresh spears keep for 2–3 days in the fridge, standing upright in a jar of water or wrapped in damp paper. To freeze, blanch for 2 minutes (thin spears) or 4 (thick), cool quickly and freeze on a tray, then bag. Frozen spears are best used cooked."],
       tips: ["Snap off the woody ends.", "Stand spears in water in the fridge.", "Blanch 2–4 minutes before freezing.", "Roast with olive oil for a nutty taste."] } },
 
   { id: "globe-artichoke", name: "Globe artichoke", latin: "Cynara cardunculus Scolymus Group", emoji: "🌿", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to plant",

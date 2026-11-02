@@ -47,7 +47,7 @@ export const BRASSICAS = [
       tips: ["Take a few leaves from each plant rather than stripping one.", "Pick after frost for the sweetest flavour.", "Harvest the spring flower shoots too.", "Remove flower buds to prolong leaf picking."] },
     use: { p: [
       "Strip the leaves from the tough stems and add to soups, stews and curries, sauté with garlic and chilli, bake into crispy kale crisps, or massage with oil and lemon for a raw salad. Cavolo nero is the classic choice for Italian ribollita, and young leaves can go into smoothies.",
-      "Kale keeps in a bag in the fridge for four to five days. It freezes very well: wash, strip from the stalks, blanch for two minutes, drain thoroughly and freeze in portions. Bunches can be stood in water in the fridge to stay fresh for longer."],
+      "Kale keeps in a bag in the fridge for four to five days. It freezes very well: wash, strip from the stalks, blanch for three minutes, drain thoroughly and freeze in portions. Bunches can be stood in water in the fridge to stay fresh for longer."],
       tips: ["Massage raw kale with oil and lemon to soften it.", "Bake at 150°C with oil for crisps.", "Blanch two minutes before freezing.", "Remove the tough central stalks before cooking."] } },
 
   { id: "sprouting-broccoli", name: "Sprouting broccoli", latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
@@ -72,7 +72,7 @@ export const BRASSICAS = [
       tips: ["Pick regularly: flowering stops further growth.", "Cut spears at an angle so water does not collect.", "Eat soon after picking.", "Use the young leaves as greens."] },
     use: { p: [
       "Steam or boil the spears for three to four minutes until tender but still bright, or roast them with olive oil and garlic. Serve with hollandaise, add them to stir-fries and pasta, or char them on the barbecue. The purple colour fades to green when cooked.",
-      "Fresh spears keep for only three or four days in the fridge in a bag, so eat them promptly. For freezing, blanch the spears for two minutes, chill quickly in cold water, dry them and freeze on trays before bagging. Do not leave harvested spears in a warm kitchen."],
+      "Fresh spears keep for only three or four days in the fridge in a bag, so eat them promptly. For freezing, blanch the spears for three minutes, chill quickly in cold water, dry them and freeze on trays before bagging. Do not leave harvested spears in a warm kitchen."],
       tips: ["Steam for three to four minutes to keep the colour.", "Blanch for two minutes before freezing.", "Eat within days of picking.", "Roast at 200°C with garlic and chilli flakes."] } },
 
   { id: "calabrese", name: "Calabrese", latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
@@ -97,7 +97,7 @@ export const BRASSICAS = [
       tips: ["Cut before any yellow petals show.", "Leave the plant in place for side shoots.", "Cut in the morning when buds are cool and crisp.", "Check plants daily in warm weather."] },
     use: { p: [
       "Calabrese can be steamed, roasted, stir-fried, charred or eaten raw in salads with a good dip. Cut the head into florets and slice the stalk, which is tender and sweet, to cook alongside. Steam for three to four minutes, or roast at 200°C with olive oil, chilli and lemon.",
-      "Heads keep for up to five days in the fridge in a bag, though they are best fresh. To freeze, cut into florets, blanch for two minutes, chill in iced water, then drain well and freeze on trays before bagging. Do not wash before storing in the fridge, as damp encourages mould."],
+      "Heads keep for up to five days in the fridge in a bag, though they are best fresh. To freeze, cut into florets, blanch for three minutes, chill in iced water, then drain well and freeze on trays before bagging. Do not wash before storing in the fridge, as damp encourages mould."],
       tips: ["Peel and slice the stalk; it is the sweetest part.", "Blanch two minutes before freezing.", "Roast with chilli, garlic and lemon.", "Do not wash heads before storing."] } },
 
   { id: "brussels-sprouts", name: "Brussels sprouts", latin: "Brassica oleracea (Gemmifera Group)", emoji: "🥬", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",

@@ -147,7 +147,7 @@ export const FRUITING = [
       tips: ["Check the kernels give milky juice.", "Pick just before cooking.", "Twist and pull downward.", "Check cobs every few days at harvest time."] },
     use: { p: [
       "Boil cobs in unsalted water for 5–8 minutes, or grill or barbecue them in the husk, and serve with butter, salt and pepper. Cut the kernels off for salads, salsas, fritters, soups and chowders. Baby corn is delicious in stir-fries.",
-      "Cobs lose sweetness quickly, so eat them on the day. To preserve a glut, blanch cobs for 4–5 minutes, cool quickly, and freeze whole or cut off the kernels and freeze in bags, which keep for a year."],
+      "Cobs lose sweetness quickly, so eat them on the day. To preserve a glut, blanch cobs for 7–11 minutes depending on size, cool quickly, and freeze whole or cut off the kernels and freeze in bags, which keep for a year."],
       tips: ["Cook within minutes of picking.", "Do not salt the boiling water.", "Blanch and freeze surplus cobs.", "Barbecue in the husk."] } },
 
   { id: "sweet-pepper", name: "Sweet pepper", latin: "Capsicum annuum", emoji: "🫑", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
