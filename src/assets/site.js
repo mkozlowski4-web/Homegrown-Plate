@@ -669,6 +669,21 @@
     };
     begChips.forEach(function (c) { c.addEventListener('click', function () { begState[c.getAttribute('data-filter')] = c.getAttribute('data-value'); applyBeg(); }); });
     applyBeg();
+    /* One-tap "add these crops to my garden" */
+    $$('[data-add-crops]').forEach(function (btn) {
+      btn.parentNode.hidden = false;
+      var msg = btn.parentNode.querySelector('[data-add-msg]');
+      var ids = btn.getAttribute('data-add-crops').split(',');
+      btn.addEventListener('click', function () {
+        var list = loadGarden(), added = 0;
+        ids.forEach(function (id) { if (list.indexOf(id) < 0) { list.push(id); added++; } });
+        saveGarden(list);
+        msg.textContent = '';
+        var text = document.createTextNode(added ? 'Added ' + added + (added === 1 ? ' crop. ' : ' crops. ') : 'Already in your garden. ');
+        var link = document.createElement('a'); link.href = '/my-garden/'; link.textContent = 'Open my garden';
+        msg.appendChild(text); msg.appendChild(link);
+      });
+    });
   }
 
   /* ---- Home page: show this month's panel ---- */

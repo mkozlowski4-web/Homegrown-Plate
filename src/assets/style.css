@@ -346,3 +346,4 @@ a.gloss:hover { color: var(--green); text-decoration-style: solid; }
 .year-list li { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--leaf); border-radius: 10px; padding: .6rem .9rem; display: grid; gap: .15rem; }
 .year-list strong { color: var(--green); }
 h2[id], details.acc[id] { scroll-margin-top: 84px; }
+.beg-add-row{margin:.7rem 0 0}.beg-added{margin-left:.6rem;font-weight:600;color:var(--green)}.beg-added a{color:var(--green)}

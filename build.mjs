@@ -1017,6 +1017,7 @@ function buildBeginners() {
     ${Object.keys(sunInfo).map((sun) => `<div class="beg-sun" data-bsun="${sun}">
       <h4>${sunInfo[sun][0]} ${sunInfo[sun][1]} <span class="muted small-note">(${sunInfo[sun][2]})</span></h4>
       <div class="beg-crops">${PICKS[sz.id][sun].map(cropCard).join('')}</div>
+      <p class="beg-add-row" data-add-row hidden><button type="button" class="btn-garden" data-add-crops="${PICKS[sz.id][sun].join(',')}">+ Add these ${PICKS[sz.id][sun].length} to my garden</button> <span class="beg-added" data-add-msg aria-live="polite"></span></p>
     </div>`).join('\n    ')}
   </div>
 </section>`).join('\n');
