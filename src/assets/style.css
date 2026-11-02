@@ -477,3 +477,20 @@ main a.btn-small, main a.btn-small:visited, main a.btn-small:hover { color: #fff
 #acct .btn-big { background: var(--green); box-shadow: 0 3px 0 #1b4332; }
 html[data-kids] #acct .btn-big, html[data-kids] .btn-small { background: #1f8f4e; }
 #acct a.btn-small, #acct a.btn-small:hover, .card a.btn-small { color: #fff !important; text-decoration: none; }
+
+/* Account icon in the header (tablet and desktop); phones use "Account" inside the Menu */
+.acct-link { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--line); background: #fff; color: var(--green); flex: none; }
+.acct-link:hover { background: #eef7f1; }
+.acct-dot { position: absolute; top: 1px; right: 1px; width: 11px; height: 11px; border-radius: 50%; background: #2fbf71; border: 2px solid #fff; }
+.acct-dot[hidden] { display: none; }
+.site-nav .nav-acct { display: none; }
+.kids-pill { margin-left: auto; }
+.acct-link + .kids-pill { margin-left: 0; }
+.header-bar > .acct-link { margin-left: auto; }
+@media (max-width: 560px) {
+  .acct-link { display: none; }
+  .kids-pill { margin-left: auto; }
+  html.js-nav .site-nav .nav-acct { display: block; }
+}
+@media (min-width: 561px) and (max-width: 1300px) { html.js-nav .site-nav .nav-acct { display: none; } }
+html[data-kids] .acct-link { border-color: #c9a227; }

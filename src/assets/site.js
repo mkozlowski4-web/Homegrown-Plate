@@ -851,6 +851,8 @@
     if (prompt) prompt.hidden = signedIn;
     if (saved) saved.hidden = !signedIn;
     if (signedIn) Acct.pull();
+    $$('.acct-dot').forEach(function (d) { d.hidden = !signedIn; });
+    $$('.acct-link').forEach(function (l) { l.title = signedIn ? 'Account (signed in)' : 'Account'; });
 
     var root = $('#acct'); if (!root) return;
     root.hidden = false;

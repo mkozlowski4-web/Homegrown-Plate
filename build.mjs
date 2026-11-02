@@ -249,10 +249,12 @@ ${ld.map(jsonLd).join('\n')}
 <header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="44" height="44" alt=""><span class="brand-text"><span class="brand-name">Homegrown <span>Plate</span></span><small class="brand-tag">Grow it. Cook it. Keep it.</small></span></a>
+    <a class="acct-link" href="/account/" aria-label="Account: sign in or create an account" title="Account"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="acct-dot" hidden></span></a>
     <button type="button" class="kids-pill" data-kids-toggle aria-pressed="false" title="Switch kids mode on or off" hidden><span class="kp-icon" aria-hidden="true">🧒</span><span class="kids-switch-label">Kids mode</span><span class="kp-track" aria-hidden="true"><span class="knob"></span></span></button>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
     <nav class="site-nav" id="siteNav" aria-label="Main">
       <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>
+      <a class="nav-acct" href="/account/"${section === 'account' ? ' aria-current="page"' : ''}>Account</a>
       ${nav}
     </nav>
   </div>
@@ -1254,7 +1256,7 @@ function buildAccount() {
   </section>
 </div>`;
   addPage({
-    path: '/account/', section: '', body, title: 'Your account: save your garden on every device',
+    path: '/account/', section: 'account', body, title: 'Your account: save your garden on every device',
     description: 'Create a free Homegrown Plate account to keep your garden, ticked-off jobs and area on all your devices.',
     crumbs: [['Home', '/'], ['Account', '/account/']],
   });
