@@ -242,7 +242,7 @@ ${ld.map(jsonLd).join('\n')}
 <header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="44" height="44" alt=""><span class="brand-text"><span class="brand-name">Homegrown <span>Plate</span></span><small class="brand-tag">Grow it. Cook it. Keep it.</small></span></a>
-    <button type="button" class="kids-pill" data-kids-toggle aria-pressed="true" title="Switch kids mode off">🧒 Kids mode: on</button>
+    <button type="button" class="kids-pill" data-kids-toggle aria-pressed="false" title="Switch kids mode on or off" hidden><span class="kp-icon" aria-hidden="true">🧒</span><span class="kids-switch-label">Kids mode</span><span class="kp-track" aria-hidden="true"><span class="knob"></span></span></button>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
     <nav class="site-nav" id="siteNav" aria-label="Main">
       <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>
@@ -395,11 +395,7 @@ function buildHome() {
   const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
 
   const kidsCards = KID_PROJECTS.map((k) => `<a class="kid-mini" href="/kids/#${k.id}"><span class="kid-emoji" aria-hidden="true">${k.emoji}</span><strong>${esc(k.title)}</strong><span>${esc(k.wait)}</span></a>`).join('\n    ');
-  const kidsHomeBlock = `<div class="kids-banner" data-kids-banner hidden>
-  <span class="kids-banner-text"><strong>Growing with kids?</strong> Try Kids mode for a friendlier look and easy projects.</span>
-  <button type="button" class="kids-switch" data-kids-toggle role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span><span class="kids-switch-label">Kids mode</span></button>
-</div>
-<section class="kids-home" aria-label="Kids mode">
+  const kidsHomeBlock = `<section class="kids-home" aria-label="Kids mode">
   <div class="kids-hero">
     <p class="kids-sparkle" aria-hidden="true">🌱 ☀️ 🐛 🌻 🍓</p>
     <h1>Let’s grow something amazing!</h1>
@@ -1135,10 +1131,6 @@ function buildKids() {
   <p class="muted small-note">Uses: ${r.uses.map((u) => `<a href="/plants/${u}/">${esc(plantMap.get(u).name)}</a>`).join(', ')}</p>
 </article>`).join('\n');
   const body = `
-<div class="kids-banner" data-kids-banner hidden>
-  <span class="kids-banner-text"><strong>Kids mode</strong> gives the whole site a friendlier look.</span>
-  <button type="button" class="kids-switch" data-kids-toggle role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span><span class="kids-switch-label">Kids mode</span></button>
-</div>
 <h1>Growing Food with Kids</h1>
 <p class="lead">Six easy projects to grow your own food, and six recipes to cook it. Written for children aged about 6 to 10, with a grown-up helper.</p>
 <nav class="chip-group jump" aria-label="On this page">

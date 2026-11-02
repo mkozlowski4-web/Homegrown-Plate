@@ -228,12 +228,12 @@
 
   /* ---- Kids mode ---- */
   var kidsToggles = $$('[data-kids-toggle]');
-  $$('[data-kids-banner]').forEach(function (b) { b.hidden = false; });
+  $$('[data-kids-toggle]').forEach(function (b) { b.hidden = false; });
   var paintKids = function () {
     var on = document.documentElement.hasAttribute('data-kids');
     kidsToggles.forEach(function (t) {
       t.setAttribute(t.getAttribute('role') === 'switch' ? 'aria-checked' : 'aria-pressed', String(on));
-      var lab = t.querySelector('.kids-switch-label'); if (lab) lab.textContent = on ? 'Kids mode is on' : 'Kids mode';
+      var lab = t.querySelector('.kids-switch-label'); if (lab) lab.textContent = 'Kids mode';
     });
   };
   kidsToggles.forEach(function (t) {
