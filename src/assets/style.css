@@ -272,7 +272,7 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .burger, .burger::before, .burger::after { display: block; width: 18px; height: 2px; background: var(--green); border-radius: 2px; position: relative; content: ""; }
 .burger::before { position: absolute; top: -6px; }
 .burger::after { position: absolute; top: 6px; }
-@media (max-width: 1300px) {
+@media all {
   .nav-toggle { display: inline-flex; }
   .site-nav .nav-home { display: block; }
   html.js-nav .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 10px 20px rgba(31,42,36,.08); flex-direction: column; align-items: stretch; padding: 8px 20px 16px; gap: 2px; }
@@ -504,4 +504,9 @@ html[data-kids] .acct-link { border-color: #c9a227; }
   .nav-kids[aria-pressed="true"] .kp-track { background: #1f8f4e; }
   .nav-kids[aria-pressed="true"] .knob { left: 23px; }
   html[data-kids] .nav-kids { background: #ffd23f; border-color: #c9a227; color: #3b2a00; }
+}
+
+/* Desktop: the menu is a tidy dropdown panel under the Menu button instead of a full-width bar */
+@media (min-width: 761px) {
+  html.js-nav .site-nav { left: auto; right: max(20px, calc((100vw - 1200px) / 2)); width: 300px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 14px 14px; padding: 8px 10px 14px; }
 }
