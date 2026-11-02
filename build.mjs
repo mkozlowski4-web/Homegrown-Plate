@@ -188,10 +188,10 @@ function outFile(urlPath, html) {
 
 const NAV = [
   ['Home', '/', 'home'],
+  ['Beginners', '/beginners/', 'beginners'],
   ['Garden Sizes', '/sizes/', 'sizes'],
   ['Plant Guide', '/plants/', 'plants'],
   ['Planting Calendar', '/calendar/', 'calendar'],
-  ['How-To', '/howto/', 'howto'],
   ['Harvesting', '/harvest/', 'harvest'],
   ['Preserving', '/preserving/', 'preserving'],
   ['Recipes', '/recipes/', 'recipes'],
@@ -248,7 +248,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -1076,9 +1076,9 @@ ${buyBody}
 
 <h2 id="year">4. Your first year</h2>
 ${yearBody}
-<p>Check the <a href="/calendar/">planting calendar</a> and enter your postcode to see dates for your area. Stuck on a word? See <a href="/glossary/">gardening words explained</a>, and <a href="/pests/">pests and diseases</a> if something goes wrong.</p>`;
+<p>Want the basics in seven short steps? Read <a href="/howto/">how to grow your own food</a>. Check the <a href="/calendar/">planting calendar</a> and enter your postcode to see dates for your area. Stuck on a word? See <a href="/glossary/">gardening words explained</a>, and <a href="/pests/">pests and diseases</a> if something goes wrong.</p>`;
   addPage({
-    path: '/beginners/', section: 'howto', body: glossify(body), title: 'Beginner’s Guide: what to grow, how to prepare soil and what to buy',
+    path: '/beginners/', section: 'beginners', body: glossify(body), title: 'Beginner’s Guide: what to grow, how to prepare soil and what to buy',
     description: 'A first-time grower’s guide to the easiest crops for your garden size and sunlight, how to prepare soil for planting, and a simple shopping list.',
     crumbs: [['Home', '/'], ['Beginner’s Guide', '/beginners/']],
   });

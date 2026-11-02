@@ -347,3 +347,5 @@ a.gloss:hover { color: var(--green); text-decoration-style: solid; }
 .year-list strong { color: var(--green); }
 h2[id], details.acc[id] { scroll-margin-top: 84px; }
 .beg-add-row{margin:.7rem 0 0}.beg-added{margin-left:.6rem;font-weight:600;color:var(--green)}.beg-added a{color:var(--green)}
+.site-nav a { padding: 8px 9px; font-size: .9rem; }
+.site-nav a.nav-cta { padding: 9px 15px; }
