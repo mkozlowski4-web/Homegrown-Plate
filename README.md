@@ -81,3 +81,7 @@ Accounts are optional; the site works fully without one. A small Cloudflare Work
 - Pages: `/account/` (sign in, create, change password, download data, delete account) and `/privacy/`. Set `CONTACT_EMAIL` in `build.mjs` to show a contact address on the privacy page.
 - There is no password reset yet: it needs an email-sending service.
 - Run the schema again with `wrangler d1 execute homegrown-plate --remote --file migrations/0001_init.sql` if the database is ever recreated (the id in `wrangler.jsonc` must then be updated).
+
+## About, contact, disclosure and kit pages
+
+`buildAbout()` in `build.mjs` makes `/about/`, `/contact/`, `/affiliate-disclosure/` and `/kit/` (the kit page reuses the shopping lists in `src/data/beginners.mjs`). The public contact address is `CONTACT_EMAIL` in `build.mjs`; it must be set up to forward (Cloudflare Email Routing). The disclosure page says there are currently no affiliate links: update it when links go live.

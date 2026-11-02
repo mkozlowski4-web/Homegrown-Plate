@@ -266,7 +266,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -1200,7 +1200,7 @@ function buildInstall() {
   });
 }
 
-const CONTACT_EMAIL = ''; /* add an address here to show it on the privacy page */
+const CONTACT_EMAIL = 'hello@homegrownplate.co.uk'; /* forwarded to the owner's inbox with Cloudflare Email Routing */
 
 function buildAccount() {
   const field = (id, label, type, ac, extra = '') => `<p class="acct-field"><label for="${id}">${label}</label><input id="${id}" name="${id}" type="${type}" autocomplete="${ac}" ${extra}></p>`;
@@ -1295,6 +1295,93 @@ ${CONTACT_EMAIL ? `<p>Questions about your data? Email <a href="mailto:${CONTACT
   });
 }
 
+function buildAbout() {
+  const mail = `<a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`;
+  addPage({
+    path: '/about/', section: '', title: 'About Homegrown Plate',
+    description: 'Homegrown Plate is a free UK guide to growing, cooking and storing your own food, for every size of garden.',
+    crumbs: [['Home', '/'], ['About', '/about/']],
+    body: `
+<h1>About Homegrown Plate</h1>
+<p class="lead">Homegrown Plate is a free UK guide to growing your own food, cooking it and keeping it, whether you have a windowsill or an allotment.</p>
+<h2>What you will find here</h2>
+<ul>
+  <li><a href="/plants/">${PLANTS.length} crops</a> with plain-English advice on sowing, growing, harvesting and storing, written for UK conditions.</li>
+  <li>A <a href="/calendar/">planting calendar</a> and <a href="/my-garden/">My Garden</a>, which adjust dates for your part of the country.</li>
+  <li><a href="/recipes/">${RECIPES.length} recipes</a> for the things you grow, plus ideas for <a href="/preserving/">preserving a surplus</a>.</li>
+  <li>A <a href="/beginners/">beginner's guide</a>, and a <a href="/kids/">section for growing with children</a>.</li>
+</ul>
+<h2>How to use it</h2>
+<p>Sowing and harvest times are typical for the UK and are adjusted for your area using the first letters of your postcode. They are a good guide, not a guarantee: always check your own frost dates, soil and weather. The guidance is general. For specific plant health problems or food safety questions, check with a trusted source such as the RHS or your local garden centre.</p>
+<h2>Free to use</h2>
+<p>You never need an account to use the site. An optional free <a href="/account/">account</a> saves your garden across devices. The site may in future earn a small commission from some links, which never changes what we recommend. Read the <a href="/affiliate-disclosure/">affiliate disclosure</a> and the <a href="/privacy/">privacy page</a>.</p>
+<h2>Get in touch</h2>
+<p>Spotted a mistake, or have a crop or recipe you would like to see? Email ${mail}. See the <a href="/contact/">contact page</a>.</p>`,
+  });
+
+  addPage({
+    path: '/contact/', section: '', title: 'Contact Homegrown Plate',
+    description: 'How to contact Homegrown Plate about corrections, suggestions, your data or working together.',
+    crumbs: [['Home', '/'], ['Contact', '/contact/']],
+    body: `
+<h1>Contact</h1>
+<p class="lead">Email ${mail}. A real person reads it, and we aim to reply within a few days.</p>
+<h2>Good reasons to write</h2>
+<ul>
+  <li><strong>Corrections.</strong> If something on a crop or recipe page looks wrong, please tell us which page and what you think it should say.</li>
+  <li><strong>Suggestions.</strong> A crop, recipe or storage method you would like to see.</li>
+  <li><strong>Your data.</strong> You can download or delete everything we hold yourself from your <a href="/account/">account page</a>. If you cannot get in, email us from the address you signed up with.</li>
+  <li><strong>Working together.</strong> Garden and kitchen brands are welcome to get in touch. See the <a href="/affiliate-disclosure/">affiliate disclosure</a> for how we handle links and sponsorship.</li>
+</ul>
+<p class="muted small-note">We cannot give personal advice on plant diseases or medical or food-allergy questions.</p>`,
+  });
+
+  addPage({
+    path: '/affiliate-disclosure/', section: '', title: 'Affiliate disclosure',
+    description: 'How Homegrown Plate may earn money from links, and how that never affects what it recommends.',
+    crumbs: [['Home', '/'], ['Affiliate disclosure', '/affiliate-disclosure/']],
+    body: `
+<h1>Affiliate disclosure</h1>
+<p class="lead">Homegrown Plate is free to use. This page explains how the site may earn money, so you can judge our advice with the full picture.</p>
+<h2>Where things stand today</h2>
+<p>At the time of writing, the site does <strong>not</strong> contain affiliate links or paid placements.</p>
+<h2>If we add affiliate links</h2>
+<ul>
+  <li>Some links to products, such as seeds, tools or kitchen equipment, may become <strong>affiliate links</strong>. If you buy through one, we may earn a small commission <strong>at no extra cost to you</strong>.</li>
+  <li>Pages with affiliate links will say so clearly near the links.</li>
+  <li>Commission never decides what we recommend. We suggest what is useful for the job, and we will not recommend something just because it pays.</li>
+  <li>Growing advice and recipes stay free and complete without buying anything.</li>
+</ul>
+<h2>Sponsored content</h2>
+<p>If we are ever paid or given products to feature something, we will label it clearly as sponsored.</p>
+<h2>Questions</h2>
+<p>Email <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>`,
+  });
+
+  const kit = (items) => `<ul class="kit-list">${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>`;
+  addPage({
+    path: '/kit/', section: '', title: 'Essential gardening kit for every garden size',
+    description: 'A simple checklist of the basic tools, compost and supplies you need to start growing food, for balconies, small, medium and large gardens.',
+    crumbs: [['Home', '/'], ['Essential kit', '/kit/']],
+    body: `
+<h1>Essential kit for growing your own food</h1>
+<p class="lead">You do not need much to start. Here is a simple checklist, then the extras that suit each size of garden. Buy a few good basics rather than a big set.</p>
+<h2>The basics, for everyone</h2>
+<div class="grid">
+${BUY.essentials.map(([a, b]) => `  <div class="card"><h3>${esc(a)}</h3><p class="muted">${esc(b)}</p></div>`).join('\n')}
+</div>
+<h2>Add these for your garden size</h2>
+<div class="grid">
+${['balcony', 'small', 'medium', 'large'].map((id) => { const sz = sizeMap.get(id); return `  <div class="card"><h3>${sz.emoji} ${esc(sz.title)}</h3>${kit(BUY.bySize[id])}<p class="muted small-note">Typical start-up cost: ${esc(BUY.budget.find(([n]) => n.toLowerCase().startsWith(sz.short.toLowerCase().split(' ')[0]))?.[1] || 'varies')}</p><a href="/sizes/${id}/">Crops for this size &rarr;</a></div>`; }).join('\n')}
+</div>
+<h2>Nice to have later</h2>
+${kit(BUY.later)}
+<h2>Best left out at first</h2>
+${kit(BUY.skip)}
+<p>New to this? Start with the <a href="/beginners/">beginner's guide</a>.</p>`,
+  });
+}
+
 function buildOffline() {
   const body = `
 <h1>You are offline</h1>
@@ -1380,6 +1467,7 @@ buildKids();
 buildInstall();
 buildAccount();
 buildPrivacy();
+buildAbout();
 buildMyGarden();
 buildCalendar();
 buildGuides();
