@@ -100,6 +100,85 @@
   };
 
   /* ---- page ---- */
+  /* ---- Google search (from Search Console) ---- */
+  var posChart = function (series) {
+    var W = Math.min(760, Math.max(280, Math.round(root.clientWidth - 44))), H = W < 480 ? 230 : 250, L = 40, R = 12, T = 14, B = 30, iw = W - L - R, ih = H - T - B;
+    var vals = series.map(function (d) { return d.position; }).filter(function (v) { return v > 0; });
+    var lo = Math.max(1, Math.floor(Math.min.apply(null, vals)) - 1), hi = Math.max(lo + 4, Math.ceil(Math.max.apply(null, vals)) + 1);
+    var x = function (i) { return L + (series.length === 1 ? iw / 2 : i * iw / (series.length - 1)); };
+    var y = function (v) { return T + (v - lo) / (hi - lo) * ih; };   /* position 1 is at the TOP: lower is better */
+    var svg = sv('svg', { viewBox: '0 0 ' + W + ' ' + H, 'class': 'dash-chart', role: 'img', 'aria-label': 'Average Google position per day. Higher on the chart is better.' });
+    var stepV = Math.max(1, Math.ceil((hi - lo) / 4));
+    for (var v = lo; v <= hi; v += stepV) {
+      svg.appendChild(sv('line', { x1: L, x2: W - R, y1: y(v), y2: y(v), 'class': 'dash-grid' }));
+      var tx = sv('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end', 'class': 'dash-axis' }); tx.textContent = String(v); svg.appendChild(tx);
+    }
+    var every = Math.max(1, Math.ceil(series.length / Math.max(2, Math.floor(iw / 75))));
+    series.forEach(function (d, i) {
+      var last = series.length - 1; if (i !== last && (i % every !== 0 || last - i < every * 0.7)) return;
+      var lab = sv('text', { x: x(i), y: H - 8, 'text-anchor': i === 0 ? 'start' : i === last ? 'end' : 'middle', 'class': 'dash-axis' });
+      lab.textContent = new Date(d.date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); svg.appendChild(lab);
+    });
+    svg.appendChild(sv('path', { d: series.map(function (d, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d.position).toFixed(1); }).join(' '), 'class': 'dash-line dash-line-1' }));
+    series.forEach(function (d, i) {
+      var c = sv('circle', { cx: x(i), cy: y(d.position), r: series.length > 40 ? 2 : 3, 'class': 'dash-dot dash-dot-1' });
+      var t = sv('title'); t.textContent = new Date(d.date + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + ': position ' + d.position + ', ' + fmt(d.impressions) + ' impressions, ' + fmt(d.clicks) + ' clicks';
+      c.appendChild(t); svg.appendChild(c);
+    });
+    var wrap = el('div', 'dash-chart-wrap'); wrap.appendChild(svg); return wrap;
+  };
+
+  var table = function (rows, firstLabel) {
+    var t = el('table', 'dash-rank'); var h = el('tr');
+    [firstLabel, 'Position', 'Clicks', 'Impressions'].forEach(function (c, i) { h.appendChild(el('th', i ? 'num' : '', c)); });
+    var th = el('thead'); th.appendChild(h); t.appendChild(th); var tb = el('tbody');
+    rows.forEach(function (r) { var tr = el('tr'); [r.name, String(r.position), fmt(r.clicks), fmt(r.impressions)].forEach(function (c, i) { tr.appendChild(el(i ? 'td' : 'th', i ? 'num' : '', c)); }); tb.appendChild(tr); });
+    t.appendChild(tb); var w = el('div', 'dash-rank-wrap'); w.appendChild(t); return w;
+  };
+
+  var setupHelp = function (c, reason, email) {
+    var box = el('div', 'callout');
+    var texts = {
+      'not-configured': 'Not connected yet. Google only shares ranking data through its Search Console service, so this needs a one-time setup.',
+      'bad-key': 'The saved Google key could not be used. Please check that the whole key file was pasted into the secret called GOOGLE_SERVICE_ACCOUNT.',
+      'no-access': 'Google is refusing access. Add ' + (email || 'the service account email') + ' as a user on your Search Console property (Settings, then Users and permissions, then Add user, with Restricted permission).',
+      error: 'Google did not answer just now. Try again in a few minutes. Data from Search Console can also take a few days to start appearing for a new site.'
+    };
+    box.appendChild(el('p', '', texts[reason] || texts.error));
+    if (reason === 'not-configured') {
+      var ol = el('ol');
+      ['In Google Cloud (console.cloud.google.com), create a project and turn on the Google Search Console API.',
+       'Create a service account and download its key as a JSON file.',
+       'In Search Console, add the service account email as a Restricted user of your homegrownplate.co.uk property.',
+       'In Cloudflare, open the homegrown-plate Worker, then Settings, Variables and Secrets, and add a secret named GOOGLE_SERVICE_ACCOUNT containing the whole JSON file.'].forEach(function (t) { ol.appendChild(el('li', '', t)); });
+      box.appendChild(ol);
+    }
+    c.appendChild(box);
+  };
+
+  var loadSearch = function (box, d) {
+    var c = card('Google search', 'Where your site appears in Google results, from Search Console. It runs about two days behind.'); box.appendChild(c);
+    c.appendChild(el('p', 'muted', 'Loading...'));
+    fetch('/api/admin/search?days=' + Math.min(d, 90), { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : { connected: false, reason: 'error' }; }).catch(function () { return { connected: false, reason: 'error' }; }).then(function (g) {
+      c.removeChild(c.lastChild);
+      if (!g.connected) { setupHelp(c, g.reason, g.email); return; }
+      var tiles = el('div', 'dash-tiles');
+      tiles.appendChild(tile('Average position', g.totals.impressions ? String(g.totals.position) : 'n/a', 'Lower is better. 1 is the top of page one.'));
+      tiles.appendChild(tile('Clicks from Google', fmt(g.totals.clicks), g.start + ' to ' + g.end));
+      tiles.appendChild(tile('Impressions', fmt(g.totals.impressions), 'Times you appeared in results'));
+      tiles.appendChild(tile('Click rate', g.totals.ctr + '%', 'Clicks as a share of impressions'));
+      c.appendChild(tiles);
+      if (!g.series.length) { c.appendChild(el('p', 'muted', 'No search data yet. New sites usually take a few weeks to start appearing in Google.')); return; }
+      c.appendChild(el('h3', '', 'Average position per day'));
+      c.appendChild(posChart(g.series));
+      c.appendChild(el('p', 'muted small-note', 'Higher on the chart is better. The average is across every search where you appeared, so it can move when you start appearing for new searches, even if nothing got worse.'));
+      var grid = el('div', 'dash-grid2');
+      var a = el('div'); a.appendChild(el('h3', '', 'Top searches')); a.appendChild(g.queries.length ? table(g.queries, 'Search') : el('p', 'muted', 'None yet.')); grid.appendChild(a);
+      var b = el('div'); b.appendChild(el('h3', '', 'Top pages in Google')); b.appendChild(g.pages.length ? table(g.pages, 'Page') : el('p', 'muted', 'None yet.')); grid.appendChild(b);
+      c.appendChild(grid);
+    });
+  };
+
   var lastStats = null, lastW = 0;
   var render = function (s) {
     lastStats = s; lastW = root.clientWidth;
@@ -132,6 +211,7 @@
     var r4 = card('Traffic filtered out', 'Requests that looked automated, so they are left out of every figure above. Counted here only so you can see how much there is.');
     r4.appendChild(bars(s.filtered, function (r) { return FILTER_NAMES[r.name] || r.name; }, 'n', 'Nothing filtered yet.')); grid.appendChild(r4);
     root.appendChild(grid);
+    var gscBox = el('div', 'dash-gsc'); root.appendChild(gscBox); loadSearch(gscBox, s.days);
     root.appendChild(el('p', 'muted small-note', 'Dates use UK time. Visitors who have Do Not Track or Global Privacy Control switched on are not counted, and no filter is perfect: a bot that behaves exactly like a person can still get through.'));
   };
 

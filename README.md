@@ -93,3 +93,15 @@ First-party and cookieless; no third-party scripts. `src/assets/site.js` (the `t
 Stored per hit: day, page, rough country, device type, referring site and a visitor code (a hash of IP + browser + a random per-day salt, deleted after two days). No IP, user agent or user id is stored, so unique visitors are per day only. Raw rows are deleted after 400 days. Schema in `migrations/0002_analytics.sql`.
 
 The dashboard is `/admin/` (not in the sitemap, `noindex`); its data comes from `GET /api/admin/stats`, which returns 404 unless the signed-in account has `is_admin = 1`. To make an account the owner: `UPDATE users SET is_admin = 1 WHERE email = '...';` in D1.
+
+## Google ranking in the dashboard
+
+`/admin/` has a "Google search" section (average position, clicks, impressions, top searches and pages) read from the Search Console API by `src/worker/gsc.mjs`. Until it is set up it shows a "Not connected yet" panel.
+
+One-time setup:
+1. Google Cloud: create a project, enable the **Google Search Console API**, create a **service account** and download its JSON key.
+2. Search Console → Settings → Users and permissions → add the service account's email as a **Restricted** user on the homegrownplate.co.uk property.
+3. Cloudflare → Workers → homegrown-plate → Settings → Variables and Secrets → add a secret named `GOOGLE_SERVICE_ACCOUNT` containing the whole JSON.
+4. Optional: variable `GSC_SITE` if the property isn't `sc-domain:homegrownplate.co.uk` (URL-prefix properties look like `https://homegrownplate.co.uk/`).
+
+Google's data runs about two days behind, and a new site can show nothing for a few weeks.

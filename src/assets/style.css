@@ -549,3 +549,13 @@ html[data-kids] .acct-link { border-color: #c9a227; }
 .dash-grid2 { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 .dash-grid2 > *, .dash-bars li, .dash-card { min-width: 0; }
 .dash-bar-top { min-width: 0; }
+.dash-gsc { margin-top: 16px; }
+.dash-gsc h3 { font-size: 1rem; margin: 14px 0 6px; }
+.dash-gsc .dash-grid2 { margin-top: 8px; }
+.dash-rank-wrap { overflow-x: auto; }
+.dash-rank { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.dash-rank th, .dash-rank td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; font-weight: 400; vertical-align: top; }
+.dash-rank thead th { font-weight: 700; color: var(--muted); font-size: .8rem; }
+.dash-rank .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dash-rank tbody th { word-break: break-word; min-width: 120px; }
+.dash-card .callout ol { margin: 6px 0 0 1.2rem; padding: 0; }

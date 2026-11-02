@@ -3,6 +3,7 @@
    Sessions: random tokens in an HttpOnly cookie; only a SHA-256 hash of each token is stored. */
 
 import { collect, stats, tidyAnalytics } from './analytics.mjs';
+import { searchStats } from './gsc.mjs';
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 100000; /* the maximum the Workers runtime allows */
@@ -231,6 +232,10 @@ async function api(request, env, url, ctx) {
   if (path === '/api/admin/stats' && method === 'GET') {
     if (!user.is_admin) return fail(404, 'Not found.'); /* do not reveal that the page exists */
     return json(await stats(env, url.searchParams.get('days')));
+  }
+  if (path === '/api/admin/search' && method === 'GET') {
+    if (!user.is_admin) return fail(404, 'Not found.');
+    return json(await searchStats(env, url.searchParams.get('days')));
   }
   if (path === '/api/data' && method === 'GET') return getData(user, env);
   if (path === '/api/data' && method === 'PUT') return putData(request, user, env);
