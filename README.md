@@ -65,3 +65,4 @@ Every plant has a drawn illustration (generated from `src/illustrations.mjs`). T
 - `src/data/zones.mjs`: six regional timing zones and the postcode-area lookup. The site script shifts sowing, planting and harvest dates in half-month steps for the visitor’s area (saved in the browser only).
 
 - `src/data/beginners.mjs`: beginner crop picks (checked as Easy and suited to the size and sun), soil guides, shopping list and first-year plan for the Beginner’s Guide page.
+- `src/data/kids.mjs`: the six kids' grow projects, six recipes and grown-up safety notes for `/kids/` and the Kids mode home block. Crop links are checked at build. Kids mode is a `data-kids` attribute on `<html>` set by `src/assets/theme.js` (saved in localStorage as `hp-kids`); its look is the `html[data-kids]` rules in `style.css`.

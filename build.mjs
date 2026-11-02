@@ -15,6 +15,7 @@ import { STORAGE } from './src/data/storage.mjs';
 import { ZONES, AREA_ZONE } from './src/data/zones.mjs';
 import { GLOSSARY } from './src/data/glossary.mjs';
 import { PICKS, WHY, SOIL, BUY, YEAR } from './src/data/beginners.mjs';
+import { KIDS_NOTES, PROJECTS as KID_PROJECTS, RECIPES as KID_RECIPES } from './src/data/kids.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
@@ -227,6 +228,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 ${noindex ? '' : `<meta property="og:url" content="${url}">\n`}<meta property="og:locale" content="en_GB">
 ${image ? `<meta property="og:image" content="${SITE}${image}">\n<meta name="twitter:card" content="summary_large_image">` : '<meta name="twitter:card" content="summary">'}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/assets/theme.js?v=${assetVersion['theme.js']}"></script>
 <link rel="stylesheet" href="/assets/style.css?v=${assetVersion['style.css']}">
 ${ld.map(jsonLd).join('\n')}
 </head>
@@ -235,6 +237,7 @@ ${ld.map(jsonLd).join('\n')}
 <header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="44" height="44" alt=""><span class="brand-text"><span class="brand-name">Homegrown <span>Plate</span></span><small class="brand-tag">Grow it. Cook it. Keep it.</small></span></a>
+    <button type="button" class="kids-pill" data-kids-toggle aria-pressed="true" title="Switch kids mode off">🧒 Kids mode: on</button>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
     <nav class="site-nav" id="siteNav" aria-label="Main">
       <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>
@@ -248,7 +251,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -386,7 +389,25 @@ function buildHome() {
   </a>`).join('\n  ');
   const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
 
+  const kidsCards = KID_PROJECTS.map((k) => `<a class="kid-mini" href="/kids/#${k.id}"><span class="kid-emoji" aria-hidden="true">${k.emoji}</span><strong>${esc(k.title)}</strong><span>${esc(k.wait)}</span></a>`).join('\n    ');
+  const kidsHomeBlock = `<div class="kids-banner" data-kids-banner hidden>
+  <span class="kids-banner-text"><strong>Growing with kids?</strong> Try Kids mode for a friendlier look and easy projects.</span>
+  <button type="button" class="kids-switch" data-kids-toggle role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span><span class="kids-switch-label">Kids mode</span></button>
+</div>
+<section class="kids-home" aria-label="Kids mode">
+  <div class="kids-hero">
+    <p class="kids-sparkle" aria-hidden="true">🌱 ☀️ 🐛 🌻 🍓</p>
+    <h1>Let’s grow something amazing!</h1>
+    <p>Plant a seed, watch it grow, and then eat what you grew. Pick a project and get your hands dirty!</p>
+    <p class="kids-actions"><a class="btn-big" href="/kids/#projects">Pick a project</a> <a class="btn-big alt" href="/kids/#recipes">Yummy recipes</a></p>
+  </div>
+  <div class="kid-mini-grid">
+    ${kidsCards}
+  </div>
+  <p class="muted small-note">Grown-ups: these projects need a helper. Read the <a href="/kids/#grownups">safety notes</a>.</p>
+</section>`;
   const body = `
+${kidsHomeBlock}
 <section class="hero">
  <div class="hero-copy">
   <h1>Grow your own food, whatever your garden size</h1>
@@ -438,6 +459,7 @@ function buildHome() {
   <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
   <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
   <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
+  <a href="/kids/" class="card card-link"><h3>Growing with Kids</h3><p class="muted">Simple grow-your-own projects and recipes for children.</p><span class="more-link">Get growing &rarr;</span></a>
   <a href="/beginners/" class="card card-link"><h3>Beginner’s Guide</h3><p class="muted">New to growing? What to grow for your space, how to prepare soil, and what to buy.</p><span class="more-link">Start here &rarr;</span></a>
   <a href="/preserving/" class="card card-link"><h3>Preserving</h3><p class="muted">Freeze, dry, pickle or store a glut: storage ideas for every crop, grouped by method.</p><span class="more-link">Keep your harvest &rarr;</span></a>
   <a href="/pests/" class="card card-link"><h3>Pests &amp; Diseases</h3><p class="muted">${PESTS.length} common problems, how to spot them and what to do, linked from every crop.</p><span class="more-link">Fix a problem &rarr;</span></a>
@@ -1084,6 +1106,63 @@ ${yearBody}
   });
 }
 
+function buildKids() {
+  for (const k of KID_PROJECTS) if (k.crop && !plantMap.has(k.crop)) throw new Error(`Kids project ${k.id} links to unknown crop ${k.crop}`);
+  for (const r of KID_RECIPES) for (const u of r.uses) if (!plantMap.has(u)) throw new Error(`Kids recipe ${r.id} uses unknown crop ${u}`);
+  const projects = KID_PROJECTS.map((k, n) => `<article class="kid-project" id="${k.id}">
+  <header><span class="kid-emoji" aria-hidden="true">${k.emoji}</span><div><h3>${esc(k.title)}</h3><p class="muted">${esc(k.blurb)}</p></div></header>
+  <p class="kid-facts"><span class="kid-badge">⏱ ${esc(k.wait)}</span> <span class="kid-badge">📅 ${esc(k.start)}</span> <span class="kid-badge">⭐ ${esc(k.level)}</span></p>
+  <h4>You will need</h4>
+  <ul class="kid-need">${k.need.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+  <h4>Let’s go!</h4>
+  <ol class="kid-steps">${k.steps.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>
+  <p class="kid-fact"><strong>Did you know?</strong> ${esc(k.fact)}</p>
+  <p class="kid-adult"><strong>Grown-up helper:</strong> ${esc(k.adult)}</p>
+  ${k.crop ? `<p><a href="/plants/${k.crop}/">More about growing ${esc(lower(plantMap.get(k.crop).name))} &rarr;</a></p>` : ''}
+</article>`).join('\n');
+  const recipes = KID_RECIPES.map((r) => `<article class="kid-project kid-recipe" id="${r.id}">
+  <header><span class="kid-emoji" aria-hidden="true">${r.emoji}</span><div><h3>${esc(r.title)}</h3><p class="muted">Great with: ${esc(r.made)}</p></div></header>
+  <p class="kid-facts"><span class="kid-badge">🍽 ${esc(r.serves)}</span> <span class="kid-badge">⏱ ${esc(r.time)}</span></p>
+  <h4>You will need</h4>
+  <ul class="kid-need">${r.ingredients.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+  <h4>Let’s cook!</h4>
+  <ol class="kid-steps">${r.steps.map((x) => (x.startsWith('👩‍🍳') ? `<li class="adult-job"><span class="adult-tag">Grown-up job</span> ${esc(x.replace('👩‍🍳', '').trim())}</li>` : `<li>${esc(x)}</li>`)).join('')}</ol>
+  <p class="muted small-note">Uses: ${r.uses.map((u) => `<a href="/plants/${u}/">${esc(plantMap.get(u).name)}</a>`).join(', ')}</p>
+</article>`).join('\n');
+  const body = `
+<div class="kids-banner" data-kids-banner hidden>
+  <span class="kids-banner-text"><strong>Kids mode</strong> gives the whole site a friendlier look.</span>
+  <button type="button" class="kids-switch" data-kids-toggle role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span><span class="kids-switch-label">Kids mode</span></button>
+</div>
+<h1>Growing Food with Kids</h1>
+<p class="lead">Six easy projects to grow your own food, and six recipes to cook it. Written for children aged about 6 to 10, with a grown-up helper.</p>
+<nav class="chip-group jump" aria-label="On this page">
+  <a class="chip" href="#grownups">For grown-ups</a>
+  <a class="chip" href="#projects">Grow projects</a>
+  <a class="chip" href="#recipes">Recipes</a>
+</nav>
+<section class="callout kids-notes" id="grownups">
+  <h2>For grown-ups</h2>
+  <ul class="tips">${KIDS_NOTES.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
+</section>
+<h2 id="projects">Grow it!</h2>
+<p>Start with the cress, which is ready in a week. Then pick a project for the time of year.</p>
+<div class="kid-list">
+${projects}
+</div>
+<h2 id="recipes">Cook it!</h2>
+<p>When your crops are ready, turn them into something yummy. A grown-up does the jobs marked <span class="adult-tag">Grown-up job</span>.</p>
+<div class="kid-list">
+${recipes}
+</div>
+<p class="callout"><strong>Ready for more?</strong> Try the <a href="/beginners/">beginner’s guide</a> to pick crops for your garden, or <a href="/my-garden/">build your own garden</a>.</p>`;
+  addPage({
+    path: '/kids/', section: 'kids', body, title: 'Growing Food with Kids: easy projects and recipes',
+    description: 'Six simple grow-your-own projects for children, from cress heads to a potato treasure bucket, plus six child-friendly recipes to cook what you grow.',
+    crumbs: [['Home', '/'], ['Growing with Kids', '/kids/']],
+  });
+}
+
 function build404() {
   const body = `
 <h1>Page not found</h1>
@@ -1109,7 +1188,7 @@ validate();
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'assets'), { recursive: true });
 
-for (const f of ['style.css', 'site.js']) {
+for (const f of ['style.css', 'site.js', 'theme.js']) {
   const buf = readFileSync(join(ROOT, 'src/assets', f));
   assetVersion[f] = createHash('sha1').update(buf).digest('hex').slice(0, 8);
   writeFileSync(join(DIST, 'assets', f), buf);
@@ -1126,6 +1205,7 @@ buildPests();
 buildPreserving();
 buildGlossary();
 buildBeginners();
+buildKids();
 buildMyGarden();
 buildCalendar();
 buildGuides();

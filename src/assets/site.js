@@ -226,6 +226,26 @@
   }
 
 
+  /* ---- Kids mode ---- */
+  var kidsToggles = $$('[data-kids-toggle]');
+  $$('[data-kids-banner]').forEach(function (b) { b.hidden = false; });
+  var paintKids = function () {
+    var on = document.documentElement.hasAttribute('data-kids');
+    kidsToggles.forEach(function (t) {
+      t.setAttribute(t.getAttribute('role') === 'switch' ? 'aria-checked' : 'aria-pressed', String(on));
+      var lab = t.querySelector('.kids-switch-label'); if (lab) lab.textContent = on ? 'Kids mode is on' : 'Kids mode';
+    });
+  };
+  kidsToggles.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var on = !document.documentElement.hasAttribute('data-kids');
+      if (on) document.documentElement.setAttribute('data-kids', '1'); else document.documentElement.removeAttribute('data-kids');
+      try { localStorage.setItem('hp-kids', on ? '1' : '0'); } catch (e) { /* storage unavailable */ }
+      paintKids();
+    });
+  });
+  paintKids();
+
   /* ---- Mobile menu ---- */
   var navToggle = $('#navToggle'), siteNav = $('#siteNav');
   if (navToggle && siteNav) {
