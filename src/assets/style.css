@@ -488,9 +488,7 @@ html[data-kids] #acct .btn-big, html[data-kids] .btn-small { background: #1f8f4e
 .acct-link + .kids-pill { margin-left: 0; }
 .header-bar > .acct-link { margin-left: auto; }
 @media (max-width: 560px) {
-  .acct-link { display: none; }
-  .kids-pill { margin-left: auto; }
-  html.js-nav .site-nav .nav-acct { display: block; }
+  .acct-link { width: 38px; height: 38px; }
 }
 @media (min-width: 561px) and (max-width: 1300px) { html.js-nav .site-nav .nav-acct { display: none; } }
 html[data-kids] .acct-link { border-color: #c9a227; }
