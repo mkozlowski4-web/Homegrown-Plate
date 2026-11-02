@@ -800,6 +800,34 @@ ${affected.length ? `<h2>Crops it affects</h2>
   }
 }
 
+
+/* "Grow it yourself" panel on each recipe, built from the calendar and storage data. */
+function recipeGrowBlock(r, crops) {
+  const when = (bits) => monthRanges(bits);
+  const rows = crops.map((p) => {
+    const c = CALENDAR[p.id];
+    const sow = [c.i.includes('1') ? `indoors ${when(c.i)}` : '', c.o.includes('1') ? `outside ${when(c.o)}` : ''].filter(Boolean).join(', ');
+    const h = when(c.h);
+    return `<li class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}"><a href="/plants/${p.id}/"><strong>${esc(p.name)}</strong></a>: ${sow ? `sow ${sow}` : 'plant when the soil is workable'}${h ? `; harvest ${h}` : ''}. ${esc(p.difficulty)} to grow. <a href="/plants/${p.id}/#how-to-sow">How to sow ${esc(lower(p.name))}</a></li>`;
+  }).join('\n');
+  let together = '';
+  if (crops.length > 1) {
+    const both = [...Array(12).keys()].map((m) => (crops.every((p) => CALENDAR[p.id].h[m] === '1') ? '1' : '0')).join('');
+    const span = when(both);
+    together = span
+      ? `<p>The home-grown ingredients here are all ready to pick at the same time in ${esc(span)}, so that is the easiest time to cook it fresh.</p>`
+      : '<p>These crops are not all ready at the same time. Freeze, dry or store one of them so you can make this when the others are in season.</p>';
+  }
+  const keep = crops.filter((p) => STORAGE[p.id] && STORAGE[p.id].length).map((p) => {
+    const [method, how, keeps] = STORAGE[p.id][0];
+    return `<li class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}"><a href="/plants/${p.id}/#usage-and-storage"><strong>${esc(p.name)}</strong></a>: ${esc(lower(method))}. ${esc(how)} Good for: ${esc(keeps)}.</li>`;
+  }).join('\n');
+  return `<h2>Grow it yourself</h2>
+<ul>
+${rows}
+</ul>
+${together}${keep ? `\n<h3>Too much to use at once?</h3>\n<ul class="store-ul">\n${keep}\n</ul>\n<p class="muted small-note">Timings are typical for the UK and vary by region. Storage times are a guide.</p>` : ''}`;
+}
 function buildRecipes() {
   const withRecipes = PLANTS.filter((p) => RECIPES.some((r) => r.uses.includes(p.id)));
   const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
@@ -849,7 +877,9 @@ function buildRecipes() {
 </ul>
 <p class="muted small-note">Green items are crops you can grow yourself.</p>
 <h2>Method</h2>
-<div class="recipe-steps"><ol>${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>`;
+<div class="recipe-steps"><ol>${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+${r.tips && r.tips.length ? `<h2>Tips</h2>\n${tipsList(r.tips)}` : ''}
+${recipeGrowBlock(r, crops)}`;
     const description = `${r.title}: ready in ${r.time}, ${servesText(r.serves)}. Made with home-grown ${joinAnd(crops.map((p) => lower(p.name)))}.`;
     const recipeLd = {
       '@context': 'https://schema.org', '@type': 'Recipe', name: r.title, description,
