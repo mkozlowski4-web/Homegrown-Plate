@@ -70,3 +70,14 @@ Every plant has a drawn illustration (generated from `src/illustrations.mjs`). T
 ## Installable app (PWA)
 
 The site can be installed to a phone or computer home screen. `static/manifest.webmanifest` and `static/icons/` hold the app details and icons (made from `src/assets/favicon.svg`). `build.mjs` generates `dist/sw.js` (a service worker: pages network-first with an offline fallback at `/offline/`, other files stale-while-revalidate; the cache name changes when the shell files change). `/install/` explains how to install and shows an install button where the browser supports it. `static/_headers` stops `sw.js` being cached. No inline scripts are used, so the CSP is unchanged.
+
+## Accounts (save your garden across devices)
+
+Accounts are optional; the site works fully without one. A small Cloudflare Worker (`src/worker/index.mjs`, set as `main` in `wrangler.jsonc`) runs first for `/api/*` only and serves everything else from `dist/`. Data is in a D1 database (`homegrown-plate`, schema in `migrations/0001_init.sql`).
+
+- Email and password. Passwords are PBKDF2-SHA256 hashed with a per-user salt; session tokens live in an HttpOnly cookie and only their SHA-256 hash is stored. Sign-in attempts are rate limited, and write requests must come from the site's own origin.
+- Stored per account: email, password hash, and one JSON blob (garden crops, ticked-off jobs, region and postcode area only, kids mode). The Worker validates and trims this blob.
+- The browser side is the `Acct` block in `src/assets/site.js`. While signed in (`hp-acct` in localStorage) every change to `hp-garden*`, `hp-region` and `hp-kids` is pushed, and every page load pulls the account copy (the account wins; the first sign-in on a device merges).
+- Pages: `/account/` (sign in, create, change password, download data, delete account) and `/privacy/`. Set `CONTACT_EMAIL` in `build.mjs` to show a contact address on the privacy page.
+- There is no password reset yet: it needs an email-sending service.
+- Run the schema again with `wrangler d1 execute homegrown-plate --remote --file migrations/0001_init.sql` if the database is ever recreated (the id in `wrangler.jsonc` must then be updated).

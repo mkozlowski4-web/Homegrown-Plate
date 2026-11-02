@@ -263,7 +263,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -529,7 +529,9 @@ function buildMyGarden() {
   writeFileSync(join(DIST, 'assets', 'zones.json'), zonesData().json);
   const body = `
 <h1>My Garden</h1>
-<p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed.</p>
+<p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed. Want it on every device? <a href="/account/">Create a free account</a>.</p>
+<div class="callout acct-prompt" data-acct-prompt hidden><strong>Keep your garden on every device.</strong> Create a free account and your crops, ticked-off jobs and area are saved for you. <a class="btn-small" href="/account/">Sign up or sign in</a></div>
+<p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
 ${regionBar()}
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
 <div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
@@ -1195,6 +1197,101 @@ function buildInstall() {
   });
 }
 
+const CONTACT_EMAIL = ''; /* add an address here to show it on the privacy page */
+
+function buildAccount() {
+  const field = (id, label, type, ac, extra = '') => `<p class="acct-field"><label for="${id}">${label}</label><input id="${id}" name="${id}" type="${type}" autocomplete="${ac}" ${extra}></p>`;
+  const body = `
+<h1>Your account</h1>
+<noscript><p class="empty">Accounts need JavaScript. You can still use the whole site without one.</p></noscript>
+<div id="acct" hidden>
+  <section id="acctOut">
+    <p class="lead">Save your garden to a free account and it follows you: the same crops, ticked-off jobs and area on your phone, tablet and computer, even after you clear your browser. You do not need an account to use the site.</p>
+    <div class="acct-tabs" role="tablist" aria-label="Account">
+      <button type="button" class="chip" role="tab" id="tabIn" aria-selected="true" aria-controls="formIn">Sign in</button>
+      <button type="button" class="chip" role="tab" id="tabUp" aria-selected="false" aria-controls="formUp">Create account</button>
+    </div>
+    <form id="formIn" class="card acct-form" novalidate>
+      <h2>Sign in</h2>
+      ${field('inEmail', 'Email address', 'email', 'username', 'required maxlength="254"')}
+      ${field('inPass', 'Password', 'password', 'current-password', 'required maxlength="128"')}
+      <p class="acct-error" role="alert" data-error></p>
+      <button class="btn-big" type="submit">Sign in</button>
+    </form>
+    <form id="formUp" class="card acct-form" novalidate hidden>
+      <h2>Create account</h2>
+      ${field('upEmail', 'Email address', 'email', 'username', 'required maxlength="254"')}
+      ${field('upPass', 'Choose a password', 'password', 'new-password', 'required minlength="10" maxlength="128" aria-describedby="upHelp"')}
+      <p class="muted small-note" id="upHelp">At least 10 characters. A few random words works well. <strong>Keep it safe:</strong> we cannot reset a forgotten password yet.</p>
+      <p class="muted small-note">We save your email, a scrambled version of your password, and your garden. Nothing else, and we never sell it. See the <a href="/privacy/">privacy page</a>.</p>
+      <p class="acct-error" role="alert" data-error></p>
+      <button class="btn-big" type="submit">Create my account</button>
+    </form>
+  </section>
+  <section id="acctIn" hidden>
+    <p class="lead">Signed in as <strong id="acctEmail"></strong>. <span id="acctStatus" class="muted">Your garden is saved to your account.</span></p>
+    <div class="card"><h2>Your garden</h2><p>Changes you make on any device are saved automatically and appear on your other devices next time you open the site.</p><p><a class="btn-small" href="/my-garden/">Go to My Garden</a></p></div>
+    <div class="card"><h2>Look after your account</h2>
+      <p><button type="button" class="chip" id="acctOutBtn">Sign out</button> <a class="chip" href="/api/export" download>Download my data</a></p>
+      <details><summary>Change password</summary>
+        <form id="formPw" class="acct-form" novalidate>
+          ${field('pwCur', 'Current password', 'password', 'current-password', 'required maxlength="128"')}
+          ${field('pwNew', 'New password (10+ characters)', 'password', 'new-password', 'required minlength="10" maxlength="128"')}
+          <p class="acct-error" role="alert" data-error></p>
+          <button class="chip" type="submit">Change password</button>
+        </form>
+        <p class="muted small-note">Changing it signs you out on your other devices.</p>
+      </details>
+      <details><summary>Delete my account</summary>
+        <form id="formDel" class="acct-form" novalidate>
+          <p>This permanently deletes your email, password and saved garden from our servers. The garden on this device stays. It cannot be undone.</p>
+          ${field('delPass', 'Your password', 'password', 'current-password', 'required maxlength="128"')}
+          <p class="acct-error" role="alert" data-error></p>
+          <button class="chip chip-danger" type="submit">Delete everything</button>
+        </form>
+      </details>
+    </div>
+  </section>
+</div>`;
+  addPage({
+    path: '/account/', section: '', body, title: 'Your account: save your garden on every device',
+    description: 'Create a free Homegrown Plate account to keep your garden, ticked-off jobs and area on all your devices.',
+    crumbs: [['Home', '/'], ['Account', '/account/']],
+  });
+}
+
+function buildPrivacy() {
+  const body = `
+<h1>Privacy</h1>
+<p class="lead">Homegrown Plate is a small independent gardening site for the UK. This page explains in plain words what we keep and why.</p>
+<h2>If you just browse</h2>
+<p>You do not need an account. Your garden, area, ticked-off jobs and kids mode setting are kept only in your own browser, and nothing about them is sent to us.</p>
+<h2>If you create an account</h2>
+<p>We keep:</p>
+<ul>
+  <li>your <strong>email address</strong>, to recognise you when you sign in;</li>
+  <li>a <strong>scrambled copy of your password</strong> (we cannot read your password);</li>
+  <li>your <strong>garden</strong>: the crops you added, jobs you ticked off, your region and the first letters of your postcode (never your full postcode), and whether kids mode is on;</li>
+  <li>a small sign-in record on each device so you stay signed in for up to 30 days, and short-lived technical records (such as failed sign-in attempts) to block password guessing.</li>
+</ul>
+<p>We use this only to give you your saved garden. We do not sell it, share it for advertising, or use it to profile you. The site sets no advertising or tracking cookies; the only cookie is the sign-in cookie, which exists only if you sign in.</p>
+<h2>Where it is kept</h2>
+<p>Account data is stored with Cloudflare, who also host this site, in a database set up in their European region.</p>
+<h2>Your choices</h2>
+<ul>
+  <li><strong>See your data:</strong> sign in and choose <a href="/account/">Download my data</a>.</li>
+  <li><strong>Delete your data:</strong> sign in and choose Delete my account. Everything we hold about you is removed straight away.</li>
+  <li><strong>Change your mind:</strong> you can stop using an account at any time and keep using the site without one.</li>
+</ul>
+${CONTACT_EMAIL ? `<p>Questions about your data? Email <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>` : ''}
+<p class="muted small-note">If you are unhappy with how your data is handled you can also complain to the Information Commissioner's Office (ico.org.uk).</p>`;
+  addPage({
+    path: '/privacy/', section: '', body, title: 'Privacy: what Homegrown Plate keeps and why',
+    description: 'What Homegrown Plate stores if you create an account, why, and how to download or delete it.',
+    crumbs: [['Home', '/'], ['Privacy', '/privacy/']],
+  });
+}
+
 function buildOffline() {
   const body = `
 <h1>You are offline</h1>
@@ -1220,7 +1317,7 @@ self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE).then((c
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith('hp-') && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {
   const r = e.request, u = new URL(r.url);
-  if (r.method !== 'GET' || u.origin !== location.origin || r.headers.has('range') || u.pathname === '/sw.js') return;
+  if (r.method !== 'GET' || u.origin !== location.origin || r.headers.has('range') || u.pathname === '/sw.js' || u.pathname.startsWith('/api/')) return;
   if (r.mode === 'navigate') {
     e.respondWith(fetch(r).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(r, copy)); } return res; })
       .catch(() => caches.match(r).then((m) => m || caches.match('/offline/'))));
@@ -1278,6 +1375,8 @@ buildGlossary();
 buildBeginners();
 buildKids();
 buildInstall();
+buildAccount();
+buildPrivacy();
 buildMyGarden();
 buildCalendar();
 buildGuides();

@@ -763,6 +763,160 @@
       if (th.getAttribute('data-month') === now) th.classList.add('now');
     });
   }
+  /* ---- Accounts: keep the garden in step across devices (only when signed in) ---- */
+  var Acct = (function () {
+    var FLAG = 'hp-acct', DONE_RE = /^hp-garden-done-(\d{4})-(\d{1,2})$/;
+    var ls = null; try { ls = window.localStorage; } catch (e) { ls = null; }
+    var rawSet = ls ? ls.setItem.bind(ls) : function () {}, rawRemove = ls ? ls.removeItem.bind(ls) : function () {};
+    var signedIn = function () { try { return ls && ls.getItem(FLAG) === '1'; } catch (e) { return false; } };
+    var quiet = false, timer = null;
+
+    var api = function (method, path, body) {
+      var opts = { method: method, credentials: 'same-origin', headers: {} };
+      if (body !== undefined) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+      return fetch(path, opts).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, body: j }; }); });
+    };
+    var readJson = function (k, d) { try { var v = JSON.parse(ls.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+    var collect = function () {
+      var data = { garden: [], done: {}, region: null, kids: false }, i, k, m;
+      if (!ls) return data;
+      var g = readJson('hp-garden', []); if (Array.isArray(g)) data.garden = g.filter(function (x) { return typeof x === 'string'; });
+      for (i = 0; i < ls.length; i++) { k = ls.key(i); m = DONE_RE.exec(k || ''); if (m) { var d = readJson(k, []); if (Array.isArray(d) && d.length) data.done[m[1] + '-' + m[2]] = d; } }
+      var r = readJson('hp-region', null); if (r && typeof r === 'object') data.region = r;
+      data.kids = ls.getItem('hp-kids') === '1';
+      return data;
+    };
+    var apply = function (data) {
+      quiet = true;
+      try {
+        rawSet('hp-garden', JSON.stringify(data.garden || []));
+        var want = {}; Object.keys(data.done || {}).forEach(function (k) { want['hp-garden-done-' + k] = data.done[k]; });
+        var stale = [], i, k; for (i = 0; i < ls.length; i++) { k = ls.key(i); if (DONE_RE.test(k || '') && !want[k]) stale.push(k); }
+        stale.forEach(rawRemove);
+        Object.keys(want).forEach(function (k) { rawSet(k, JSON.stringify(want[k])); });
+        if (data.region) rawSet('hp-region', JSON.stringify(data.region)); else rawRemove('hp-region');
+        rawSet('hp-kids', data.kids ? '1' : '0');
+      } catch (e) { /* storage unavailable */ }
+      quiet = false;
+    };
+    var same = function (a, b) { return JSON.stringify(norm(a)) === JSON.stringify(norm(b)); };
+    var norm = function (d) {
+      var done = {}; Object.keys(d.done || {}).sort().forEach(function (k) { done[k] = (d.done[k] || []).slice().sort(); });
+      return { g: (d.garden || []).slice().sort(), d: done, r: d.region ? { off: d.region.off, name: d.region.name, z: d.region.z || '', pc: d.region.pc || '' } : null, k: !!d.kids };
+    };
+    var union = function (a, b) { var s = {}; return (a || []).concat(b || []).filter(function (x) { if (s[x]) return false; s[x] = 1; return true; }); };
+    /* First sign-in on a device: keep what is on the device and what is on the account. */
+    var merge = function (local, server) {
+      var done = {}; Object.keys(local.done || {}).concat(Object.keys(server.done || {})).forEach(function (k) { done[k] = union(local.done[k], server.done && server.done[k]); });
+      return { garden: union(server.garden, local.garden), done: done, region: server.region || local.region, kids: server.kids || local.kids };
+    };
+    var push = function () {
+      if (!signedIn()) return Promise.resolve();
+      return api('PUT', '/api/data', { data: collect() }).then(function (r) { if (r.status === 401) setOut(); return r; }).catch(function () {});
+    };
+    var schedulePush = function () { if (quiet || !signedIn()) return; clearTimeout(timer); timer = setTimeout(push, 700); };
+    var setOut = function () { try { ls.removeItem(FLAG); } catch (e) { /* ignore */ } };
+    var setIn = function () { try { ls.setItem(FLAG, '1'); } catch (e) { /* ignore */ } };
+
+    /* Any change to our own saved keys is sent to the account. */
+    if (ls && window.Storage) {
+      var origSet = Storage.prototype.setItem, origRemove = Storage.prototype.removeItem;
+      Storage.prototype.setItem = function (k, v) { origSet.call(this, k, v); if (this === ls && /^hp-(garden|region|kids)/.test(k)) schedulePush(); };
+      Storage.prototype.removeItem = function (k) { origRemove.call(this, k); if (this === ls && /^hp-(garden|region|kids)/.test(k)) schedulePush(); };
+    }
+    window.addEventListener('pagehide', function () { if (timer && signedIn()) { clearTimeout(timer); try { fetch('/api/data', { method: 'PUT', credentials: 'same-origin', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: collect() }) }); } catch (e) { /* ignore */ } } });
+
+    var reloadOnce = function () {
+      var n = 0; try { n = Number(sessionStorage.getItem('hp-sync-reloads') || 0); } catch (e) { n = 9; }
+      if (n >= 2) return; try { sessionStorage.setItem('hp-sync-reloads', String(n + 1)); } catch (e) { return; }
+      location.reload();
+    };
+    /* On every page load while signed in: the account is the source of truth. */
+    var pull = function () {
+      return api('GET', '/api/data').then(function (r) {
+        if (r.status === 401) { setOut(); return null; }
+        if (!r.ok || !r.body.data) return null;
+        var local = collect();
+        if (!same(local, r.body.data)) { apply(r.body.data); reloadOnce(); } else { try { sessionStorage.removeItem('hp-sync-reloads'); } catch (e) { /* ignore */ } }
+        return r.body.data;
+      }).catch(function () { return null; });
+    };
+    return { api: api, collect: collect, apply: apply, merge: merge, same: same, push: push, pull: pull, signedIn: signedIn, setIn: setIn, setOut: setOut, quiet: function (v) { quiet = v; } };
+  })();
+
+  (function accountUi() {
+    var signedIn = Acct.signedIn();
+    /* My Garden prompt */
+    var prompt = $('[data-acct-prompt]'), saved = $('[data-acct-saved]');
+    if (prompt) prompt.hidden = signedIn;
+    if (saved) saved.hidden = !signedIn;
+    if (signedIn) Acct.pull();
+
+    var root = $('#acct'); if (!root) return;
+    root.hidden = false;
+    var out = $('#acctOut'), inn = $('#acctIn');
+    var show = function (inState, email) { out.hidden = inState; inn.hidden = !inState; if (email) $('#acctEmail').textContent = email; };
+    var errorOf = function (form) { return form.querySelector('[data-error]'); };
+    var busy = function (form, on) { Array.prototype.forEach.call(form.querySelectorAll('button[type=submit]'), function (b) { b.disabled = on; }); };
+    var nice = function (r) { return (r && r.body && r.body.error) || 'Something went wrong. Please check your connection and try again.'; };
+
+    /* tabs */
+    var tabIn = $('#tabIn'), tabUp = $('#tabUp'), fIn = $('#formIn'), fUp = $('#formUp');
+    var tab = function (up) { tabIn.setAttribute('aria-selected', String(!up)); tabUp.setAttribute('aria-selected', String(up)); fIn.hidden = up; fUp.hidden = !up; };
+    tabIn.addEventListener('click', function () { tab(false); }); tabUp.addEventListener('click', function () { tab(true); });
+    if (location.hash === '#create') tab(true);
+
+    var afterAuth = function (r, email) {
+      Acct.setIn();
+      var local = Acct.collect(), merged = Acct.merge(local, r.body.data || { garden: [], done: {}, region: null, kids: false });
+      Acct.apply(merged); return Acct.push().then(function () { show(true, email); try { sessionStorage.removeItem('hp-sync-reloads'); } catch (e) { /* ignore */ } });
+    };
+    fIn.addEventListener('submit', function (e) {
+      e.preventDefault(); var err = errorOf(fIn); err.textContent = ''; busy(fIn, true);
+      Acct.api('POST', '/api/login', { email: $('#inEmail').value, password: $('#inPass').value }).then(function (r) {
+        if (!r.ok) { err.textContent = nice(r); busy(fIn, false); return; }
+        $('#inPass').value = ''; return afterAuth(r, r.body.user.email).then(function () { busy(fIn, false); });
+      }).catch(function () { err.textContent = nice(); busy(fIn, false); });
+    });
+    fUp.addEventListener('submit', function (e) {
+      e.preventDefault(); var err = errorOf(fUp); err.textContent = ''; busy(fUp, true);
+      var pass = $('#upPass').value;
+      if (pass.length < 10) { err.textContent = 'Use at least 10 characters for your password.'; busy(fUp, false); return; }
+      Acct.api('POST', '/api/signup', { email: $('#upEmail').value, password: pass, data: Acct.collect() }).then(function (r) {
+        if (!r.ok) { err.textContent = nice(r); busy(fUp, false); return; }
+        $('#upPass').value = ''; Acct.setIn(); show(true, r.body.user.email); busy(fUp, false);
+      }).catch(function () { err.textContent = nice(); busy(fUp, false); });
+    });
+    $('#acctOutBtn').addEventListener('click', function () {
+      Acct.api('POST', '/api/logout', {}).finally(function () { Acct.setOut(); show(false); });
+    });
+    var fPw = $('#formPw'), fDel = $('#formDel');
+    fPw.addEventListener('submit', function (e) {
+      e.preventDefault(); var err = errorOf(fPw); err.textContent = ''; busy(fPw, true);
+      Acct.api('POST', '/api/password', { current: $('#pwCur').value, next: $('#pwNew').value }).then(function (r) {
+        busy(fPw, false); if (!r.ok) { err.textContent = nice(r); return; }
+        $('#pwCur').value = ''; $('#pwNew').value = ''; err.textContent = ''; var ok = $('#acctStatus'); ok.textContent = 'Password changed. Other devices have been signed out.';
+      }).catch(function () { err.textContent = nice(); busy(fPw, false); });
+    });
+    fDel.addEventListener('submit', function (e) {
+      e.preventDefault(); var err = errorOf(fDel); err.textContent = '';
+      if (!window.confirm('Delete your account and saved garden permanently? This cannot be undone.')) return;
+      busy(fDel, true);
+      Acct.api('POST', '/api/delete', { password: $('#delPass').value }).then(function (r) {
+        busy(fDel, false); if (!r.ok) { err.textContent = nice(r); return; }
+        $('#delPass').value = ''; Acct.setOut(); show(false);
+      }).catch(function () { err.textContent = nice(); busy(fDel, false); });
+    });
+
+    /* Which state to show on arrival */
+    if (signedIn) {
+      Acct.api('GET', '/api/me').then(function (r) { if (r.ok && r.body.user) show(true, r.body.user.email); else { Acct.setOut(); show(false); } }).catch(function () { show(false); });
+    } else {
+      /* A session cookie may exist from before the browser data was cleared: offer it back. */
+      Acct.api('GET', '/api/me').then(function (r) { if (r.ok && r.body.user) { Acct.setIn(); Acct.pull().then(function () { show(true, r.body.user.email); }); } }).catch(function () { /* stay signed out */ });
+    }
+  })();
+
   /* ---- Installable app ---- */
   if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () { /* offline support is optional */ }); });
   var installBox = $('[data-install-box]'), installBtn = $('[data-install-btn]'), installedMsg = $('[data-installed]'), deferred = null;
