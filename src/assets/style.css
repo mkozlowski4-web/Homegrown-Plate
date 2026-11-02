@@ -494,3 +494,16 @@ html[data-kids] #acct .btn-big, html[data-kids] .btn-small { background: #1f8f4e
 }
 @media (min-width: 561px) and (max-width: 1300px) { html.js-nav .site-nav .nav-acct { display: none; } }
 html[data-kids] .acct-link { border-color: #c9a227; }
+
+/* Phones: Kids mode lives at the bottom of the Menu */
+.site-nav .nav-kids { display: none; }
+@media (max-width: 560px) {
+  .kids-pill, html[data-kids] .kids-pill { display: none !important; }
+  html.js-nav .site-nav .nav-kids { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 8px; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; background: #fff; color: var(--green); font: inherit; font-weight: 700; cursor: pointer; text-align: left; }
+  .nav-kids .kids-switch-label { flex: 1; }
+  .nav-kids .kp-track { width: 44px; height: 24px; border-radius: 999px; background: #c9ccd1; position: relative; flex: none; }
+  .nav-kids .knob { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: left .15s; }
+  .nav-kids[aria-pressed="true"] .kp-track { background: #1f8f4e; }
+  .nav-kids[aria-pressed="true"] .knob { left: 23px; }
+  html[data-kids] .nav-kids { background: #ffd23f; border-color: #c9a227; color: #3b2a00; }
+}

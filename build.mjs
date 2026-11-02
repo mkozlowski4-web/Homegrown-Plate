@@ -256,6 +256,7 @@ ${ld.map(jsonLd).join('\n')}
       <a class="nav-home" href="/"${section === 'home' ? ' aria-current="page"' : ''}>Home</a>
       <a class="nav-acct" href="/account/"${section === 'account' ? ' aria-current="page"' : ''}>Account</a>
       ${nav}
+      <button type="button" class="nav-kids" data-kids-toggle aria-pressed="false" hidden><span class="kp-icon" aria-hidden="true">🧒</span><span class="kids-switch-label">Kids mode</span><span class="kp-track" aria-hidden="true"><span class="knob"></span></span></button>
     </nav>
   </div>
 </header>
