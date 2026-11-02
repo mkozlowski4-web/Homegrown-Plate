@@ -559,3 +559,10 @@ html[data-kids] .acct-link { border-color: #c9a227; }
 .dash-rank .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .dash-rank tbody th { word-break: break-word; min-width: 120px; }
 .dash-card .callout ol { margin: 6px 0 0 1.2rem; padding: 0; }
+
+/* Month-by-month pages */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 20px; }
+a.chip { text-decoration: none; }
+.chip[aria-current="page"] { background: var(--green); border-color: var(--green); color: #fff; }
+html[data-kids] .chip[aria-current="page"] { background: #1f8f4e; border-color: #1f8f4e; }
+a.btn[data-this-month] { background: var(--green); color: #fff; }

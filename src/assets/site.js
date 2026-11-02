@@ -708,6 +708,12 @@
     });
   }
 
+  /* ---- Month pages: point "this month" buttons at the right month ---- */
+  $$('[data-this-month]').forEach(function (a) {
+    var names = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    a.href = '/' + a.getAttribute('data-this-month') + '/' + names[new Date().getMonth()] + '/';
+  });
+
   /* ---- Home page: show this month's panel ---- */
   var monthPanels = $$('[data-month-panel]');
   if (monthPanels.length) {

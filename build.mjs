@@ -266,7 +266,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/what-to-sow/">What to sow</a> <a href="/what-to-preserve/">What to preserve</a> <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -389,7 +389,7 @@ function buildHome() {
     return `<div class="month-panel" data-month-panel="${m}"${m === nowMonth ? '' : ' hidden'}>
     <h2 class="month-title">In the garden in <span data-month-name>${name}</span></h2>
     <div class="month-cols">${list(sow, 'Sow or plant')}${list(harvest, 'Harvest')}</div>
-    <p><a href="/calendar/">See the full planting calendar &rarr;</a></p>
+    <p><a href="/calendar/">See the full planting calendar &rarr;</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve</a></p>
   </div>`;
   }).join('\n  ');
 
@@ -641,6 +641,15 @@ function careSection(p) {
 </ul></section>`;
 }
 
+
+/* Meta description that is specific to each crop: when to sow and harvest, and how hard it is. */
+function plantDescription(p, cal) {
+  const sow = p.facts.find(([l]) => l === 'Sow');
+  const harvest = monthRanges(cal.h);
+  const clip = (t, n) => (t.length <= n ? t : t.slice(0, t.lastIndexOf(' ', n - 1)).replace(/[,;:.]$/, '') + '…');
+  const parts = [`How to grow ${lower(p.name)} in the UK.`, sow ? `Sow ${clip(sow[1].replace(/\.$/, ''), 60)}.` : '', harvest ? `Harvest ${harvest}.` : '', `${p.difficulty} to grow. ${p.sunText}.`];
+  return clip(parts.filter(Boolean).join(' '), 158);
+}
 function buildPlants() {
   const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
@@ -726,7 +735,7 @@ ${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
 <div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}`;
     addPage({
       path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: `How to grow ${p.name} in the UK`,
-      description: `How to grow ${lower(p.name)} in the UK: when and how to sow, growing care, harvesting, storage and cooking tips. ${p.sunText}.`,
+      description: plantDescription(p, cal),
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
       image: PHOTOS.get(p.id)?.src || '',
     });
@@ -901,7 +910,7 @@ ${regionBar()}
     </tbody>
   </table>
 </div>
-<p class="muted small-note">Timings vary by region, frost dates and variety. Check the <a href="/plants/">Plant Guide</a> for details on each crop.</p>`;
+<p class="muted small-note">Timings vary by region, frost dates and variety. Check the <a href="/plants/">Plant Guide</a> for details on each crop. Prefer a list? See <a href="/what-to-sow/">what to sow each month</a> and <a href="/what-to-preserve/">what to preserve each month</a>.</p>`;
   addPage({
     path: '/calendar/', section: 'calendar', body, title: 'UK Planting Calendar',
     description: `Month-by-month UK guide to when to sow indoors, sow or plant outside and harvest ${PLANTS.length} crops.`,
@@ -1021,6 +1030,121 @@ function glossify(html) {
     }
     return out + part.slice(pos);
   }).join('');
+}
+
+
+/* ---------- month by month: what to sow and what to preserve ---------- */
+const SOW_NOTES = [
+  'Mostly planning time. Order seed, chit potatoes and start the slowest crops, such as chillies and onions, on a bright windowsill or in a heated propagator.',
+  'Still cold outside, so most sowing is indoors. Prepare beds when the soil is workable and plant bare-root fruit if the ground is not frozen or waterlogged.',
+  'The sowing year starts properly. Soil is still cold, so use cloches or fleece for outdoor sowings and keep tender crops indoors.',
+  'Soil is warming up. Sow hardy crops outside and keep sowing indoors, but protect everything tender from late frosts.',
+  'Frosts fade, and tender crops can go out once the risk has passed in your area. Harden plants off for a week or two first.',
+  'Peak planting for tender crops, plus successional sowings of salads and roots to keep the harvest going.',
+  'Sow quick crops for autumn and winter. Keep watering and feeding, and pick little and often to keep plants cropping.',
+  'A key month for sowing winter salads and hardy greens, and for planting out spring cabbage and overwintering onions.',
+  'Last sowings of hardy crops, then plant garlic and onion sets as the soil is still warm. Clear spent crops and tidy beds.',
+  'Garlic and broad beans can go in, and bare-root fruit planting begins. Protect remaining crops from the first frosts.',
+  'Quiet outdoors. Plant bare-root fruit and garlic if the soil allows, and sow a few crops under cover.',
+  'Rest and plan. Check stored crops, clean tools and pots, and order seed for next year.',
+];
+const PRES_NOTES = [
+  'Eat or process what you stored in autumn first, and check for soft or sprouting crops. Little is fresh, so this is a time to use the freezer and the larder.',
+  'Keep checking stored roots, apples and onions. Use the soft ones first and turn the preserves you made last summer into meals.',
+  'Little to harvest outside, so use the larder. Check stored crops weekly and use up anything starting to sprout.',
+  'The first spring crops arrive, with rhubarb and the earliest leaves. Freeze or cook rhubarb while it is young and tender.',
+  'Early crops such as asparagus, radishes and salad leaves are best eaten fresh. Rhubarb and herbs can be frozen or dried.',
+  'Strawberries, broad beans and peas are ready, and a glut can be frozen, made into jam or cooked and bottled.',
+  'The busiest month for gluts. Freeze beans, peas and berries within hours of picking, and make jams, chutneys and pickles.',
+  'Peak harvest, so preserve little and often. Tomatoes, courgettes, beans, plums and soft fruit all store well made into sauces, freezer packs and chutneys.',
+  'Apples, pears, squash and the main potato and onion crops. Cure and store onions and squash, and make chutneys and juice from windfalls.',
+  'Final harvests before frost. Lift root crops for store, wrap and store the best apples, and pick green tomatoes to ripen indoors.',
+  'Check stored crops regularly and pickle or freeze the last of the root and brassica harvest.',
+  'Most of the preserving is done. Use the larder and freezer, and keep an eye on stored fruit and veg.',
+];
+const n = (k, w) => `${k} ${w}${k === 1 ? '' : 's'}`;
+const monthSlug = (m) => FULL_MONTHS[m].toLowerCase();
+const monthNav = (base, cur) => `<nav class="chips" aria-label="Choose a month">${FULL_MONTHS.map((n, m) => `<a class="chip${m === cur ? ' on' : ''}" href="/${base}/${monthSlug(m)}/"${m === cur ? ' aria-current="page"' : ''}>${n.slice(0, 3)}</a>`).join('\n')}</nav>`;
+const tagList = (items) => items.map(plantLink).join('');
+
+function buildMonthly() {
+  const byName = [...PLANTS].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
+  const has = (p, k, m) => CALENDAR[p.id][k][m] === '1';
+
+  /* What to sow in <month> */
+  FULL_MONTHS.forEach((name, m) => {
+    const indoors = byName.filter((p) => has(p, 'i', m));
+    const outside = byName.filter((p) => has(p, 'o', m));
+    const harvest = byName.filter((p) => has(p, 'h', m));
+    const prev = (m + 11) % 12, next = (m + 1) % 12;
+    const section = (title, items, empty) => `<h2>${title} <span class="count">(${items.length})</span></h2>\n${items.length ? `<p class="card-tags">${tagList(items)}</p>` : `<p class="muted">${empty}</p>`}`;
+    const body = `
+<h1>What to sow and plant in ${name}</h1>
+<p class="lead">${SOW_NOTES[m]}</p>
+<p>In the UK in ${name}, ${indoors.length ? `${n(indoors.length, 'crop')} can be sown indoors` : 'there is little to sow indoors'}${outside.length ? `, ${outside.length} can be sown or planted outside` : ''} and ${harvest.length} ${harvest.length === 1 ? 'is' : 'are'} ready to harvest. Timings are typical for the UK and shift with your region, so <a href="/calendar/">enter your postcode on the planting calendar</a> to adjust them.</p>
+${monthNav('what-to-sow', m)}
+${section('Sow or start indoors', indoors, `Nothing needs sowing indoors in ${name}.`)}
+${section('Sow or plant outside', outside, `Nothing to sow or plant outside in ${name}.`)}
+${section('Ready to harvest', harvest, `Nothing is ready to harvest in ${name}. See what to <a href="/what-to-preserve/${monthSlug(m)}/">preserve in ${name}</a>.`)}
+<p class="muted small-note">Tap any crop for full sowing, growing and harvesting advice.</p>
+<p><a href="/what-to-sow/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/what-to-sow/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a> &middot; <a href="/calendar/">Full planting calendar</a></p>`;
+    addPage({
+      path: `/what-to-sow/${monthSlug(m)}/`, section: 'calendar', body, title: `What to sow and plant in ${name} (UK)`,
+      description: `What to sow and plant in the UK in ${name}: ${n(indoors.length, 'crop')} to start indoors, ${outside.length} to sow or plant outside and ${harvest.length} to harvest.`,
+      crumbs: [['Home', '/'], ['What to sow', '/what-to-sow/'], [name, `/what-to-sow/${monthSlug(m)}/`]],
+    });
+  });
+
+  addPage({
+    path: '/what-to-sow/', section: 'calendar', title: 'What to sow and plant each month (UK)',
+    description: 'A month-by-month guide to what to sow, plant and harvest in the UK, with the crops to start indoors and outside each month.',
+    crumbs: [['Home', '/'], ['What to sow', '/what-to-sow/']],
+    body: `
+<h1>What to sow and plant each month</h1>
+<p class="lead">Pick a month to see what to sow indoors, what to sow or plant outside, and what is ready to harvest in the UK.</p>
+<p><a class="btn" href="/what-to-sow/${monthSlug(new Date().getMonth())}/" data-this-month="what-to-sow">What to sow this month</a></p>
+<div class="grid">${FULL_MONTHS.map((n, m) => {
+      const sow = byName.filter((p) => has(p, 'i', m) || has(p, 'o', m)).length;
+      return `<a href="/what-to-sow/${monthSlug(m)}/" class="card card-link"><h3>${n}</h3><p class="muted">${sow} crops to sow or plant, ${byName.filter((p) => has(p, 'h', m)).length} to harvest</p></a>`;
+    }).join('')}</div>
+<p class="muted small-note">Looking for something to do with a glut? See <a href="/what-to-preserve/">what to preserve each month</a> or the <a href="/calendar/">full planting calendar</a>.</p>`,
+  });
+
+  /* What to preserve in <month> */
+  FULL_MONTHS.forEach((name, m) => {
+    const next = (m + 1) % 12, prevM = (m + 11) % 12;
+    const inSeason = byName.filter((p) => has(p, 'h', m));
+    const soon = byName.filter((p) => has(p, 'h', next) && !has(p, 'h', m));
+    const item = (p) => {
+      const ways = STORAGE[p.id].slice(0, 3);
+      return `<li class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}"><a href="/plants/${p.id}/#usage-and-storage"><strong>${esc(p.name)}</strong></a>: ${ways.map(([mt, how, keeps]) => `<span>${esc(mt.toLowerCase())}</span> (${esc(keeps)})`).join(', ')}</li>`;
+    };
+    const body = `
+<h1>What to preserve and store in ${name}</h1>
+<p class="lead">${PRES_NOTES[m]}</p>
+<p>${inSeason.length ? `${n(inSeason.length, 'crop')} ${inSeason.length === 1 ? 'is' : 'are'} in season in the UK in ${name}. Here is how to keep each one for later.` : `Very little is harvested in the UK in ${name}, so this is a good month to use up what you have stored.`} Storage times are a guide. Use clean jars and containers, and follow tested guidance for bottling or canning low-acid foods.</p>
+${monthNav('what-to-preserve', m)}
+${inSeason.length ? `<h2>In season now <span class="count">(${inSeason.length})</span></h2>\n<ul class="store-ul">\n${inSeason.map(item).join('\n')}\n</ul>` : ''}
+${soon.length ? `<h2>Coming in ${FULL_MONTHS[next]} <span class="count">(${soon.length})</span></h2>\n<p class="muted">Get jars, freezer bags and space ready for these.</p>\n<p class="card-tags">${tagList(soon)}</p>` : ''}
+<p><a href="/what-to-preserve/${monthSlug(prevM)}/">&larr; ${FULL_MONTHS[prevM]}</a> &middot; <a href="/what-to-preserve/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/preserving/">All preserving methods</a></p>`;
+    addPage({
+      path: `/what-to-preserve/${monthSlug(m)}/`, section: 'preserving', body, title: `What to preserve and store in ${name} (UK)`,
+      description: `${inSeason.length ? `${n(inSeason.length, 'crop')} to freeze, dry, pickle or store in the UK in ${name}` : `How to use your stored harvest in ${name}`}, with the best way to keep each one.`,
+      crumbs: [['Home', '/'], ['What to preserve', '/what-to-preserve/'], [name, `/what-to-preserve/${monthSlug(m)}/`]],
+    });
+  });
+
+  addPage({
+    path: '/what-to-preserve/', section: 'preserving', title: 'What to preserve and store each month (UK)',
+    description: 'Month by month, which home-grown crops to freeze, dry, pickle or store in the UK, with the best way to keep each one.',
+    crumbs: [['Home', '/'], ['What to preserve', '/what-to-preserve/']],
+    body: `
+<h1>What to preserve each month</h1>
+<p class="lead">Pick a month to see which crops are in season and the best ways to keep them, from freezing to chutney.</p>
+<p><a class="btn" href="/what-to-preserve/${monthSlug(new Date().getMonth())}/" data-this-month="what-to-preserve">What to preserve this month</a></p>
+<div class="grid">${FULL_MONTHS.map((n, m) => `<a href="/what-to-preserve/${monthSlug(m)}/" class="card card-link"><h3>${n}</h3><p class="muted">${byName.filter((p) => has(p, 'h', m)).length} crops in season</p></a>`).join('')}</div>
+<p class="muted small-note">See every method in one place on the <a href="/preserving/">preserving page</a>, or <a href="/what-to-sow/">what to sow each month</a>.</p>`,
+  });
 }
 
 function buildGlossary() {
@@ -1479,6 +1603,7 @@ buildPlants();
 buildRecipes();
 buildPests();
 buildPreserving();
+buildMonthly();
 buildGlossary();
 buildBeginners();
 buildKids();
