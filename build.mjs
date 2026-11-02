@@ -8,6 +8,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { PLANTS } from './src/data/plants.mjs';
+import { HERBS } from './src/data/plants/herbs.mjs';
+import { MORE_HERBS } from './src/data/plants/more-herbs.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
@@ -30,6 +32,9 @@ const SITE_NAME = 'Homegrown Plate';
 /* ---------- helpers ---------- */
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const plantMap = new Map(PLANTS.map((p) => [p.id, p]));
+/* Kids mode shows only fruit and veg that are not rated Hard: herbs, edible flowers and herb-like leaves are hidden. */
+const KID_HIDE = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id).concat(['chives', 'sorrel']).concat(PLANTS.filter((p) => p.difficulty === 'Hard').map((p) => p.id)));
+const kh = (p) => (KID_HIDE.has(p.id) ? ' kid-hide' : '');
 const sizeMap = new Map(SIZES.map((s) => [s.id, s]));
 const lower = (s) => s.toLowerCase();
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
@@ -274,7 +279,7 @@ function addPage({ path, ...opts }) {
 }
 
 const emoji = (e) => `<span class="emoji" aria-hidden="true">${e}</span>`;
-const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link">${p.emoji} ${esc(p.name)}</a>`;
+const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link${kh(p)}">${p.emoji} ${esc(p.name)}</a>`;
 
 
 /* ---------- plant images: drop-in photos, otherwise a drawn illustration ---------- */
@@ -380,12 +385,12 @@ function buildHome() {
 
   const heroPhotos = ['tomato', 'strawberry', 'courgette', 'potato'].map((id) => { const p = plantMap.get(id); const ph = PHOTOS.get(id); return p && ph ? `<a href="/plants/${id}/" tabindex="-1"><img src="${ph.small}" width="240" height="240" alt="" loading="eager" decoding="async"><span>${esc(p.name)}</span></a>` : ''; }).join('\n  ');
   const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale'].map((id) => plantMap.get(id)).filter(Boolean);
-  const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
+  const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card${kh(p)}">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
   const featuredRecipes = ['summer-pudding', 'pizza-margherita', 'butternut-squash-soup', 'apple-blackberry-crumble'].map((id) => RECIPES.find((r) => r.id === id)).filter(Boolean);
   const recipeCards = featuredRecipes.map((r) => `<a href="/recipes/${r.id}/" class="card card-link">
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
-    <p class="card-tags">${r.uses.slice(0, 3).map((u) => { const p = plantMap.get(u); return `<span class="tag">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
+    <p class="card-tags">${r.uses.slice(0, 3).map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
   </a>`).join('\n  ');
   const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
 
@@ -478,7 +483,7 @@ let gardenMemo = null;
 function gardenData() {
   if (gardenMemo) return gardenMemo;
   const data = {
-    plants: PLANTS.map((p) => ({ id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, c: careFor(p.id) })),
+    plants: PLANTS.map((p) => ({ k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, c: careFor(p.id) })),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
   };
   const json = JSON.stringify(data);
@@ -589,7 +594,7 @@ function buildSizes() {
 <h2>Recommended crops (${crops.length})</h2>
 <p><a href="/plants/?size=${s.id}">Filter the Plant Guide for this garden size &rarr;</a></p>
 <div class="grid">
-  ${crops.map((p) => `<div class="card">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
+  ${crops.map((p) => `<div class="card${kh(p)}">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span><span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span><p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p><a href="/plants/${p.id}/">Grow ${esc(p.name)} &rarr;</a></div>`).join('\n  ')}
 </div>`;
     addPage({
       path: `/sizes/${s.id}/`, section: 'sizes', body: detail,
@@ -629,7 +634,7 @@ function careSection(p) {
 }
 
 function buildPlants() {
-  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
+  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
@@ -783,7 +788,7 @@ function buildRecipes() {
   const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
-    <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
+    <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
   </a>`).join('\n  ');
   const body = `
 <h1>Garden Recipes</h1>
@@ -858,7 +863,7 @@ function buildCalendar() {
       ].join('');
       return `<td>${bits}</td>`;
     }).join('');
-    return `<tr data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/"><span aria-hidden="true">${p.emoji}</span> ${esc(p.name)}</a></th>${cells}</tr>`;
+    return `<tr class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}" data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/"><span aria-hidden="true">${p.emoji}</span> ${esc(p.name)}</a></th>${cells}</tr>`;
   }).join('\n      ');
   const body = `
 <h1>Planting Calendar</h1>
@@ -944,7 +949,7 @@ function buildPreserving() {
   const jump = groups.map((g) => `<a class="chip" href="#${g.id}">${esc(g.title)} (${g.items.length})</a>`).join('\n  ');
   const sections = groups.map((g) => {
     g.items.sort((a, b) => a.p.name.localeCompare(b.p.name));
-    const lis = g.items.map(({ p, method, how, keeps }) => `<li data-store data-search="${esc((p.name + ' ' + method + ' ' + how).toLowerCase())}"><a href="/plants/${p.id}/#usage-and-storage"><strong>${esc(p.name)}</strong></a> <span class="muted">${esc(method)}.</span> ${esc(how)} <span class="keeps">Good for: ${esc(keeps)}.</span></li>`).join('\n');
+    const lis = g.items.map(({ p, method, how, keeps }) => `<li class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}" data-store data-search="${esc((p.name + ' ' + method + ' ' + how).toLowerCase())}"><a href="/plants/${p.id}/#usage-and-storage"><strong>${esc(p.name)}</strong></a> <span class="muted">${esc(method)}.</span> ${esc(how)} <span class="keeps">Good for: ${esc(keeps)}.</span></li>`).join('\n');
     return `<section class="store-group" id="${g.id}" data-store-group>
 <h2>${esc(g.title)}</h2>
 <p class="muted">${esc(g.blurb)}</p>

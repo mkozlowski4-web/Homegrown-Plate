@@ -215,7 +215,7 @@
           var col = cols[n]; if (!col) return;
           col.querySelector('.count').textContent = '(' + items.length + ')';
           var tags = col.querySelector('.card-tags'); tags.textContent = '';
-          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link', p.e + ' ' + p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
+          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link' + (p.k ? ' kid-hide' : ''), p.e + ' ' + p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
           if (items.length > 14) { var more = mk('a', 'tag tag-link more', '+' + (items.length - 14) + ' more'); more.href = '/calendar/'; tags.appendChild(more); }
           if (!items.length) tags.appendChild(mk('span', 'muted', 'Nothing this month: a good time to plan and tidy.'));
         });
@@ -241,7 +241,7 @@
       var on = !document.documentElement.hasAttribute('data-kids');
       if (on) document.documentElement.setAttribute('data-kids', '1'); else document.documentElement.removeAttribute('data-kids');
       try { localStorage.setItem('hp-kids', on ? '1' : '0'); } catch (e) { /* storage unavailable */ }
-      paintKids();
+      paintKids(); document.dispatchEvent(new Event('hp-kids'));
     });
   });
   paintKids();
@@ -282,21 +282,23 @@
     if (params.get('q')) state.q = params.get('q').slice(0, 60);
     search.value = state.q;
 
+    document.addEventListener('hp-kids', function () { if (typeof applyPlants === 'function') applyPlants(); });
     var applyPlants = function () {
       var term = state.q.trim().toLowerCase();
-      var shown = 0;
+      var shown = 0, kidsOn = document.documentElement.hasAttribute('data-kids'), total = 0;
       plantCards.forEach(function (card) {
+        var gone = kidsOn && card.classList.contains('kid-hide'); if (!gone) total++;
         var okSun = state.sun === 'any' || card.getAttribute('data-sun').split(' ').indexOf(state.sun) > -1;
         var okSize = state.size === 'any' || card.getAttribute('data-sizes').split(' ').indexOf(state.size) > -1;
         var okDiff = state.diff === 'any' || card.getAttribute('data-diff') === state.diff;
         var okText = !term || card.getAttribute('data-search').indexOf(term) > -1;
         card.hidden = !(okSun && okSize && okDiff && okText);
-        if (!card.hidden) shown++;
+        if (!card.hidden && !gone) shown++;
       });
       chips.forEach(function (c) {
         c.setAttribute('aria-pressed', String(state[c.getAttribute('data-filter')] === c.getAttribute('data-value')));
       });
-      plantCount.textContent = 'Showing ' + shown + ' of ' + plantCards.length + ' crops';
+      plantCount.textContent = 'Showing ' + shown + ' of ' + total + ' crops';
       plantEmpty.hidden = shown > 0;
       resetBtn.hidden = state.sun === 'any' && state.size === 'any' && state.diff === 'any' && !term;
       var qs = new URLSearchParams();
@@ -430,7 +432,7 @@
       var term = gSearch.value.trim().toLowerCase();
       var list;
       if (term) {
-        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1; }).slice(0, 30);
+        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 30);
         gHint.textContent = list.length ? 'Matching crops:' : 'No crops match that search.';
       } else {
         list = POPULAR.map(function (id) { return byId[id]; }).filter(Boolean);

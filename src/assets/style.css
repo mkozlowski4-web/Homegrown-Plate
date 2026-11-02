@@ -431,3 +431,4 @@ main .kids-hero .btn-big, main .kids-hero .btn-big:hover { color: #fff; text-dec
 .kids-hero .kids-sparkle { text-align: center; letter-spacing: .3em; padding-left: .3em; }
 .kids-switch[aria-checked="true"] .knob { order: 0; }
 .kids-hero .kids-sparkle { margin-left: auto !important; margin-right: auto !important; max-width: none; }
+html[data-kids] .kid-hide { display: none !important; }
