@@ -52,6 +52,10 @@ Custom domains are `homegrownplate.co.uk` (the canonical address used in page ta
 
 Timings are typical UK estimates. Check them against your local frost dates.
 
+## Sitemap dates
+
+Each page's `<lastmod>` date in `sitemap.xml` only changes when that page's own content changes. `src/data/page-dates.json` stores a fingerprint and date for every page. After changing content, run `npm run dates` and commit the updated file with your change. If you forget, nothing breaks: the changed pages are simply dated with the day of each build until the file is updated (the build prints a note saying how many).
+
 ## What the build produces
 
 A page per section, crop, garden size and recipe, plus `sitemap.xml`, `robots.txt`, a `404.html`, page titles and descriptions, canonical and social tags, and recipe and breadcrumb structured data. Old `/#/plants/tomato` style links forward to the new addresses.

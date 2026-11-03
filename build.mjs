@@ -223,6 +223,7 @@ function validate() {
 
 /* ---------- output ---------- */
 const pages = [];      // indexable pages, for the sitemap
+const pageHash = new Map(); // path -> fingerprint of the page's own content (not the shared header/footer)
 let assetVersion = {}; // content hashes for cache-busting
 
 function outFile(urlPath, html) {
@@ -350,6 +351,7 @@ function addPage({ path, ...opts }) {
   }
   outFile(path, layout({ ...opts, path, ld: allLd }));
   pages.push(path);
+  if (!opts.noindex) pageHash.set(path, createHash('sha1').update(JSON.stringify([opts.title, opts.description, opts.body])).digest('hex').slice(0, 12));
 }
 
 const emoji = (e) => `<span class="emoji" aria-hidden="true">${e}</span>`;
@@ -1850,9 +1852,20 @@ function build404() {
   }));
 }
 
+/* Sitemap dates: src/data/page-dates.json remembers each page's fingerprint and the day it last changed,
+   so a page's <lastmod> only moves when its own content does. "npm run dates" updates the file; commit it. */
+const DATES_FILE = join(ROOT, 'src/data/page-dates.json');
 function buildSupportFiles() {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = pages.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod></url>`).join('\n');
+  const saved = existsSync(DATES_FILE) ? JSON.parse(readFileSync(DATES_FILE, 'utf8')) : {};
+  const next = {}; let changed = 0;
+  for (const p of pages) {
+    const h = pageHash.get(p), old = saved[p];
+    if (old && old.h === h) next[p] = old; else { next[p] = { h, d: today }; changed++; }
+  }
+  const urls = pages.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${next[p].d}</lastmod></url>`).join('\n');
+  if (process.argv.includes('--update-dates')) { writeFileSync(DATES_FILE, '{\n' + Object.keys(next).sort().map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(next[k])}`).join(',\n') + '\n}\n'); console.log(`Sitemap dates saved: ${changed} page${changed === 1 ? '' : 's'} changed.`); }
+  else if (changed) console.log(`Note: ${changed} page${changed === 1 ? '' : 's'} changed since the saved sitemap dates (dated today). Run "npm run dates" and commit src/data/page-dates.json to keep them.`);
   writeFileSync(join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
   writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 }

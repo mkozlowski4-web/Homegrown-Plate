@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Static site generator for homegrownplate.co.uk. No dependencies.",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "dates": "node build.mjs --update-dates"
   },
   "engines": {
     "node": ">=18"
