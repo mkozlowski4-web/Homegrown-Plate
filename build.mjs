@@ -217,7 +217,8 @@ function layout({ title, description, path, body, section, ld = [], noindex = fa
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
   const SHORT = { 'Planting Calendar': 'Calendar' };
-  const nav = NAV.filter(([, , key]) => key !== 'home').map(([label, href, key]) => `<a${key === 'garden' ? ' class="nav-cta"' : ''} href="${href}"${key === section ? ' aria-current="page"' : ''}>${SHORT[label] || label}</a>`).join('\n      ');
+  const PRIMARY_NAV = new Set(['plants', 'calendar', 'recipes', 'preserving', 'garden']);
+  const nav = NAV.filter(([, , key]) => PRIMARY_NAV.has(key)).map(([label, href, key]) => `<a${key === 'garden' ? ' class="nav-cta"' : ''} href="${href}"${key === section ? ' aria-current="page"' : ''}>${SHORT[label] || label}</a>`).join('\n      ');
   return `<!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -268,7 +269,14 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/this-weekend/">This weekend</a> <a href="/what-to-sow/">What to sow</a> <a href="/what-to-preserve/">What to preserve</a> <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap foot-grid">
+    <div class="foot-about"><strong class="foot-brand">Homegrown Plate</strong><p>Growing your own food in any size of garden. Always check local frost dates and sowing times for your area.</p>
+      <button type="button" class="foot-kids" data-kids-toggle aria-pressed="false" hidden><span class="kp-icon" aria-hidden="true">🧒</span><span class="kids-switch-label">Kids mode</span></button></div>
+    <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a></nav>
+    <nav class="foot-col" aria-label="Cook and keep"><strong>Cook and keep</strong><a href="/recipes/">Recipes</a><a href="/preserving/">Preserving</a><a href="/what-to-preserve/">What to preserve</a><a href="/kids/">Growing with kids</a></nav>
+    <nav class="foot-col" aria-label="Start here"><strong>Start here</strong><a href="/beginners/">Beginner&rsquo;s guide</a><a href="/howto/">Grow in 7 steps</a><a href="/glossary/">Gardening words</a><a href="/kit/">Essential kit</a><a href="/install/">Get the app</a></nav>
+    <nav class="foot-col" aria-label="Site"><strong>Site</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/account/">Account</a><a href="/privacy/">Privacy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a></nav>
+  </div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -387,7 +395,7 @@ function buildHome() {
     const sow = byEase.filter((p) => CALENDAR[p.id].i[m] === '1' || CALENDAR[p.id].o[m] === '1');
     const harvest = byEase.filter((p) => CALENDAR[p.id].h[m] === '1');
     const list = (items, label) => `<div><h3>${label} <span class="count">(${items.length})</span></h3>
-      <p class="card-tags">${items.slice(0, 14).map(plantLink).join('')}${items.length > 14 ? `<a class="tag tag-link more" href="/calendar/">+${items.length - 14} more</a>` : ''}${items.length === 0 ? '<span class="muted">Nothing this month: a good time to plan and tidy.</span>' : ''}</p></div>`;
+      <p class="card-tags">${items.slice(0, 6).map(plantLink).join('')}${items.length > 6 ? `<a class="tag tag-link more" href="/calendar/">+${items.length - 6} more</a>` : ''}${items.length === 0 ? '<span class="muted">Nothing this month: a good time to plan and tidy.</span>' : ''}</p></div>`;
     return `<div class="month-panel" data-month-panel="${m}"${m === nowMonth ? '' : ' hidden'}>
     <h2 class="month-title">In the garden in <span data-month-name>${name}</span></h2>
     <div class="month-cols">${list(sow, 'Sow or plant')}${list(harvest, 'Harvest')}</div>
@@ -396,7 +404,7 @@ function buildHome() {
   }).join('\n  ');
 
   const heroPhotos = ['tomato', 'strawberry', 'courgette', 'potato'].map((id) => { const p = plantMap.get(id); const ph = PHOTOS.get(id); return p && ph ? `<a href="/plants/${id}/" tabindex="-1"><img src="${ph.small}" width="240" height="240" alt="" loading="eager" decoding="async"><span>${esc(p.name)}</span></a>` : ''; }).join('\n  ');
-  const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale'].map((id) => plantMap.get(id)).filter(Boolean);
+  const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot'].map((id) => plantMap.get(id)).filter(Boolean);
   const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card${kh(p)}">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
   const featuredRecipes = ['summer-pudding', 'pizza-margherita', 'butternut-squash-soup', 'apple-blackberry-crumble'].map((id) => RECIPES.find((r) => r.id === id)).filter(Boolean);
   const recipeCards = featuredRecipes.map((r) => `<a href="/recipes/${r.id}/" class="card card-link">
@@ -406,6 +414,9 @@ function buildHome() {
   </a>`).join('\n  ');
   const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
 
+  const tomatoPhoto = PHOTOS.get('tomato');
+  const heroPhoto = tomatoPhoto ? `<div class="hero-photo"><img src="${tomatoPhoto.src}" width="560" height="440" alt="${esc(tomatoPhoto.alt)}" fetchpriority="high" decoding="async"></div>` : '';
+  const startImg = (id) => { const ph = PHOTOS.get(id); return ph ? `<img src="${ph.src}" width="400" height="220" alt="" loading="lazy" decoding="async">` : `<img src="/img/plants/${id}.svg" width="400" height="220" alt="" loading="lazy">`; };
   const kidsCards = KID_PROJECTS.map((k) => `<a class="kid-mini" href="/kids/#${k.id}"><span class="kid-emoji" aria-hidden="true">${k.emoji}</span><strong>${esc(k.title)}</strong><span>${esc(k.wait)}</span></a>`).join('\n    ');
   const kidsHomeBlock = `<section class="kids-home" aria-label="Kids mode">
   <div class="kids-hero">
@@ -421,65 +432,51 @@ function buildHome() {
 </section>`;
   const body = `
 ${kidsHomeBlock}
-<section class="hero">
+<section class="hero hero2">
  <div class="hero-copy">
-  <h1>Grow your own food, whatever your garden size</h1>
-  <p>From a single windowsill to a full allotment, find out what to plant, how to look after it, how to harvest it, and what to cook with it.</p>
+  <p class="eyebrow">Grow it. Cook it. Keep it.</p>
+  <h1>Grow your own food, whatever your space.</h1>
+  <p class="hero-sub">Planting guides, recipes and storage tips for ${PLANTS.length} crops, timed for where you live in the UK.</p>
   <form class="hero-search" action="/plants/" method="get" role="search">
     <label class="sr-only" for="heroSearch">Search the plant guide</label>
-    <input type="search" id="heroSearch" name="q" placeholder="Search ${PLANTS.length} crops, for example tomato, mint, apple" autocomplete="off">
-    <button type="submit" class="btn">Search plants</button>
+    <input type="search" id="heroSearch" name="q" placeholder="Search crops, for example tomato or mint" autocomplete="off">
+    <button type="submit" class="btn">Search</button>
   </form>
-  <p class="hero-links"><a href="/sizes/">Find my garden size</a> <span aria-hidden="true">&middot;</span> <a href="/plants/?diff=easy">Easy crops for beginners</a> <span aria-hidden="true">&middot;</span> <a href="/my-garden/">Build my garden</a> <span aria-hidden="true">&middot;</span> <a href="/beginners/">Beginner’s guide</a></p>
-  <ul class="hero-stats">
-    <li><strong>${PLANTS.length}</strong> crops</li>
-    <li><strong>${RECIPES.length}</strong> recipes</li>
-    <li><strong>4</strong> garden sizes</li>
-    <li><strong>12</strong> months of growing</li>
-  </ul>
+  <p class="size-chips"><span>I garden on a</span> ${SIZES.map((z) => `<a class="chip" href="/sizes/${z.id}/">${esc(z.short)}</a>`).join(' ')}</p>
  </div>
- <div class="hero-photos" aria-hidden="true">
-  ${heroPhotos}
- </div>
+ ${heroPhoto}
 </section>
 
+<section class="week" aria-label="This week in the garden">
+${regionBar('homeRegion')}
+<div class="week-grid">
 ${weekendPanel()}
-
-<section class="month-box" id="thisMonth">
-  ${regionBar('homeRegion')}
+<div class="month-box" id="thisMonth">
   ${monthPanels}
+</div>
+</div>
 </section>
 
-<h2>Pick your garden size</h2>
-<div class="grid">
-  ${SIZES.map((s) => `<a href="/sizes/${s.id}/" class="card card-link size-card ${s.cls}">${emoji(s.emoji)}<h3>${esc(s.title)}</h3><p class="muted">${esc(s.desc)}</p><span class="more-link">See ideas &rarr;</span></a>`).join('\n  ')}
+<section class="start">
+<h2>Start here</h2>
+<div class="start-grid">
+  <a class="start-card" href="/plants/">${startImg('courgette')}<h3>Grow</h3><p>Sowing, care and harvest for ${PLANTS.length} crops, with advice that fits your garden size.</p></a>
+  <a class="start-card" href="/recipes/">${startImg('strawberry')}<h3>Cook</h3><p>${RECIPES.length} recipes built around what is ready in your garden right now.</p></a>
+  <a class="start-card" href="/preserving/">${startImg('carrot')}<h3>Keep</h3><p>Freeze, dry, pickle and store a surplus so nothing goes to waste.</p></a>
 </div>
+</section>
 
-<h2>Popular crops to start with</h2>
-<div class="grid pop-grid">
+<section class="popular">
+<div class="sec-head"><h2>Popular crops</h2><a href="/plants/">Browse all ${PLANTS.length} &rarr;</a></div>
+<div class="pop-grid">
   ${popularCards}
 </div>
-<p><a href="/plants/">Browse all ${PLANTS.length} crops &rarr;</a></p>
+</section>
 
-<h2>From the garden to the table</h2>
-<div class="grid">
-  ${recipeCards}
-</div>
-<p><a href="/recipes/">Browse all ${RECIPES.length} recipes &rarr;</a></p>
-
-<h2>Everything you need</h2>
-<div class="grid grid-3">
-  <a href="/plants/" class="card card-link"><h3>Plant Guide</h3><p class="muted">${PLANTS.length} crops with sowing, care, pests and harvest. Filter by sunlight, garden size and difficulty.</p><span class="more-link">Browse plants &rarr;</span></a>
-  <a href="/calendar/" class="card card-link"><h3>Planting Calendar</h3><p class="muted">What to sow and harvest, month by month.</p><span class="more-link">See the calendar &rarr;</span></a>
-  <a href="/howto/" class="card card-link"><h3>How-To</h3><p class="muted">Seven steps from plan to first harvest.</p><span class="more-link">Read the guide &rarr;</span></a>
-  <a href="/harvest/" class="card card-link"><h3>Harvesting</h3><p class="muted">Know when and how to pick for best flavour.</p><span class="more-link">Learn to harvest &rarr;</span></a>
-  <a href="/recipes/" class="card card-link"><h3>Recipes</h3><p class="muted">${RECIPES.length} recipes, from salads and soups to puddings, preserves and drinks.</p><span class="more-link">Start cooking &rarr;</span></a>
-  <a href="/kids/" class="card card-link"><h3>Growing with Kids</h3><p class="muted">Simple grow-your-own projects and recipes for children.</p><span class="more-link">Get growing &rarr;</span></a>
-  <a href="/beginners/" class="card card-link"><h3>Beginner’s Guide</h3><p class="muted">New to growing? What to grow for your space, how to prepare soil, and what to buy.</p><span class="more-link">Start here &rarr;</span></a>
-  <a href="/preserving/" class="card card-link"><h3>Preserving</h3><p class="muted">Freeze, dry, pickle or store a glut: storage ideas for every crop, grouped by method.</p><span class="more-link">Keep your harvest &rarr;</span></a>
-  <a href="/pests/" class="card card-link"><h3>Pests &amp; Diseases</h3><p class="muted">${PESTS.length} common problems, how to spot them and what to do, linked from every crop.</p><span class="more-link">Fix a problem &rarr;</span></a>
-  <a href="/my-garden/" class="card card-link"><h3>My Garden</h3><p class="muted">Add the crops you grow and get a checklist of jobs and recipes for every month. Free, no sign-up.</p><span class="more-link">Build my garden &rarr;</span></a>
-  <a href="/plants/?diff=easy" class="card card-link"><h3>Beginner-friendly crops</h3><p class="muted">${easyCount} easy crops that forgive mistakes and reward you quickly.</p><span class="more-link">See easy crops &rarr;</span></a>
+<section class="band">
+  <div><h2>New to growing?</h2><p>Start with ${easyCount} easy crops and a seven-step guide from plan to first harvest.</p></div>
+  <p class="band-actions"><a class="btn" href="/beginners/">Beginner&rsquo;s guide</a> <a class="chip" href="/plants/?diff=easy">Easy crops</a></p>
+</section>
 </div>`;
   addPage({
     path: '/', section: 'home', fullTitle: true, body,
@@ -1105,7 +1102,7 @@ const tagList = (items) => items.map(plantLink).join('');
 /* ---------- garden jobs this weekend ---------- */
 const WK_TAGS = { dry: 'Needs a dry day', wet: 'Fine in damp weather', indoor: 'Indoors or under cover', frost: 'Only if frost is forecast', any: 'Any weather' };
 const wkItems = (m, withHalf = true) => WEEKEND_JOBS[m].map(([tag, text, half = 0]) =>
-  `<li data-tag="${tag}" data-half="${half}"><span class="wk-tag wk-${tag}">${WK_TAGS[tag]}</span> ${esc(text)}${withHalf && half ? ` <span class="muted">(${half === 1 ? 'first half of the month' : 'second half of the month'})</span>` : ''}</li>`).join('\n');
+  `<li data-tag="${tag}" data-half="${half}">${esc(text)}${withHalf && half ? ` <span class="muted">(${half === 1 ? 'first half of the month' : 'second half of the month'})</span>` : ''} <span class="wk-tag wk-${tag}">${WK_TAGS[tag]}</span></li>`).join('\n');
 
 const wkSections = () => FULL_MONTHS.map((name, m) => `<section data-wk-month="${m}" hidden>
   <h2>Jobs for a ${name} weekend</h2>

@@ -131,7 +131,7 @@
       var h = Number(li.getAttribute('data-half'));
       var ph = first.getDate() >= 15 ? 2 : 1;
       if (h !== 0 && h !== ph) return;
-      var txt = li.textContent.replace(li.querySelector('.wk-tag').textContent, '').replace(/\s*\((first|second) half of the month\)\s*$/, '').trim();
+      var txt = li.textContent.replace(li.querySelector('.wk-tag').textContent, '').replace(/\s*\((first|second) half of the month\)\s*/, '').replace(/\s+/g, ' ').trim();
       generic.push({ id: 'g' + first.getMonth() + '-' + k, tag: li.getAttribute('data-tag'), text: txt });
     });
     var mine = [];
