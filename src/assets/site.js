@@ -1284,35 +1284,70 @@
     var button = function (box, text, cls, path) {
       var b = mk('button', cls, text); b.type = 'button'; b.addEventListener('click', function () { go(path, b, box); }); return b;
     };
+    /* Access codes: ?code=XYZ in the address fills the box in. */
+    var linkCode = (location.search.match(/[?&]code=([A-Za-z0-9-]{4,32})/) || [])[1] || '';
+    var codeForm = function (box, u) {
+      var f = mk('form', 'code-form'); f.noValidate = true;
+      var lab = mk('label', null, 'Got a code?'); lab.htmlFor = 'codeIn' + boxes.indexOf(box);
+      var inp = mk('input'); inp.id = lab.htmlFor; inp.type = 'text'; inp.autocomplete = 'off'; inp.spellcheck = false; inp.maxLength = 32; inp.placeholder = 'For example GROW-ABCD-1234'; inp.value = linkCode;
+      var b = mk('button', 'chip', 'Use code'); b.type = 'submit';
+      var row = mk('div', 'code-row'); row.appendChild(inp); row.appendChild(b);
+      var out = mk('p', 'code-msg'); out.setAttribute('role', 'status');
+      f.appendChild(lab); f.appendChild(row); f.appendChild(out);
+      f.addEventListener('submit', function (e) {
+        e.preventDefault(); out.className = 'code-msg'; out.textContent = '';
+        if (!inp.value.trim()) { out.textContent = 'Type or paste your code first.'; return; }
+        b.disabled = true;
+        Acct.api('POST', '/api/redeem', { code: inp.value }).then(function (r) {
+          b.disabled = false;
+          if (!r.ok) { out.className = 'code-msg acct-error'; out.textContent = (r.body && r.body.error) || 'Something went wrong. Please try again.'; return; }
+          linkCode = ''; justRedeemed = r.body; load();
+        }).catch(function () { b.disabled = false; out.textContent = 'Something went wrong. Please check your connection and try again.'; });
+      });
+      return f;
+    };
+    var justRedeemed = null;
     var load = function () {
       Acct.api('GET', '/api/me').then(function (r) {
         var u = r.ok && r.body.user, on = r.ok && r.body.payments;
         if (u) { Acct.setIn(); Acct.setPlan(u); } else if (r.ok) Acct.setOut();
         if (welcome && u && u.plan !== 'member' && tries++ < 8) { draw(function (b) { b.appendChild(mk('p', null, 'Thank you! Setting up your membership…')); }); setTimeout(load, 2000); return; }
+        var price = boxes[0].getAttribute('data-price');
         draw(function (box) {
           var err = mk('p', 'acct-error'); err.setAttribute('role', 'alert');
+          if (justRedeemed) box.appendChild(mk('p', 'mem-welcome', 'Code accepted: ' + justRedeemed.days + (justRedeemed.days === 1 ? ' day' : ' days') + ' of member access. Enjoy the week-ahead plan and unlimited crops.'));
           if (u && u.plan === 'member') {
             if (welcome) box.appendChild(mk('p', 'mem-welcome', 'Welcome, you are now a member. Thank you for supporting Homegrown Plate.'));
-            box.appendChild(mk('p', null, u.gift ? 'You have a free membership.' : !u.paidUntil ? 'You are a member.' : u.renews ? 'You are a member. Your membership renews on ' + fmt(u.paidUntil) + '.' : 'You are a member until ' + fmt(u.paidUntil) + '. It will not renew.'));
+            var line = u.gift ? 'You have a free membership.'
+              : u.paying ? (u.renews ? 'You are a member. Your membership renews on ' + fmt(u.paidUntil) + '.' : 'You are a member until ' + fmt(u.paidUntil) + '. It will not renew.')
+              : u.codeUntil ? 'You have member access from a code until ' + fmt(u.codeUntil) + '.'
+              : 'You are a member.';
+            if (u.paying && !u.renews && u.codeUntil) line += ' Your code then carries it on until ' + fmt(u.codeUntil) + '.';
+            box.appendChild(mk('p', null, line));
             var p = mk('p'); var a = mk('a', 'btn-small', 'Your week ahead'); a.href = '/this-weekend/'; p.appendChild(a);
             if (u.billing && on) { p.appendChild(document.createTextNode(' ')); p.appendChild(button(box, 'Manage membership', 'chip', '/api/billing')); }
             box.appendChild(p);
             if (u.billing && on) box.appendChild(mk('p', 'muted small-note', 'Cancel, change your card or download receipts on the secure Stripe page.'));
-          } else if (!on) {
-            box.appendChild(mk('p', null, 'Membership opens soon. ' + (u ? 'Your free account keeps working as it does now.' : 'In the meantime, a free account gives you a monthly plan for your own crops.')));
-            if (!u) { var c = mk('a', 'btn-small', 'Create a free account'); c.href = '/account/#create'; box.appendChild(c); }
+            if (u.codeUntil && !u.paying && !u.gift && on) {
+              box.appendChild(mk('p', null, 'Want to keep it when your code runs out? Join now and your first payment is only taken when your code time ends.'));
+              box.appendChild(button(box, 'Keep my membership' + (price ? ', ' + price : ''), 'btn', '/api/checkout'));
+            }
           } else if (!u) {
-            box.appendChild(mk('p', null, 'Membership is linked to an account, so create a free account (or sign in) first, then come back here to join.'));
-            var c2 = mk('a', 'btn', 'Create a free account'); c2.href = '/account/#create'; box.appendChild(c2);
-            box.appendChild(document.createTextNode(' ')); var si = mk('a', null, 'Sign in'); si.href = '/account/'; box.appendChild(si);
+            box.appendChild(mk('p', null, on ? 'Membership is linked to an account, so create a free account (or sign in) first, then come back here to join.' : 'Membership opens soon. In the meantime, a free account gives you a monthly plan for your own crops.'));
+            var c2 = mk('a', 'btn', 'Create a free account'); c2.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : '') + '#create'; box.appendChild(c2);
+            box.appendChild(document.createTextNode(' ')); var si = mk('a', null, 'Sign in'); si.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : ''); box.appendChild(si);
+            box.appendChild(mk('p', 'muted small-note', 'Got a code for free member access? Create an account or sign in, and you can enter it on your account page.'));
+          } else if (!on) {
+            box.appendChild(mk('p', null, 'Membership opens soon. Your free account keeps working as it does now.'));
           } else {
             if (u.paidUntil) box.appendChild(mk('p', null, 'Your membership ended on ' + fmt(u.paidUntil) + '. Join again to carry on with the week-ahead plan and unlimited crops.'));
             else box.appendChild(mk('p', null, 'You are on a free account. Become a member for unlimited crops and a week-ahead plan with the weather forecast.'));
-            var price = box.getAttribute('data-price');
             box.appendChild(button(box, (u.paidUntil ? 'Join again' : 'Become a member') + (price ? ', ' + price : ''), 'btn', '/api/checkout'));
           }
           box.appendChild(err);
+          if (u && !u.gift && !(u.paying && u.renews)) box.appendChild(codeForm(box, u));
         });
+        justRedeemed = null;
       }).catch(function () { draw(function (b) { b.appendChild(mk('p', 'muted', 'Could not check your membership just now. Please refresh the page.')); }); });
     };
     load();

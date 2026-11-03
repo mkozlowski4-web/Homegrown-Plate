@@ -236,3 +236,68 @@
   });
   load();
 })();
+
+/* Access codes (owner only): make codes, see how many times each has been used, turn them off. */
+(function () {
+  'use strict';
+  var box = document.getElementById('codes');
+  if (!box) return;
+  var list = document.getElementById('codeList'), form = document.getElementById('codeNew');
+  var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  var day = function (ms) { return new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); };
+  var api = function (method, path, body) {
+    var o = { method: method, credentials: 'same-origin', headers: {} };
+    if (body) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+    return fetch(path, o).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, body: j }; }); });
+  };
+  var linkFor = function (code) { return location.origin + '/account/?code=' + encodeURIComponent(code); };
+  var copy = function (text, btn) {
+    var done = function () { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = t; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this:', text); });
+    else window.prompt('Copy this:', text);
+  };
+  var render = function (codes) {
+    list.textContent = '';
+    if (!codes.length) { list.appendChild(el('p', 'muted', 'No codes yet.')); return; }
+    var wrap = el('div', 'table-wrap'), t = el('table', 'codes-table');
+    var head = el('tr'); ['Code', 'Gives', 'Used', 'Use by', 'Note', ''].forEach(function (h) { head.appendChild(el('th', null, h)); });
+    var th = el('thead'); th.appendChild(head); t.appendChild(th);
+    var tb = el('tbody');
+    codes.forEach(function (c) {
+      var expired = c.redeemBy && c.redeemBy < Date.now(), full = c.maxUses != null && c.uses >= c.maxUses;
+      var tr = el('tr', !c.active || expired || full ? 'is-off' : '');
+      var cc = el('td'); cc.appendChild(el('code', null, c.code));
+      if (!c.active) cc.appendChild(el('span', 'code-state', 'Turned off')); else if (expired) cc.appendChild(el('span', 'code-state', 'Expired')); else if (full) cc.appendChild(el('span', 'code-state', 'Used up'));
+      tr.appendChild(cc);
+      tr.appendChild(el('td', null, c.days + (c.days === 1 ? ' day' : ' days')));
+      tr.appendChild(el('td', null, c.uses + (c.maxUses != null ? ' of ' + c.maxUses : '')));
+      tr.appendChild(el('td', null, c.redeemBy ? day(c.redeemBy) : 'Any time'));
+      tr.appendChild(el('td', null, c.note || ''));
+      var act = el('td', 'code-actions');
+      var cl = el('button', 'chip', 'Copy link'); cl.type = 'button'; cl.addEventListener('click', function () { copy(linkFor(c.code), cl); }); act.appendChild(cl);
+      var tg = el('button', 'chip', c.active ? 'Turn off' : 'Turn on'); tg.type = 'button';
+      tg.addEventListener('click', function () { tg.disabled = true; api('POST', '/api/admin/codes/active', { code: c.code, active: !c.active }).then(load); });
+      act.appendChild(tg);
+      tr.appendChild(act); tb.appendChild(tr);
+    });
+    t.appendChild(tb); wrap.appendChild(t); list.appendChild(wrap);
+    list.appendChild(el('p', 'muted small-note', 'Turning a code off stops new people using it. Anyone who already used it keeps the time they were given.'));
+  };
+  var load = function () {
+    api('GET', '/api/admin/codes').then(function (r) { if (!r.ok) return; box.hidden = false; render(r.body.codes || []); }).catch(function () {});
+  };
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = form.querySelector('[data-error]'); err.textContent = ''; err.classList.remove('is-ok');
+    var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+    api('POST', '/api/admin/codes', { days: Number(document.getElementById('cnDays').value), maxUses: document.getElementById('cnUses').value, redeemBy: document.getElementById('cnBy').value, code: document.getElementById('cnCode').value, note: document.getElementById('cnNote').value })
+      .then(function (r) {
+        btn.disabled = false;
+        if (!r.ok) { err.textContent = (r.body && r.body.error) || 'Could not make that code.'; return; }
+        ['cnUses', 'cnBy', 'cnCode', 'cnNote'].forEach(function (id) { document.getElementById(id).value = ''; });
+        err.textContent = 'Made ' + r.body.code + '. Use Copy link below to send it.'; err.classList.add('is-ok');
+        load();
+      }).catch(function () { btn.disabled = false; err.textContent = 'Could not reach the site. Please try again.'; });
+  });
+  load();
+})();

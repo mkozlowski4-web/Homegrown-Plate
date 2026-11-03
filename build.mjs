@@ -1625,6 +1625,7 @@ ${rows.map((r) => `    <tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2
   <li>Membership costs ${MEMBER_PRICE} and renews each year. You can cancel any time from <a href="/account/">your account</a>, and you stay a member until the end of the year you paid for.</li>
   <li>Card payments are handled by Stripe. Your card details never reach this site.</li>
   <li>Changed your mind? Email <a href="mailto:hello@homegrownplate.co.uk">hello@homegrownplate.co.uk</a> within 14 days of paying for a full refund.</li>
+  <li>Been given a code? Enter it on <a href="/account/">your account page</a> for member access for the time it gives. If you then join, your first payment is only taken when the code time runs out.</li>
   <li>If your membership ends, you keep every crop already in your garden. You just cannot add more than 8 until you remove some or join again.</li>
 </ul>`;
   addPage({
@@ -1839,6 +1840,20 @@ function buildAdmin() {
 </div>
 <noscript><p class="empty">The dashboard needs JavaScript.</p></noscript>
 <div id="dash" aria-live="polite"></div>
+<section class="card dash-card" id="codes" hidden>
+  <h2>Access codes</h2>
+  <p class="muted small-note">Give people member access for a set number of days. They enter the code on their account page, or you can send them the link. Each account can use a code once.</p>
+  <form id="codeNew" class="code-new" novalidate>
+    <p class="acct-field"><label for="cnDays">Days of access</label><input id="cnDays" type="number" min="1" max="730" value="30" required></p>
+    <p class="acct-field"><label for="cnUses">How many people can use it</label><input id="cnUses" type="number" min="1" placeholder="No limit"></p>
+    <p class="acct-field"><label for="cnBy">Last day to use it (optional)</label><input id="cnBy" type="date"></p>
+    <p class="acct-field"><label for="cnCode">Code (optional)</label><input id="cnCode" type="text" maxlength="32" placeholder="Made up for you" autocomplete="off"></p>
+    <p class="acct-field"><label for="cnNote">Note to yourself (optional)</label><input id="cnNote" type="text" maxlength="120" placeholder="For example: allotment society"></p>
+    <p><button class="btn" type="submit">Make code</button></p>
+    <p class="acct-error" role="alert" data-error></p>
+  </form>
+  <div id="codeList" aria-live="polite"></div>
+</section>
 <script src="/assets/admin.js?v=${assetVersion['admin.js']}" defer></script>`;
   outFile('/admin/', layout({ path: '/admin/', section: '', body, noindex: true, title: 'Dashboard', description: 'Site analytics for the owner.' }));
 }

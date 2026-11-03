@@ -54,6 +54,8 @@ Payments use Stripe Checkout and the Stripe customer portal (`src/worker/billing
 4. In Stripe, Settings > Billing > Customer portal, turn on cancelling and updating payment methods.
 5. Put the price id in `wrangler.jsonc` under `vars` as `STRIPE_PRICE` (it is not secret, and dashboard text variables are wiped by each deploy). In Cloudflare, Worker > Settings > Variables and Secrets, add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` as **Secrets**. Use test values first (only admin accounts can join while the key is a test key), pay with Stripe's test card 4242 4242 4242 4242, then swap all three for live ones.
 
+**Access codes:** make codes on `/admin/` (Access codes). Each gives member access for a set number of days, can be limited to a number of people and a last day to use it, and can be turned off. People enter it on their account page, or open the link from Copy link (`/account/?code=...`), which fills it in. Each account can use a code once, days from several codes add up, and someone on code time who then joins is not charged until the code time ends.
+
 To give someone free membership (or yourself, for testing), run in the D1 console: `UPDATE users SET plan = 'comp' WHERE email = 'them@example.com';` Set it back with `plan = 'free'`.
 
 ## Updating content

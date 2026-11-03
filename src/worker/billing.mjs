@@ -16,6 +16,7 @@ export const paymentsOn = (env, user) => !!(env.STRIPE_SECRET_KEY && env.STRIPE_
 export function isMember(user, now = Date.now()) {
   if (!user) return false;
   if (user.plan === 'comp') return true;
+  if (typeof user.gift_until === 'number' && user.gift_until > now) return true; /* from an access code */
   return typeof user.paid_until === 'number' && user.paid_until + GRACE_MS > now;
 }
 
@@ -57,15 +58,20 @@ async function saveSubscription(env, sub, userIdHint) {
 /* POST /api/checkout: start paying. Returns the Stripe page to send the visitor to. */
 export async function startCheckout(user, env, origin) {
   if (!paymentsOn(env, user)) return { status: 503, error: 'Membership is not open yet. Please check back soon.' };
-  if (isMember(user)) return { status: 409, error: 'You are already a member.' };
+  const now = Date.now();
+  const paying = user.stripe_sub && typeof user.paid_until === 'number' && user.paid_until > now;
+  if (user.plan === 'comp' || paying) return { status: 409, error: 'You are already a member.' };
   const row = await env.DB.prepare('SELECT stripe_customer FROM users WHERE id = ?').bind(user.id).first();
+  /* Someone with time left from a code can join now; the first payment is taken when that time runs out
+     (Stripe needs at least two days' notice, so very short remaining time is not deferred). */
+  const giftLeft = typeof user.gift_until === 'number' && user.gift_until > now + 2 * 86400000 ? Math.floor(user.gift_until / 1000) : undefined;
   const session = await stripe(env, 'POST', 'checkout/sessions', {
     mode: 'subscription',
     line_items: { 0: { price: env.STRIPE_PRICE, quantity: 1 } },
     client_reference_id: String(user.id),
     customer: row?.stripe_customer || undefined,
     customer_email: row?.stripe_customer ? undefined : user.email,
-    subscription_data: { metadata: { user_id: String(user.id) } },
+    subscription_data: { metadata: { user_id: String(user.id) }, trial_end: giftLeft },
     allow_promotion_codes: 'true',
     success_url: `${origin}/account/?member=welcome`,
     cancel_url: `${origin}/membership/`,

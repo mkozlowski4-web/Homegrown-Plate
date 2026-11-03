@@ -6,6 +6,7 @@ import { forecast } from './weather.mjs';
 import { collect, stats, tidyAnalytics } from './analytics.mjs';
 import { searchStats } from './gsc.mjs';
 import { paymentsOn, isMember, startCheckout, billingPortal, cancelOnDelete, webhook } from './billing.mjs';
+import { redeem, listCodes, createCode, setCodeActive } from './codes.mjs';
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 100000; /* the maximum the Workers runtime allows */
@@ -86,7 +87,7 @@ const sessionCookie = (token, maxAge) => `${COOKIE}=${token}; Path=/; HttpOnly; 
 async function currentUser(request, env) {
   const token = getCookie(request, COOKIE);
   if (!/^[0-9a-f]{64}$/.test(token)) return null;
-  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin, u.plan, u.paid_until, u.cancel_at_end, u.stripe_customer FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
+  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin, u.plan, u.paid_until, u.cancel_at_end, u.stripe_customer, u.stripe_sub, u.gift_until FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
     .bind(await sha256(token), Date.now()).first();
   return row || null;
 }
@@ -102,7 +103,9 @@ const planInfo = (user) => ({
   plan: isMember(user) ? 'member' : 'free',
   limit: isMember(user) ? null : FREE_ACCOUNT_CROPS,
   paidUntil: user.plan === 'comp' ? null : user.paid_until || null,
-  renews: isMember(user) && user.plan !== 'comp' ? !user.cancel_at_end : false,
+  paying: !!(user.stripe_sub && user.paid_until > Date.now()),
+  renews: !!(user.stripe_sub && user.paid_until > Date.now() && !user.cancel_at_end),
+  codeUntil: user.gift_until > Date.now() ? user.gift_until : null,
   gift: user.plan === 'comp',
   billing: !!user.stripe_customer,
 });
@@ -165,7 +168,7 @@ async function login(request, env) {
   const password = typeof body.password === 'string' ? body.password.slice(0, 128) : '';
   const emailKey = 'login:' + email, ipKey = 'loginip:' + clientIp(request);
   if ((await tooMany(env, emailKey, 8, 900000)) || (await tooMany(env, ipKey, 30, 900000))) return fail(429, 'Too many attempts. Please wait 15 minutes and try again.');
-  const user = await env.DB.prepare('SELECT id, email, pw_hash, pw_salt, plan, paid_until, cancel_at_end, stripe_customer FROM users WHERE email = ?').bind(email).first();
+  const user = await env.DB.prepare('SELECT id, email, pw_hash, pw_salt, plan, paid_until, cancel_at_end, stripe_customer, stripe_sub, gift_until FROM users WHERE email = ?').bind(email).first();
   /* Always do the same work so timing does not reveal whether an email has an account. */
   const candidate = await hashPassword(password, user ? user.pw_salt : '00'.repeat(16));
   if (!user || !safeEqual(candidate, user.pw_hash)) {
@@ -287,6 +290,20 @@ async function api(request, env, url, ctx) {
   if (path === '/api/export' && method === 'GET') return exportData(user, env);
   if (path === '/api/password' && method === 'POST') return changePassword(request, user, env);
   if (path === '/api/delete' && method === 'POST') return deleteAccount(request, user, env);
+  if (path === '/api/redeem' && method === 'POST') {
+    const { body, error } = await readJson(request); if (error) return error;
+    const r = await redeem(user, body, env, { tooMany, noteAttempt, isMember });
+    return r.error ? fail(r.status, r.error) : json(r.body);
+  }
+  if (path.startsWith('/api/admin/codes')) {
+    if (!user.is_admin) return fail(404, 'Not found.');
+    let r;
+    if (path === '/api/admin/codes' && method === 'GET') r = { body: await listCodes(env) };
+    else if (path === '/api/admin/codes' && method === 'POST') { const { body, error } = await readJson(request); if (error) return error; r = await createCode(body, env); }
+    else if (path === '/api/admin/codes/active' && method === 'POST') { const { body, error } = await readJson(request); if (error) return error; r = await setCodeActive(body, env); }
+    else return fail(404, 'Not found.');
+    return r.error ? fail(r.status, r.error) : json(r.body);
+  }
   if ((path === '/api/checkout' || path === '/api/billing') && method === 'POST') {
     const r = await (path === '/api/checkout' ? startCheckout : billingPortal)(user, env, url.origin);
     return r.error ? fail(r.status, r.error) : json(r.body);
