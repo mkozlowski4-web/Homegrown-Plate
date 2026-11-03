@@ -299,7 +299,7 @@ function addPage({ path, ...opts }) {
 }
 
 const emoji = (e) => `<span class="emoji" aria-hidden="true">${e}</span>`;
-const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link${kh(p)}">${p.emoji} ${esc(p.name)}</a>`;
+const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link${kh(p)}">${esc(p.name)}</a>`;
 
 
 /* ---------- plant images: drop-in photos, otherwise a drawn illustration ---------- */
@@ -414,7 +414,7 @@ function buildHome() {
   const recipeCards = featuredRecipes.map((r) => `<a href="/recipes/${r.id}/" class="card card-link">
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
-    <p class="card-tags">${r.uses.slice(0, 3).map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
+    <p class="card-tags">${r.uses.slice(0, 3).map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${esc(p.name)}</span>`; }).join('')}</p>
   </a>`).join('\n  ');
   const easyCount = PLANTS.filter((p) => p.difficulty === 'Easy').length;
 
@@ -600,7 +600,6 @@ function buildSizes() {
 <p class="lead">Whatever space you have, there is something you can grow. Choose your garden size for tailored advice.</p>
 <div class="grid">
   ${SIZES.map((s) => `<div class="card size-card ${s.cls}">
-    ${emoji(s.emoji)}
     <h3>${esc(s.title)}</h3>
     <p class="muted">${esc(s.desc)}</p>
     <p><strong>Good crops:</strong><br>${s.grow.slice(0, 6).map((id) => plantLink(plantMap.get(id))).join('')}</p>
@@ -618,7 +617,7 @@ function buildSizes() {
     const crops = cropsForSize(s);
     const detail = `
 <a class="back" href="/sizes/">&larr; All garden sizes</a>
-<h1>${emoji(s.emoji)} ${esc(s.title)}</h1>
+<h1>${esc(s.title)}</h1>
 <p class="lead">${esc(s.desc)}</p>
 <h2>Top tips for this space</h2>
 <ul class="tips">${s.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
@@ -682,7 +681,7 @@ function buildPlants() {
     <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>
   </a>`).join('\n  ');
   const sunChips = [chip('sun', 'any', 'Any sunlight', true), ...SUN_LEVELS.map((s) => chip('sun', s.id, `<span aria-hidden="true">${s.icon}</span> ${s.label}`))].join('\n      ');
-  const sizeChips = [chip('size', 'any', 'Any size', true), ...SIZES.map((s) => chip('size', s.id, `<span aria-hidden="true">${s.emoji}</span> ${esc(s.short)}`))].join('\n      ');
+  const sizeChips = [chip('size', 'any', 'Any size', true), ...SIZES.map((s) => chip('size', s.id, esc(s.short)))].join('\n      ');
   const diffChips = [chip('diff', 'any', 'Any difficulty', true), ...DIFFICULTIES.map(([id, label]) => chip('diff', id, label))].join('\n      ');
   const body = `
 <h1>Plant Guide</h1>
@@ -857,7 +856,7 @@ function buildRecipes() {
   const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
-    <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</p>
+    <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${esc(p.name)}</span>`; }).join('')}</p>
   </a>`).join('\n  ');
   const body = `
 <h1>Garden Recipes</h1>
@@ -870,7 +869,7 @@ function buildRecipes() {
   <div class="filter-search"><label for="recipeFilter">Crop</label>
     <select id="recipeFilter">
       <option value="all">All crops</option>
-      ${withRecipes.map((p) => `<option value="${p.id}">${p.emoji} ${esc(p.name)}</option>`).join('\n      ')}
+      ${withRecipes.map((p) => `<option value="${p.id}">${esc(p.name)}</option>`).join('\n      ')}
     </select>
   </div>
   <p class="filter-status"><span id="recipeCount" aria-live="polite"></span></p>
@@ -934,7 +933,7 @@ function buildCalendar() {
       ].join('');
       return `<td>${bits}</td>`;
     }).join('');
-    return `<tr class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}" data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/"><span aria-hidden="true">${p.emoji}</span> ${esc(p.name)}</a></th>${cells}</tr>`;
+    return `<tr class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}" data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/">${esc(p.name)}</a></th>${cells}</tr>`;
   }).join('\n      ');
   const body = `
 <h1>Planting Calendar</h1>
@@ -1297,7 +1296,7 @@ function buildBeginners() {
     return `<a class="beg-crop card-link" href="/plants/${p.id}/">${plantImg(p)}<span class="beg-body"><strong>${esc(p.name)}</strong><span class="beg-why">${esc(WHY[id])}</span><span class="beg-when">Sow or plant: ${esc(monthRanges(orBits(c.i, c.o)) || 'see page')}</span></span></a>`;
   };
   const sizeSections = SIZES.map((sz) => `<section class="beg-size" data-bsize="${sz.id}">
-  <h3>${sz.emoji} ${esc(sz.title)}</h3>
+  <h3>${esc(sz.title)}</h3>
   <div class="beg-suns">
     ${Object.keys(sunInfo).map((sun) => `<div class="beg-sun" data-bsun="${sun}">
       <h4>${sunInfo[sun][0]} ${sunInfo[sun][1]} <span class="muted small-note">(${sunInfo[sun][2]})</span></h4>
@@ -1313,7 +1312,7 @@ function buildBeginners() {
 <h3>Everyone needs</h3>
 <ul class="buy-list">${BUY.essentials.map(([n, t]) => `<li><strong>${esc(n)}.</strong> ${esc(t)}</li>`).join('')}</ul>
 <h3>Then add, for your garden size</h3>
-<div class="grid buy-grid">${SIZES.map((sz) => `<div class="card"><h4>${sz.emoji} ${esc(sz.short)}</h4>${li(BUY.bySize[sz.id])}</div>`).join('')}</div>
+<div class="grid buy-grid">${SIZES.map((sz) => `<div class="card"><h4>${esc(sz.short)}</h4>${li(BUY.bySize[sz.id])}</div>`).join('')}</div>
 <div class="grid buy-grid">
   <div class="card"><h4>Buy later, if you need it</h4>${li(BUY.later)}</div>
   <div class="card"><h4>Skip for now</h4>${li(BUY.skip)}</div>
@@ -1558,6 +1557,8 @@ function buildAbout() {
     body: `
 <h1>About Homegrown Plate</h1>
 <p class="lead">Homegrown Plate is a free UK guide to growing your own food, cooking it and keeping it, whether you have a windowsill or an allotment.</p>
+<h2>Who runs it</h2>
+<p>Homegrown Plate is run by Mark, from the UK. It started as a way to keep growing times, recipes and storage advice for home-grown food in one place, rather than spread over a dozen sites. Mistakes are fixed as soon as they are reported.</p>
 <h2>What you will find here</h2>
 <ul>
   <li><a href="/plants/">${PLANTS.length} crops</a> with plain-English advice on sowing, growing, harvesting and storing, written for UK conditions.</li>
@@ -1626,7 +1627,7 @@ ${BUY.essentials.map(([a, b]) => `  <div class="card"><h3>${esc(a)}</h3><p class
 </div>
 <h2>Add these for your garden size</h2>
 <div class="grid">
-${['balcony', 'small', 'medium', 'large'].map((id) => { const sz = sizeMap.get(id); return `  <div class="card"><h3>${sz.emoji} ${esc(sz.title)}</h3>${kit(BUY.bySize[id])}<p class="muted small-note">Typical start-up cost: ${esc(BUY.budget.find(([n]) => n.toLowerCase().startsWith(sz.short.toLowerCase().split(' ')[0]))?.[1] || 'varies')}</p><a href="/sizes/${id}/">Crops for this size &rarr;</a></div>`; }).join('\n')}
+${['balcony', 'small', 'medium', 'large'].map((id) => { const sz = sizeMap.get(id); return `  <div class="card"><h3>${esc(sz.title)}</h3>${kit(BUY.bySize[id])}<p class="muted small-note">Typical start-up cost: ${esc(BUY.budget.find(([n]) => n.toLowerCase().startsWith(sz.short.toLowerCase().split(' ')[0]))?.[1] || 'varies')}</p><a href="/sizes/${id}/">Crops for this size &rarr;</a></div>`; }).join('\n')}
 </div>
 <h2>Nice to have later</h2>
 ${kit(BUY.later)}

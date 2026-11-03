@@ -215,7 +215,7 @@
           var col = cols[n]; if (!col) return;
           col.querySelector('.count').textContent = '(' + items.length + ')';
           var tags = col.querySelector('.card-tags'); tags.textContent = '';
-          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link' + (p.k ? ' kid-hide' : ''), p.e + ' ' + p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
+          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link' + (p.k ? ' kid-hide' : ''), p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
           if (items.length > 14) { var more = mk('a', 'tag tag-link more', '+' + (items.length - 14) + ' more'); more.href = '/calendar/'; tags.appendChild(more); }
           if (!items.length) tags.appendChild(mk('span', 'muted', 'Nothing this month: a good time to plan and tidy.'));
         });
@@ -499,7 +499,7 @@
           saveDone(d);
         });
         lab.appendChild(cb);
-        lab.appendChild(el('span', null, p.e + ' ' + p.n));
+        lab.appendChild(el('span', null, p.n));
         li.appendChild(lab);
         ul.appendChild(li);
       });
@@ -529,7 +529,7 @@
           });
           lab.appendChild(cb);
           var sp = el('span', 'care-text');
-          var strong = el('strong', null, p.e + ' ' + p.n + ': ');
+          var strong = el('strong', null, p.n + ': ');
           sp.appendChild(strong);
           sp.appendChild(document.createTextNode(t[1]));
           lab.appendChild(sp);

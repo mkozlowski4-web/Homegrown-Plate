@@ -822,3 +822,10 @@ html.js-acc .care-list, html.js-acc .plant-main > h2 { margin-top: 48px; }
 .tab .count { font-weight: 500; }
 [data-tabpanel][hidden] { display: none; }
 @media (max-width: 640px) { .tabs { gap: 0; } .tab { padding: 0 10px; font-size: .92rem; flex: 1 1 auto; } }
+
+/* Less rounded: pills kept for main buttons only; tags, chips and cards use gentler corners */
+.tag, .chip, .wk-tag, a.chip, .filter-chip, .kids-pill { border-radius: 8px; }
+.tag, .tag-link { padding: 4px 10px; }
+.card, .wk-day, .pt-cal, .wk-list li, .month-box, .acc, details.acc { border-radius: 12px; }
+.pt-media img.photo { border-radius: 14px; }
+.tab { border-radius: 0; }
