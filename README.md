@@ -48,7 +48,7 @@ What each kind of visitor gets is set out on `/membership/`. In short: no accoun
 
 Payments use Stripe Checkout and the Stripe customer portal (`src/worker/billing.mjs`). Until all three settings below exist, the site says membership is opening soon and nothing can be bought.
 
-1. Apply the database change once: `npx wrangler d1 migrations apply homegrown-plate --remote` (adds the membership columns from `migrations/0003_membership.sql`).
+1. Apply the database change once by running `migrations/0003_membership.sql` in the D1 console (done on 3 Nov 2026). The migrations in this repo are applied by hand, so do not use `wrangler d1 migrations apply`, which would try to re-run them.
 2. In Stripe (start in **test mode**): create a product "Homegrown Plate membership" with a recurring yearly price of £12, and copy the price id (`price_...`).
 3. In Stripe, Developers > Webhooks, add the endpoint `https://homegrownplate.co.uk/api/stripe-webhook` with the events `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated` and `customer.subscription.deleted`. Copy its signing secret (`whsec_...`).
 4. In Stripe, Settings > Billing > Customer portal, turn on cancelling and updating payment methods.
