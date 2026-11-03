@@ -330,7 +330,7 @@ ${body}
     <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a></nav>
     <nav class="foot-col" aria-label="Cook and keep"><strong>Cook and keep</strong><a href="/recipes/">Recipes</a><a href="/preserving/">Preserving</a><a href="/what-to-preserve/">What to preserve</a><a href="/kids/">Growing with kids</a></nav>
     <nav class="foot-col" aria-label="Start here"><strong>Start here</strong><a href="/beginners/">Beginner&rsquo;s guide</a><a href="/howto/">Grow in 7 steps</a><a href="/glossary/">Gardening words</a><a href="/kit/">Essential kit</a><a href="/install/">Get the app</a></nav>
-    <nav class="foot-col" aria-label="Site"><strong>Site</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/account/">Account</a><a href="/privacy/">Privacy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a></nav>
+    <nav class="foot-col" aria-label="Site"><strong>Site</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/account/">Account</a><a href="/membership/">Membership</a><a href="/privacy/">Privacy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a></nav>
   </div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
@@ -616,6 +616,7 @@ function gardenData() {
       return [base, ...types];
     }),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
+    wk: WEEKEND_JOBS.map((jobs) => jobs.map(([tag, text]) => [tag, text])), /* general UK jobs by month, for My Garden without an account */
   };
   const json = JSON.stringify(data);
   gardenMemo = { json, ver: createHash('sha1').update(json).digest('hex').slice(0, 8) };
@@ -657,24 +658,24 @@ function buildMyGarden() {
   writeFileSync(join(DIST, 'assets', 'zones.json'), zonesData().json);
   const body = `
 <h1>My Garden</h1>
-<p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed. Want it on every device? <a href="/account/">Create a free account</a>.</p>
-<div class="callout acct-prompt" data-acct-prompt hidden><strong>Keep your garden on every device.</strong> Create a free account and your crops, ticked-off jobs and area are saved for you. <a class="btn-small" href="/account/">Sign up or sign in</a></div>
+<p class="lead">Add the crops you grow, up to 5 with no sign-up. <a href="/account/#create">Create a free account</a> for up to 8 crops on every device and a monthly plan for your own crops and area. <a href="/membership/">Members</a> can add as many crops as they like and get a week-ahead plan with the weather forecast.</p>
+<div class="callout acct-prompt" data-acct-prompt hidden><strong>Get a plan for your own crops.</strong> Create a free account for a monthly plan built from your garden and area, up to 8 crops, and your garden on every device. <a class="btn-small" href="/account/#create">Create a free account</a></div>
 <p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
 ${regionBar()}
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
 <div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
   <div class="tabs" role="tablist" aria-label="My Garden">
-    <button type="button" role="tab" class="tab" id="tab-weekend" aria-controls="panel-weekend" data-tab="weekend">This weekend</button>
+    <button type="button" role="tab" class="tab" id="tab-weekend" aria-controls="panel-weekend" data-tab="weekend">This week</button>
     <button type="button" role="tab" class="tab" id="tab-months" aria-controls="panel-months" data-tab="months">Jobs by month</button>
     <button type="button" role="tab" class="tab" id="tab-crops" aria-controls="panel-crops" data-tab="crops">My crops <span class="count" id="gTabCount"></span></button>
   </div>
   <div role="tabpanel" id="panel-weekend" aria-labelledby="tab-weekend" data-tabpanel="weekend" hidden>
     <div class="wk-personal card" id="wkPersonal" data-garden="/assets/garden-data.json?v=${ver}" hidden aria-live="polite"></div>
-    <p class="wk-cta-line" id="wkCta" hidden><a href="/account/">Sign in</a> for a plan built around your crops and your local forecast.</p>
+    <div class="callout wk-cta" id="wkCta" hidden></div>
     <div id="wkGeneric" data-compact>
 ${wkSections()}
     </div>
-    <p><a class="btn-small" href="/this-weekend/">See the full weekend plan</a></p>
+    <p><a class="btn-small" href="/this-weekend/">See the full plan</a></p>
   </div>
   <div role="tabpanel" id="panel-crops" aria-labelledby="tab-crops" data-tabpanel="crops" hidden>
   <section class="starter" id="gStarter" aria-labelledby="gStarterTitle" hidden>
@@ -711,7 +712,7 @@ ${wkSections()}
     <button type="button" class="chip" id="gToday" hidden>Back to this month</button>
   </div>
   <div id="gJobs" class="jobs-grid"></div>
-  <p class="muted small-note">Tick jobs off as you go and your ticks are remembered. Sowing and harvest months follow typical UK conditions, so adjust for your local frost dates and weather. Reminders for watering, feeding and pruning are planned for a later version.</p>
+  <p class="muted small-note">Tick jobs off as you go and your ticks are remembered. Sowing and harvest months follow typical UK conditions, so adjust for your local frost dates and weather.</p>
   <h2 id="gRecipeTitle">Recipes for this month</h2>
   <div class="grid" id="gRecipes"></div>
   </div>
@@ -719,7 +720,7 @@ ${wkSections()}
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
     path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for your crops',
-    description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free, no sign-up.',
+    description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free to start, no sign-up needed.',
     crumbs: [['Home', '/'], ['My Garden', '/my-garden/']],
   });
 }
@@ -1281,13 +1282,13 @@ ${wkItems(m)}
 function weekendPanel() {
   const g = gardenData();
   return `<section class="card wk-home" id="weekendHome" aria-labelledby="wkHomeTitle">
-  <h2 id="wkHomeTitle">Garden jobs this weekend</h2>
+  <h2 id="wkHomeTitle">Garden jobs this week</h2>
   <div class="wk-personal" id="wkPersonal" data-garden="/assets/garden-data.json?v=${g.ver}" hidden aria-live="polite"></div>
-  <p class="wk-cta-line" id="wkCta" hidden><a href="/account/">Sign in</a> for a plan built around your crops and your local forecast.</p>
+  <div class="callout wk-cta" id="wkCta" hidden></div>
   <div id="wkGeneric" data-compact>
 ${wkSections()}
   </div>
-  <p><a class="btn-small" href="/this-weekend/">See the full weekend plan</a></p>
+  <p><a class="btn-small" href="/this-weekend/">See the full plan</a></p>
 </section>
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
 }
@@ -1300,11 +1301,11 @@ function buildWeekend() {
 
   const body = `
 <h1>Garden jobs this weekend</h1>
-<p class="lead">What to do in the garden this weekend, for the time of year in the UK. Sign in for a plan built around your own crops and the weather forecast for your area.</p>
+<p class="lead">What to do in the garden this weekend, for the time of year in the UK. <a href="/membership/">Members</a> get a plan for the whole week ahead, with jobs for their own crops, the forecast for their area and the best days to do each one.</p>
 ${regionBar('wkRegion')}
 <noscript><p class="empty">This page needs JavaScript to pick the right month. Choose a month below instead.</p></noscript>
 <section class="card wk-personal" id="wkPersonal" data-garden="/assets/garden-data.json?v=${g.ver}" hidden aria-live="polite"></section>
-<div class="callout wk-cta" id="wkCta" hidden><strong>Want a plan for your garden?</strong> Create a free account and this page will use the crops in My Garden and the weather forecast for your area to sort this weekend&rsquo;s jobs by day. <a class="btn-small" href="/account/">Sign in or create an account</a></div>
+<div class="callout wk-cta" id="wkCta" hidden></div>
 <div id="wkGeneric">
 ${sections}
 </div>
@@ -1313,7 +1314,7 @@ ${monthLinks}
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
     path: '/this-weekend/', section: 'weekend', body, title: 'Garden jobs this weekend in the UK',
-    description: 'What to do in your UK garden this weekend: sowing, planting, harvesting and tidying jobs for the time of year, with a personal plan and forecast if you sign in.',
+    description: 'What to do in your UK garden this weekend: sowing, planting, harvesting and tidying jobs for the time of year, with a week-ahead plan and forecast for members.',
     crumbs: [['Home', '/'], ['This weekend', '/this-weekend/']],
   });
   for (const [m, name] of FULL_MONTHS.entries()) {
@@ -1594,6 +1595,45 @@ function buildInstall() {
   });
 }
 
+const MEMBER_PRICE = '£12 a year';
+
+/* Free vs member: what each kind of visitor gets. site.js fills in the join / manage buttons. */
+function buildMembership() {
+  const yes = '<span class="mem-yes" aria-label="Yes">&#10003;</span>', no = '<span class="mem-no" aria-label="No">&ndash;</span>';
+  const rows = [
+    ['Every plant guide, recipe, calendar and preserving guide', yes, yes, yes],
+    ['Dates adjusted for your area', yes, yes, yes],
+    ['Crops in My Garden', 'Up to 5', 'Up to 8', '<strong>As many as you like</strong>'],
+    ['Monthly jobs', 'General UK jobs', 'For your own crops and area', 'For your own crops and area'],
+    ['Your garden on every device', no, yes, yes],
+    ['Week-ahead plan: jobs for your crops with the forecast for your area and the best day for each one', no, no, yes],
+  ];
+  const body = `
+<h1>Membership</h1>
+<p class="lead">Everything on Homegrown Plate is free to read. A free account gives you a monthly plan for your own garden. Membership adds a plan for the week ahead, built around the weather, and room for every crop you grow.</p>
+<div class="mem-actions card" data-member-actions data-price="${MEMBER_PRICE}" aria-live="polite"><p class="muted">Loading&hellip;</p></div>
+<div class="table-wrap"><table class="mem-table">
+  <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">No account</th><th scope="col">Free account</th><th scope="col">Member<br><span class="mem-price">${MEMBER_PRICE}</span></th></tr></thead>
+  <tbody>
+${rows.map((r) => `    <tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('\n')}
+  </tbody>
+</table></div>
+<h2>The week-ahead plan</h2>
+<p>Each week, members get one list of jobs: what to sow, plant, harvest and look after for the crops in their garden, plus the general jobs for the time of year. Next to each job are the days in the coming week when the weather suits it, for example the driest, calmest days for planting out, or a wet day for sowing indoors. It warns you when frost, strong wind or heavy rain is on the way, and tells you when the rain will do your watering for you.</p>
+<h2>How membership works</h2>
+<ul>
+  <li>Membership costs ${MEMBER_PRICE} and renews each year. You can cancel any time from <a href="/account/">your account</a>, and you stay a member until the end of the year you paid for.</li>
+  <li>Card payments are handled by Stripe. Your card details never reach this site.</li>
+  <li>Changed your mind? Email <a href="mailto:hello@homegrownplate.co.uk">hello@homegrownplate.co.uk</a> within 14 days of paying for a full refund.</li>
+  <li>If your membership ends, you keep every crop already in your garden. You just cannot add more than 8 until you remove some or join again.</li>
+</ul>`;
+  addPage({
+    path: '/membership/', section: 'account', body, title: 'Membership: free and member features',
+    description: `What you get with no account, a free account and membership (${MEMBER_PRICE}): crop limits, monthly plans for your garden and a week-ahead plan with the weather forecast.`,
+    crumbs: [['Home', '/'], ['Membership', '/membership/']],
+  });
+}
+
 const CONTACT_EMAIL = 'hello@homegrownplate.co.uk'; /* forwarded to the owner's inbox with Cloudflare Email Routing */
 
 function buildAccount() {
@@ -1627,6 +1667,7 @@ function buildAccount() {
   </section>
   <section id="acctIn" hidden>
     <p class="lead">Signed in as <strong id="acctEmail"></strong>. <span id="acctStatus" class="muted">Your garden is saved to your account.</span></p>
+    <div class="card" id="acctMember"><h2>Membership</h2><div data-member-actions data-price="${MEMBER_PRICE}" aria-live="polite"></div><p class="muted small-note"><a href="/membership/">Compare free and member features</a></p></div>
     <div class="card"><h2>Your garden</h2><p>Changes you make on any device are saved automatically and appear on your other devices next time you open the site.</p><p><a class="btn-small" href="/my-garden/">Go to My Garden</a></p><p data-admin-link hidden><a class="btn-small" href="/admin/">Open the visitor dashboard</a></p></div>
     <div class="card"><h2>Look after your account</h2>
       <p><button type="button" class="chip" id="acctOutBtn">Sign out</button> <a class="chip" href="/api/export" download>Download my data</a></p>
@@ -1641,7 +1682,7 @@ function buildAccount() {
       </details>
       <details><summary>Delete my account</summary>
         <form id="formDel" class="acct-form" novalidate>
-          <p>This permanently deletes your email, password and saved garden from our servers. The garden on this device stays. It cannot be undone.</p>
+          <p>This permanently deletes your email, password and saved garden from our servers, and stops any membership payments. The garden on this device stays. It cannot be undone.</p>
           ${field('delPass', 'Your password', 'password', 'current-password', 'required maxlength="128"')}
           <p class="acct-error" role="alert" data-error></p>
           <button class="chip chip-danger" type="submit">Delete everything</button>
@@ -1677,6 +1718,8 @@ function buildPrivacy() {
 <h2>Counting visits</h2>
 <p>We count how many people visit and which pages and features they use, so we can see what is useful. This is done without cookies and without storing anything on your device. We do not save your IP address or browser details. Each visit is given a short anonymous code that is made from your connection and browser together with a random value that is thrown away every day, so we cannot recognise you from one day to the next or build a profile of you. We also keep your rough country, the type of device (phone, tablet or computer), and the website that sent you here, if any. If your browser sends a Do Not Track or Global Privacy Control signal, we do not count you at all.</p>
 <h2>Where it is kept</h2>
+<h2>If you become a member</h2>
+<p>Membership payments are taken by <a href="https://stripe.com/gb/privacy">Stripe</a>, who handle your card details. We never see or store them. We keep a reference to your Stripe customer and membership, and the date your membership runs to, so we know you are a member. Stripe keeps payment records as the law requires.</p>
 <p>Account data is stored with Cloudflare, who also host this site, in a database set up in their European region.</p>
 <h2>Your choices</h2>
 <ul>
@@ -1898,6 +1941,7 @@ buildBeginners();
 buildKids();
 buildInstall();
 buildAccount();
+buildMembership();
 buildPrivacy();
 buildAbout();
 buildAdmin();

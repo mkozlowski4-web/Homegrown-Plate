@@ -5,12 +5,15 @@
 import { forecast } from './weather.mjs';
 import { collect, stats, tidyAnalytics } from './analytics.mjs';
 import { searchStats } from './gsc.mjs';
+import { paymentsOn, isMember, startCheckout, billingPortal, cancelOnDelete, webhook } from './billing.mjs';
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 100000; /* the maximum the Workers runtime allows */
 const MAX_BODY = 40000;
 const COOKIE = 'hp_session';
 const enc = new TextEncoder();
+/* My Garden crop limits: 5 without an account (enforced in the browser), 8 with a free account, no limit for members. */
+const FREE_ACCOUNT_CROPS = 8;
 
 const json = (obj, status = 200, headers = {}) =>
   new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers } });
@@ -83,7 +86,7 @@ const sessionCookie = (token, maxAge) => `${COOKIE}=${token}; Path=/; HttpOnly; 
 async function currentUser(request, env) {
   const token = getCookie(request, COOKIE);
   if (!/^[0-9a-f]{64}$/.test(token)) return null;
-  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
+  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin, u.plan, u.paid_until, u.cancel_at_end, u.stripe_customer FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
     .bind(await sha256(token), Date.now()).first();
   return row || null;
 }
@@ -92,6 +95,29 @@ async function startSession(env, userId) {
   await env.DB.prepare('INSERT INTO sessions (token_hash, user_id, expires_at) VALUES (?, ?, ?)')
     .bind(await sha256(token), userId, Date.now() + SESSION_DAYS * 86400000).run();
   return token;
+}
+
+/* What the browser needs to know about the visitor's plan. */
+const planInfo = (user) => ({
+  plan: isMember(user) ? 'member' : 'free',
+  limit: isMember(user) ? null : FREE_ACCOUNT_CROPS,
+  paidUntil: user.plan === 'comp' ? null : user.paid_until || null,
+  renews: isMember(user) && user.plan !== 'comp' ? !user.cancel_at_end : false,
+  gift: user.plan === 'comp',
+  billing: !!user.stripe_customer,
+});
+
+/* Free accounts can keep crops they already had (for example after a membership ends) but cannot add past the limit.
+   New crops beyond the limit are dropped, and the browser is sent the corrected garden. */
+function capGarden(next, stored, user) {
+  if (isMember(user) || next.length <= FREE_ACCOUNT_CROPS) return { garden: next, trimmed: false };
+  const had = new Set(stored || []);
+  const kept = next.filter((id) => had.has(id));
+  const room = Math.max(0, FREE_ACCOUNT_CROPS - kept.length);
+  const added = next.filter((id) => !had.has(id)).slice(0, room);
+  const keep = new Set([...kept, ...added]);
+  const garden = next.filter((id) => keep.has(id));
+  return { garden, trimmed: garden.length !== next.length };
 }
 
 /* ---- rate limiting (kept in D1) ---- */
@@ -127,9 +153,10 @@ async function signup(request, env) {
     userId = res.meta.last_row_id;
   } catch { return fail(409, 'There is already an account with that email. Try signing in instead.'); }
   const data = cleanData(body.data) || cleanData({});
+  data.garden = data.garden.slice(0, FREE_ACCOUNT_CROPS);
   await env.DB.prepare('INSERT INTO user_data (user_id, json, updated_at) VALUES (?, ?, ?)').bind(userId, JSON.stringify(data), Date.now()).run();
   const token = await startSession(env, userId);
-  return json({ user: { email }, data }, 201, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
+  return json({ user: { email, ...planInfo({ plan: 'free' }) }, data }, 201, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
 }
 
 async function login(request, env) {
@@ -138,7 +165,7 @@ async function login(request, env) {
   const password = typeof body.password === 'string' ? body.password.slice(0, 128) : '';
   const emailKey = 'login:' + email, ipKey = 'loginip:' + clientIp(request);
   if ((await tooMany(env, emailKey, 8, 900000)) || (await tooMany(env, ipKey, 30, 900000))) return fail(429, 'Too many attempts. Please wait 15 minutes and try again.');
-  const user = await env.DB.prepare('SELECT id, email, pw_hash, pw_salt FROM users WHERE email = ?').bind(email).first();
+  const user = await env.DB.prepare('SELECT id, email, pw_hash, pw_salt, plan, paid_until, cancel_at_end, stripe_customer FROM users WHERE email = ?').bind(email).first();
   /* Always do the same work so timing does not reveal whether an email has an account. */
   const candidate = await hashPassword(password, user ? user.pw_salt : '00'.repeat(16));
   if (!user || !safeEqual(candidate, user.pw_hash)) {
@@ -150,7 +177,7 @@ async function login(request, env) {
   const row = await env.DB.prepare('SELECT json FROM user_data WHERE user_id = ?').bind(user.id).first();
   tidy(env).catch(() => {});
   tidyAnalytics(env).catch(() => {});
-  return json({ user: { email: user.email }, data: row ? JSON.parse(row.json) : cleanData({}) }, 200, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
+  return json({ user: { email: user.email, ...planInfo(user) }, data: row ? JSON.parse(row.json) : cleanData({}) }, 200, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
 }
 
 async function logout(request, env) {
@@ -161,15 +188,21 @@ async function logout(request, env) {
 
 async function getData(user, env) {
   const row = await env.DB.prepare('SELECT json, updated_at FROM user_data WHERE user_id = ?').bind(user.id).first();
-  return json({ data: row ? JSON.parse(row.json) : cleanData({}), updated: row ? row.updated_at : 0 });
+  return json({ data: row ? JSON.parse(row.json) : cleanData({}), updated: row ? row.updated_at : 0, ...planInfo(user) });
 }
 async function putData(request, user, env) {
   const { body, error } = await readJson(request); if (error) return error;
   const data = cleanData(body.data); if (!data) return fail(400, 'Could not read that data.');
+  let trimmed = false;
+  if (!isMember(user) && data.garden.length > FREE_ACCOUNT_CROPS) {
+    const prev = await env.DB.prepare('SELECT json FROM user_data WHERE user_id = ?').bind(user.id).first();
+    const c = capGarden(data.garden, prev ? JSON.parse(prev.json).garden : [], user);
+    data.garden = c.garden; trimmed = c.trimmed;
+  }
   const now = Date.now();
   await env.DB.prepare('INSERT INTO user_data (user_id, json, updated_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET json = excluded.json, updated_at = excluded.updated_at')
     .bind(user.id, JSON.stringify(data), now).run();
-  return json({ ok: true, updated: now });
+  return json(trimmed ? { ok: true, updated: now, trimmed: true, data, ...planInfo(user) } : { ok: true, updated: now, ...planInfo(user) });
 }
 async function exportData(user, env) {
   const row = await env.DB.prepare('SELECT json, updated_at FROM user_data WHERE user_id = ?').bind(user.id).first();
@@ -201,6 +234,10 @@ async function deleteAccount(request, user, env) {
   if (await tooMany(env, key, 8, 900000)) return fail(429, 'Too many attempts. Please wait 15 minutes and try again.');
   const given = await hashPassword(typeof body.password === 'string' ? body.password.slice(0, 128) : '', row.pw_salt);
   if (!safeEqual(given, row.pw_hash)) { await noteAttempt(env, key); return fail(401, 'That password is not right.'); }
+  try { await cancelOnDelete(env, user.id); } catch (e) {
+    console.error('cancel on delete', e && e.message);
+    return fail(502, 'We could not stop your membership payments just now, so your account has not been deleted. Please try again in a few minutes.');
+  }
   await env.DB.batch([
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.id),
     env.DB.prepare('DELETE FROM user_data WHERE user_id = ?').bind(user.id),
@@ -213,13 +250,15 @@ async function deleteAccount(request, user, env) {
 async function api(request, env, url, ctx) {
   const path = url.pathname.replace(/\/+$/, '');
   const method = request.method;
+  /* Stripe calls this directly (no browser, no Origin header); it is checked by its signature instead. */
+  if (path === '/api/stripe-webhook' && method === 'POST') return webhook(request, env);
   if (method !== 'GET' && method !== 'HEAD') {
     /* Cross-site request protection: browsers always send Origin on these, and it must be this site. */
     if (request.headers.get('Origin') !== url.origin) return fail(403, 'Request not allowed.');
   }
   if (path === '/api/me' && method === 'GET') {
     const user = await currentUser(request, env);
-    return json({ user: user ? { email: user.email, admin: !!user.is_admin } : null });
+    return json({ user: user ? { email: user.email, admin: !!user.is_admin, ...planInfo(user) } : null, payments: paymentsOn(env) });
   }
   if (path === '/api/hit' && method === 'POST') {
     /* Page view and interaction counter (no response body, no cookies). Bots and the owner are filtered out. */
@@ -239,6 +278,7 @@ async function api(request, env, url, ctx) {
     return json(await searchStats(env, url.searchParams.get('days')));
   }
   if (path === '/api/weather' && method === 'GET') {
+    if (!isMember(user)) return fail(402, 'The week-ahead plan is for members.');
     const r = await forecast(url.searchParams.get('zone') || '', ctx);
     return r.error ? fail(r.status, r.error) : json(r.body, 200, { 'Cache-Control': 'private, max-age=1800' });
   }
@@ -247,6 +287,10 @@ async function api(request, env, url, ctx) {
   if (path === '/api/export' && method === 'GET') return exportData(user, env);
   if (path === '/api/password' && method === 'POST') return changePassword(request, user, env);
   if (path === '/api/delete' && method === 'POST') return deleteAccount(request, user, env);
+  if ((path === '/api/checkout' || path === '/api/billing') && method === 'POST') {
+    const r = await (path === '/api/checkout' ? startCheckout : billingPortal)(user, env, url.origin);
+    return r.error ? fail(r.status, r.error) : json(r.body);
+  }
   return fail(404, 'Not found.');
 }
 

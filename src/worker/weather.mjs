@@ -21,7 +21,7 @@ const dayOf = (d) => fmtDay.format(d);
 const hourOf = (d) => Number(fmtHour.format(d)) % 24;
 
 /* Turn the raw timeseries into one summary per UK calendar day: temperatures, rain (mm), top wind (m/s), a midday symbol. */
-export function summarise(series, maxDays = 6) {
+export function summarise(series, maxDays = 9) {
   const days = new Map();
   let covered = 0;
   for (const e of series || []) {
