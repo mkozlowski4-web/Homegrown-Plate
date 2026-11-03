@@ -157,7 +157,19 @@
         if (factCells[k]) factCells[k].textContent = off ? Region.describe(s) : factCells[k].getAttribute('data-orig');
       });
     };
-    Region.onChange(paintPlant);
+    var typeRows = $$('.mtype[data-ti]');
+    var paintTypes = function () {
+      var off = Region.off();
+      typeRows.forEach(function (row) {
+        var si = Region.shifted(row.getAttribute('data-ti'), 'i', off), so = Region.shifted(row.getAttribute('data-to'), 'o', off), sh = Region.shifted(row.getAttribute('data-th'), 'h', off);
+        Array.prototype.slice.call(row.querySelectorAll('.mcells i')).forEach(function (c, m) {
+          var sow = Region.monthState(si, m) || Region.monthState(so, m), har = Region.monthState(sh, m);
+          c.className = (c.className.indexOf('now') > -1 ? 'now ' : '') + (sow ? 's' : '') + (har ? ' h' : '');
+        });
+      });
+    };
+    Region.onChange(paintPlant); Region.onChange(paintTypes);
+    if (Region.off()) paintTypes();
     if (Region.off()) paintPlant();
   }
 
@@ -224,15 +236,20 @@
       gLoad.then(function (d) {
         if (Region.off() !== off) return;
         var order = {}; Array.prototype.slice.call(new DOMParser().parseFromString('<ul>' + origSow[m] + '</ul>', 'text/html').querySelectorAll('a')).forEach(function (a, k) { order[a.getAttribute('href')] = k; });
-        var sow = d.plants.filter(function (p) { return ['i', 'o'].some(function (k) { return Region.monthState(Region.shifted(p[k], k, off), m) > 0; }); });
+        var live = function (bits, k) { return Region.monthState(Region.shifted(bits, k, off), m) > 0; };
+        var sow = d.plants.filter(function (p) { return !p.v && ['i', 'o'].some(function (k) { return live(p[k], k); }); });
         sow.sort(function (a, b) { var x = order['/plants/' + a.id + '/'], y = order['/plants/' + b.id + '/']; return (x == null ? 999 : x) - (y == null ? 999 : y) || a.n.localeCompare(b.n, 'en-GB'); });
         list.textContent = '';
         sow.forEach(function (p) {
           var li = mk('li', 'mf-li' + (p.k ? ' kid-hide' : '')); li.setAttribute('data-sizes', (p.s || []).join(' '));
-          var a = mk('a', 'mf-item'); a.href = '/plants/' + p.id + '/';
+          var on = (p.t || []).filter(function (t) { return live(t.i, 'i') || live(t.o, 'o'); });
+          if (on.length === (p.t || []).length) on = [];
+          var a = mk('a', 'mf-item'); a.href = '/plants/' + p.id + '/' + (on.length ? '#type-' + on[0].s : '');
           var img = mk('img', 'pimg small'); img.src = p.img; img.alt = ''; img.width = 72; img.height = 72; img.loading = 'lazy';
           var t = mk('span'); t.appendChild(mk('strong', null, p.n));
-          t.appendChild(mk('span', null, Region.monthState(Region.shifted(p.o, 'o', off), m) ? 'Sow or plant outside' : 'Sow indoors'));
+          var outNow = on.length ? on.some(function (x) { return live(x.o, 'o'); }) : live(p.o, 'o');
+          var lbl = on.map(function (x) { return x.n.charAt(0).toLowerCase() + x.n.slice(1); }).join(', ');
+          t.appendChild(mk('span', null, on.length ? lbl.charAt(0).toUpperCase() + lbl.slice(1) + ' \u00b7 ' + (outNow ? 'plant outside' : 'sow indoors') : (outNow ? 'Sow or plant outside' : 'Sow indoors')));
           a.appendChild(img); a.appendChild(t); li.appendChild(a); list.appendChild(li);
         });
         trim(panel);
@@ -496,6 +513,8 @@
   };
   var saveGarden = function (list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* storage unavailable */ } };
   var garden = loadGarden();
+  var baseOf = function (id) { return String(id).split('--')[0]; };
+  var gardenBases = function () { var b = {}; loadGarden().forEach(function (id) { b[baseOf(id)] = true; }); return b; };
   /* Free plan: the crop limit is ready but switched off until paid membership exists.
      Set FREE_LIMIT_ON to true to show the "x of 6" meter and stop adding at 6. */
   var FREE_LIMIT = 6, FREE_LIMIT_ON = false;
@@ -503,7 +522,7 @@
 
   /* "In your garden" ticks on crop tiles and links across the site */
   var markGarden = function () {
-    var mine = {}; loadGarden().forEach(function (id) { mine[id] = true; });
+    var mine = gardenBases();
     $$('[data-plant], .mf-item, .pop-card2').forEach(function (a) {
       var m = (a.getAttribute('href') || '').match(/^\/plants\/([a-z0-9-]+)\//); if (!m) return;
       var on = !!mine[m[1]], tick = a.querySelector('.in-garden');
@@ -516,19 +535,19 @@
   window.addEventListener('storage', function (e) { if (e.key === KEY) markGarden(); });
 
   /* Add / remove button on each plant page */
-  var addBtn = $('[data-garden-add]');
-  if (addBtn) {
+  $$('[data-garden-add]').forEach(function (addBtn) {
     var openLink = $('.garden-link');
     var gid = addBtn.getAttribute('data-garden-add');
     var gname = addBtn.getAttribute('data-name');
     var paintAdd = function () {
       var has = garden.indexOf(gid) > -1;
       addBtn.setAttribute('aria-pressed', String(has));
-      addBtn.textContent = has ? '✓ In your garden' : '+ Add ' + gname + ' to my garden';
+      var isType = gid.indexOf('--') > -1;
+      addBtn.textContent = has ? '✓ In your garden' : isType ? '+ Add this type' : '+ Add ' + gname + ' to my garden';
       addBtn.setAttribute('aria-label', has ? gname + ' is in your garden. Remove it' : 'Add ' + gname + ' to my garden');
       addBtn.title = has ? 'Tap to remove from your garden' : '';
       addBtn.classList.toggle('is-in', has);
-      if (openLink) openLink.hidden = !has;
+      if (openLink) openLink.hidden = !(has || Object.keys(gardenBases()).indexOf(baseOf(gid)) > -1);
     };
     addBtn.hidden = false;
     addBtn.addEventListener('click', function () {
@@ -540,7 +559,7 @@
       paintAdd(); markGarden();
     });
     paintAdd();
-  }
+  });
 
   var gRoot = $('#myGarden');
   if (gRoot) {
@@ -563,7 +582,7 @@
       var term = gSearch.value.trim().toLowerCase();
       var list;
       if (term) {
-        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 30);
+        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 40);
         gHint.textContent = list.length ? 'Matching crops:' : 'No crops match that search.';
       } else {
         list = POPULAR.map(function (id) { return byId[id]; }).filter(Boolean);
@@ -574,7 +593,8 @@
         var has = garden.indexOf(p.id) > -1;
         var li = el('li');
         li.appendChild(plantImgEl(p));
-        li.appendChild(el('span', 'g-name', p.n));
+        li.appendChild(el('span', 'g-name' + (p.v ? ' g-type' : ''), p.n));
+        if (p.v) li.className = 'is-type';
         var full = !has && atLimit(garden);
         var b = el('button', 'g-btn', has ? 'Added ✓' : full ? 'Full' : 'Add');
         b.type = 'button'; b.disabled = full;
@@ -592,7 +612,7 @@
       mine.forEach(function (p) {
         var li = el('li');
         li.appendChild(plantImgEl(p));
-        var a = el('a', null, p.n); a.href = '/plants/' + p.id + '/'; li.appendChild(a);
+        var a = el('a', null, p.n); a.href = '/plants/' + (p.b || p.id) + '/' + (p.a ? '#' + p.a : ''); li.appendChild(a);
         var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + p.n);
         x.addEventListener('click', function () { toggle(p.id); });
         li.appendChild(x);
@@ -618,7 +638,7 @@
     var STARTER_ORDER = ['potato', 'strawberry', 'lettuce', 'courgette', 'bean', 'radish', 'garlic', 'pea', 'broad-bean', 'kale', 'spinach', 'rocket', 'beetroot', 'onion', 'basil', 'mint', 'chives', 'parsley', 'spring-onion', 'chard', 'swiss-chard', 'microgreens'];
     var starterPicks = function () {
       var size = gStarterSize ? gStarterSize.value : 'small', kids = document.documentElement.hasAttribute('data-kids');
-      var fits = function (p) { return p && p.d === 'Easy' && (p.s || []).indexOf(size) > -1 && !(kids && p.k); };
+      var fits = function (p) { return p && !p.v && p.d === 'Easy' && (p.s || []).indexOf(size) > -1 && !(kids && p.k); };
       var out = STARTER_ORDER.map(function (id) { return byId[id]; }).filter(fits);
       if (out.length < 5) gData.plants.forEach(function (p) { if (out.length < 5 && fits(p) && out.indexOf(p) < 0) out.push(p); });
       return out.slice(0, 5);
@@ -733,8 +753,8 @@
       gJobs.appendChild(careCard(mine, m, done));
 
       var inGarden = {}, inHarvest = {};
-      mine.forEach(function (p) { inGarden[p.id] = true; });
-      harvest.forEach(function (p) { inHarvest[p.id] = true; });
+      mine.forEach(function (p) { inGarden[p.b || p.id] = true; });
+      harvest.forEach(function (p) { inHarvest[p.b || p.id] = true; });
       var scored = gData.recipes.map(function (r) {
         var hv = r.u.filter(function (u) { return inHarvest[u]; });
         var gd = r.u.filter(function (u) { return inGarden[u]; });
@@ -912,7 +932,7 @@
     var applyCal = function () {
       var size = calSel.value, mineOnly = calMine.checked, mine = loadGarden(), shown = 0;
       rows.forEach(function (row) {
-        var ok = (size === 'all' || row.getAttribute('data-sizes').split(' ').indexOf(size) > -1) && (!mineOnly || mine.indexOf(row.getAttribute('data-id')) > -1);
+        var ok = (size === 'all' || row.getAttribute('data-sizes').split(' ').indexOf(size) > -1) && (!mineOnly || mine.map(baseOf).indexOf(row.getAttribute('data-id')) > -1);
         row.hidden = !ok; if (ok) shown++;
       });
       var empty = $('#calEmpty');

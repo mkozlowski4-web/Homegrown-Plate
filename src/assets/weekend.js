@@ -113,7 +113,7 @@
     var cb = el('input'); cb.type = 'checkbox'; cb.id = id; cb.checked = done.indexOf(j.id) > -1;
     cb.addEventListener('change', function () { var at = done.indexOf(j.id); if (cb.checked && at < 0) done.push(j.id); if (!cb.checked && at > -1) done.splice(at, 1); saveDone(); });
     var lab = el('label'); lab.setAttribute('for', id);
-    if (j.p) { var a = el('a', null, j.p.n); a.href = '/plants/' + j.p.id + '/'; lab.appendChild(a); lab.appendChild(document.createTextNode(': ')); }
+    if (j.p) { var a = el('a', null, j.p.n); a.href = '/plants/' + (j.p.b || j.p.id) + '/' + (j.p.a ? '#' + j.p.a : ''); lab.appendChild(a); lab.appendChild(document.createTextNode(': ')); }
     lab.appendChild(document.createTextNode(j.text));
     li.appendChild(cb); li.appendChild(lab);
     return li;

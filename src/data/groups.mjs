@@ -27,7 +27,7 @@ export const GROUPS = {
     groupsIntro: 'Onions can be started from sets (small bulbs) or seed, in spring or autumn.',
     groups: [
       { name: 'Spring-planted sets', when: 'Plant March to April · Harvest July to September', note: 'The simplest method. Small bulbs give reliable bulbs for storing through winter.', varieties: ['Sturon', 'Stuttgarter Giant', 'Red Baron'] },
-      { name: 'Autumn-planted (overwintering) sets', when: 'Plant September to October · Harvest June to July', note: 'Hardy types that fill the gap before spring-planted onions are ready. They do not store as long.', varieties: ['Radar', 'Electric', 'Senshyu Yellow'] },
+      { name: 'Autumn-planted (overwintering) sets', when: 'Plant September to November · Harvest June to July', note: 'Hardy types that fill the gap before spring-planted onions are ready. They do not store as long.', varieties: ['Radar', 'Electric', 'Senshyu Yellow'] },
       { name: 'Grown from seed', when: 'Sow January to March indoors · Harvest August to September', note: 'Cheaper and gives larger onions, including show types, but needs a longer season.', varieties: ['Ailsa Craig', 'Bedfordshire Champion', 'Kelsae'] },
     ] },
   garlic: {

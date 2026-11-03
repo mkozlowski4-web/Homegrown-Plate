@@ -25,6 +25,7 @@ import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
+import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -39,6 +40,42 @@ const plantMap = new Map(PLANTS.map((p) => [p.id, p]));
 const KID_HIDE = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id).concat(['chives', 'sorrel']).concat(PLANTS.filter((p) => p.difficulty === 'Hard').map((p) => p.id)));
 const kh = (p) => (KID_HIDE.has(p.id) ? ' kid-hide' : '');
 const sizeMap = new Map(SIZES.map((s) => [s.id, s]));
+
+/* ---------- variety types: each has its own months; the crop's calendar is the crop's own months plus all of its types' ---------- */
+const typeSlug = (name) => {
+  const t = name.toLowerCase().replace(/\(.*?\)/g, ' ').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return t.length <= 32 ? t : t.slice(0, 32).replace(/-[^-]*$/, '');
+};
+const orBits = (a, b) => [...a].map((x, k) => (x === '1' || b[k] === '1' ? '1' : '0')).join('');
+const typeErrors = [];
+for (const p of PLANTS) {
+  if (!p.groups || !p.groups.length) continue;
+  const gc = GROUP_CALENDAR[p.id];
+  for (const g of p.groups) {
+    g.slug = typeSlug(g.name);
+    const cal = gc && gc[g.slug];
+    if (!cal) { typeErrors.push(`No months in group-calendar.mjs for ${p.id} / ${g.name} (expected key "${g.slug}")`); continue; }
+    for (const k of ['i', 'o', 'h']) if (!/^[01]{12}$/.test(cal[k])) typeErrors.push(`Bad ${k} months for ${p.id} / ${g.slug}`);
+    g.cal = cal;
+    if (CALENDAR[p.id]) for (const k of ['i', 'o', 'h']) CALENDAR[p.id][k] = orBits(CALENDAR[p.id][k], cal[k]);
+  }
+  /* Short label for lists, e.g. "autumn-planted sets" */
+  for (const g of p.groups) g.short = g.name.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+}
+if (typeErrors.length) { console.error(typeErrors.join('\n')); process.exit(1); }
+/* Which of a crop's types are active for a calendar key in a month (empty if the crop has no types) */
+const typesIn = (p, k, m) => (p.groups || []).filter((g) => g.cal && g.cal[k][m] === '1');
+/* For lists: which types are in season for these keys this month, only when that is not all of them */
+const typesNow = (p, keys, m) => {
+  if (!p.groups || p.groups.length < 2) return [];
+  const on = p.groups.filter((g) => g.cal && keys.some((k) => g.cal[k][m] === '1'));
+  return on.length && on.length < p.groups.length ? on : [];
+};
+const lowerFirst = (t) => t.charAt(0).toLowerCase() + t.slice(1);
+const typeLabel = (ts) => ts.map((g) => lowerFirst(g.short)).join(', ');
+const typeHref = (p, ts) => `/plants/${p.id}/${ts.length ? `#type-${ts[0].slug}` : ''}`;
+
+
 const lower = (s) => s.toLowerCase();
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
@@ -367,6 +404,10 @@ function growCard(p, cal) {
         <div class="mrow mhead"><span class="mlabel"></span><span class="mcells" aria-hidden="true">${[...MONTH_LETTERS].map((c, k) => `<b data-m="${k}">${c}</b>`).join('')}</span></div>
         ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}" data-row="${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n        ')}
       </div>
+      ${p.groups && p.groups.length > 1 ? `<div class="mtypes" aria-label="Timings by type">
+        <p class="mtypes-head">By type <span class="mtypes-key"><i class="k-s"></i>sow or plant <i class="k-h"></i>harvest</span></p>
+        ${p.groups.map((g) => { const sow = orBits(g.cal.i, g.cal.o); return `<a class="mtype" href="#type-${g.slug}" data-ti="${g.cal.i}" data-to="${g.cal.o}" data-th="${g.cal.h}"><span class="mlabel">${esc(g.short)}</span><span class="mcells" aria-hidden="true">${[...sow].map((b, k) => `<i class="${b === '1' ? 's' : ''}${g.cal.h[k] === '1' ? ' h' : ''}" data-m="${k}"></i>`).join('')}</span><span class="sr-only">${monthRanges(sow) ? `Sow or plant ${esc(monthRanges(sow))}. ` : ''}${monthRanges(g.cal.h) ? `Harvest ${esc(monthRanges(g.cal.h))}.` : ''}</span></a>`; }).join('\n        ')}
+      </div>` : ''}
       ${regionBar()}
     </div>
     <p class="garden-add-row"><button type="button" class="btn-garden" data-garden-add="${p.id}" data-name="${esc(p.name)}" hidden>+ Add ${esc(p.name)} to my garden</button> <a class="garden-link" href="/my-garden/" hidden>Open my garden</a></p>
@@ -407,7 +448,7 @@ function buildHome() {
   const common = new Set(SIZES.flatMap((z) => z.grow));
   const sizeAttr = (p) => p.sizes.join(' ');
   const sowNote = (p, m) => (CALENDAR[p.id].o[m] === '1' ? 'Sow or plant outside' : 'Sow indoors');
-  const sowLi = (p, m) => `<li class="mf-li${kh(p)}" data-sizes="${sizeAttr(p)}"><a class="mf-item" href="/plants/${p.id}/">${plantImg(p)}<span><strong>${esc(p.name)}</strong><span>${sowNote(p, m)}</span></span></a></li>`;
+  const sowLi = (p, m) => { const ts = typesNow(p, ['i', 'o'], m); const where = ts.length ? (ts.some((g) => g.cal.o[m] === '1') ? 'plant outside' : 'sow indoors') : ''; return `<li class="mf-li${kh(p)}" data-sizes="${sizeAttr(p)}"><a class="mf-item" href="${typeHref(p, ts)}">${plantImg(p)}<span><strong>${esc(p.name)}</strong><span>${ts.length ? `${esc(typeLabel(ts).charAt(0).toUpperCase() + typeLabel(ts).slice(1))} &middot; ${where}` : sowNote(p, m)}</span></span></a></li>`; };
   const monthPanels = FULL_MONTHS.map((name, m) => {
     const sow = byEase.filter((p) => CALENDAR[p.id].i[m] === '1' || CALENDAR[p.id].o[m] === '1')
       .sort((x, y) => (PHOTOS.has(y.id) - PHOTOS.has(x.id)) || (common.has(y.id) - common.has(x.id)) || rank[x.difficulty] - rank[y.difficulty] || x.name.localeCompare(y.name, 'en-GB'));
@@ -551,7 +592,13 @@ let gardenMemo = null;
 function gardenData() {
   if (gardenMemo) return gardenMemo;
   const data = {
-    plants: PLANTS.map((p) => ({ k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id) })),
+    plants: PLANTS.flatMap((p) => {
+      const base = { k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id) };
+      if (p.groups && p.groups.length > 1) base.t = p.groups.map((g) => ({ s: g.slug, n: g.short, i: g.cal.i, o: g.cal.o, h: g.cal.h }));
+      /* Each type can also be added on its own, as "<crop>--<type>" */
+      const types = p.groups && p.groups.length > 1 ? p.groups.map((g) => ({ ...base, t: undefined, id: `${p.id}--${g.slug}`, b: p.id, v: 1, n: `${p.name}: ${lowerFirst(g.short)}`, i: g.cal.i, o: g.cal.o, h: g.cal.h, a: `type-${g.slug}` })) : [];
+      return [base, ...types];
+    }),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
   };
   const json = JSON.stringify(data);
@@ -804,7 +851,7 @@ ${groups}
       factRows([['Sunlight', p.sunText], ...p.facts.filter(([l]) => l !== 'Sow')]),
       paras(p.info),
       p.groups && p.groups.length
-        ? `<h3>Types and varieties</h3>\n<p>${esc(p.groupsIntro || 'This crop is grown in different groups, which are sown and harvested at different times. Choose one or more to spread the harvest.')}</p>\n<div class="vgroups">${p.groups.map((g) => `<div class="vgroup"><h4>${esc(g.name)}</h4><p class="vwhen">${esc(g.when)}</p><p>${esc(g.note)}</p><p>${g.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p></div>`).join('')}</div>`
+        ? `<h3>Types and varieties</h3>\n<p>${esc(p.groupsIntro || 'This crop is grown in different groups, which are sown and harvested at different times. Choose one or more to spread the harvest.')}</p>\n<div class="vgroups">${p.groups.map((g) => `<div class="vgroup" id="type-${g.slug}"><h4>${esc(g.name)}</h4><p class="vwhen">${esc(g.when)}</p><p>${esc(g.note)}</p><p>${g.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p><button type="button" class="btn-type" data-garden-add="${p.id}--${g.slug}" data-name="${esc(g.short)}" hidden>+ Add this type</button></div>`).join('')}</div>`
         : `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
     ].join('\n');
     const sowBody = [paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
@@ -1281,15 +1328,16 @@ function buildMonthly() {
     const outside = byName.filter((p) => has(p, 'o', m));
     const harvest = byName.filter((p) => has(p, 'h', m));
     const prev = (m + 11) % 12, next = (m + 1) % 12;
-    const section = (title, items, empty) => `<h2>${title} <span class="count">(${items.length})</span></h2>\n${items.length ? `<p class="card-tags">${tagList(items)}</p>` : `<p class="muted">${empty}</p>`}`;
+    const typedTag = (p, k) => { const ts = typesNow(p, [k], m); return `<a href="${typeHref(p, ts)}" class="tag tag-link${kh(p)}">${esc(p.name)}${ts.length ? ` <span class="tag-type">(${esc(typeLabel(ts))})</span>` : ''}</a>`; };
+    const section = (title, items, empty, k) => `<h2>${title} <span class="count">(${items.length})</span></h2>\n${items.length ? `<p class="card-tags">${items.map((p) => typedTag(p, k)).join('')}</p>` : `<p class="muted">${empty}</p>`}`;
     const body = `
 <h1>What to sow and plant in ${name}</h1>
 <p class="lead">${SOW_NOTES[m]}</p>
 <p>In the UK in ${name}, ${indoors.length ? `${n(indoors.length, 'crop')} can be sown indoors` : 'there is little to sow indoors'}${outside.length ? `, ${outside.length} can be sown or planted outside` : ''} and ${harvest.length} ${harvest.length === 1 ? 'is' : 'are'} ready to harvest. Timings are typical for the UK and shift with your region, so <a href="/calendar/">enter your postcode on the planting calendar</a> to adjust them.</p>
 ${monthNav('what-to-sow', m)}
-${section('Sow or start indoors', indoors, `Nothing needs sowing indoors in ${name}.`)}
-${section('Sow or plant outside', outside, `Nothing to sow or plant outside in ${name}.`)}
-${section('Ready to harvest', harvest, `Nothing is ready to harvest in ${name}. See what to <a href="/what-to-preserve/${monthSlug(m)}/">preserve in ${name}</a>.`)}
+${section('Sow or start indoors', indoors, `Nothing needs sowing indoors in ${name}.`, 'i')}
+${section('Sow or plant outside', outside, `Nothing to sow or plant outside in ${name}.`, 'o')}
+${section('Ready to harvest', harvest, `Nothing is ready to harvest in ${name}. See what to <a href="/what-to-preserve/${monthSlug(m)}/">preserve in ${name}</a>.`, 'h')}
 <p class="muted small-note">Tap any crop for full sowing, growing and harvesting advice.</p>
 <p><a href="/what-to-sow/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/what-to-sow/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a> &middot; <a href="/calendar/">Full planting calendar</a></p>`;
     addPage({
