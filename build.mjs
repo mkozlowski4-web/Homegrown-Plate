@@ -203,6 +203,7 @@ const NAV = [
   ['Preserving', '/preserving/', 'preserving'],
   ['Recipes', '/recipes/', 'recipes'],
   ['Pests & Diseases', '/pests/', 'pests'],
+  ['This Weekend', '/this-weekend/', 'weekend'],
   ['My Garden', '/my-garden/', 'garden'],
 ];
 
@@ -1128,7 +1129,7 @@ ${monthLinks}
 <p class="muted small-note">General advice for typical UK conditions. Adjust for your local frost dates and soil, and check the forecast before sowing or planting out.</p>
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
-    path: '/this-weekend/', section: 'garden', body, title: 'Garden jobs this weekend in the UK',
+    path: '/this-weekend/', section: 'weekend', body, title: 'Garden jobs this weekend in the UK',
     description: 'What to do in your UK garden this weekend: sowing, planting, harvesting and tidying jobs for the time of year, with a personal plan and forecast if you sign in.',
     crumbs: [['Home', '/'], ['This weekend', '/this-weekend/']],
   });
@@ -1145,7 +1146,7 @@ ${wkItems(m)}
 <p><a class="btn" href="/this-weekend/">Jobs for this weekend, with a plan for your garden</a></p>
 <p><a href="/weekend-jobs/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/weekend-jobs/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a></p>`;
     addPage({
-      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'garden', body: page, title: `Garden jobs for a weekend in ${name}`,
+      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'weekend', body: page, title: `Garden jobs for a weekend in ${name}`,
       description: `${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').toLowerCase()).join('; ')}. Weekend garden jobs for ${name} in the UK.`,
       crumbs: [['Home', '/'], ['This weekend', '/this-weekend/'], [name, `/weekend-jobs/${monthSlug(m)}/`]],
     });
