@@ -87,7 +87,7 @@ a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid 
 .tag-link { text-decoration: none; }
 .tag-link:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-main p a:not(.tag):not(.btn), main li a { color: var(--green); }
+main p a:not(.tag):not(.btn):not(.btn-small), main li a { color: var(--green); }
 
 /* ---- Plant guide: filter buttons and collapsible sections ---- */
 .latin { margin: -4px 0 10px; color: var(--muted); font-style: italic; }
