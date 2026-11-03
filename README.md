@@ -52,7 +52,7 @@ Payments use Stripe Checkout and the Stripe customer portal (`src/worker/billing
 2. In Stripe (start in **test mode**): create a product "Homegrown Plate membership" with a recurring yearly price of £12, and copy the price id (`price_...`).
 3. In Stripe, Developers > Webhooks, add the endpoint `https://homegrownplate.co.uk/api/stripe-webhook` with the events `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated` and `customer.subscription.deleted`. Copy its signing secret (`whsec_...`).
 4. In Stripe, Settings > Billing > Customer portal, turn on cancelling and updating payment methods.
-5. In Cloudflare, Worker > Settings > Variables and Secrets, add `STRIPE_SECRET_KEY` (secret), `STRIPE_WEBHOOK_SECRET` (secret) and `STRIPE_PRICE` (text). Use test keys first, pay with Stripe's test card 4242 4242 4242 4242, then swap all three for live ones.
+5. Put the price id in `wrangler.jsonc` under `vars` as `STRIPE_PRICE` (it is not secret, and dashboard text variables are wiped by each deploy). In Cloudflare, Worker > Settings > Variables and Secrets, add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` as **Secrets**. Use test values first (only admin accounts can join while the key is a test key), pay with Stripe's test card 4242 4242 4242 4242, then swap all three for live ones.
 
 To give someone free membership (or yourself, for testing), run in the D1 console: `UPDATE users SET plan = 'comp' WHERE email = 'them@example.com';` Set it back with `plan = 'free'`.
 

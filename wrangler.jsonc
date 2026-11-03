@@ -11,6 +11,9 @@
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"]
   },
+  /* Not secret. Membership price in Stripe (test mode while STRIPE_SECRET_KEY is sk_test_; swap for the live price id when going live).
+     STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET are Secrets set in the Cloudflare dashboard, never in this file. */
+  "vars": { "STRIPE_PRICE": "price_1UXqQb4RcMnjnOJgcHjhXwme" },
   "d1_databases": [
     { "binding": "DB", "database_name": "homegrown-plate", "database_id": "00b0e4ea-eb36-4bc7-ace3-04040864ec3a", "migrations_dir": "migrations" }
   ]
