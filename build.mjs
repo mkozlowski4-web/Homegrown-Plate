@@ -216,9 +216,9 @@ function layout({ title, description, path, body, section, ld = [], noindex = fa
   description = trimDesc(description);
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
-  const SHORT = { 'Planting Calendar': 'Calendar' };
-  const PRIMARY_NAV = new Set(['plants', 'calendar', 'recipes', 'preserving', 'garden']);
-  const nav = NAV.filter(([, , key]) => PRIMARY_NAV.has(key)).map(([label, href, key]) => `<a${key === 'garden' ? ' class="nav-cta"' : ''} href="${href}"${key === section ? ' aria-current="page"' : ''}>${SHORT[label] || label}</a>`).join('\n      ');
+  const SHORT = { 'Plant Guide': 'Grow', 'Recipes': 'Cook', 'Preserving': 'Keep', 'Planting Calendar': 'Calendar' };
+  const PRIMARY_NAV = ['plants', 'recipes', 'preserving', 'calendar', 'garden'];
+  const nav = PRIMARY_NAV.map((k) => NAV.find(([, , key]) => key === k)).map(([label, href, key]) => `<a${key === 'garden' ? ' class="nav-cta"' : ''} href="${href}"${key === section ? ' aria-current="page"' : ''}>${SHORT[label] || label}</a>`).join('\n      ');
   return `<!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -244,6 +244,7 @@ ${image ? `<meta property="og:image" content="${SITE}${image}">\n<meta name="twi
 <meta name="apple-mobile-web-app-title" content="Homegrown Plate">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="/assets/theme.js?v=${assetVersion['theme.js']}"></script>
+<link rel="preload" href="/assets/fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="/assets/style.css?v=${assetVersion['style.css']}">
 ${ld.map(jsonLd).join('\n')}
 </head>
@@ -400,21 +401,53 @@ function buildHome() {
   const rank = { Easy: 0, Medium: 1, Hard: 2 };
   const byEase = [...PLANTS].sort((x, y) => rank[x.difficulty] - rank[y.difficulty] || x.name.localeCompare(y.name, 'en-GB'));
   const nowMonth = new Date().getMonth();
+  const HERB_IDS = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id).concat(['chives', 'sorrel']));
+  const common = new Set(SIZES.flatMap((z) => z.grow));
+  const sizeAttr = (p) => p.sizes.join(' ');
+  const sowNote = (p, m) => (CALENDAR[p.id].o[m] === '1' ? 'Sow or plant outside' : 'Sow indoors');
+  const sowLi = (p, m) => `<li class="mf-li${kh(p)}" data-sizes="${sizeAttr(p)}"><a class="mf-item" href="/plants/${p.id}/">${plantImg(p)}<span><strong>${esc(p.name)}</strong><span>${sowNote(p, m)}</span></span></a></li>`;
   const monthPanels = FULL_MONTHS.map((name, m) => {
-    const sow = byEase.filter((p) => CALENDAR[p.id].i[m] === '1' || CALENDAR[p.id].o[m] === '1');
-    const harvest = byEase.filter((p) => CALENDAR[p.id].h[m] === '1');
-    const list = (items, label) => `<div><h3>${label} <span class="count">(${items.length})</span></h3>
-      <p class="card-tags">${items.slice(0, 6).map(plantLink).join('')}${items.length > 6 ? `<a class="tag tag-link more" href="/calendar/">+${items.length - 6} more</a>` : ''}${items.length === 0 ? '<span class="muted">Nothing this month: a good time to plan and tidy.</span>' : ''}</p></div>`;
-    return `<div class="month-panel" data-month-panel="${m}"${m === nowMonth ? '' : ' hidden'}>
-    <h2 class="month-title">In the garden in <span data-month-name>${name}</span></h2>
-    <div class="month-cols">${list(sow, 'Sow or plant')}${list(harvest, 'Harvest')}</div>
-    <p><a href="/calendar/">See the full planting calendar &rarr;</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve</a></p>
+    const sow = byEase.filter((p) => CALENDAR[p.id].i[m] === '1' || CALENDAR[p.id].o[m] === '1')
+      .sort((x, y) => (PHOTOS.has(y.id) - PHOTOS.has(x.id)) || (common.has(y.id) - common.has(x.id)) || rank[x.difficulty] - rank[y.difficulty] || x.name.localeCompare(y.name, 'en-GB'));
+    const harvestIds = new Set(PLANTS.filter((p) => CALENDAR[p.id].h[m] === '1').map((p) => p.id));
+    const cook = RECIPES.map((r) => ({ r, hit: r.uses.filter((u) => harvestIds.has(u)).length, pop: r.uses.filter((u) => harvestIds.has(u) && common.has(u)).length }))
+      .filter((x) => x.hit > 0)
+      .sort((x, y) => y.pop - x.pop || y.hit - x.hit || x.r.title.localeCompare(y.r.title, 'en-GB'))
+      .slice(0, 3).map((x) => x.r);
+    const keep = PLANTS.filter((p) => harvestIds.has(p.id) && !HERB_IDS.has(p.id) && STORAGE[p.id] && STORAGE[p.id].length)
+      .sort((x, y) => (PHOTOS.has(y.id) - PHOTOS.has(x.id)) || (common.has(y.id) - common.has(x.id)) || x.name.localeCompare(y.name, 'en-GB'))
+      .slice(0, 3);
+    const keepWay = (p) => STORAGE[p.id].find(([w]) => /cool store|leave in the ground|cure/i.test(w)) || STORAGE[p.id][0];
+    const cookCards = cook.map((r) => `<li><a class="mf-recipe" href="/recipes/${r.id}/"><strong>${esc(r.title)}</strong><span>Uses ${esc(joinAnd(r.uses.slice(0, 3).map((u) => lower(plantMap.get(u).name))))}</span></a></li>`).join('');
+    const keepCards = keep.map((p) => { const [way, , keeps] = keepWay(p); return `<li class="${kh(p).trim()}"><a class="mf-item" href="/plants/${p.id}/#usage-and-storage">${plantImg(p)}<span><strong>${esc(p.name)}</strong><span>${esc(way)} &middot; ${esc(keeps)}</span></span></a></li>`; }).join('');
+    return `<div class="month-panel" data-month-panel="${m}" data-month-label="${name}"${m === nowMonth ? '' : ' hidden'}>
+    <div class="mf-grid">
+      <div class="mf-col">
+        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">1</span>Plant now</h3>
+        <ul class="mf-list" data-mf-sow>${sow.map((p) => sowLi(p, m)).join('')}</ul>
+        <p class="mf-empty muted" data-mf-empty${sow.length ? ' hidden' : ''}>Nothing to sow this month. A good time to plan and tidy.</p>
+        <a class="mf-more" href="/what-to-sow/${monthSlug(m)}/">All <span data-mf-count>${sow.length}</span> to sow in ${name} &rarr;</a>
+      </div>
+      <div class="mf-col">
+        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">2</span>Cook what&rsquo;s ready</h3>
+        <ul class="mf-list">${cookCards}</ul>
+        ${cook.length ? '' : '<p class="mf-empty muted">Little to pick this month. Try a recipe from the store cupboard.</p>'}
+        <a class="mf-more" href="/recipes/">All ${RECIPES.length} recipes &rarr;</a>
+      </div>
+      <div class="mf-col">
+        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">3</span>Keep the surplus</h3>
+        <ul class="mf-list">${keepCards}</ul>
+        ${keep.length ? '' : '<p class="mf-empty muted">Use up what you stored earlier in the year.</p>'}
+        <a class="mf-more" href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name} &rarr;</a>
+      </div>
+    </div>
   </div>`;
   }).join('\n  ');
 
   const heroPhotos = ['tomato', 'strawberry', 'courgette', 'potato'].map((id) => { const p = plantMap.get(id); const ph = PHOTOS.get(id); return p && ph ? `<a href="/plants/${id}/" tabindex="-1"><img src="${ph.small}" width="240" height="240" alt="" loading="eager" decoding="async"><span>${esc(p.name)}</span></a>` : ''; }).join('\n  ');
-  const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot'].map((id) => plantMap.get(id)).filter(Boolean);
-  const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="card card-link pop-card${kh(p)}">${plantImg(p)}<h3>${esc(p.name)}</h3><span class="tag">${esc(p.difficulty)}</span></a>`).join('\n  ');
+  const popular = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'garlic', 'broad-bean'].map((id) => plantMap.get(id)).filter(Boolean);
+  const popImg = (p) => { const ph = PHOTOS.get(p.id); return ph ? `<img src="${ph.small}" width="480" height="360" alt="" loading="lazy" decoding="async">` : `<img class="pop-ill" src="/img/plants/${p.id}.svg" width="480" height="360" alt="" loading="lazy">`; };
+  const popularCards = popular.map((p) => `<a href="/plants/${p.id}/" class="pop-card2${kh(p)}">${popImg(p)}<strong>${esc(p.name)}</strong><span>${esc(p.difficulty)} &middot; from ${esc(lower(sizeMap.get(minSize(p)).short))}</span></a>`).join('\n  ');
   const featuredRecipes = ['summer-pudding', 'pizza-margherita', 'butternut-squash-soup', 'apple-blackberry-crumble'].map((id) => RECIPES.find((r) => r.id === id)).filter(Boolean);
   const recipeCards = featuredRecipes.map((r) => `<a href="/recipes/${r.id}/" class="card card-link">
     <h3>${esc(r.title)}</h3>
@@ -439,54 +472,64 @@ function buildHome() {
   </div>
   <p class="muted small-note">Grown-ups: these projects need a helper. Read the <a href="/kids/#grownups">safety notes</a>.</p>
 </section>`;
+  const sizeOpts = SIZES.map((z) => `<option value="${z.id}"${z.id === 'small' ? ' selected' : ''}>${esc(lower(z.short))}</option>`).join('');
+  const zoneOpts = ZONES.map((zn) => `<option value="${zn.id}" data-off="${zn.off}">${esc(zn.name)}</option>`).join('');
   const body = `
 ${kidsHomeBlock}
-<section class="hero hero2">
+<section class="hero hero3">
  <div class="hero-copy">
-  <p class="eyebrow">Grow it. Cook it. Keep it.</p>
+  <p class="eyebrow">Grow it &middot; Cook it &middot; Keep it</p>
   <h1>Grow your own food, whatever your space.</h1>
-  <p class="hero-sub">Planting guides, recipes and storage tips for ${PLANTS.length} crops, timed for where you live in the UK.</p>
-  <form class="hero-search" action="/plants/" method="get" role="search">
-    <label class="sr-only" for="heroSearch">Search the plant guide</label>
-    <input type="search" id="heroSearch" name="q" placeholder="Search crops, for example tomato or mint" autocomplete="off">
-    <button type="submit" class="btn">Search</button>
+  <p class="hero-sub">Tell us where you grow and we&rsquo;ll show you what to plant, cook and store this month.</p>
+  <form class="setup-card" action="/plants/" method="get" role="search">
+    <p class="setup-line">
+      <span>I grow on a</span>
+      <label class="sr-only" for="homeSize">Garden size</label>
+      <select id="homeSize" data-home-size>${sizeOpts}</select>
+      <span>in</span>
+      <label class="sr-only" for="homeZone">Your region</label>
+      <select id="homeZone" data-home-zone><option value="">central England</option>${zoneOpts}</select>
+    </p>
+    <div class="setup-search">
+      <label class="sr-only" for="heroSearch">Search the plant guide</label>
+      <input type="search" id="heroSearch" name="q" placeholder="Or search a crop, for example tomato" autocomplete="off">
+      <button type="submit" class="btn">Search</button>
+    </div>
   </form>
-  <p class="size-chips"><span>I garden on a</span> ${SIZES.map((z) => `<a class="chip" href="/sizes/${z.id}/">${esc(z.short)}</a>`).join(' ')}</p>
  </div>
- ${heroPhoto}
+ ${heroPhoto ? heroPhoto.replace('</div>', `<p class="hero-stat"><strong>${PLANTS.length}</strong><span>crops &middot; ${RECIPES.length} recipes<br>timed for the UK</span></p></div>`) : ''}
 </section>
 
-<section class="week" aria-label="This week in the garden">
-${regionBar('homeRegion')}
-<div class="week-grid">
-${weekendPanel()}
-<div class="month-box" id="thisMonth">
+<section class="month-flow" data-month-flow aria-labelledby="mfTitle">
+ <div class="wrap-inner">
+  <div class="mf-head">
+    <div>
+      <p class="mf-for" data-mf-for>For a small garden, with typical dates for central England</p>
+      <h2 id="mfTitle">Your <span data-mf-month>${FULL_MONTHS[nowMonth]}</span></h2>
+    </div>
+    <div class="mf-nav">
+      <button type="button" class="mf-arrow" data-mf-prev aria-label="Previous month" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button type="button" class="mf-arrow" data-mf-next aria-label="Next month" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </div>
   ${monthPanels}
-</div>
-</div>
-</section>
-
-<section class="start">
-<h2>Start here</h2>
-<div class="start-grid">
-  <a class="start-card" href="/plants/">${startImg('courgette')}<h3>Grow</h3><p>Sowing, care and harvest for ${PLANTS.length} crops, with advice that fits your garden size.</p></a>
-  <a class="start-card" href="/recipes/">${startImg('strawberry')}<h3>Cook</h3><p>${RECIPES.length} recipes built around what is ready in your garden right now.</p></a>
-  <a class="start-card" href="/preserving/">${startImg('carrot')}<h3>Keep</h3><p>Freeze, dry, pickle and store a surplus so nothing goes to waste.</p></a>
-</div>
+  ${regionBar('homeRegion')}
+  ${weekendPanel()}
+ </div>
 </section>
 
 <section class="popular">
 <div class="sec-head"><h2>Popular crops</h2><a href="/plants/">Browse all ${PLANTS.length} &rarr;</a></div>
-<div class="pop-grid">
+<div class="pop-grid2">
   ${popularCards}
 </div>
 </section>
 
-<section class="band">
+<section class="band band-green">
   <div><h2>New to growing?</h2><p>Start with ${easyCount} easy crops and a seven-step guide from plan to first harvest.</p></div>
-  <p class="band-actions"><a class="btn" href="/beginners/">Beginner&rsquo;s guide</a> <a class="chip" href="/plants/?diff=easy">Easy crops</a></p>
+  <p class="band-actions"><a class="btn btn-light" href="/beginners/">Start the beginner&rsquo;s guide</a> <a class="band-link" href="/plants/?diff=easy">See easy crops</a></p>
 </section>
-</div>`;
+`;
   addPage({
     path: '/', section: 'home', fullTitle: true, body,
     title: `${SITE_NAME}: grow your own food in any size of garden`,
@@ -499,7 +542,7 @@ let gardenMemo = null;
 function gardenData() {
   if (gardenMemo) return gardenMemo;
   const data = {
-    plants: PLANTS.map((p) => ({ k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, c: careFor(p.id) })),
+    plants: PLANTS.map((p) => ({ k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id) })),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
   };
   const json = JSON.stringify(data);
@@ -1730,6 +1773,7 @@ for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js', 'weekend.js']) 
   writeFileSync(join(DIST, 'assets', f), buf);
 }
 cpSync(join(ROOT, 'src/assets/favicon.svg'), join(DIST, 'favicon.svg'));
+cpSync(join(ROOT, 'src/assets/fonts'), join(DIST, 'assets/fonts'), { recursive: true });
 cpSync(join(ROOT, 'static'), DIST, { recursive: true });
 
 await writePlantImages();

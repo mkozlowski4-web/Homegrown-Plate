@@ -195,34 +195,82 @@
     if (Region.off()) paintCal();
   }
 
-  /* Home page: this month's panel */
-  var homePanel = $('.month-panel[data-month-panel]:not([hidden])');
-  if (homePanel && $('#homeRegion')) {
-    var origPanel = homePanel.innerHTML, homeData = null, homeLoad = null;
-    var rankOf = { Easy: 0, Medium: 1, Hard: 2 };
-    var paintHome = function () {
-      var off = Region.off();
-      if (!off) { homePanel.innerHTML = origPanel; return; }
-      var m = Number(homePanel.getAttribute('data-month-panel'));
-      if (!homeLoad) homeLoad = fetch($('#homeRegion').getAttribute('data-garden')).then(function (r) { return r.json(); });
-      homeLoad.then(function (d) {
-        if (Region.off() !== off) return;
-        var plants = d.plants.slice().sort(function (a, b) { return rankOf[a.d] - rankOf[b.d] || a.n.localeCompare(b.n, 'en-GB'); });
-        var inMonth = function (p, keys) { return keys.some(function (k) { return Region.monthState(Region.shifted(p[k], k, off), m) > 0; }); };
-        var sow = plants.filter(function (p) { return inMonth(p, ['i', 'o']); }), har = plants.filter(function (p) { return inMonth(p, ['h']); });
-        var cols = Array.prototype.slice.call(homePanel.querySelectorAll('.month-cols > div'));
-        [sow, har].forEach(function (items, n) {
-          var col = cols[n]; if (!col) return;
-          col.querySelector('.count').textContent = '(' + items.length + ')';
-          var tags = col.querySelector('.card-tags'); tags.textContent = '';
-          items.slice(0, 14).forEach(function (p) { var a = mk('a', 'tag tag-link' + (p.k ? ' kid-hide' : ''), p.n); a.href = '/plants/' + p.id + '/'; tags.appendChild(a); });
-          if (items.length > 14) { var more = mk('a', 'tag tag-link more', '+' + (items.length - 14) + ' more'); more.href = '/calendar/'; tags.appendChild(more); }
-          if (!items.length) tags.appendChild(mk('span', 'muted', 'Nothing this month: a good time to plan and tidy.'));
-        });
-      }).catch(function () { /* keep the default panel */ });
+  /* Home page: the "Your month" flow (plant now, cook, keep), set by garden size and region */
+  var flow = $('[data-month-flow]');
+  if (flow) {
+    var panels = $$('[data-month-panel]'), shown = new Date().getMonth();
+    var sizeSel = $('[data-home-size]'), zoneSel = $('[data-home-zone]'), forTxt = $('[data-mf-for]'), monthTxt = $('[data-mf-month]');
+    var SIZE_KEY = 'hp-size', size = sizeSel ? sizeSel.value : '';
+    try { var savedSize = localStorage.getItem(SIZE_KEY); if (savedSize && sizeSel && sizeSel.querySelector('option[value="' + savedSize + '"]')) { sizeSel.value = savedSize; size = savedSize; } } catch (e) { /* storage unavailable */ }
+    var gLoad = null, origSow = {};
+    panels.forEach(function (p) { var l = p.querySelector('[data-mf-sow]'); if (l) origSow[p.getAttribute('data-month-panel')] = l.innerHTML; });
+    var MAX = 4;
+    var fitSize = function (li) { var s = (li.getAttribute('data-sizes') || '').split(' '); return !size || s.indexOf(size) > -1; };
+    var trim = function (panel) {
+      var list = panel.querySelector('[data-mf-sow]'); if (!list) return;
+      var kids = document.documentElement.hasAttribute('data-kids'), n = 0;
+      Array.prototype.slice.call(list.children).forEach(function (li) {
+        var ok = fitSize(li) && !(kids && li.classList.contains('kid-hide'));
+        li.hidden = !ok || n >= MAX; if (ok) n++;
+      });
+      var c = panel.querySelector('[data-mf-count]'); if (c) c.textContent = n;
+      var e = panel.querySelector('[data-mf-empty]'); if (e) e.hidden = n > 0;
     };
-    Region.onChange(paintHome);
-    if (Region.off()) paintHome();
+    var paintSow = function (panel) {
+      var m = Number(panel.getAttribute('data-month-panel')), list = panel.querySelector('[data-mf-sow]'), off = Region.off();
+      if (!list) return;
+      if (!off) { list.innerHTML = origSow[m]; trim(panel); return; }
+      if (!gLoad) gLoad = fetch($('#homeRegion').getAttribute('data-garden')).then(function (r) { return r.json(); });
+      gLoad.then(function (d) {
+        if (Region.off() !== off) return;
+        var order = {}; Array.prototype.slice.call(new DOMParser().parseFromString('<ul>' + origSow[m] + '</ul>', 'text/html').querySelectorAll('a')).forEach(function (a, k) { order[a.getAttribute('href')] = k; });
+        var sow = d.plants.filter(function (p) { return ['i', 'o'].some(function (k) { return Region.monthState(Region.shifted(p[k], k, off), m) > 0; }); });
+        sow.sort(function (a, b) { var x = order['/plants/' + a.id + '/'], y = order['/plants/' + b.id + '/']; return (x == null ? 999 : x) - (y == null ? 999 : y) || a.n.localeCompare(b.n, 'en-GB'); });
+        list.textContent = '';
+        sow.forEach(function (p) {
+          var li = mk('li', 'mf-li' + (p.k ? ' kid-hide' : '')); li.setAttribute('data-sizes', (p.s || []).join(' '));
+          var a = mk('a', 'mf-item'); a.href = '/plants/' + p.id + '/';
+          var img = mk('img', 'pimg small'); img.src = p.img; img.alt = ''; img.width = 72; img.height = 72; img.loading = 'lazy';
+          var t = mk('span'); t.appendChild(mk('strong', null, p.n));
+          t.appendChild(mk('span', null, Region.monthState(Region.shifted(p.o, 'o', off), m) ? 'Sow or plant outside' : 'Sow indoors'));
+          a.appendChild(img); a.appendChild(t); li.appendChild(a); list.appendChild(li);
+        });
+        trim(panel);
+      }).catch(function () { list.innerHTML = origSow[m]; trim(panel); });
+    };
+    var paintFor = function () {
+      if (!forTxt) return;
+      var r = Region.current(), o = sizeSel ? sizeSel.options[sizeSel.selectedIndex] : null;
+      var where = r ? 'dates adjusted for ' + r.name : 'typical dates for central England';
+      forTxt.textContent = 'For ' + (o ? (/^[aeiou]/i.test(o.textContent) ? 'an ' : 'a ') + o.textContent : 'any garden') + ', with ' + where;
+      if (zoneSel) zoneSel.value = r && r.z ? r.z : '';
+    };
+    var show = function (m) {
+      shown = (m + 12) % 12;
+      panels.forEach(function (p) { p.hidden = Number(p.getAttribute('data-month-panel')) !== shown; });
+      var cur = panels.filter(function (p) { return !p.hidden; })[0];
+      if (monthTxt && cur) monthTxt.textContent = cur.getAttribute('data-month-label');
+      if (cur) paintSow(cur);
+    };
+    var prev = $('[data-mf-prev]'), next = $('[data-mf-next]');
+    if (prev && next) {
+      prev.hidden = next.hidden = false;
+      prev.addEventListener('click', function () { show(shown - 1); });
+      next.addEventListener('click', function () { show(shown + 1); });
+    }
+    if (sizeSel) sizeSel.addEventListener('change', function () {
+      size = sizeSel.value;
+      try { localStorage.setItem(SIZE_KEY, size); } catch (e) { /* storage unavailable */ }
+      paintFor(); panels.forEach(trim);
+    });
+    if (zoneSel) zoneSel.addEventListener('change', function () {
+      var o = zoneSel.options[zoneSel.selectedIndex];
+      if (!o.value) { Region.set(null); return; }
+      Region.set({ z: o.value, off: Number(o.getAttribute('data-off')), name: o.textContent.trim(), pc: '' });
+    });
+    Region.onChange(function () { paintFor(); show(shown); });
+    document.addEventListener('hp-kids', function () { panels.forEach(trim); });
+    paintFor(); show(shown);
   }
 
 
@@ -725,12 +773,6 @@
     a.href = '/' + a.getAttribute('data-this-month') + '/' + names[new Date().getMonth()] + '/';
   });
 
-  /* ---- Home page: show this month's panel ---- */
-  var monthPanels = $$('[data-month-panel]');
-  if (monthPanels.length) {
-    var thisMonth = String(new Date().getMonth());
-    monthPanels.forEach(function (p) { p.hidden = p.getAttribute('data-month-panel') !== thisMonth; });
-  }
 
   /* ---- Plant page: mark the current month on the at-a-glance bars ---- */
   var nowMonth = String(new Date().getMonth());
