@@ -580,3 +580,9 @@ a.btn[data-this-month] { background: var(--green); color: #fff; }
 .wk-task { display: flex; gap: .55rem; align-items: flex-start; }
 .wk-task input { margin-top: .3rem; flex: none; }
 .wk-cta { margin: 1rem 0; }
+.wk-home { margin: 1.25rem 0; }
+.wk-home h2 { margin-top: 0; }
+.wk-home .wk-list li { padding: .5rem .75rem; }
+.wk-compact .wk-days { margin: .5rem 0; }
+.wk-cta-line { margin: .25rem 0 .75rem; }
+.wk-banner { margin: 1rem 0; }

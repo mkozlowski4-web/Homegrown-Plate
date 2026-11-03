@@ -6,6 +6,8 @@
   if (!root) return;
   var personal = document.getElementById('wkPersonal');
   var cta = document.getElementById('wkCta');
+  var compact = root.hasAttribute('data-compact'); /* home page panel: a short version */
+  function showGeneric(on) { if (compact) root.hidden = !on; }
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var ZONE_BY_OFF = { '-2': 'mild', '-1': 'south', '0': 'central', '1': 'north', '2': 'scotland', '3': 'highlands' };
@@ -26,6 +28,11 @@
       var h = Number(li.getAttribute('data-half'));
       li.hidden = h !== 0 && h !== half;
     });
+    if (on && compact) {
+      var shown = 0;
+      Array.prototype.forEach.call(s.querySelectorAll('li'), function (li) { if (li.hidden) return; if (++shown > 3) li.hidden = true; });
+      Array.prototype.forEach.call(s.querySelectorAll('.wk-more'), function (n) { n.hidden = true; });
+    }
   });
 
   /* ---- Weekend dates: today if it is a weekend day, otherwise the coming Saturday and Sunday ---- */
@@ -117,7 +124,7 @@
     var first = days[0].date;
     doneKey = 'hp-weekend-done-' + iso(first);
     done = read(doneKey, []); if (!Array.isArray(done)) done = [];
-    personal.appendChild(el('h2', null, 'Your plan for this weekend'));
+    if (!compact) personal.appendChild(el('h2', null, 'Your plan for this weekend'));
     personal.appendChild(el('p', 'muted', 'Forecast for ' + ZONE_NAME[zone] + (usedDefaultRegion ? '. Set your area above for a closer forecast and dates.' : '.')));
     var generic = [];
     Array.prototype.forEach.call(root.querySelectorAll('[data-wk-month="' + first.getMonth() + '"] li[data-tag]'), function (li, k) {
@@ -140,11 +147,15 @@
       card.appendChild(h);
       var p = el('p', 'wk-wx'); var ic = el('span', null, wx.icon); ic.setAttribute('aria-hidden', 'true'); p.appendChild(ic); p.appendChild(document.createTextNode(' ' + wx.text)); card.appendChild(p);
       var ul = el('ul', 'wk-checks');
+      var shownItems = compact ? o.items.slice(0, 3) : o.items;
       if (!o.items.length) card.appendChild(el('p', 'muted', 'Nothing specific. A good day to rest.'));
-      else { o.items.forEach(function (j) { ul.appendChild(taskRow(j)); }); card.appendChild(ul); }
+      else { shownItems.forEach(function (j) { ul.appendChild(taskRow(j)); }); card.appendChild(ul); }
       grid.appendChild(card);
     });
     personal.appendChild(grid);
+    if (compact) {
+      personal.hidden = false; return;
+    }
     if (result.leftover.length) {
       personal.appendChild(el('h3', null, 'Wait for a drier day'));
       personal.appendChild(el('p', 'muted', 'Rain is forecast on both days, so these jobs are better left until the soil is drier.'));
@@ -160,7 +171,7 @@
   var token = 0;
   function build() {
     var me = ++token;
-    if (!signedIn()) { personal.hidden = true; cta.hidden = false; return; }
+    if (!signedIn()) { personal.hidden = true; cta.hidden = false; showGeneric(true); return; }
     cta.hidden = true;
     var reg = read('hp-region', null);
     var off = reg && typeof reg.off === 'number' ? reg.off : 0;
@@ -175,21 +186,22 @@
     Promise.all([wp, gp]).then(function (res) {
       if (me !== token) return;
       var w = res[0];
-      if (w === 'out') { personal.hidden = true; cta.hidden = false; return; }
+      if (w === 'out') { personal.hidden = true; cta.hidden = false; showGeneric(true); return; }
       if (!w || !w.days) {
         personal.textContent = '';
-        personal.appendChild(el('h2', null, 'Your plan for this weekend'));
+        if (!compact) personal.appendChild(el('h2', null, 'Your plan for this weekend'));
         personal.appendChild(el('p', null, 'The forecast is not available just now, so use the UK jobs below and check your own forecast.'));
-        personal.hidden = false; return;
+        personal.hidden = false; showGeneric(true); return;
       }
       var byDate = {}; w.days.forEach(function (d) { byDate[d.date] = d; });
       var days = dates.map(function (d) { return byDate[iso(d)] ? { date: d, w: byDate[iso(d)] } : null; }).filter(Boolean);
       if (!days.length) {
         personal.textContent = '';
-        personal.appendChild(el('h2', null, 'Your plan for this weekend'));
+        if (!compact) personal.appendChild(el('h2', null, 'Your plan for this weekend'));
         personal.appendChild(el('p', null, 'The weekend is further away than our forecast reaches. Check back from Wednesday or Thursday, and use the UK jobs below for now.'));
-        personal.hidden = false; return;
+        personal.hidden = false; showGeneric(true); return;
       }
+      showGeneric(false);
       render(days, off, res[1], !reg, zone, w.credit || 'Weather data from MET Norway');
     });
   }

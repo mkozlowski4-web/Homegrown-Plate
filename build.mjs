@@ -443,6 +443,8 @@ ${kidsHomeBlock}
  </div>
 </section>
 
+${weekendPanel()}
+
 <section class="month-box" id="thisMonth">
   ${regionBar('homeRegion')}
   ${monthPanels}
@@ -536,6 +538,7 @@ function buildMyGarden() {
 <h1>My Garden</h1>
 <p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed. Want it on every device? <a href="/account/">Create a free account</a>.</p>
 <div class="callout acct-prompt" data-acct-prompt hidden><strong>Keep your garden on every device.</strong> Create a free account and your crops, ticked-off jobs and area are saved for you. <a class="btn-small" href="/account/">Sign up or sign in</a></div>
+<p class="callout wk-banner"><strong>New:</strong> <a href="/this-weekend/">See this weekend&rsquo;s jobs for your garden</a>, sorted by day with your local forecast when you are signed in.</p>
 <p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
 ${regionBar()}
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
@@ -1104,17 +1107,35 @@ const WK_TAGS = { dry: 'Needs a dry day', wet: 'Fine in damp weather', indoor: '
 const wkItems = (m, withHalf = true) => WEEKEND_JOBS[m].map(([tag, text, half = 0]) =>
   `<li data-tag="${tag}" data-half="${half}"><span class="wk-tag wk-${tag}">${WK_TAGS[tag]}</span> ${esc(text)}${withHalf && half ? ` <span class="muted">(${half === 1 ? 'first half of the month' : 'second half of the month'})</span>` : ''}</li>`).join('\n');
 
-function buildWeekend() {
-  for (const [m, jobs] of WEEKEND_JOBS.entries()) if (jobs.length < 6) throw new Error(`Weekend jobs for ${FULL_MONTHS[m]} are too thin`);
-  const g = gardenData();
-  const monthLinks = `<p class="chips-label muted">Jobs for each month:</p>${monthNav('weekend-jobs', -1)}`;
-  const sections = FULL_MONTHS.map((name, m) => `<section data-wk-month="${m}" hidden>
+const wkSections = () => FULL_MONTHS.map((name, m) => `<section data-wk-month="${m}" hidden>
   <h2>Jobs for a ${name} weekend</h2>
   <ul class="wk-list">
 ${wkItems(m)}
   </ul>
-  <p><a href="/weekend-jobs/${monthSlug(m)}/">All ${name} weekend jobs</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a></p>
+  <p class="wk-more"><a href="/weekend-jobs/${monthSlug(m)}/">All ${name} weekend jobs</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a></p>
 </section>`).join('\n');
+
+/* Compact "this weekend" panel for the home page; weekend.js fills it in (UK jobs, or the signed-in plan). */
+function weekendPanel() {
+  const g = gardenData();
+  return `<section class="card wk-home" id="weekendHome" aria-labelledby="wkHomeTitle">
+  <h2 id="wkHomeTitle">Garden jobs this weekend</h2>
+  <div class="wk-personal" id="wkPersonal" data-garden="/assets/garden-data.json?v=${g.ver}" hidden aria-live="polite"></div>
+  <p class="wk-cta-line" id="wkCta" hidden><a href="/account/">Sign in</a> for a plan built around your crops and your local forecast.</p>
+  <div id="wkGeneric" data-compact>
+${wkSections()}
+  </div>
+  <p><a class="btn-small" href="/this-weekend/">See the full weekend plan</a></p>
+</section>
+<script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
+}
+
+function buildWeekend() {
+  for (const [m, jobs] of WEEKEND_JOBS.entries()) if (jobs.length < 6) throw new Error(`Weekend jobs for ${FULL_MONTHS[m]} are too thin`);
+  const g = gardenData();
+  const monthLinks = `<p class="chips-label muted">Jobs for each month:</p>${monthNav('weekend-jobs', -1)}`;
+  const sections = wkSections();
+
   const body = `
 <h1>Garden jobs this weekend</h1>
 <p class="lead">What to do in the garden this weekend, for the time of year in the UK. Sign in for a plan built around your own crops and the weather forecast for your area.</p>
