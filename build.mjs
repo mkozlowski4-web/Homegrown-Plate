@@ -1562,8 +1562,10 @@ function buildAbout() {
     body: `
 <h1>About Homegrown Plate</h1>
 <p class="lead">Homegrown Plate is a free UK guide to growing your own food, cooking it and keeping it, whether you have a windowsill or an allotment.</p>
-<h2>Who runs it</h2>
-<p>Homegrown Plate is run by Mark, from the UK. It started as a way to keep growing times, recipes and storage advice for home-grown food in one place, rather than spread over a dozen sites. Mistakes are fixed as soon as they are reported.</p>
+<h2>Why I made it</h2>
+<p>I'm Mark. My dad has always had an allotment, and watching him grow food is where my love of homegrown food comes from. I had my own allotment for a number of years, until I moved away from the area. Now I grow in a small garden with four raised beds and a greenhouse, and I'm hoping to pass the same love on to my two young sons.</p>
+<p>I built Homegrown Plate because the part between planting and eating seems to be missing. Plenty of places tell you how to sow and grow. Far fewer tell you what to do with the crop once it arrives, or how to keep it. From my own experience, not knowing the end uses led to a lot of wasted homegrown food, and I'd love to see that stop. So every crop here covers the whole journey: sowing, growing, harvesting, cooking and storing.</p>
+<p>The site is still growing, and where I can I'm adding my own photos from the beds and greenhouse. If something doesn't match what you've found in your own garden, please tell me.</p>
 <h2>What you will find here</h2>
 <ul>
   <li><a href="/plants/">${PLANTS.length} crops</a> with plain-English advice on sowing, growing, harvesting and storing, written for UK conditions.</li>
