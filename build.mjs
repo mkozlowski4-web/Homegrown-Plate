@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 import { PLANTS } from './src/data/plants.mjs';
 import { HERBS } from './src/data/plants/herbs.mjs';
 import { MORE_HERBS } from './src/data/plants/more-herbs.mjs';
+import { FRUIT } from './src/data/plants/fruit.mjs';
+import { MORE_FRUIT } from './src/data/plants/more-fruit.mjs';
 import { SIZES } from './src/data/sizes.mjs';
 import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
@@ -712,10 +714,9 @@ function careSection(p) {
   const tasks = careFor(p.id);
   if (!tasks.length) return '';
   const rows = tasks.map(([bits, text]) => `<li data-bits="${bits}"><span class="care-when">${esc(monthRanges(bits))}</span> ${esc(text)}</li>`).join('\n  ');
-  return `<section class="care-list" aria-labelledby="care-h"><h2 id="care-h">Care through the year</h2>
-<ul class="care-ul">
+  return accordion('care-h', 'Care through the year', `<ul class="care-ul">
   ${rows}
-</ul></section>`;
+</ul>`);
 }
 
 
@@ -728,21 +729,35 @@ function plantDescription(p, cal) {
   return clip(parts.filter(Boolean).join(' '), 158);
 }
 function buildPlants() {
-  const cards = PLANTS.map((p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
+  const FRUIT_IDS = new Set([...FRUIT, ...MORE_FRUIT].map((p) => p.id));
+  const HERB_SET = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id));
+  const KINDS = [['veg', 'Vegetables'], ['fruit', 'Fruit'], ['herbs', 'Herbs and edible flowers']];
+  const kindOf = (p) => (FRUIT_IDS.has(p.id) ? 'fruit' : HERB_SET.has(p.id) ? 'herbs' : 'veg');
+  const card = (p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
     <h3>${esc(p.name)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
     <span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
     <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>
-  </a>`).join('\n  ');
+  </a>`;
+  const groups = KINDS.map(([k, label]) => { const list = PLANTS.filter((p) => kindOf(p) === k); return `<section class="pg-group" data-pg-group aria-labelledby="pg-${k}">
+  <h2 id="pg-${k}" class="pg-head">${label} <span class="pg-count" data-pg-count>${list.length}</span></h2>
+  <div class="grid pg-grid">
+  ${list.map(card).join('\n  ')}
+  </div>
+</section>`; }).join('\n');
   const sunChips = [chip('sun', 'any', 'Any sunlight', true), ...SUN_LEVELS.map((s) => chip('sun', s.id, `<span aria-hidden="true">${s.icon}</span> ${s.label}`))].join('\n      ');
   const sizeChips = [chip('size', 'any', 'Any size', true), ...SIZES.map((s) => chip('size', s.id, esc(s.short)))].join('\n      ');
   const diffChips = [chip('diff', 'any', 'Any difficulty', true), ...DIFFICULTIES.map(([id, label]) => chip('diff', id, label))].join('\n      ');
   const body = `
 <h1>Plant Guide</h1>
-<p class="lead">${PLANTS.length} crops for UK gardens, each with detailed advice on sowing, growing, harvesting and storing. Pick the sunlight you have, your garden size and how much experience you have to narrow the list. Each tile shows the minimum a crop needs.</p>
-<div class="filter-panel" id="plantFilters" hidden>
-  <div class="filter-search"><label for="plantSearch">Search by name</label><input type="search" id="plantSearch" placeholder="For example: tomato, thyme, apple"></div>
+<p class="lead">${PLANTS.length} crops for UK gardens, with advice on sowing, growing, harvesting and storing. Tell us your sunlight, space and experience to narrow the list.</p>
+<div class="filter-panel pg-filters" id="plantFilters" hidden>
+  <div class="pg-bar">
+    <div class="filter-search"><label class="sr-only" for="plantSearch">Search crops by name</label><input type="search" id="plantSearch" placeholder="Search crops"></div>
+    <button type="button" class="pg-filter-btn" id="pgFilterBtn" aria-expanded="false" aria-controls="pgFilterBody"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters<span class="pg-badge" id="pgBadge" hidden></span></button>
+  </div>
+  <div class="pg-filter-body" id="pgFilterBody">
   <fieldset class="chip-group">
     <legend>Sunlight</legend>
       ${sunChips}
@@ -756,10 +771,13 @@ function buildPlants() {
       ${diffChips}
   </fieldset>
   <p class="muted small-note">${SUN_LEVELS.map((s) => `${s.label}: ${s.hint}`).join('. ')}. Many crops cope with more than one level, so they appear under each.</p>
-  <p class="filter-status"><span id="plantCount" aria-live="polite"></span> <button type="button" class="chip chip-reset" id="plantReset" hidden>Clear filters</button></p>
+  <p class="pg-done-row"><button type="button" class="btn pg-done" id="pgDone">Show crops</button></p>
+  </div>
+  <p class="filter-status pg-status"><span id="plantCount" aria-live="polite"></span> <button type="button" class="pg-clear" id="plantReset" hidden>Clear filters</button></p>
+  <nav class="pg-jump" aria-label="Jump to a group">${KINDS.map(([k, label]) => `<a href="#pg-${k}">${label.split(' ')[0]}</a>`).join('')}</nav>
 </div>
-<div class="grid" id="plantGrid">
-  ${cards}
+<div id="plantGrid">
+${groups}
 </div>
 <div class="empty" id="plantEmpty" hidden>No crops match those filters. Try a different sunlight, garden size or difficulty.</div>`;
   addPage({
@@ -771,20 +789,17 @@ function buildPlants() {
   for (const p of PLANTS) {
     const related = RECIPES.filter((r) => r.uses.includes(p.id));
     const cal = CALENDAR[p.id];
-    const calRow = (label, bits) => { const v = monthRanges(bits); return v ? [[label, v]] : []; };
-    const sowCal = [...calRow('Sow or start indoors', cal.i), ...calRow('Sow or plant outside', cal.o)];
-    const harvestCal = calRow('Harvest months', cal.h);
 
     const infoBody = [
-      factRows([['Sunlight', p.sunText], ...p.facts]),
+      factRows([['Sunlight', p.sunText], ...p.facts.filter(([l]) => l !== 'Sow')]),
       paras(p.info),
       p.groups && p.groups.length
         ? `<h3>Types and varieties</h3>\n<p>${esc(p.groupsIntro || 'This crop is grown in different groups, which are sown and harvested at different times. Choose one or more to spread the harvest.')}</p>\n<div class="vgroups">${p.groups.map((g) => `<div class="vgroup"><h4>${esc(g.name)}</h4><p class="vwhen">${esc(g.when)}</p><p>${esc(g.note)}</p><p>${g.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p></div>`).join('')}</div>`
         : `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
     ].join('\n');
-    const sowBody = [sowCal.length ? factRows(sowCal) : '', paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
+    const sowBody = [paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
     const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => { const e = pestForLabel(x); return e ? `<a class="tag red tag-link" href="/pests/${e.id}/">${esc(x)}</a>` : `<span class="tag red">${esc(x)}</span>`; }).join('')}</p>\n<p class="muted small-note">Tap a problem to see how to spot it and what to do. See all <a href="/pests/">pests and diseases</a>.</p>`].filter(Boolean).join('\n');
-    const harvestBody = [harvestCal.length ? factRows(harvestCal) : '', paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
+    const harvestBody = [paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
     const storeBody = `<h3>Storing a surplus</h3>
 <p>Too much ready at once? These are the main ways to keep ${esc(lower(p.name))} for later.</p>
 <ul class="store-ul">
@@ -799,7 +814,7 @@ ${growCard(p, cal)}
 <div class="plant-body">
 <nav class="plant-toc" aria-label="On this page"><strong>On this page</strong>${toc.map(([id, label]) => `<a href="#${id}">${esc(label)}</a>`).join('')}</nav>
 <div class="plant-main">
-<p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
+<p class="acc-controls"><span class="acc-hint">Tap a section to open it</span><button type="button" class="acc-all" id="accToggle" hidden>Expand all</button></p>
 ${accordion('info', 'Info', infoBody, true)}
 ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody + galleryHtml(p))}
 ${accordion('how-to-grow', 'How to grow', growBody)}
@@ -807,8 +822,7 @@ ${accordion('how-to-harvest', 'How to harvest', harvestBody)}
 ${accordion('usage-and-storage', 'Usage and storage', useBody)}
 ${careSection(p)}
 <p class="muted small-note">Timings are typical for the UK and vary with region, frost dates and variety. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>
-${related.length ? `<h2 id="cook">Cook with ${esc(lower(p.name))}</h2>
-<div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}
+${related.length ? accordion('cook', `Cook with ${lower(p.name)}`, `<ul class="cook-list">${related.map((r) => `<li><a href="/recipes/${r.id}/"><strong>${esc(r.title)}</strong><span>${esc(r.time)} &middot; ${esc(servesText(r.serves))}</span></a></li>`).join('')}</ul>`) : ''}
 </div>
 </div>`;
     addPage({
