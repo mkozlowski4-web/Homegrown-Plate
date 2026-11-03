@@ -1,12 +1,12 @@
 /* Regional timing zones. "off" is a shift in half-months (about 2 weeks each): negative is earlier, positive is later,
    relative to the central England dates used as the default on the site. Postcode areas are matched by their leading letters. */
 export const ZONES = [
-  { id: 'mild', name: 'Mild south-west and south coast', off: -2, blurb: 'Cornwall, Devon, Dorset and the milder coastal strip, where frosts end early.' },
-  { id: 'south', name: 'London, south and south-east England', off: -1, blurb: 'Warm lowlands and cities, with the last frosts a little earlier than the Midlands.' },
-  { id: 'central', name: 'Midlands, East Anglia, Wales and central England', off: 0, blurb: 'The typical dates shown on the site by default.' },
-  { id: 'north', name: 'Northern England, Northern Ireland and upland Wales', off: 1, blurb: 'Cooler springs, with the growing season starting around 2 weeks later.' },
-  { id: 'scotland', name: 'Southern and central Scotland', off: 2, blurb: 'A later spring and an earlier autumn, around 4 weeks behind central England.' },
-  { id: 'highlands', name: 'Northern Scotland and the islands', off: 3, blurb: 'The shortest season, around 6 weeks behind central England.' },
+  { id: 'mild', short: 'South-west and south coast', name: 'Mild south-west and south coast', off: -2, blurb: 'Cornwall, Devon, Dorset and the milder coastal strip, where frosts end early.' },
+  { id: 'south', short: 'London and south-east', name: 'London, south and south-east England', off: -1, blurb: 'Warm lowlands and cities, with the last frosts a little earlier than the Midlands.' },
+  { id: 'central', short: 'Central England', name: 'Midlands, East Anglia, Wales and central England', off: 0, blurb: 'The typical dates shown on the site by default.' },
+  { id: 'north', short: 'Northern England', name: 'Northern England, Northern Ireland and upland Wales', off: 1, blurb: 'Cooler springs, with the growing season starting around 2 weeks later.' },
+  { id: 'scotland', short: 'Scotland', name: 'Southern and central Scotland', off: 2, blurb: 'A later spring and an earlier autumn, around 4 weeks behind central England.' },
+  { id: 'highlands', short: 'Northern Scotland', name: 'Northern Scotland and the islands', off: 3, blurb: 'The shortest season, around 6 weeks behind central England.' },
 ];
 
 const AREAS = {

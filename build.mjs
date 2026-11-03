@@ -287,11 +287,25 @@ ${image ? `<meta property="og:image" content="${SITE}${image}">\n<meta name="twi
 <link rel="stylesheet" href="/assets/style.css?v=${assetVersion['style.css']}">
 ${ld.map(jsonLd).join('\n')}
 </head>
-<body>
+<body data-zones="/assets/zones.json?v=${zonesData().ver}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" href="/" aria-label="Homegrown Plate, home"><img class="brand-mark" src="/favicon.svg" width="44" height="44" alt=""><span class="brand-text"><span class="brand-name">Homegrown <span>Plate</span></span><small class="brand-tag">Grow it. Cook it. Keep it.</small></span></a>
+    <div class="prefs" data-prefs>
+      <button type="button" class="prefs-btn" id="prefsBtn" aria-expanded="false" aria-controls="prefsPanel" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="prefs-label" data-prefs-label>Set your area</span><span class="prefs-dot" hidden></span></button>
+      <div class="prefs-panel" id="prefsPanel" role="dialog" aria-labelledby="prefsTitle" hidden>
+        <h2 id="prefsTitle">Your area and garden</h2>
+        <p class="muted small-note">Dates, crop lists and suggestions across the site follow these. They are saved in this browser only.</p>
+        <label for="prefsZone">Where you grow</label>
+        <select id="prefsZone" data-prefs-zone><option value="">Not set (central England dates)</option>${ZONES.map((zn) => `<option value="${zn.id}" data-off="${zn.off}" data-short="${esc(zn.short)}">${esc(zn.name)}</option>`).join('')}</select>
+        <form class="prefs-pc" data-prefs-pc><label for="prefsPc">Or use your postcode</label><span class="prefs-pc-row"><input type="text" id="prefsPc" inputmode="text" autocomplete="postal-code" maxlength="8" placeholder="For example BA20"><button type="submit" class="btn">Find</button></span></form>
+        <p class="muted small-note" data-prefs-msg aria-live="polite">Only the first letters of your postcode are used.</p>
+        <label for="prefsSize">Garden size</label>
+        <select id="prefsSize" data-prefs-size><option value="">Any size</option>${SIZES.map((z) => `<option value="${z.id}">${esc(z.short)}</option>`).join('')}</select>
+        <p class="prefs-actions"><button type="button" class="btn" data-prefs-done>Done</button><button type="button" class="link-btn" data-prefs-clear>Clear both</button></p>
+      </div>
+    </div>
     <a class="acct-link" href="/account/" aria-label="Account: sign in or create an account" title="Account"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span class="acct-dot" hidden></span></a>
     <button type="button" class="kids-pill" data-kids-toggle aria-pressed="false" title="Switch kids mode on or off" hidden><span class="kp-icon" aria-hidden="true">🧒</span><span class="kids-switch-label">Kids mode</span><span class="kp-track" aria-hidden="true"><span class="knob"></span></span></button>
     <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" hidden><span class="burger" aria-hidden="true"></span>Menu</button>
@@ -541,7 +555,7 @@ ${kidsHomeBlock}
     </p>
     <div class="setup-search">
       <label class="sr-only" for="heroSearch">Search the plant guide</label>
-      <input type="search" id="heroSearch" name="q" placeholder="Or search a crop, for example tomato" autocomplete="off">
+      <input type="search" id="heroSearch" name="q" placeholder="Search crops" autocomplete="off">
       <button type="submit" class="btn">Search</button>
     </div>
   </form>
@@ -608,7 +622,7 @@ function gardenData() {
 let zonesMemo = null;
 function zonesData() {
   if (zonesMemo) return zonesMemo;
-  const json = JSON.stringify({ zones: ZONES.map(({ id, name, off }) => ({ id, name, off })), areas: AREA_ZONE });
+  const json = JSON.stringify({ zones: ZONES.map(({ id, short, name, off }) => ({ id, short, name, off })), areas: AREA_ZONE });
   zonesMemo = { json, ver: createHash('sha1').update(json).digest('hex').slice(0, 8) };
   return zonesMemo;
 }
@@ -1059,7 +1073,9 @@ function buildCalendar() {
       ].join('');
       return `<td>${bits}</td>`;
     }).join('');
-    return `<tr class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}" data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/">${esc(p.name)}</a></th>${cells}</tr>`;
+    const cellsFor = (g) => MONTHS.map((_, m) => `<td>${[g.i[m] === '1' ? '<span class="bar ind"></span><span class="sr-only">Sow indoors</span>' : '', g.o[m] === '1' ? '<span class="bar out"></span><span class="sr-only">Sow or plant outside</span>' : '', g.h[m] === '1' ? '<span class="bar har"></span><span class="sr-only">Harvest</span>' : ''].join('')}</td>`).join('');
+    const typeRows = p.groups && p.groups.length > 1 ? p.groups.map((g) => `<tr class="cal-type${KID_HIDE.has(p.id) ? ' kid-hide' : ''}" data-calrow data-id="${p.id}" data-add="${p.id}--${g.slug}" data-i="${g.cal.i}" data-o="${g.cal.o}" data-h="${g.cal.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/#type-${g.slug}">${esc(g.short)}</a></th>${cellsFor(g.cal)}</tr>`).join('') : '';
+    return `<tr class="${KID_HIDE.has(p.id) ? 'kid-hide' : ''}${typeRows ? ' has-types' : ''}" data-calrow data-id="${p.id}" data-i="${c.i}" data-o="${c.o}" data-h="${c.h}" data-sizes="${p.sizes.join(' ')}"><th scope="row"><a href="/plants/${p.id}/">${esc(p.name)}</a></th>${cells}</tr>${typeRows}`;
   }).join('\n      ');
   const body = `
 <h1>Planting Calendar</h1>
@@ -1071,7 +1087,7 @@ ${regionBar()}
   <span><i class="sw-har"></i>Harvest</span>
 </div>
 <div class="filters" id="calFilters" hidden>
-  <div><label class="check"><input type="checkbox" id="calMine"> Show only crops in my garden</label> <a class="garden-link" href="/my-garden/">Open my garden</a></div>
+  <div><label class="check"><input type="checkbox" id="calMine"> Show only crops in my garden</label> <a class="garden-link" href="/my-garden/">Open my garden</a><br><label class="check"><input type="checkbox" id="calTypes"> Show each variety type on its own row</label></div>
   <div><label for="calSize">Garden size</label>
     <select id="calSize">
       <option value="all">All garden sizes</option>

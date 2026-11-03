@@ -136,6 +136,68 @@
     clear.addEventListener('click', function () { msg.textContent = origMsg; Region.set(null); });
   });
 
+  /* ---- Header: "your area and garden" badge and panel, shared by every page ---- */
+  var Size = {
+    get: function () { try { return localStorage.getItem('hp-size') || ''; } catch (e) { return ''; } },
+    set: function (v) {
+      try { if (v) localStorage.setItem('hp-size', v); else localStorage.removeItem('hp-size'); } catch (e) { /* storage unavailable */ }
+      document.dispatchEvent(new CustomEvent('hp-size', { detail: v }));
+    },
+  };
+  var prefsBtn = $('#prefsBtn'), prefsPanel = $('#prefsPanel');
+  if (prefsBtn && prefsPanel) {
+    var pZone = $('[data-prefs-zone]'), pSize = $('[data-prefs-size]'), pLabel = $('[data-prefs-label]'), pDot = prefsBtn.querySelector('.prefs-dot');
+    var pForm = $('[data-prefs-pc]'), pPc = $('#prefsPc'), pMsg = $('[data-prefs-msg]'), pMsgOrig = pMsg.textContent;
+    var zoneShort = function (z) { var o = z && pZone.querySelector('option[value="' + z + '"]'); return o ? o.getAttribute('data-short') : ''; };
+    var paintPrefs = function () {
+      var r = Region.current(), sz = Size.get(), so = sz && pSize.querySelector('option[value="' + sz + '"]');
+      pZone.value = r && r.z ? r.z : ''; pSize.value = so ? sz : '';
+      var parts = [r ? (zoneShort(r.z) || r.name) : '', so ? so.textContent : ''].filter(Boolean);
+      pLabel.textContent = parts.length ? parts.join(' · ') : 'Set your area';
+      prefsBtn.setAttribute('aria-label', parts.length ? 'Your area and garden: ' + parts.join(', ') + '. Change' : 'Set your area and garden size');
+      pDot.hidden = !parts.length;
+    };
+    var openPrefs = function (open) {
+      prefsPanel.hidden = !open; prefsBtn.setAttribute('aria-expanded', String(open));
+      if (open) { paintPrefs(); pZone.focus(); } else { pMsg.textContent = pMsgOrig; }
+    };
+    window.hpOpenPrefs = function () { openPrefs(true); window.scrollTo({ top: 0 }); };
+    prefsBtn.hidden = false;
+    prefsBtn.addEventListener('click', function () { openPrefs(prefsPanel.hidden); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !prefsPanel.hidden) { openPrefs(false); prefsBtn.focus(); } });
+    document.addEventListener('click', function (e) { if (!prefsPanel.hidden && !prefsPanel.contains(e.target) && !prefsBtn.contains(e.target) && !(e.target.closest && e.target.closest('[data-open-prefs]'))) openPrefs(false); });
+    $('[data-prefs-done]').addEventListener('click', function () { openPrefs(false); prefsBtn.focus(); });
+    $('[data-prefs-clear]').addEventListener('click', function () { Region.set(null); Size.set(''); paintPrefs(); });
+    pZone.addEventListener('change', function () {
+      var o = pZone.options[pZone.selectedIndex];
+      if (!o.value) Region.set(null); else Region.set({ z: o.value, off: Number(o.getAttribute('data-off')), name: o.textContent.trim(), pc: '' });
+    });
+    pSize.addEventListener('change', function () { Size.set(pSize.value); });
+    pForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var v = pPc.value.toUpperCase().replace(/[^A-Z0-9]/g, ''), m = v.match(/^([A-Z]{1,2})[0-9]/);
+      if (!m) { pMsg.textContent = 'Please enter your postcode, for example BA20 or SW1A 1AA.'; return; }
+      pMsg.textContent = 'Looking up your area…';
+      Region.loadZones(document.body.getAttribute('data-zones')).then(function (d) {
+        var zid = d.areas[m[1]], zone = null; d.zones.forEach(function (z) { if (z.id === zid) zone = z; });
+        if (!zone) { pMsg.textContent = 'Sorry, we do not recognise that postcode area. Please choose your region instead.'; return; }
+        pPc.value = ''; Region.set({ z: zone.id, off: zone.off, name: zone.name, pc: m[1] });
+        pMsg.textContent = 'Set to ' + zone.name + '.';
+      }).catch(function () { pMsg.textContent = 'Sorry, the lookup did not load. Please choose your region instead.'; });
+    });
+    Region.onChange(paintPrefs);
+    document.addEventListener('hp-size', paintPrefs);
+    paintPrefs();
+    /* The per-page "Dates for your area" boxes become one line that opens this panel */
+    regionBars.forEach(function (bar) {
+      var more = bar.querySelector('[data-region-more]'); if (more) more.hidden = true;
+      var st = bar.querySelector('.region-status'); if (!st) return;
+      var ch = mk('button', 'link-btn region-change', 'Change'); ch.type = 'button'; ch.setAttribute('data-open-prefs', '');
+      ch.addEventListener('click', function () { window.hpOpenPrefs(); });
+      st.appendChild(document.createTextNode(' ')); st.appendChild(ch);
+    });
+  }
+
   /* Plant page: month bars and the "Sow" and "Harvest" rows */
   var mbar = $('.mbar[data-i]');
   if (mbar) {
@@ -276,8 +338,12 @@
       next.addEventListener('click', function () { show(shown + 1); });
     }
     if (sizeSel) sizeSel.addEventListener('change', function () {
-      size = sizeSel.value;
-      try { localStorage.setItem(SIZE_KEY, size); } catch (e) { /* storage unavailable */ }
+      size = sizeSel.value; Size.set(size);
+    });
+    document.addEventListener('hp-size', function (e) {
+      var v = e.detail || ''; if (!sizeSel) return;
+      if (v && sizeSel.querySelector('option[value="' + v + '"]')) { sizeSel.value = v; size = v; }
+      else if (!v) { sizeSel.value = 'small'; size = 'small'; }
       paintFor(); panels.forEach(trim);
     });
     if (zoneSel) zoneSel.addEventListener('change', function () {
@@ -426,10 +492,11 @@
     chips.forEach(function (c) {
       c.addEventListener('click', function () {
         state[c.getAttribute('data-filter')] = c.getAttribute('data-value');
-        applyPlants();
+        if (c.getAttribute('data-filter') === 'size') Size.set(state.size === 'any' ? '' : state.size); else applyPlants();
       });
     });
     search.addEventListener('input', function () { state.q = search.value; applyPlants(); });
+    document.addEventListener('hp-size', function (e) { var v = e.detail || ''; state.size = v && isValid('size', v) ? v : 'any'; applyPlants(); });
     resetBtn.addEventListener('click', function () {
       state.sun = 'any'; state.size = 'any'; state.diff = 'any'; state.q = ''; search.value = '';
       applyPlants();
@@ -622,6 +689,7 @@
       gClear.hidden = mine.length === 0;
       gCount.textContent = mine.length ? '(' + mine.length + ')' : '';
       if (gStarter) { gStarter.hidden = mine.length > 0; if (!mine.length) renderStarter(); }
+      var acctP = $('[data-acct-prompt]'); if (acctP) acctP.hidden = Acct.signedIn() || !mine.length;
       if (gFree) {
         gFree.hidden = !FREE_LIMIT_ON;
         var n = Math.min(mine.length, FREE_LIMIT);
@@ -654,7 +722,8 @@
     };
     if (gStarterSize) {
       try { var hs = localStorage.getItem('hp-size'); if (hs && gStarterSize.querySelector('option[value="' + hs + '"]')) gStarterSize.value = hs; } catch (e) { /* storage unavailable */ }
-      gStarterSize.addEventListener('change', function () { try { localStorage.setItem('hp-size', gStarterSize.value); } catch (e) { /* ignore */ } renderStarter(); });
+      gStarterSize.addEventListener('change', function () { Size.set(gStarterSize.value); });
+      document.addEventListener('hp-size', function (e) { var v = e.detail; if (v && gStarterSize.querySelector('option[value="' + v + '"]')) gStarterSize.value = v; renderStarter(); });
     }
     var gStarterAdd = $('#gStarterAdd');
     if (gStarterAdd) gStarterAdd.addEventListener('click', function () {
@@ -938,11 +1007,15 @@
       var empty = $('#calEmpty');
       if (empty) empty.hidden = shown > 0;
     };
-    calSel.addEventListener('change', applyCal);
+    var hsz = Size.get(); if (hsz && calSel.querySelector('option[value="' + hsz + '"]')) { calSel.value = hsz; applyCal(); }
+    calSel.addEventListener('change', function () { Size.set(calSel.value === 'all' ? '' : calSel.value); });
+    document.addEventListener('hp-size', function (e) { var v = e.detail; calSel.value = v && calSel.querySelector('option[value="' + v + '"]') ? v : 'all'; applyCal(); });
     calMine.addEventListener('change', applyCal);
+    var calTypes = $('#calTypes'), calTable = $('table.cal');
+    if (calTypes && calTable) calTypes.addEventListener('change', function () { calTable.classList.toggle('show-types', calTypes.checked); });
     /* Add to my garden: a button beside each crop name */
     rows.forEach(function (row) {
-      var id = row.getAttribute('data-id'), th = row.querySelector('th'), name = th.textContent.trim();
+      var id = row.getAttribute('data-add') || row.getAttribute('data-id'), th = row.querySelector('th'), name = th.textContent.trim();
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'cal-add';
       var paint = function () {
@@ -1050,7 +1123,7 @@
     var signedIn = Acct.signedIn();
     /* My Garden prompt */
     var prompt = $('[data-acct-prompt]'), saved = $('[data-acct-saved]');
-    if (prompt) prompt.hidden = signedIn;
+    if (prompt) prompt.hidden = signedIn || !loadGarden().length;
     if (saved) saved.hidden = !signedIn;
     if (signedIn) Acct.pull();
     $$('.acct-dot').forEach(function (d) { d.hidden = !signedIn; });

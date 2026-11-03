@@ -1108,3 +1108,50 @@ a.card.is-mine { border-color: #9cc5ad; }
 .btn-type.is-in { background: var(--green); color: #fff; }
 .garden-results li.is-type { padding-left: 18px; }
 .garden-results .g-type { font-size: .92rem; color: var(--muted); }
+
+/* ===== Header: your area and garden ===== */
+.prefs { position: relative; margin-left: auto; }
+.prefs-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; max-width: 260px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font: inherit; font-size: .88rem; font-weight: 500; cursor: pointer; position: relative; }
+.prefs-btn[hidden] { display: none; }
+.prefs-btn:hover, .prefs-btn[aria-expanded="true"] { border-color: var(--green); color: var(--green); }
+.prefs-btn svg { flex: none; color: var(--green); }
+.prefs-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prefs-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: none; }
+.prefs-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 30; width: min(360px, calc(100vw - 32px)); background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 32px rgba(31,42,36,.14); padding: 18px 20px 16px; display: flex; flex-direction: column; gap: 6px; color: var(--ink); }
+.prefs-panel[hidden] { display: none; }
+.prefs-panel h2 { margin: 0; font-size: 1.3rem; }
+.prefs-panel .small-note { margin: 0 0 6px; }
+.prefs-panel label { font-weight: 600; font-size: .92rem; margin-top: 6px; }
+.prefs-panel select, .prefs-panel input[type=text] { margin: 0; min-height: 44px; }
+.prefs-pc { display: flex; flex-direction: column; gap: 6px; }
+.prefs-pc-row { display: flex; gap: 8px; }
+.prefs-pc-row input { flex: 1 1 auto; min-width: 0; width: auto; }
+.prefs-pc-row .btn { margin: 0; border: 0; cursor: pointer; font: inherit; font-weight: 600; padding: 0 18px; }
+.prefs-actions { display: flex; align-items: center; justify-content: space-between; margin: 10px 0 0; }
+.prefs-actions .btn { margin: 0; border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.region-change { margin-left: 4px; }
+.region-bar [data-region-more][hidden] { display: none; }
+@media (min-width: 960px) { .header-bar > .prefs { order: 2; margin-left: 0; } .header-bar > .acct-link { order: 3; } .header-bar > .kids-pill { order: 4; } }
+@media (max-width: 959px) {
+  .prefs-btn { padding: 0; width: 44px; height: 44px; justify-content: center; }
+  .prefs-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .prefs-dot:not([hidden]) { display: block; }
+  .prefs-panel { position: fixed; left: 16px; right: 16px; top: 76px; width: auto; max-height: calc(100vh - 92px); overflow: auto; }
+  .header-bar > .acct-link { margin-left: 0; }
+}
+
+/* Calendar: variety type rows, shown on request */
+table.cal tr.cal-type { display: none; }
+table.cal.show-types tr.cal-type:not([hidden]) { display: table-row; }
+table.cal tr.cal-type th { font-weight: 400; font-size: .8rem; padding-left: 22px; background: #fbfcfa; }
+table.cal tr.cal-type th a { color: var(--muted); }
+html[data-kids] table.cal tr.cal-type.kid-hide { display: none; }
+@media (max-width: 430px) {
+  .header-bar { gap: 6px; }
+  .prefs-btn { width: 40px; height: 40px; }
+  .brand-name { font-size: 1.15rem; }
+  .brand-mark { width: 36px; height: 36px; }
+  .nav-toggle { padding-left: 10px; padding-right: 10px; }
+}
+@media (max-width: 360px) { .nav-toggle { font-size: 0; gap: 0; } .nav-toggle .burger { margin: 0; } }
+.prefs-panel input[type=text] { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font: inherit; background: #fbfbf8; }
