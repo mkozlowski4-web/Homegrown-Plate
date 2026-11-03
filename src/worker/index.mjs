@@ -258,7 +258,7 @@ async function api(request, env, url, ctx) {
   }
   if (path === '/api/me' && method === 'GET') {
     const user = await currentUser(request, env);
-    return json({ user: user ? { email: user.email, admin: !!user.is_admin, ...planInfo(user) } : null, payments: paymentsOn(env) });
+    return json({ user: user ? { email: user.email, admin: !!user.is_admin, ...planInfo(user) } : null, payments: paymentsOn(env, user) });
   }
   if (path === '/api/hit' && method === 'POST') {
     /* Page view and interaction counter (no response body, no cookies). Bots and the owner are filtered out. */

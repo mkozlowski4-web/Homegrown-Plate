@@ -9,7 +9,9 @@ const API = 'https://api.stripe.com/v1/';
 const GRACE_MS = 3 * 86400000; /* keep access for a few days if a renewal payment is late */
 const enc = new TextEncoder();
 
-export const paymentsOn = (env) => !!(env.STRIPE_SECRET_KEY && env.STRIPE_WEBHOOK_SECRET && env.STRIPE_PRICE);
+/* With test keys (sk_test_...), only admin accounts can join, so visitors cannot get membership with a test card. */
+export const testMode = (env) => String(env.STRIPE_SECRET_KEY || '').startsWith('sk_test_');
+export const paymentsOn = (env, user) => !!(env.STRIPE_SECRET_KEY && env.STRIPE_WEBHOOK_SECRET && env.STRIPE_PRICE) && (!testMode(env) || !!user?.is_admin);
 
 export function isMember(user, now = Date.now()) {
   if (!user) return false;
@@ -54,7 +56,7 @@ async function saveSubscription(env, sub, userIdHint) {
 
 /* POST /api/checkout: start paying. Returns the Stripe page to send the visitor to. */
 export async function startCheckout(user, env, origin) {
-  if (!paymentsOn(env)) return { status: 503, error: 'Membership is not open yet. Please check back soon.' };
+  if (!paymentsOn(env, user)) return { status: 503, error: 'Membership is not open yet. Please check back soon.' };
   if (isMember(user)) return { status: 409, error: 'You are already a member.' };
   const row = await env.DB.prepare('SELECT stripe_customer FROM users WHERE id = ?').bind(user.id).first();
   const session = await stripe(env, 'POST', 'checkout/sessions', {
@@ -73,7 +75,7 @@ export async function startCheckout(user, env, origin) {
 
 /* POST /api/billing: the Stripe page where members cancel, change card or get receipts. */
 export async function billingPortal(user, env, origin) {
-  if (!paymentsOn(env)) return { status: 503, error: 'Membership is not open yet.' };
+  if (!paymentsOn(env, user)) return { status: 503, error: 'Membership is not open yet.' };
   const row = await env.DB.prepare('SELECT stripe_customer FROM users WHERE id = ?').bind(user.id).first();
   if (!row?.stripe_customer) return { status: 404, error: 'There is no membership payment on this account.' };
   const s = await stripe(env, 'POST', 'billing_portal/sessions', { customer: row.stripe_customer, return_url: `${origin}/account/` });
