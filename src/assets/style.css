@@ -951,3 +951,26 @@ html[data-kids] .band.band-green { background: #c25a00; }
 body { overflow-x: clip; }
 main .band.band-green p a.band-link { color: #fff; }
 .hero.hero3 .setup-line, .hero.hero3 .setup-line span { color: var(--ink); }
+
+/* Your month: steps fold on phones and small tablets */
+.mf-col > summary { list-style: none; display: flex; align-items: center; gap: 10px; cursor: default; }
+.mf-col > summary::-webkit-details-marker { display: none; }
+.mf-col > summary .mf-step { flex: 1; margin: 0; }
+.mf-body { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.mf-chev { display: none; flex: none; color: var(--muted); transition: transform .2s ease; }
+.mf-all { display: none; }
+@media (min-width: 1001px) { .mf-col > summary { pointer-events: none; } }
+@media (max-width: 1000px) {
+  .mf-grid { gap: 0; border-top: 1px solid var(--line); }
+  .mf-col { border-bottom: 1px solid var(--line); }
+  .mf-col > summary { cursor: pointer; min-height: 56px; padding: 6px 0; }
+  .mf-col > summary .mf-step::after { display: none; }
+  .mf-chev { display: block; }
+  .mf-col[open] .mf-chev { transform: rotate(180deg); }
+  .mf-body { margin: 4px 0 20px; }
+  .mf-all:not([hidden]) { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--green); font: inherit; font-weight: 600; font-size: .92rem; cursor: pointer; }
+  .mf-all:hover { border-color: var(--green); }
+  .mf-nav { align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) { .mf-chev { transition: none; } }
+.mf-col { display: block; }

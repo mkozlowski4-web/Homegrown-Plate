@@ -422,24 +422,30 @@ function buildHome() {
     const keepCards = keep.map((p) => { const [way, , keeps] = keepWay(p); return `<li class="${kh(p).trim()}"><a class="mf-item" href="/plants/${p.id}/#usage-and-storage">${plantImg(p)}<span><strong>${esc(p.name)}</strong><span>${esc(way)} &middot; ${esc(keeps)}</span></span></a></li>`; }).join('');
     return `<div class="month-panel" data-month-panel="${m}" data-month-label="${name}"${m === nowMonth ? '' : ' hidden'}>
     <div class="mf-grid">
-      <div class="mf-col">
-        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">1</span>Plant now</h3>
+      <details class="mf-col" data-mf-col open>
+        <summary class="mf-sum"><h3 class="mf-step"><span class="mf-num" aria-hidden="true">1</span>Plant now</h3><svg class="mf-chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="mf-body">
         <ul class="mf-list" data-mf-sow>${sow.map((p) => sowLi(p, m)).join('')}</ul>
         <p class="mf-empty muted" data-mf-empty${sow.length ? ' hidden' : ''}>Nothing to sow this month. A good time to plan and tidy.</p>
         <a class="mf-more" href="/what-to-sow/${monthSlug(m)}/">All <span data-mf-count>${sow.length}</span> to sow in ${name} &rarr;</a>
-      </div>
-      <div class="mf-col">
-        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">2</span>Cook what&rsquo;s ready</h3>
+        </div>
+      </details>
+      <details class="mf-col" data-mf-col open>
+        <summary class="mf-sum"><h3 class="mf-step"><span class="mf-num" aria-hidden="true">2</span>Cook what&rsquo;s ready</h3><svg class="mf-chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="mf-body">
         <ul class="mf-list">${cookCards}</ul>
         ${cook.length ? '' : '<p class="mf-empty muted">Little to pick this month. Try a recipe from the store cupboard.</p>'}
         <a class="mf-more" href="/recipes/">All ${RECIPES.length} recipes &rarr;</a>
-      </div>
-      <div class="mf-col">
-        <h3 class="mf-step"><span class="mf-num" aria-hidden="true">3</span>Keep the surplus</h3>
+        </div>
+      </details>
+      <details class="mf-col" data-mf-col open>
+        <summary class="mf-sum"><h3 class="mf-step"><span class="mf-num" aria-hidden="true">3</span>Keep the surplus</h3><svg class="mf-chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="mf-body">
         <ul class="mf-list">${keepCards}</ul>
         ${keep.length ? '' : '<p class="mf-empty muted">Use up what you stored earlier in the year.</p>'}
         <a class="mf-more" href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name} &rarr;</a>
-      </div>
+        </div>
+      </details>
     </div>
   </div>`;
   }).join('\n  ');
@@ -508,6 +514,7 @@ ${kidsHomeBlock}
       <h2 id="mfTitle">Your <span data-mf-month>${FULL_MONTHS[nowMonth]}</span></h2>
     </div>
     <div class="mf-nav">
+      <button type="button" class="mf-all" data-mf-all aria-expanded="true" hidden>Collapse all</button>
       <button type="button" class="mf-arrow" data-mf-prev aria-label="Previous month" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
       <button type="button" class="mf-arrow" data-mf-next aria-label="Next month" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>

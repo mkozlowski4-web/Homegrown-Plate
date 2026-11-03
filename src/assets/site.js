@@ -271,6 +271,38 @@
     Region.onChange(function () { paintFor(); show(shown); });
     document.addEventListener('hp-kids', function () { panels.forEach(trim); });
     paintFor(); show(shown);
+
+    /* Phones and small tablets: each step folds, with one button to open or close all three */
+    var allBtn = $('[data-mf-all]'), narrow = window.matchMedia('(max-width: 1000px)');
+    var openState = [true, false, false];
+    var cols = function () { return $$('.month-panel [data-mf-col]'); };
+    var applyCols = function () {
+      cols().forEach(function (d) {
+        var k = Array.prototype.indexOf.call(d.parentNode.children, d);
+        d.open = narrow.matches ? !!openState[k] : true;
+        var sum = d.querySelector('summary'); if (sum) { if (narrow.matches) sum.removeAttribute('tabindex'); else sum.setAttribute('tabindex', '-1'); }
+      });
+      if (allBtn) {
+        allBtn.hidden = !narrow.matches;
+        var all = openState.every(Boolean);
+        allBtn.textContent = all ? 'Collapse all' : 'Expand all';
+        allBtn.setAttribute('aria-expanded', String(all));
+      }
+    };
+    cols().forEach(function (d) {
+      d.querySelector('summary').addEventListener('click', function (ev) {
+        ev.preventDefault();
+        if (!narrow.matches) return;
+        var k = Array.prototype.indexOf.call(d.parentNode.children, d);
+        openState[k] = !openState[k]; applyCols();
+      });
+    });
+    if (allBtn) allBtn.addEventListener('click', function () {
+      var open = !openState.every(Boolean);
+      openState = [open, open, open]; applyCols();
+    });
+    if (narrow.addEventListener) narrow.addEventListener('change', applyCols); else if (narrow.addListener) narrow.addListener(applyCols);
+    applyCols();
   }
 
 
