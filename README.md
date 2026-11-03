@@ -105,3 +105,8 @@ One-time setup:
 4. Optional: variable `GSC_SITE` if the property isn't `sc-domain:homegrownplate.co.uk` (URL-prefix properties look like `https://homegrownplate.co.uk/`).
 
 Google's data runs about two days behind, and a new site can show nothing for a few weeks.
+
+## Garden jobs this weekend
+`/this-weekend/` shows the current month's UK jobs (`src/data/weekend-jobs.mjs`, one list per month with a weather tag and optional first/second-half) to everyone, with static pages at `/weekend-jobs/<month>/`. Signed-in visitors also get a day-by-day plan (`src/assets/weekend.js`) that combines those jobs with the crops in My Garden (shifted for their region) and the weekend forecast.
+
+The forecast comes from `/api/weather?zone=<id>` (`src/worker/weather.mjs`, signed-in only). It calls MET Norway's Locationforecast 2.0 for one fixed city per region, summarises it per UK day and caches it for 3 hours, so it makes at most six upstream calls every three hours. It needs no key or secret. MET Norway's terms require the identifying User-Agent (set in `weather.mjs`, so keep it a website address, not a personal email) and credit under CC BY 4.0, which the plan shows.

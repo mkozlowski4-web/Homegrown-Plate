@@ -15,6 +15,7 @@ import { RECIPES } from './src/data/recipes.mjs';
 import { CARE } from './src/data/care.mjs';
 import { STORAGE } from './src/data/storage.mjs';
 import { ZONES, AREA_ZONE } from './src/data/zones.mjs';
+import { WEEKEND_JOBS } from './src/data/weekend-jobs.mjs';
 import { GLOSSARY } from './src/data/glossary.mjs';
 import { PICKS, WHY, SOIL, BUY, YEAR } from './src/data/beginners.mjs';
 import { KIDS_NOTES, PROJECTS as KID_PROJECTS, RECIPES as KID_RECIPES } from './src/data/kids.mjs';
@@ -266,7 +267,7 @@ ${body}
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/what-to-sow/">What to sow</a> <a href="/what-to-preserve/">What to preserve</a> <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
+  <div class="wrap">Homegrown Plate &mdash; growing your own food in any size of garden. Always check local frost dates and sowing times for your region. <a href="/this-weekend/">This weekend</a> <a href="/what-to-sow/">What to sow</a> <a href="/what-to-preserve/">What to preserve</a> <a href="/kids/">Growing with kids</a> <a href="/install/">Get the app</a> <a href="/account/">Account</a> <a href="/privacy/">Privacy</a> <a href="/about/">About</a> <a href="/contact/">Contact</a> <a href="/kit/">Essential kit</a> <a href="/affiliate-disclosure/">Affiliate disclosure</a> <a href="/howto/">How to grow in 7 steps</a> <a href="/glossary/">Gardening words explained</a></div>
 </footer>
 <script src="/assets/site.js?v=${assetVersion['site.js']}" defer></script>
 </body>
@@ -1097,6 +1098,60 @@ const monthSlug = (m) => FULL_MONTHS[m].toLowerCase();
 const monthNav = (base, cur) => `<nav class="chips" aria-label="Choose a month">${FULL_MONTHS.map((n, m) => `<a class="chip${m === cur ? ' on' : ''}" href="/${base}/${monthSlug(m)}/"${m === cur ? ' aria-current="page"' : ''}>${n.slice(0, 3)}</a>`).join('\n')}</nav>`;
 const tagList = (items) => items.map(plantLink).join('');
 
+/* ---------- garden jobs this weekend ---------- */
+const WK_TAGS = { dry: 'Needs a dry day', wet: 'Fine in damp weather', indoor: 'Indoors or under cover', frost: 'Only if frost is forecast', any: 'Any weather' };
+const wkItems = (m, withHalf = true) => WEEKEND_JOBS[m].map(([tag, text, half = 0]) =>
+  `<li data-tag="${tag}" data-half="${half}"><span class="wk-tag wk-${tag}">${WK_TAGS[tag]}</span> ${esc(text)}${withHalf && half ? ` <span class="muted">(${half === 1 ? 'first half of the month' : 'second half of the month'})</span>` : ''}</li>`).join('\n');
+
+function buildWeekend() {
+  for (const [m, jobs] of WEEKEND_JOBS.entries()) if (jobs.length < 6) throw new Error(`Weekend jobs for ${FULL_MONTHS[m]} are too thin`);
+  const g = gardenData();
+  const monthLinks = `<p class="chips-label muted">Jobs for each month:</p>${monthNav('weekend-jobs', -1)}`;
+  const sections = FULL_MONTHS.map((name, m) => `<section data-wk-month="${m}" hidden>
+  <h2>Jobs for a ${name} weekend</h2>
+  <ul class="wk-list">
+${wkItems(m)}
+  </ul>
+  <p><a href="/weekend-jobs/${monthSlug(m)}/">All ${name} weekend jobs</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a></p>
+</section>`).join('\n');
+  const body = `
+<h1>Garden jobs this weekend</h1>
+<p class="lead">What to do in the garden this weekend, for the time of year in the UK. Sign in for a plan built around your own crops and the weather forecast for your area.</p>
+${regionBar('wkRegion')}
+<noscript><p class="empty">This page needs JavaScript to pick the right month. Choose a month below instead.</p></noscript>
+<section class="card wk-personal" id="wkPersonal" data-garden="/assets/garden-data.json?v=${g.ver}" hidden aria-live="polite"></section>
+<div class="callout wk-cta" id="wkCta" hidden><strong>Want a plan for your garden?</strong> Create a free account and this page will use the crops in My Garden and the weather forecast for your area to sort this weekend&rsquo;s jobs by day. <a class="btn-small" href="/account/">Sign in or create an account</a></div>
+<div id="wkGeneric">
+${sections}
+</div>
+${monthLinks}
+<p class="muted small-note">General advice for typical UK conditions. Adjust for your local frost dates and soil, and check the forecast before sowing or planting out.</p>
+<script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
+  addPage({
+    path: '/this-weekend/', section: 'garden', body, title: 'Garden jobs this weekend in the UK',
+    description: 'What to do in your UK garden this weekend: sowing, planting, harvesting and tidying jobs for the time of year, with a personal plan and forecast if you sign in.',
+    crumbs: [['Home', '/'], ['This weekend', '/this-weekend/']],
+  });
+  for (const [m, name] of FULL_MONTHS.entries()) {
+    const prev = (m + 11) % 12, next = (m + 1) % 12;
+    const page = `
+<h1>Garden jobs for a weekend in ${name}</h1>
+<p class="lead">${esc(name)} jobs for the vegetable patch, fruit, herbs and greenhouse in a typical UK garden. Pick the ones that suit your weather and your plot.</p>
+${monthNav('weekend-jobs', m)}
+<ul class="wk-list">
+${wkItems(m)}
+</ul>
+<p>Looking for sowing dates? See <a href="/what-to-sow/${monthSlug(m)}/">what to sow in ${name}</a> and <a href="/what-to-preserve/${monthSlug(m)}/">what to preserve in ${name}</a>.</p>
+<p><a class="btn" href="/this-weekend/">Jobs for this weekend, with a plan for your garden</a></p>
+<p><a href="/weekend-jobs/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/weekend-jobs/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a></p>`;
+    addPage({
+      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'garden', body: page, title: `Garden jobs for a weekend in ${name}`,
+      description: `${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').toLowerCase()).join('; ')}. Weekend garden jobs for ${name} in the UK.`,
+      crumbs: [['Home', '/'], ['This weekend', '/this-weekend/'], [name, `/weekend-jobs/${monthSlug(m)}/`]],
+    });
+  }
+}
+
 function buildMonthly() {
   const byName = [...PLANTS].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
   const has = (p, k, m) => CALENDAR[p.id][k][m] === '1';
@@ -1432,6 +1487,8 @@ function buildPrivacy() {
   <li>a small sign-in record on each device so you stay signed in for up to 30 days, and short-lived technical records (such as failed sign-in attempts) to block password guessing.</li>
 </ul>
 <p>We use this only to give you your saved garden. We do not sell it, share it for advertising, or use it to profile you. The site sets no advertising or tracking cookies; the only cookie is the sign-in cookie, which exists only if you sign in.</p>
+<h2>Weather forecasts</h2>
+<p>If you are signed in, the weekend jobs page asks our server for the forecast for your region (one of six, such as the Midlands or central Scotland). Our server gets it from MET Norway, using a fixed city for each region, so MET Norway never receives your location, postcode or any detail about you. Forecasts are kept for a few hours to avoid repeat requests.</p>
 <h2>Counting visits</h2>
 <p>We count how many people visit and which pages and features they use, so we can see what is useful. This is done without cookies and without storing anything on your device. We do not save your IP address or browser details. Each visit is given a short anonymous code that is made from your connection and browser together with a random value that is thrown away every day, so we cannot recognise you from one day to the next or build a profile of you. We also keep your rough country, the type of device (phone, tablet or computer), and the website that sent you here, if any. If your browser sends a Do Not Track or Global Privacy Control signal, we do not count you at all.</p>
 <h2>Where it is kept</h2>
@@ -1618,7 +1675,7 @@ validate();
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'assets'), { recursive: true });
 
-for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js']) {
+for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js', 'weekend.js']) {
   const buf = readFileSync(join(ROOT, 'src/assets', f));
   assetVersion[f] = createHash('sha1').update(buf).digest('hex').slice(0, 8);
   writeFileSync(join(DIST, 'assets', f), buf);
@@ -1634,6 +1691,7 @@ buildRecipes();
 buildPests();
 buildPreserving();
 buildMonthly();
+buildWeekend();
 buildGlossary();
 buildBeginners();
 buildKids();

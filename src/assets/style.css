@@ -566,3 +566,17 @@ a.chip { text-decoration: none; }
 .chip[aria-current="page"] { background: var(--green); border-color: var(--green); color: #fff; }
 html[data-kids] .chip[aria-current="page"] { background: #1f8f4e; border-color: #1f8f4e; }
 a.btn[data-this-month] { background: var(--green); color: #fff; }
+
+/* Garden jobs this weekend */
+.wk-list { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .6rem; }
+.wk-list li { padding: .7rem .9rem; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+.wk-tag { display: inline-block; font-size: .78rem; font-weight: 600; padding: .1rem .5rem; margin-right: .35rem; border-radius: 999px; background: #e3f2e9; color: #1b4332; }
+.wk-personal { margin: 1rem 0 1.5rem; }
+.wk-days { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: 1rem 0; }
+.wk-day { border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; background: var(--card); }
+.wk-day h3 { margin: 0 0 .25rem; }
+.wk-wx { margin: 0 0 .6rem; }
+.wk-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.wk-task { display: flex; gap: .55rem; align-items: flex-start; }
+.wk-task input { margin-top: .3rem; flex: none; }
+.wk-cta { margin: 1rem 0; }

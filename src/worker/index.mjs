@@ -2,6 +2,7 @@
    Storage: Cloudflare D1 (binding DB). Passwords: PBKDF2-SHA256 with a per-user salt.
    Sessions: random tokens in an HttpOnly cookie; only a SHA-256 hash of each token is stored. */
 
+import { forecast } from './weather.mjs';
 import { collect, stats, tidyAnalytics } from './analytics.mjs';
 import { searchStats } from './gsc.mjs';
 
@@ -236,6 +237,10 @@ async function api(request, env, url, ctx) {
   if (path === '/api/admin/search' && method === 'GET') {
     if (!user.is_admin) return fail(404, 'Not found.');
     return json(await searchStats(env, url.searchParams.get('days')));
+  }
+  if (path === '/api/weather' && method === 'GET') {
+    const r = await forecast(url.searchParams.get('zone') || '', ctx);
+    return r.error ? fail(r.status, r.error) : json(r.body, 200, { 'Cache-Control': 'private, max-age=1800' });
   }
   if (path === '/api/data' && method === 'GET') return getData(user, env);
   if (path === '/api/data' && method === 'PUT') return putData(request, user, env);
