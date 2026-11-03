@@ -761,3 +761,64 @@ a.card[data-recipe] .tag { border: 0; background: transparent; padding: 0 10px 0
 .filter-panel { background: transparent; border: 0; padding: 0; margin-top: 16px; }
 main.wrap { padding-top: 20px; }
 main.wrap > h1:first-child { margin-top: 16px; }
+
+/* Plant page: photo and key facts on top, then a contents list beside the sections */
+.plant-top { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 56px; align-items: start; margin: 8px 0 8px; }
+.pt-media { margin: 0; }
+.pt-media img.photo { display: block; width: 100%; height: 460px; object-fit: cover; border-radius: 28px; }
+.pt-media img:not(.photo) { display: block; width: min(100%, 320px); height: auto; margin: 0 auto; padding: 24px; background: var(--tint); border-radius: 28px; }
+.pt-media figcaption { font-size: .8rem; color: var(--muted); margin-top: 8px; }
+.pt-body { min-width: 0; }
+.crumb { font-size: .92rem; color: var(--muted); margin: 0 0 14px; }
+.crumb a { text-decoration: none; }
+.pt-body h1 { margin: 0; font-size: clamp(2.2rem, 5vw, 3.5rem); }
+.pt-body .latin { margin: 6px 0 18px; }
+.pt-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.pt-chips .chip { min-height: 36px; font-size: .92rem; }
+.pt-cal { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
+.pt-cal .mbar { margin: 0; }
+.pt-cal .region-bar { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .9rem; }
+.pt-body .garden-add-row { margin: 22px 0 8px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.pt-body .btn-garden { min-height: 48px; padding: 0 24px; font-size: 1rem; }
+.pt-sizes { margin: 8px 0 0; font-size: .92rem; }
+
+.plant-body { display: block; margin-top: 40px; }
+.plant-toc { display: none; }
+@media (min-width: 960px) {
+  .plant-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 56px; align-items: start; }
+  .plant-toc { display: flex; flex-direction: column; position: sticky; top: 96px; gap: 2px; }
+  .plant-toc strong { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 8px; }
+  .plant-toc a { padding: 7px 0; color: var(--muted); text-decoration: none; font-size: .95rem; }
+  .plant-toc a:hover { color: var(--green); }
+  .plant-main { max-width: 760px; }
+}
+/* With a wide screen and scripts on, the sections lay out one after another instead of folding away */
+html.js-acc .acc-controls { display: none; }
+html.js-acc details.acc { background: transparent; border: 0; border-radius: 0; border-top: 1px solid var(--line); margin: 0; padding: 36px 0 12px; overflow: visible; }
+html.js-acc details.acc > summary { pointer-events: none; cursor: default; border: 0; min-height: 0; padding: 0; font-family: var(--serif); font-weight: 500; font-size: 2rem; color: var(--ink); }
+html.js-acc details.acc > summary::after { display: none; }
+html.js-acc .acc-body { padding: 8px 0 16px; }
+html.js-acc .care-list, html.js-acc .plant-main > h2 { margin-top: 48px; }
+.plant-main > h2 { font-size: 2rem; }
+.care-list h2 { font-size: 2rem; }
+
+@media (max-width: 959px) {
+  .plant-top { grid-template-columns: 1fr; gap: 24px; }
+  .pt-media img.photo { height: 320px; border-radius: 24px; }
+}
+@media (max-width: 640px) {
+  .pt-media img.photo { height: 240px; border-radius: 20px; margin: 0; }
+  .pt-cal { padding: 16px; }
+  main:has(.plant-top) { padding-bottom: 96px; }
+  .pt-body .garden-add-row:has(.btn-garden:not([hidden])) { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; margin: 0; padding: 12px 16px; background: var(--cream); border-top: 1px solid var(--line); }
+  .pt-body .btn-garden { width: 100%; }
+}
+
+/* My Garden tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 8px 0 24px; overflow-x: auto; }
+.tab { appearance: none; background: none; border: 0; border-bottom: 3px solid transparent; padding: 0 18px; min-height: 48px; font: inherit; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; margin-bottom: -1px; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--green); border-bottom-color: var(--green); }
+.tab .count { font-weight: 500; }
+[data-tabpanel][hidden] { display: none; }
+@media (max-width: 640px) { .tabs { gap: 0; } .tab { padding: 0 10px; font-size: .92rem; flex: 1 1 auto; } }

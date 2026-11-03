@@ -346,19 +346,23 @@ function growCard(p, cal) {
   const media = ph
     ? `<figure class="gc-media">${plantImg(p, 'large')}${ph.credit ? `<figcaption>${ph.creditUrl ? `<a href="${esc(ph.creditUrl)}" rel="noopener">${esc(ph.credit)}</a>` : esc(ph.credit)}</figcaption>` : ''}</figure>`
     : `<div class="gc-media">${plantImg(p, 'large')}</div>`;
-  return `<section class="grow-card" aria-label="${esc(p.name)} at a glance">
-  ${media}
-  <div class="gc-body">
-    <dl class="gc-facts">
-      <div><dt>Sunlight</dt><dd>${p.sun.map((id) => `${sunLevel.get(id).icon} ${esc(sunLevel.get(id).label)}`).join(', ')}</dd></div>
-      <div><dt>Garden sizes</dt><dd>${p.sizes.map((id) => esc(sizeMap.get(id).short)).join(', ')}</dd></div>
-      <div><dt>Difficulty</dt><dd>${esc(p.difficulty)}</dd></div>
-      ${harvestTime ? `<div><dt>Time to harvest</dt><dd>${esc(harvestTime[1])}</dd></div>` : ''}
-    </dl>
-    <div class="mbar" data-i="${cal.i}" data-o="${cal.o}" data-h="${cal.h}">
-      <div class="mrow mhead"><span class="mlabel"></span><span class="mcells" aria-hidden="true">${[...MONTH_LETTERS].map((c, k) => `<b data-m="${k}">${c}</b>`).join('')}</span></div>
-      ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}" data-row="${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n      ')}
+  const chips = [`${p.sun.map((id) => `${sunLevel.get(id).icon} ${esc(sunLevel.get(id).label)}`).join(', ')}`, `${esc(p.difficulty)}`, harvestTime ? esc(harvestTime[1]) : ''].filter(Boolean).map((c) => `<span class="chip">${c}</span>`).join('');
+  return `<section class="plant-top" aria-label="${esc(p.name)} at a glance">
+  ${media.replace('class="gc-media"', 'class="pt-media"')}
+  <div class="pt-body">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="/plants/">Plant Guide</a> <span aria-hidden="true">/</span> ${esc(p.name)}</nav>
+    <h1>${esc(p.name)}</h1>
+    <p class="latin">${esc(p.latin)}</p>
+    <p class="pt-chips">${chips}</p>
+    <div class="pt-cal">
+      <div class="mbar" data-i="${cal.i}" data-o="${cal.o}" data-h="${cal.h}">
+        <div class="mrow mhead"><span class="mlabel"></span><span class="mcells" aria-hidden="true">${[...MONTH_LETTERS].map((c, k) => `<b data-m="${k}">${c}</b>`).join('')}</span></div>
+        ${rows.map(([label, bits, cls]) => `<div class="mrow m-${cls}" data-row="${cls}"><span class="mlabel">${label}</span><span class="mcells" aria-hidden="true">${cells(bits)}</span><span class="sr-only">${esc(monthRanges(bits))}</span></div>`).join('\n        ')}
+      </div>
+      ${regionBar()}
     </div>
+    <p class="garden-add-row"><button type="button" class="btn-garden" data-garden-add="${p.id}" data-name="${esc(p.name)}" hidden>+ Add ${esc(p.name)} to my garden</button> <a class="garden-link" href="/my-garden/" hidden>Open my garden</a></p>
+    <p class="pt-sizes muted">Suits: ${p.sizes.map((id) => esc(sizeMap.get(id).short)).join(', ')}.</p>
   </div>
 </section>`;
 }
@@ -535,11 +539,24 @@ function buildMyGarden() {
 <h1>My Garden</h1>
 <p class="lead">Add the crops you grow and see what to sow, plant and harvest each month, plus recipes for whatever is ready. Your garden is saved in this browser, so no sign-up is needed. Want it on every device? <a href="/account/">Create a free account</a>.</p>
 <div class="callout acct-prompt" data-acct-prompt hidden><strong>Keep your garden on every device.</strong> Create a free account and your crops, ticked-off jobs and area are saved for you. <a class="btn-small" href="/account/">Sign up or sign in</a></div>
-<p class="callout wk-banner"><strong>New:</strong> <a href="/this-weekend/">See this weekend&rsquo;s jobs for your garden</a>, sorted by day with your local forecast when you are signed in.</p>
 <p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
 ${regionBar()}
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
 <div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
+  <div class="tabs" role="tablist" aria-label="My Garden">
+    <button type="button" role="tab" class="tab" id="tab-weekend" aria-controls="panel-weekend" data-tab="weekend">This weekend</button>
+    <button type="button" role="tab" class="tab" id="tab-months" aria-controls="panel-months" data-tab="months">Jobs by month</button>
+    <button type="button" role="tab" class="tab" id="tab-crops" aria-controls="panel-crops" data-tab="crops">My crops <span class="count" id="gTabCount"></span></button>
+  </div>
+  <div role="tabpanel" id="panel-weekend" aria-labelledby="tab-weekend" data-tabpanel="weekend" hidden>
+    <div class="wk-personal card" id="wkPersonal" data-garden="/assets/garden-data.json?v=${ver}" hidden aria-live="polite"></div>
+    <p class="wk-cta-line" id="wkCta" hidden><a href="/account/">Sign in</a> for a plan built around your crops and your local forecast.</p>
+    <div id="wkGeneric" data-compact>
+${wkSections()}
+    </div>
+    <p><a class="btn-small" href="/this-weekend/">See the full weekend plan</a></p>
+  </div>
+  <div role="tabpanel" id="panel-crops" aria-labelledby="tab-crops" data-tabpanel="crops" hidden>
   <div class="garden-layout">
     <section class="card garden-picker" aria-labelledby="gPickTitle">
       <h2 id="gPickTitle">Add crops</h2>
@@ -555,6 +572,8 @@ ${regionBar()}
       <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
     </section>
   </div>
+  </div>
+  <div role="tabpanel" id="panel-months" aria-labelledby="tab-months" data-tabpanel="months" hidden>
   <div class="month-nav">
     <button type="button" class="chip" id="gPrev" aria-label="Previous month">&larr;</button>
     <h2 id="gMonthTitle" aria-live="polite"></h2>
@@ -565,7 +584,9 @@ ${regionBar()}
   <p class="muted small-note">Tick jobs off as you go and your ticks are remembered. Sowing and harvest months follow typical UK conditions, so adjust for your local frost dates and weather. Reminders for watering, feeding and pruning are planned for a later version.</p>
   <h2 id="gRecipeTitle">Recipes for this month</h2>
   <div class="grid" id="gRecipes"></div>
-</div>`;
+  </div>
+</div>
+<script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
     path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for your crops',
     description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free, no sign-up.',
@@ -718,13 +739,12 @@ ${STORAGE[p.id].map(([m, how, keeps]) => `<li><strong>${esc(m)}</strong> ${esc(h
 <p class="muted small-note">Storage times are a guide. Use clean jars and containers, and follow tested guidance for bottling or canning low-acid foods. If in doubt, throw it out.</p>`;
     const useBody = [paras(p.use.p), tipsList(p.use.tips), storeBody].join('\n');
 
+    const toc = [['info', 'About'], ['how-to-sow', p.sowTitle || 'How to sow'], ['how-to-grow', 'How to grow'], ['how-to-harvest', 'How to harvest'], ['usage-and-storage', 'Use and storage'], ...(careFor(p.id).length ? [['care-h', 'Care through the year']] : []), ...(related.length ? [['cook', `Cook with ${lower(p.name)}`]] : [])];
     const body2 = `
-<a class="back" href="/plants/">&larr; Plant Guide</a>
-<h1>${esc(p.name)}</h1>
-<p class="latin">${esc(p.latin)}</p>
 ${growCard(p, cal)}
-${regionBar()}
-<p class="garden-add-row"><button type="button" class="btn-garden" data-garden-add="${p.id}" data-name="${esc(p.name)}" hidden>+ Add ${esc(p.name)} to my garden</button> <a class="garden-link" href="/my-garden/" hidden>Open my garden</a></p>
+<div class="plant-body">
+<nav class="plant-toc" aria-label="On this page"><strong>On this page</strong>${toc.map(([id, label]) => `<a href="#${id}">${esc(label)}</a>`).join('')}</nav>
+<div class="plant-main">
 <p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
 ${accordion('info', 'Info', infoBody, true)}
 ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
@@ -733,8 +753,10 @@ ${accordion('how-to-harvest', 'How to harvest', harvestBody)}
 ${accordion('usage-and-storage', 'Usage and storage', useBody)}
 ${careSection(p)}
 <p class="muted small-note">Timings are typical for the UK and vary with region, frost dates and variety. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>
-${related.length ? `<h2>Cook with ${esc(lower(p.name))}</h2>
-<div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}`;
+${related.length ? `<h2 id="cook">Cook with ${esc(lower(p.name))}</h2>
+<div class="grid">${related.map((r) => `<div class="card"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p><a href="/recipes/${r.id}/">View recipe &rarr;</a></div>`).join('')}</div>` : ''}
+</div>
+</div>`;
     addPage({
       path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: `How to grow ${p.name} in the UK`,
       description: plantDescription(p, cal),

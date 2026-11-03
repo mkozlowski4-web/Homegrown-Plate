@@ -323,6 +323,17 @@
   }
 
   /* ---- Plant page: expand / collapse all, and open a section from the address ---- */
+  /* Wide screens: show every section in a row rather than folded away. */
+  var accWide = window.matchMedia ? window.matchMedia('(min-width: 960px)') : null;
+  if (accWide && $('details.acc') && $('.plant-top')) {
+    var applyWide = function () {
+      var wide = accWide.matches;
+      document.documentElement.classList.toggle('js-acc', wide);
+      $$('details.acc').forEach(function (d, i) { if (wide) d.open = true; else if (i > 0) d.open = false; });
+    };
+    applyWide();
+    if (accWide.addEventListener) accWide.addEventListener('change', applyWide);
+  }
   var accToggle = $('#accToggle');
   if (accToggle) {
     var panels = $$('details.acc');
@@ -979,4 +990,42 @@
     deferred.userChoice.then(function () { deferred = null; if (installBox) installBox.hidden = true; });
   });
   window.addEventListener('appinstalled', function () { if (installBox) installBox.hidden = true; if (installedMsg) installedMsg.hidden = false; });
+})();
+
+/* My Garden tabs */
+(function () {
+  var wrap = document.getElementById('myGarden');
+  if (!wrap) return;
+  var tabs = [].slice.call(wrap.querySelectorAll('[data-tab]'));
+  var panels = [].slice.call(wrap.querySelectorAll('[data-tabpanel]'));
+  if (!tabs.length) return;
+  function show(name, focus) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-tab') === name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+    });
+    panels.forEach(function (p) { p.hidden = p.getAttribute('data-tabpanel') !== name; });
+    try { history.replaceState(null, '', '#' + name); } catch (e) {}
+  }
+  function count() {
+    try { var g = JSON.parse(localStorage.getItem('hp-garden') || '[]'); return Array.isArray(g) ? g.length : 0; } catch (e) { return 0; }
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t.getAttribute('data-tab')); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      show(tabs[(i + d + tabs.length) % tabs.length].getAttribute('data-tab'), true);
+    });
+  });
+  var h = (location.hash || '').slice(1);
+  var ok = tabs.some(function (t) { return t.getAttribute('data-tab') === h; });
+  show(ok ? h : (count() ? 'weekend' : 'crops'));
+  /* count badge */
+  var badge = document.getElementById('gTabCount');
+  function upd() { var n = count(); if (badge) badge.textContent = n ? '(' + n + ')' : ''; }
+  upd(); setInterval(upd, 1500);
 })();
