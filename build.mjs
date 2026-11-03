@@ -310,7 +310,7 @@ try { sharp = (await import('sharp')).default; } catch { /* optional: photos are
 const PHOTOS = new Map();
 for (const p of PLANTS) {
   const ext = ['jpg', 'jpeg', 'png', 'webp'].find((e) => existsSync(join(PHOTO_DIR, `${p.id}.${e}`)));
-  if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '' });
+  if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '', more: photoMeta[p.id]?.more || [] });
 }
 async function writePlantImages() {
   mkdirSync(join(DIST, 'img/plants'), { recursive: true });
@@ -318,6 +318,10 @@ async function writePlantImages() {
   if (!PHOTOS.size) return;
   mkdirSync(join(DIST, 'img/photos'), { recursive: true });
   for (const [id, ph] of PHOTOS) {
+    for (const m of ph.more) {
+      cpSync(join(PHOTO_DIR, 'more', m.file), join(DIST, 'img/photos', m.file));
+      m.src = `/img/photos/${m.file}`;
+    }
     if (sharp) {
       for (const w of [480, 960]) await sharp(ph.file).rotate().resize({ width: w, withoutEnlargement: true }).webp({ quality: 78 }).toFile(join(DIST, 'img/photos', `${id}-${w}.webp`));
       ph.src = `/img/photos/${id}-960.webp`; ph.small = `/img/photos/${id}-480.webp`;
@@ -337,6 +341,7 @@ function plantImg(p, size = 'small') {
   if (ph) return `<img class="pimg photo ${size}" src="${size === 'large' ? ph.src : ph.small}" width="${px}" height="${px}" alt="${size === 'large' ? esc(ph.alt) : ''}" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
   return `<img class="pimg ${size}" src="/img/plants/${p.id}.svg" width="${px}" height="${px}" alt="" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
 }
+const galleryHtml = (p) => { const ph = PHOTOS.get(p.id); if (!ph || !ph.more.length) return ''; return `<div class="plant-gallery">${ph.more.map((m) => `<figure><img src="${m.src}" alt="${esc(m.alt)}" loading="lazy" decoding="async"><figcaption>${esc(m.caption)} <span class="muted">${esc(ph.credit)}</span></figcaption></figure>`).join('')}</div>`; };
 const MONTH_LETTERS = 'JFMAMJJASOND';
 function growCard(p, cal) {
   const rows = [['Sow or start indoors', cal.i, 'i'], ['Sow or plant outside', cal.o, 'o'], ['Harvest', cal.h, 'h']].filter(([, bits]) => bits.includes('1'));
@@ -746,7 +751,7 @@ ${growCard(p, cal)}
 <div class="plant-main">
 <p class="acc-controls"><button type="button" class="chip" id="accToggle" hidden>Expand all sections</button></p>
 ${accordion('info', 'Info', infoBody, true)}
-${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody)}
+${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody + galleryHtml(p))}
 ${accordion('how-to-grow', 'How to grow', growBody)}
 ${accordion('how-to-harvest', 'How to harvest', harvestBody)}
 ${accordion('usage-and-storage', 'Usage and storage', useBody)}

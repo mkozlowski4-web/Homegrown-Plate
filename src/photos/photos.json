@@ -1,30 +1,56 @@
 {
- "tomato": {
-  "alt": "A truss of ripe red tomatoes growing on the vine",
-  "credit": "Photo from Pexels"
- },
- "potato": {
-  "alt": "Freshly harvested potatoes spilling from a hessian sack onto soil",
-  "credit": "Photo from Pexels"
- },
- "courgette": {
-  "alt": "A young courgette growing beside an open yellow-orange flower",
-  "credit": "Photo from Pexels"
- },
- "strawberry": {
-  "alt": "Ripening strawberries, from green-white to ripe red, hanging from the plant",
-  "credit": "Photo from Pexels"
- },
- "bean": {
-  "alt": "Runner bean pods hanging from the plant",
-  "credit": "Photo from Pexels"
- },
- "french-bean": {
-  "alt": "A heap of freshly picked green French beans",
-  "credit": "Photo from Pexels"
- },
- "carrot": {
-  "alt": "Freshly pulled carrots, still with soil on, among feathery carrot tops in a vegetable bed",
-  "credit": "Photo: Mark K."
- }
+  "tomato": {
+    "alt": "A truss of ripe red tomatoes growing on the vine",
+    "credit": "Photo from Pexels"
+  },
+  "potato": {
+    "alt": "Freshly harvested potatoes spilling from a hessian sack onto soil",
+    "credit": "Photo from Pexels"
+  },
+  "courgette": {
+    "alt": "A young courgette growing beside an open yellow-orange flower",
+    "credit": "Photo from Pexels"
+  },
+  "strawberry": {
+    "alt": "Ripening strawberries, from green-white to ripe red, hanging from the plant",
+    "credit": "Photo from Pexels"
+  },
+  "bean": {
+    "alt": "Runner bean pods hanging from the plant",
+    "credit": "Photo from Pexels"
+  },
+  "french-bean": {
+    "alt": "A heap of freshly picked green French beans",
+    "credit": "Photo from Pexels"
+  },
+  "carrot": {
+    "alt": "Freshly pulled carrots, still with soil on, among feathery carrot tops in a vegetable bed",
+    "credit": "Photo: Mark K."
+  },
+  "broad-bean": {
+    "alt": "A handful of broad bean seeds in a gardener's palm, over a freshly prepared bed",
+    "credit": "Photo: Mark K.",
+    "more": [
+      {
+        "file": "broad-bean-string-line.jpg",
+        "alt": "A string line pulled tight across a raked bed, marking the row for broad beans, with the first seeds laid along it",
+        "caption": "Mark a straight row with a string line, then sow along it. Autumn sowing, November."
+      }
+    ]
+  },
+  "elephant-garlic": {
+    "alt": "Two large elephant garlic cloves held in a gardener's hand beside a string line on a prepared bed",
+    "credit": "Photo: Mark K."
+  },
+  "garlic": {
+    "alt": "A handful of garlic cloves, split from the bulb and ready to plant",
+    "credit": "Photo: Mark K.",
+    "more": [
+      {
+        "file": "garlic-clove.jpg",
+        "alt": "A single garlic clove held between two fingers, papery skin still on",
+        "caption": "Split the bulb just before planting and keep the papery skin on each clove."
+      }
+    ]
+  }
 }

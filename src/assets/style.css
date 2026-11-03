@@ -829,3 +829,9 @@ html.js-acc .care-list, html.js-acc .plant-main > h2 { margin-top: 48px; }
 .card, .wk-day, .pt-cal, .wk-list li, .month-box, .acc, details.acc { border-radius: 12px; }
 .pt-media img.photo { border-radius: 14px; }
 .tab { border-radius: 0; }
+
+/* Extra photos inside a plant's sowing section */
+.plant-gallery { display: grid; gap: 16px; margin: 20px 0 8px; }
+.plant-gallery figure { margin: 0; max-width: 460px; }
+.plant-gallery img { display: block; width: 100%; height: auto; max-height: 420px; object-fit: cover; border-radius: 12px; }
+.plant-gallery figcaption { font-size: .88rem; color: var(--muted); margin-top: 8px; }
