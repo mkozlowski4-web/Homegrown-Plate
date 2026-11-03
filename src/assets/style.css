@@ -1051,3 +1051,37 @@ main .band.band-green p a.band-link { color: #fff; }
   .cook-list li:last-child a { border-bottom: 0; }
 }
 @media (min-width: 1001px) { .pg-bar { max-width: 520px; } }
+
+/* ===== My Garden: starter set, free meter, "In your garden" ticks ===== */
+.starter { background: var(--tint); border-radius: 20px; padding: 24px; margin: 0 0 20px; }
+.starter[hidden] { display: none; }
+.starter h2 { margin: 0 0 6px; font-size: clamp(1.4rem, 3vw, 1.8rem); }
+.starter-line { margin: 0; color: var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.starter-line select { width: auto; margin: 0; font: inherit; font-weight: 600; color: var(--green); background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; min-height: 44px; }
+.starter-list { list-style: none; margin: 18px 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.starter-list a { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center; font-weight: 500; font-size: .95rem; }
+.starter-list img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; background: var(--tint); }
+.starter-actions { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.starter-actions .btn { border: 0; cursor: pointer; font: inherit; font-weight: 600; margin: 0; }
+.starter-done { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; margin: 0 0 20px; }
+.starter-done[hidden] { display: none; }
+.link-btn { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; color: var(--green); text-decoration: underline; cursor: pointer; min-height: 32px; }
+.free-meter { margin: 4px 0 14px; }
+.free-meter[hidden] { display: none; }
+.fm-top { font-size: .92rem; font-weight: 600; margin-bottom: 6px; }
+.fm-bar { display: block; height: 8px; border-radius: 999px; background: var(--tint); overflow: hidden; }
+.fm-fill { display: block; height: 100%; background: var(--green); border-radius: 999px; transition: width .3s ease; }
+.free-meter.is-full .fm-fill { background: #b7791f; }
+.g-btn:disabled { opacity: .55; cursor: not-allowed; }
+.in-garden { display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; font-weight: 600; color: var(--green); background: var(--tint); border-radius: 999px; padding: 3px 9px; line-height: 1.3; width: fit-content; }
+.in-garden::before { content: "✓"; }
+a.card.is-mine { border-color: #9cc5ad; }
+.pop-card2 .in-garden { margin-top: 4px; }
+.mf-item .in-garden { margin-left: auto; flex: none; }
+.btn-garden.is-in { background: #fff; color: var(--green); border: 2px solid var(--green); }
+@media (max-width: 640px) {
+  .starter { padding: 18px; }
+  .starter-list { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .pg-grid > a.card .in-garden { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) { .fm-fill { transition: none; } }

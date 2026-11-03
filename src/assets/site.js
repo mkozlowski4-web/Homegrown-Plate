@@ -496,6 +496,24 @@
   };
   var saveGarden = function (list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* storage unavailable */ } };
   var garden = loadGarden();
+  /* Free plan: the crop limit is ready but switched off until paid membership exists.
+     Set FREE_LIMIT_ON to true to show the "x of 6" meter and stop adding at 6. */
+  var FREE_LIMIT = 6, FREE_LIMIT_ON = false;
+  var atLimit = function (list) { return FREE_LIMIT_ON && list.length >= FREE_LIMIT; };
+
+  /* "In your garden" ticks on crop tiles and links across the site */
+  var markGarden = function () {
+    var mine = {}; loadGarden().forEach(function (id) { mine[id] = true; });
+    $$('[data-plant], .mf-item, .pop-card2').forEach(function (a) {
+      var m = (a.getAttribute('href') || '').match(/^\/plants\/([a-z0-9-]+)\//); if (!m) return;
+      var on = !!mine[m[1]], tick = a.querySelector('.in-garden');
+      a.classList.toggle('is-mine', on);
+      if (on && !tick) { tick = mk('span', 'in-garden', 'In your garden'); a.appendChild(tick); }
+      else if (!on && tick) tick.remove();
+    });
+  };
+  markGarden();
+  window.addEventListener('storage', function (e) { if (e.key === KEY) markGarden(); });
 
   /* Add / remove button on each plant page */
   var addBtn = $('[data-garden-add]');
@@ -506,16 +524,20 @@
     var paintAdd = function () {
       var has = garden.indexOf(gid) > -1;
       addBtn.setAttribute('aria-pressed', String(has));
-      addBtn.textContent = has ? '✓ ' + gname + ' is in my garden (remove)' : '+ Add ' + gname + ' to my garden';
+      addBtn.textContent = has ? '✓ In your garden' : '+ Add ' + gname + ' to my garden';
+      addBtn.setAttribute('aria-label', has ? gname + ' is in your garden. Remove it' : 'Add ' + gname + ' to my garden');
+      addBtn.title = has ? 'Tap to remove from your garden' : '';
+      addBtn.classList.toggle('is-in', has);
       if (openLink) openLink.hidden = !has;
     };
     addBtn.hidden = false;
     addBtn.addEventListener('click', function () {
       garden = loadGarden();
       var at = garden.indexOf(gid);
+      if (at < 0 && atLimit(garden)) { if (openLink) { openLink.hidden = false; openLink.textContent = 'Your free garden is full (' + FREE_LIMIT + ' crops). Open my garden'; } return; }
       if (at > -1) garden.splice(at, 1); else garden.push(gid);
       saveGarden(garden);
-      paintAdd();
+      paintAdd(); markGarden();
     });
     paintAdd();
   }
@@ -553,8 +575,9 @@
         var li = el('li');
         li.appendChild(plantImgEl(p));
         li.appendChild(el('span', 'g-name', p.n));
-        var b = el('button', 'g-btn', has ? 'Added ✓' : 'Add');
-        b.type = 'button';
+        var full = !has && atLimit(garden);
+        var b = el('button', 'g-btn', has ? 'Added ✓' : full ? 'Full' : 'Add');
+        b.type = 'button'; b.disabled = full;
         b.setAttribute('aria-pressed', String(has));
         b.setAttribute('aria-label', (has ? 'Remove ' : 'Add ') + p.n + (has ? ' from' : ' to') + ' my garden');
         b.addEventListener('click', function () { toggle(p.id); });
@@ -578,7 +601,54 @@
       gEmpty.hidden = mine.length > 0;
       gClear.hidden = mine.length === 0;
       gCount.textContent = mine.length ? '(' + mine.length + ')' : '';
+      if (gStarter) { gStarter.hidden = mine.length > 0; if (!mine.length) renderStarter(); }
+      if (gFree) {
+        gFree.hidden = !FREE_LIMIT_ON;
+        var n = Math.min(mine.length, FREE_LIMIT);
+        $('#gFreeText').textContent = mine.length + ' of ' + FREE_LIMIT + ' free crops';
+        $('#gFreeFill').style.width = Math.round(n / FREE_LIMIT * 100) + '%';
+        var note = $('#gFreeNote'); note.hidden = mine.length < FREE_LIMIT;
+        note.textContent = 'Your free garden is full. Remove a crop to add another.';
+        gFree.classList.toggle('is-full', mine.length >= FREE_LIMIT);
+      }
     };
+
+    /* Empty garden: a one-tap starter set of easy crops for the chosen size */
+    var gStarter = $('#gStarter'), gFree = $('#gFree'), gStarterSize = $('#gStarterSize'), gStarterList = $('#gStarterList'), gStarterDone = $('#gStarterDone');
+    var STARTER_ORDER = ['potato', 'strawberry', 'lettuce', 'courgette', 'bean', 'radish', 'garlic', 'pea', 'broad-bean', 'kale', 'spinach', 'rocket', 'beetroot', 'onion', 'basil', 'mint', 'chives', 'parsley', 'spring-onion', 'chard', 'swiss-chard', 'microgreens'];
+    var starterPicks = function () {
+      var size = gStarterSize ? gStarterSize.value : 'small', kids = document.documentElement.hasAttribute('data-kids');
+      var fits = function (p) { return p && p.d === 'Easy' && (p.s || []).indexOf(size) > -1 && !(kids && p.k); };
+      var out = STARTER_ORDER.map(function (id) { return byId[id]; }).filter(fits);
+      if (out.length < 5) gData.plants.forEach(function (p) { if (out.length < 5 && fits(p) && out.indexOf(p) < 0) out.push(p); });
+      return out.slice(0, 5);
+    };
+    var renderStarter = function () {
+      if (!gStarterList || !gData) return;
+      gStarterList.textContent = '';
+      starterPicks().forEach(function (p) {
+        var li = el('li'); var a = el('a'); a.href = '/plants/' + p.id + '/';
+        var i = el('img'); i.src = p.img; i.alt = ''; i.width = 64; i.height = 64; i.loading = 'lazy';
+        a.appendChild(i); a.appendChild(el('span', null, p.n)); li.appendChild(a); gStarterList.appendChild(li);
+      });
+    };
+    if (gStarterSize) {
+      try { var hs = localStorage.getItem('hp-size'); if (hs && gStarterSize.querySelector('option[value="' + hs + '"]')) gStarterSize.value = hs; } catch (e) { /* storage unavailable */ }
+      gStarterSize.addEventListener('change', function () { try { localStorage.setItem('hp-size', gStarterSize.value); } catch (e) { /* ignore */ } renderStarter(); });
+    }
+    var gStarterAdd = $('#gStarterAdd');
+    if (gStarterAdd) gStarterAdd.addEventListener('click', function () {
+      var picks = starterPicks();
+      picks.forEach(function (p) { if (garden.indexOf(p.id) < 0 && !atLimit(garden)) garden.push(p.id); });
+      saveGarden(garden); renderResults(); renderMine(); renderMonth(); markGarden();
+      if (gStarterDone) {
+        gStarterDone.textContent = '';
+        gStarterDone.appendChild(document.createTextNode('Added ' + picks.map(function (p) { return p.n.toLowerCase(); }).join(', ') + '. '));
+        var go = el('button', 'link-btn', 'See this month\u2019s jobs \u2192'); go.type = 'button';
+        go.addEventListener('click', function () { var t = $('#tab-months'); if (t) t.click(); window.scrollTo({ top: 0 }); });
+        gStarterDone.appendChild(go); gStarterDone.hidden = false;
+      }
+    });
 
     var jobCard = function (title, hint, plants, type, done) {
       var card = el('section', 'card job-card');
@@ -687,9 +757,11 @@
 
     var toggle = function (id) {
       var at = garden.indexOf(id);
+      if (at < 0 && atLimit(garden)) return;
       if (at > -1) garden.splice(at, 1); else garden.push(id);
       saveGarden(garden);
-      renderResults(); renderMine(); renderMonth();
+      if (gStarterDone && garden.length === 0) gStarterDone.hidden = true;
+      renderResults(); renderMine(); renderMonth(); markGarden();
     };
 
     gSearch.addEventListener('input', renderResults);
@@ -807,8 +879,8 @@
       var ids = btn.getAttribute('data-add-crops').split(',');
       btn.addEventListener('click', function () {
         var list = loadGarden(), added = 0;
-        ids.forEach(function (id) { if (list.indexOf(id) < 0) { list.push(id); added++; } });
-        saveGarden(list);
+        ids.forEach(function (id) { if (list.indexOf(id) < 0 && !atLimit(list)) { list.push(id); added++; } });
+        saveGarden(list); markGarden();
         msg.textContent = '';
         var text = document.createTextNode(added ? 'Added ' + added + (added === 1 ? ' crop. ' : ' crops. ') : 'Already in your garden. ');
         var link = document.createElement('a'); link.href = '/my-garden/'; link.textContent = 'Open my garden';
@@ -862,6 +934,7 @@
       };
       b.addEventListener('click', function () {
         var list = loadGarden(), at = list.indexOf(id);
+        if (at < 0 && atLimit(list)) return;
         if (at > -1) list.splice(at, 1); else list.push(id);
         saveGarden(list); paint(); if (calMine.checked) applyCal();
       });

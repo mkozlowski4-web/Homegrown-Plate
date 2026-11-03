@@ -614,6 +614,15 @@ ${wkSections()}
     <p><a class="btn-small" href="/this-weekend/">See the full weekend plan</a></p>
   </div>
   <div role="tabpanel" id="panel-crops" aria-labelledby="tab-crops" data-tabpanel="crops" hidden>
+  <section class="starter" id="gStarter" aria-labelledby="gStarterTitle" hidden>
+    <div class="starter-head">
+      <h2 id="gStarterTitle">New here? Start with 5 easy crops</h2>
+      <p class="starter-line">Picked for a <label class="sr-only" for="gStarterSize">Garden size</label><select id="gStarterSize">${SIZES.map((z) => `<option value="${z.id}"${z.id === 'small' ? ' selected' : ''}>${esc(lower(z.short))}</option>`).join('')}</select> and easy to grow. You can add or remove crops any time.</p>
+    </div>
+    <ul class="starter-list" id="gStarterList"></ul>
+    <p class="starter-actions"><button type="button" class="btn" id="gStarterAdd">Add these 5 crops</button><span class="muted">or search for your own below</span></p>
+  </section>
+  <p class="starter-done" id="gStarterDone" role="status" hidden></p>
   <div class="garden-layout">
     <section class="card garden-picker" aria-labelledby="gPickTitle">
       <h2 id="gPickTitle">Add crops</h2>
@@ -624,6 +633,7 @@ ${wkSections()}
     </section>
     <section class="card garden-mine" aria-labelledby="gMineTitle">
       <h2 id="gMineTitle">Your garden <span class="count" id="gCount"></span></h2>
+      <div class="free-meter" id="gFree" hidden><div class="fm-top"><span id="gFreeText"></span></div><span class="fm-bar" aria-hidden="true"><span class="fm-fill" id="gFreeFill"></span></span><p class="muted small-note" id="gFreeNote" hidden></p></div>
       <p class="muted" id="gEmpty">Nothing here yet. Add a few crops on the left and your monthly jobs will appear below.</p>
       <ul class="garden-chips" id="gSelected"></ul>
       <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
