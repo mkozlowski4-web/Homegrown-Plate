@@ -124,6 +124,11 @@ export const STORE_4 = {
     ['Relish', 'Cook kernels into sweetcorn relish with peppers and vinegar.', '12 months'],
     ['Dry', 'Leave cobs of grinding or popping types on the plant until dry and use as cornmeal or popcorn.', '1 year'],
   ],
+  popcorn: [
+    ['Dry and store', 'Leave the cobs on the plant until the husks are brown and papery, then hang them in a warm, airy place for 2–4 weeks until the kernels are hard. Rub the kernels off and keep them in airtight jars in a cool, dark place.', '1–2 years'],
+    ['Test-pop', 'Pop a small handful of the dried kernels. If many stay unpopped, dry the cobs for another week or two and test again.', 'Before storing'],
+    ['Store popped corn', 'Let popped popcorn cool completely, then keep it in an airtight container. It goes stale quickly, so pop only what you will eat.', '1–2 days'],
+  ],
   'swiss-chard': [
     ['Fridge', 'Wrap unwashed leaves in damp paper in a bag.', '5–7 days'],
     ['Freeze', 'Blanch leaves for 2 minutes and stems for 3, cool and freeze in portions.', '12 months'],

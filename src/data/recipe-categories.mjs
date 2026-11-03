@@ -17,7 +17,7 @@ const groups = {
   sides: 'roast-patty-pan-platter romanesco-lemon-chilli purple-sprouting-broccoli brussels-sprouts-roast braised-red-cabbage honey-roast-parsnips swede-carrot-mash glazed-turnips salsify-brown-butter sweetcorn-chilli-lime sweet-potato-wedges globe-artichoke-lemon-butter sea-kale-brown-butter roast-elephant-garlic calendula-saffron-rice edamame-chilli-garlic',
   puddings: 'apple-blackberry-crumble rhubarb-ginger-crumble blackcurrant-fool summer-pudding cherry-clafoutis apricot-almond-tart grilled-peaches-ricotta poached-pears plum-traybake gooseberry-fool fig-goats-cheese-flatbread grape-rosemary-focaccia lavender-shortbread physalis-chocolate',
   preserves: 'pesto wild-garlic-pesto nasturtium-pesto horseradish-sauce redcurrant-jelly raspberry-loganberry-jam quince-membrillo tomatillo-salsa-verde coriander-chutney quick-pickled-gherkins candied-angelica chinese-cabbage-kimchi',
-  snacks: 'strawberry-yoghurt microgreens-toast blueberry-pancakes kiwiberry-yoghurt-parfait cobnut-honey-granola',
+  snacks: 'stovetop-popcorn strawberry-yoghurt microgreens-toast blueberry-pancakes kiwiberry-yoghurt-parfait cobnut-honey-granola',
   drinks: 'elderberry-syrup lemon-herb-tea blackcurrant-cordial rhubarb-ginger-cordial strawberry-basil-lemonade mint-cucumber-cooler lemon-balm-iced-tea raspberry-shrub lovage-virgin-mary hot-spiced-apple-punch',
 };
 export const RECIPE_CATEGORY_OF = new Map(Object.entries(groups).flatMap(([cat, ids]) => ids.split(' ').map((id) => [id, cat])));

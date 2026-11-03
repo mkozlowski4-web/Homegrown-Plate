@@ -11,9 +11,9 @@ export const SIZES = [
   { id:"medium", short:"Medium garden", title:"Medium Garden", cls:"s3", emoji:"🌳",
     desc:"Room for a dedicated vegetable bed and a few fruit bushes. Plan crops in rotation groups.",
     tips:["Divide beds into blocks for rotation: roots, legumes, brassicas, potatoes.","Add a compost bin to feed the soil.","Install a water butt to collect rainwater.","Plant perennials like rhubarb and herbs at the edges."],
-    grow:["potato","carrot","tomato","courgette","bean","kale","lettuce","onion","strawberry","radish","spinach","basil","mint","chilli","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","pumpkin","garlic","parsley","chives","rocket","parsnip"] },
+    grow:["potato","carrot","tomato","courgette","bean","kale","lettuce","onion","strawberry","radish","spinach","basil","mint","chilli","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","popcorn","pumpkin","garlic","parsley","chives","rocket","parsnip"] },
   { id:"large", short:"Large garden", title:"Large Garden or Allotment", cls:"s4", emoji:"🚜",
     desc:"Space for full rotation, bulk storage crops, and fruit trees. Plan for succession planting.",
     tips:["Plan a 4-year rotation to reduce soil-borne disease.","Sow in succession for steady harvests.","Grow storage crops like potatoes, onions and winter squash.","Consider fruit trees and berry patches for long-term yields."],
-    grow:["potato","onion","carrot","tomato","courgette","bean","kale","lettuce","radish","spinach","mint","strawberry","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","pumpkin","garlic","chives","parsnip"] }
+    grow:["potato","onion","carrot","tomato","courgette","bean","kale","lettuce","radish","spinach","mint","strawberry","pea","broad-bean","beetroot","leek","cabbage","sprouting-broccoli","sweetcorn","popcorn","pumpkin","garlic","chives","parsnip"] }
 ];

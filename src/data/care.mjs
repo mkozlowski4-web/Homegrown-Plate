@@ -215,6 +215,13 @@ const CARE_1 = {
     ['8-9', 'Feed with a high-potash fertiliser once cobs start to swell.'],
     ['8-9', 'Guard against badgers, birds and squirrels as cobs ripen, and check the silks have turned brown before picking.'],
   ],
+  popcorn: [
+    ['5-6', 'Harden off and plant in a block, 30 to 40 cm apart, and keep it well away from sweetcorn to avoid cross-pollination.'],
+    ['6-9', 'Water regularly, particularly when the tassels and silks appear and while the cobs fill out.'],
+    ['6-8', 'Earth up around the base of the stems and weed carefully, as roots are shallow. Stake in exposed sites.'],
+    ['8-9', 'Feed with a high-potash fertiliser once the cobs start to swell, and net them against mice, squirrels and birds.'],
+    ['9-10', 'Leave the cobs on the plant until the husks are brown and papery, then pick and hang them to dry for 2 to 4 weeks.'],
+  ],
   pumpkin: [
     ['5-6', 'Harden off and plant out after the last frost, on a mound of rich soil or compost, leaving 90 cm or more between plants.'],
     ['6-9', 'Water generously at the base, and feed every one to two weeks with a tomato feed once fruits set.'],

@@ -175,7 +175,7 @@ const L = {
   sorrel: ['sprig', '#74b866', '#4c9a54', LV, { kind: 'oval', w: 7, len: 6 }], spinach: ['rosette', '#2f7a4a', '#1f5a3a', LV, { n: 8, w: 14 }], 'spring-onion': ['leek', '#f4f1dc', '#4f9d4d', LV, { thin: true }],
   'sprouting-broccoli': ['curd', '#7a4f9a', '#3f8a52', PUR, { dim: true }], strawberry: ['strawberry', '#e0243a', '', RED], swede: ['roundroot', '#d9a8c4', '#9a5a86', PUR, { r: 28 }],
   'sweet-cicely': ['sprig', '#74b866', '#a8d58a', LV, { kind: 'feather' }], 'sweet-marjoram': ['sprig', '#8aa88a', '#6f8f72', LV, { kind: 'round' }], 'sweet-pepper': ['bell', '#e8312a', '#8a1a14', RED],
-  'sweet-potato': ['tuber', '#c4603a', '#8a3a1f', WARM, { long: true }], sweetcorn: ['corn', '#f6cf3a', '#b58a12', YEL], 'swiss-chard': ['bok', '#d9304a', '#2f7a4a', RED],
+  'sweet-potato': ['tuber', '#c4603a', '#8a3a1f', WARM, { long: true }], sweetcorn: ['corn', '#f6cf3a', '#b58a12', YEL], popcorn: ['corn', '#f1e4b8', '#b58a3a', YEL], 'swiss-chard': ['bok', '#d9304a', '#2f7a4a', RED],
   tatsoi: ['rosette', '#2f7a4a', '#4f9d4d', LV, { n: 8, w: 17, len: 46 }], thyme: ['sprig', '#4c8a5a', '#6aa86f', LV, { kind: 'needle' }], tomatillo: ['round', '#9ccc5a', '#4f7a2a', LV, { husk: '#e8d8a8' }],
   tomato: ['round', '#e8372a', '#a31f14', RED, { leaf: true }], turnip: ['roundroot', '#f4eef4', '#a85a9a', PUR, { r: 25 }], viola: ['flower', '#7a4fb0', '#f5c92e', PUR, { n: 5, pw: 11, pr: 17, cr: 6 }],
   watercress: ['sprig', '#2f7a4a', '#3f8a52', LV, { kind: 'round' }], whitecurrant: ['currants', '#f1ecc4', '', YEL], 'wild-garlic': ['starflower', '#ffffff', '', LV], 'winter-purslane': ['rosette', '#74b866', '#4c9a54', LV, { n: 9, w: 12, len: 42 }],

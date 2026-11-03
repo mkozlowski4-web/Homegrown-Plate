@@ -150,6 +150,31 @@ export const FRUITING = [
       "Cobs lose sweetness quickly, so eat them on the day. To preserve a glut, blanch cobs for 7–11 minutes depending on size, cool quickly, and freeze whole or cut off the kernels and freeze in bags, which keep for a year."],
       tips: ["Cook within minutes of picking.", "Do not salt the boiling water.", "Blanch and freeze surplus cobs.", "Barbecue in the husk."] } },
 
+  { id: "popcorn", name: "Popcorn", latin: "Zea mays var. everta", emoji: "🍿", sizes: ["medium", "large"], difficulty: "Medium",
+    sun: ["full"], sunText: "Full sun; sheltered from wind",
+    facts: [["Type", "Tender annual grass"], ["Sow", "Apr–May indoors; plant out late May–June"], ["Height", "1–2 m"], ["Spacing", "30–40 cm apart in a block"], ["Sowing depth", "2.5 cm"], ["Time to harvest", "16–24 weeks from sowing, plus 2–4 weeks drying"], ["Good companions", "Beans, squashes, cucumbers (the ‘three sisters’)"]],
+    info: [
+      "Popcorn is a type of maize with hard, starchy kernels that burst when they are heated. It is grown much like sweetcorn, and the reward is a jar of your own kernels that pop into fresh, tender popcorn. The plants are tall and handsome, and the small cobs in red, blue and yellow are a talking point on the plot, which makes it a lovely crop to grow with children.",
+      "It needs more summer than sweetcorn, because the cobs must ripen fully and then dry. In the UK that means a warm, sunny, sheltered spot, an early or compact variety and a good start indoors. In a poor summer the crop may be small, so treat it as a fun extra, not a main crop. Do not grow it near sweetcorn, because cross-pollination makes the sweetcorn starchy and tough and spoils the popcorn kernels."],
+    varieties: ["Strawberry (small red cobs, ornamental and a reliable popper)", "Tom Thumb (compact and early, suits cooler areas)", "Dakota Black (dark kernels that pop white)", "Glass Gem (multicoloured cobs; check the supplier says it pops)", "Any early variety sold as popcorn (availability varies by supplier)"],
+    sow: { p: [
+      "Sow indoors from mid-April to mid-May, 2.5 cm deep, one seed per 7–9 cm pot or loo-roll tube at 18–21°C, because the roots dislike disturbance. Seedlings appear in about a week. An early start gives the cobs the long season they need to ripen and dry.",
+      "Harden off for about 10 days and plant out in late May to June, once the frost has passed, in a sunny, sheltered spot with rich soil that holds moisture. Plant in a block of at least 4 by 4 plants, 30–40 cm apart, because corn is pollinated by the wind. Keep popcorn at least 10 m from any sweetcorn, or sow one of them two to three weeks later so they do not flower together."],
+      tips: ["Sow early to give the cobs time to dry.", "Plant in a block, not a row.", "Keep well away from sweetcorn.", "Use deep pots or loo-roll tubes."] },
+    grow: { p: [
+      "Water well in dry spells, particularly when the tassels and silks appear and the cobs are filling. Mulch to hold in moisture, and feed with a high-potash fertiliser once the cobs start to swell. Earth up around the base of the stems and stake in exposed spots, as the plants are tall and shallow-rooted.",
+      "Weed gently. Mice, squirrels, badgers and birds will raid the cobs, so net or fence the patch as they ripen. Unlike sweetcorn, popcorn is not picked at the milky stage but left on the plant to ripen and dry, so it needs protecting for longer."],
+      tips: ["Water when the tassels and silks appear.", "Feed with a high-potash fertiliser.", "Earth up and stake in windy spots.", "Protect the cobs for longer than sweetcorn."] },
+    pests: ["Mice, badgers and squirrels", "Corn smut", "Frit fly", "Poor pollination if grown in a single row"],
+    harvest: { p: [
+      "Do not pick popcorn green. Leave the cobs on the plant until the husks turn brown and papery and the stalks begin to die back, usually in September or October. If frost or wet weather threatens, cut the cobs with a short stalk and bring them indoors to finish drying.",
+      "Peel back the husks and hang the cobs in a warm, dry, airy place, such as a porch, shed or airing cupboard, for 2 to 4 weeks, until the kernels are hard and you cannot dent one with a fingernail. Twist the kernels off with your thumbs, then test-pop a small handful. Kernels that are too moist chew rather than pop, and kernels that are too dry leave many unpopped, so adjust the drying time if you need to."],
+      tips: ["Leave the cobs on the plant until the husks are brown.", "Dry for 2–4 weeks in a warm, airy place.", "Test-pop a few kernels before storing.", "Rub the kernels off with your thumbs."] },
+    use: { p: [
+      "Pop the kernels in a heavy pan with a lid and a little oil until the popping slows, then season with salt, or with smoked paprika, cinnamon sugar, grated Parmesan or chopped rosemary. The popcorn recipe on this site shows how, step by step.",
+      "Dried kernels keep well in an airtight jar in a cool, dark place for a year or more, which makes popcorn one of the easiest crops to store. Popped corn goes stale within a day or two, so pop only what you will eat. Popcorn is a choking hazard for babies and toddlers, so wait until children are older."],
+      tips: ["Store dried kernels in an airtight jar.", "Pop only what you will eat.", "Season with herbs from the garden.", "Keep popcorn away from babies and toddlers."] } },
+
   { id: "sweet-pepper", name: "Sweet pepper", latin: "Capsicum annuum", emoji: "🫑", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; warm and sheltered, ideally under cover",
     facts: [["Type", "Tender perennial, grown as an annual"], ["Sow", "Feb–Mar indoors with heat"], ["Height", "45–90 cm"], ["Spacing", "45 cm apart"], ["Sowing depth", "5 mm"], ["Time to harvest", "18–24 weeks from sowing"], ["Good companions", "Basil, tomatoes, onions"]],
