@@ -46,6 +46,7 @@ input[type=search], select {
 .ing-need { color: var(--muted); }
 .recipe-steps ol { padding-left: 20px; }
 .recipe-steps li { margin-bottom: 8px; }
+.recipe-photo { display: block; width: 100%; max-width: 720px; height: auto; border-radius: 14px; margin: 8px 0 16px; }
 .back { display: inline-block; margin-bottom: 14px; color: var(--green); text-decoration: none; font-weight: 600; }
 .cal-wrap { overflow-x: auto; margin-top: 16px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
 table.cal { border-collapse: collapse; width: 100%; min-width: 760px; font-size: .85rem; }

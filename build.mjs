@@ -993,6 +993,22 @@ ${rows}
 </ul>
 ${together}${keep ? `\n<h3>Too much to use at once?</h3>\n<ul class="store-ul">\n${keep}\n</ul>\n<p class="muted small-note">Timings are typical for the UK and vary by region. Storage times are a guide.</p>` : ''}`;
 }
+/* Recipe pictures for Google and link previews: a dish photo in src/photos/recipes/<id>.jpg (png, webp)
+   if there is one, otherwise the card made by tools/make-recipe-cards.mjs. */
+const RECIPE_PHOTO_DIR = join(ROOT, 'src/photos/recipes');
+function recipeImage(r) {
+  mkdirSync(join(DIST, 'img/recipes'), { recursive: true });
+  const ext = ['jpg', 'jpeg', 'png', 'webp'].find((e) => existsSync(join(RECIPE_PHOTO_DIR, `${r.id}.${e}`)));
+  if (ext) {
+    cpSync(join(RECIPE_PHOTO_DIR, `${r.id}.${ext}`), join(DIST, 'img/recipes', `${r.id}.${ext}`));
+    return { src: `/img/recipes/${r.id}.${ext}`, photo: true, alt: photoMeta[`recipe:${r.id}`]?.alt || r.title };
+  }
+  const card = join(RECIPE_PHOTO_DIR, 'cards', `${r.id}.png`);
+  if (!existsSync(card)) { console.log(`Note: recipe ${r.id} has no picture. Run "node tools/make-recipe-cards.mjs".`); return null; }
+  cpSync(card, join(DIST, 'img/recipes', `${r.id}.png`));
+  return { src: `/img/recipes/${r.id}.png`, photo: false };
+}
+
 function buildRecipes() {
   const withRecipes = PLANTS.filter((p) => RECIPES.some((r) => r.uses.includes(p.id)));
   const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
@@ -1055,8 +1071,16 @@ ${recipeGrowBlock(r, crops)}`;
     };
     const iso = isoDuration(r.time);
     if (iso) recipeLd.totalTime = iso;
+    const cat = RECIPE_CATEGORIES.find((c) => c.id === RECIPE_CATEGORY_OF.get(r.id));
+    if (cat) recipeLd.recipeCategory = cat.label;
+    recipeLd.recipeCuisine = 'British';
+    recipeLd.keywords = [...crops.map((p) => lower(p.name)), 'home grown', 'seasonal', 'grow your own'].join(', ');
+    recipeLd.author = { '@type': 'Organization', name: 'Homegrown Plate', url: `${SITE}/` };
+    const img = recipeImage(r);
+    if (img) recipeLd.image = [`${SITE}${img.src}`];
     addPage({
-      path: `/recipes/${r.id}/`, section: 'recipes', body: body2, title: r.title, description,
+      path: `/recipes/${r.id}/`, section: 'recipes', body: img?.photo ? body2.replace('</h1>', `</h1>\n<img class="recipe-photo" src="${img.src}" alt="${esc(img.alt)}" width="1200" height="900" loading="eager" decoding="async">`) : body2,
+      title: r.title, description, image: img?.src || '',
       ld: [recipeLd],
       crumbs: [['Home', '/'], ['Recipes', '/recipes/'], [r.title, `/recipes/${r.id}/`]],
     });

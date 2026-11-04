@@ -16,3 +16,9 @@ Optionally describe and credit each photo in `photos.json`:
 - `credit` is shown under the photo. Leave it out for your own photos if you prefer, or use "Photo: your name".
 - Landscape photos about 1200 px wide work best. If `sharp` is installed (`npm i -D sharp`) the build makes small WebP copies automatically; otherwise the original is used as-is, so keep files under about 300 KB. Without `sharp` you can also add a small copy named like `tomato-thumb.jpg` (about 240 px square) and it will be used for the cards.
 - Only use photos you took, or have a licence for, and add the required credit.
+
+## Recipe photos
+
+Each recipe needs a picture for Google's recipe results. Until you add a photo of the finished dish, the site uses a card showing the recipe name and drawings of its crops (made by `node tools/make-recipe-cards.mjs`, saved in `src/photos/recipes/cards/`). Run that tool again after adding a new recipe.
+
+To use a real photo, drop it in as `src/photos/recipes/<recipe-id>.jpg` (also .png or .webp), e.g. `src/photos/recipes/summer-pudding.jpg`. It shows at the top of the recipe page and replaces the card everywhere. Landscape (4:3) about 1200 px wide and under 300 KB works best. Describe it in `photos.json` with the key `recipe:<recipe-id>`, e.g. `"recipe:summer-pudding": { "alt": "Summer pudding on a plate with cream" }`.
