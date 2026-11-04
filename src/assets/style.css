@@ -1230,3 +1230,9 @@ html[data-kids] table.cal tr.cal-type.kid-hide { display: none; }
   .nav-toggle .burger { margin: 0; }
 }
 html, body { overflow-x: clip; } /* safety net: nothing can make the page slide sideways */
+@media (max-width: 600px) {
+  .mem-table { table-layout: fixed; }
+  .mem-table thead th:first-child { width: 37%; }
+  .mem-table th, .mem-table td { padding: 8px 4px; font-size: .8rem; overflow-wrap: anywhere; hyphens: auto; }
+  .mem-table tbody th { padding-left: 10px; }
+}
