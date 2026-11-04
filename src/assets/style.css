@@ -1217,3 +1217,16 @@ html[data-kids] table.cal tr.cal-type.kid-hide { display: none; }
 .code-state { display: inline-block; margin-left: 6px; font-size: .78rem; color: #9a5b13; }
 .code-actions { white-space: nowrap; }
 .code-actions .chip { margin-right: 4px; }
+
+/* Phones: keep the header on one line inside the screen (it was a few px too wide, more in kids mode) */
+@media (max-width: 560px) {
+  .wrap { padding-left: 16px; padding-right: 16px; }
+  .header-bar { gap: 6px; }
+  .brand { min-width: 0; flex: 0 1 auto; }
+  html[data-kids] .header-bar > .kids-pill:not([hidden]) { display: none !important; } /* Kids mode is in the Menu on phones */
+}
+@media (max-width: 420px) {
+  .nav-toggle, html[data-kids] .nav-toggle { font-size: 0; gap: 0; width: 40px; height: 40px; padding: 0; justify-content: center; flex: none; }
+  .nav-toggle .burger { margin: 0; }
+}
+html, body { overflow-x: clip; } /* safety net: nothing can make the page slide sideways */
