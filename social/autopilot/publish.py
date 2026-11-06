@@ -116,7 +116,7 @@ def buffer_check():
         except Exception as e:  # noqa: BLE001
             shapes[t + "_full"] = str(e)[:200]
     probe = 'query { __type(name: "%s") { fields { name args { name } type { name kind ofType { name kind ofType { name } } } } } }'
-    for t in ("Query", "Channel", "PinterestBoard"):
+    for t in ("Query", "Channel", "PinterestBoard", "Post", "PostsInput", "PostsFiltersInput", "PostMetadata", "PinterestPostMetadata"):
         try:
             shapes[t + "_fields"] = gql(probe % t)["__type"]
         except Exception as e:  # noqa: BLE001
