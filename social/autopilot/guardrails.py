@@ -12,6 +12,22 @@ NUM_UNIT = re.compile(r"\b(\d+(?:[.,]\d+)?(?:\s*(?:[–-]|to)\s*\d+(?:[.,]\d+)?)
                      re.I)
 
 
+WORDNUM = {w: str(i) for i, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split())}
+WORDNUM.update({"thirty": "30", "forty": "40", "fifty": "50", "a hundred": "100", "a dozen": "12", "half an hour": "30 minutes", "a fortnight": "2 weeks"})
+
+
+def norm(t):
+    """Same figures written differently compare equal: 'six to eight minutes' == '6-8 minutes' == '6–8 minutes'."""
+    t = t.lower().replace("–", "-").replace("—", "-")
+    for w in sorted(WORDNUM, key=len, reverse=True):
+        t = re.sub(rf"\b{w}\b", WORDNUM[w], t)
+    t = re.sub(r"(\d+(?:\.\d+)?)\s*(?:-|to|or)\s*(\d+(?:\.\d+)?)", r"\1-\2", t)
+    t = re.sub(r"\bup to (\d)", r"\1", t)
+    t = re.sub(r"\b(mins?)\b", "minutes", t); t = re.sub(r"\b(hrs?)\b", "hours", t)
+    t = re.sub(r"\b(minute|hour|day|week|month)\b", r"\1s", t)
+    return t
+
+
 def _texts(post):
     c = post["captions"]
     return {k: c[k] for k in ("instagram", "facebook", "pin_title", "pin_description", "tiktok") if c.get(k)} | \
@@ -84,11 +100,17 @@ def check(post, site):
         source_all += " " + " ".join(k["steps"] + k["need"] + [k["wait"], k["start"], k["fact"] or "", k["adult_note"] or ""])
     if post.get("month_page"):
         source_all += " " + post.get("page_text", "")
-    for m in NUM_UNIT.finditer(text.replace("–", "-")):
-        num = m.group(1).replace(" ", "")
-        found = re.search(re.escape(m.group(1).replace("–", "-")), source_all) or num.split("-")[0] in re.findall(r"\d+(?:[.,]\d+)?", source_all)
-        if not found:
-            rule = "preserving_from_site" if post["kind"] in ("preserve",) or post.get("topic_kind") == "preserve" else "timings_from_site"
+    src_n = norm(source_all)
+    src_nums = set(re.findall(r"\d+(?:\.\d+)?", src_n))
+    for m in NUM_UNIT.finditer(norm(text)):
+        figure, unit = m.group(1).replace(" ", ""), m.group(2).strip()
+        phrase = f"{figure} {unit}"
+        if "-" in figure:
+            ok = figure in src_n and (phrase in src_n or re.search(rf"{re.escape(figure)}\s*\w*\s*{re.escape(unit)}", src_n) is not None)
+        else:
+            ok = phrase in src_n or (figure in src_nums and unit in src_n)
+        if not ok:
+            rule = "preserving_from_site" if post.get("topic_kind") in ("preserve", "glut") or "keep" in m.string[max(0, m.start() - 60):m.start()] else "timings_from_site"
             fails.append(f"{rule}: '{m.group(0)}' is not in the site's text")
 
     # toxic_parts
