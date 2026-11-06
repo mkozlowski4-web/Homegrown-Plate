@@ -692,6 +692,10 @@ html[data-kids] .kids-pill:not([hidden]) { display: inline-flex !important; }
 .site-footer a:hover { color: var(--green); text-decoration: underline; }
 .foot-kids { background: #fff; border: 1px solid var(--line); border-radius: 999px; min-height: 40px; padding: 0 14px; font: inherit; font-size: .9rem; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 .foot-kids[hidden] { display: none; }
+.foot-social { display: flex; gap: 10px; margin-top: 14px; }
+.site-footer .foot-social a { margin-left: 0; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: #fff; }
+.site-footer .foot-social a:hover { color: var(--green); border-color: var(--green); text-decoration: none; }
+.foot-social svg { width: 20px; height: 20px; }
 .foot-kids[aria-pressed="true"] { background: #ffd23f; border-color: #c9a227; }
 
 /* Tablet */
