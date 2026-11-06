@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T11:06:26.541200+00:00",
+ "checked": "2026-11-06T11:07:17.984018+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
@@ -723,6 +723,868 @@
       "name": "String",
       "kind": "SCALAR",
       "ofType": null
+     }
+    }
+   ]
+  },
+  "Query_fields": {
+   "fields": [
+    {
+     "name": "account",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Account",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "dailyPostingLimits",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    },
+    {
+     "name": "channel",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Channel",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "channels",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    },
+    {
+     "name": "aggregatedPostMetrics",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "AggregatedPostMetrics",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "snippets",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "SnippetsConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "collaborationNotes",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "CollaborationNotesConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "post",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Post",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "posts",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "PostsResults",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "contentItem",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "ContentItem",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "contentItems",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "ContentItemsConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "tag",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": "Tag",
+      "kind": "OBJECT",
+      "ofType": null
+     }
+    },
+    {
+     "name": "tagsV2",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "TagsConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "selectableTeamMembers",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "SelectableTeamMembersConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "instagramAudio",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "InstagramAudioPayload",
+       "kind": "UNION",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "searchInstagramAudio",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "SearchInstagramAudioPayload",
+       "kind": "UNION",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "trendingInstagramAudio",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "SearchInstagramAudioPayload",
+       "kind": "UNION",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "instagramAudioCatalog",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "InstagramAudioCatalogPayload",
+       "kind": "UNION",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "searchInstagramAudioCatalog",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "InstagramAudioCatalogPayload",
+       "kind": "UNION",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "configuration",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Configuration",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "postTemplate",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": "PostTemplate",
+      "kind": "OBJECT",
+      "ofType": null
+     }
+    },
+    {
+     "name": "postTemplates",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "PostTemplatesConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "ideaGroups",
+     "args": [
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    },
+    {
+     "name": "ideas",
+     "args": [
+      {
+       "name": "after"
+      },
+      {
+       "name": "first"
+      },
+      {
+       "name": "input"
+      }
+     ],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "IdeasConnection",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    }
+   ]
+  },
+  "Channel_fields": {
+   "fields": [
+    {
+     "name": "id",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "ChannelId",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "allowedActions",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    },
+    {
+     "name": "avatar",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "descriptor",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "displayName",
+     "args": [],
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "externalLink",
+     "args": [],
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "hasActiveMemberDevice",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "isDisconnected",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "isLocked",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "isNew",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "isQueuePaused",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "linkShortening",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "ChannelLinkShortening",
+       "kind": "OBJECT",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "metadata",
+     "args": [],
+     "type": {
+      "name": "ChannelMetadata",
+      "kind": "UNION",
+      "ofType": null
+     }
+    },
+    {
+     "name": "name",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "organizationId",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "OrganizationId",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "postingGoal",
+     "args": [],
+     "type": {
+      "name": "PostingGoal",
+      "kind": "OBJECT",
+      "ofType": null
+     }
+    },
+    {
+     "name": "postingSchedule",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    },
+    {
+     "name": "products",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "LIST",
+      "ofType": {
+       "name": null,
+       "kind": "NON_NULL",
+       "ofType": {
+        "name": "Product"
+       }
+      }
+     }
+    },
+    {
+     "name": "scopes",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": "String"
+       }
+      }
+     }
+    },
+    {
+     "name": "service",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Service",
+       "kind": "ENUM",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "serviceId",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "showTrendingTopicSuggestions",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "Boolean",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "timezone",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "type",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "ChannelType",
+       "kind": "ENUM",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "createdAt",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "DateTime",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "updatedAt",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "DateTime",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    }
+   ]
+  },
+  "PinterestBoard_fields": {
+   "fields": [
+    {
+     "name": "id",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "avatar",
+     "args": [],
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "description",
+     "args": [],
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "name",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "serviceId",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
+     }
+    },
+    {
+     "name": "url",
+     "args": [],
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR",
+       "ofType": null
+      }
      }
     }
    ]
