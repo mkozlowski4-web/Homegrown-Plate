@@ -16,9 +16,11 @@ def local_media(url):
         return ""
     if url.startswith("file://") or url.startswith("/"):
         return url if url.startswith("file://") else "file://" + url
+    if not url.startswith("http") and Path(url).exists():
+        return "file://" + str(Path(url).resolve())
     site_dir = env("SITE_DIR")
     if site_dir and "homegrownplate.co.uk/" in url:
-        p = Path(site_dir) / "dist" / url.split("homegrownplate.co.uk/", 1)[1].split("?")[0].split("#")[0]
+        p = Path(site_dir).resolve() / "dist" / url.split("homegrownplate.co.uk/", 1)[1].split("?")[0].split("#")[0]
         if p.exists():
             return "file://" + str(p)
     return url

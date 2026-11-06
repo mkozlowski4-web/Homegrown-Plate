@@ -62,6 +62,11 @@ def make_reel(renderer, workdir, opening, steps, hook, end_title, end_sub, cover
         src = item["src"]
         if item["kind"] == "clip":
             dur = clip_segment(_path(src), seg, dur, item.get("start", 0.0))
+        elif item["kind"] == "card":
+            card = renderer.render("reel", wd / f"card{i}.png", mode="step", text=item.get("label"), sub=item.get("sub"), fact=item.get("fact"))
+            still_segment(card, seg, dur, zoom_in=True)
+            segs.append((seg, dur))
+            return
         else:
             img = src
             if item["kind"] == "drawing":

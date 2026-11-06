@@ -38,7 +38,9 @@ function pageImages(path) {
   for (const m of h.matchAll(/<img[^>]*src="([^"]+)"[^>]*>/g)) {
     if (/favicon|brand-mark/.test(m[0])) continue;
     const url = m[1].startsWith('http') ? m[1] : BASE + m[1];
-    if (seen.has(url)) continue; seen.add(url);
+    const alt0 = (m[0].match(/alt="([^"]*)"/) || [])[1] || '';
+    if (seen.has(url)) { const prev = out.find((o) => o.url === url); if (prev && !prev.alt) prev.alt = alt0; continue; }
+    seen.add(url);
     out.push({ url, alt: (m[0].match(/alt="([^"]*)"/) || [])[1] || '', role: 'page' });
   }
   return out.map((i) => ({ ...i, kind: /\/img\/photos\//.test(i.url) ? 'photo' : /\.svg/.test(i.url) ? 'drawing' : /\/img\/recipes\//.test(i.url) ? 'recipe-card' : 'other', ai_made: false }));

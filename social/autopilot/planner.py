@@ -385,46 +385,93 @@ class Week:
         post = self.base_post("reel", day, "18:30", ["instagram", "facebook", "pinterest", "tiktok"], kind, topic, c["url"], [c["id"]],
                               month, safety_lines=self.safety_for(c), moment=(moment or {}).get("id"))
         used = []
-        imgs = [i["url"] for i in c["images"] if i["kind"] == "photo"] + [i["url"] for i in c["images"] if i["kind"] != "photo"]
-        turn = {"n": 0}
+        imgs = [i["url"] for i in c["images"] if i["kind"] == "photo"]
+        planting_shot = {i["url"] for i in c["images"] if re.search(r"\b(plant|planting|sow|sowing|seed|seeds|clove|cloves|sets|string line|tray)\b", i.get("alt", ""), re.I)
+                         and not re.search(r"\b(harvest|picked|lifted|ready to eat)\b", i.get("alt", ""), re.I)}
+        seen_hashes = []
 
-        def next_img():
-            if not imgs:
+        def ahash(path_or_url):
+            """Small picture fingerprint so the same photo never shows twice in a reel (site copy or inbox copy)."""
+            try:
+                from PIL import Image
+                from .render import local_media
+                pth = local_media(path_or_url)
+                pth = pth[7:] if pth.startswith("file://") else pth
+                if not pth or pth.startswith("http") or pth.endswith(".svg"):
+                    return None
+                im = Image.open(pth).convert("L").resize((12, 12))
+                px = list(im.getdata()); avg = sum(px) / len(px)
+                return [p > avg for p in px]
+            except Exception:  # noqa: BLE001
                 return None
-            u = imgs[turn["n"] % len(imgs)]; turn["n"] += 1
-            return u
 
-        def src(task, recipe=None, fallback=None, label=None, sub=None):
+        def dup(h):
+            return h is not None and any(sum(a != b for a, b in zip(h, o)) <= 14 for o in seen_hashes)
+
+        def remember(path_or_url):
+            h = ahash(path_or_url)
+            if h is not None:
+                seen_hashes.append(h)
+
+        def fresh_site_img(step_task, opening=False):
+            # a site photo stands in for "pick" only if it isn't a planting shot; any crop photo can open the reel
+            for u in imgs:
+                if (opening or u not in planting_shot) and not dup(ahash(u)):
+                    return u
+            return None
+
+        def card(label, sub, fact):
+            return {"src": None, "kind": "card", "label": label, "sub": sub, "fact": fact}
+
+        def src(task, recipe=None, fallback=None, label=None, sub=None, fact=None):
             tasks = task if isinstance(task, (list, tuple)) else [task]
-            it = None
+            it, s = None, None
             for t in tasks:
-                cand = library.find(c["id"], t, recipe["id"] if recipe else None, d, self.taken_media)
-                if cand and (cand.get("task") == t or (recipe and cand.get("recipe") == recipe["id"])):
-                    it = cand; break
+                skip = set(self.taken_media)
+                while True:  # try each of Mark's matching shots until one isn't a repeat
+                    cand = library.find(c["id"], t, recipe["id"] if recipe else None, d, skip)
+                    if not cand or not (cand.get("task") == t or (recipe and cand.get("recipe") == recipe["id"])):
+                        break
+                    s_ = library.as_source(cand)
+                    if s_["kind"] == "photo" and dup(ahash(s_["src"])):
+                        skip.add(cand["id"]); continue
+                    it, s = cand, s_
+                    break
+                if it:
+                    break
             if it:
-                self.taken_media.add(it["id"]); used.append(it["id"])
-                s = library.as_source(it)
-            else:
-                img = fallback or next_img()
+                self.taken_media.add(it["id"]); used.append(it["id"]); remember(s["src"])
+            if not it:
+                img = fallback if fallback and not dup(ahash(fallback)) else (fresh_site_img(tasks[0], opening=label is None) if tasks[0] in ("pick", "cook") else None)
+                if not img:
+                    if label:
+                        return card(label, sub, fact)
+                    img = fallback or (imgs[0] if imgs else self.site.best_image(c))
+                remember(img)
                 s = {"src": img, "kind": "drawing" if (img or "").endswith(".svg") or "/img/recipes/" in (img or "") else "photo"}
             s.update(label=label, sub=sub)
             return s
 
         r0 = recipes[0] if recipes else None
         opening = src(["pick", "cook"], r0, r0["image"] if r0 and not self.site.has_photo(c) else None)
-        if opening.get("library_id") is None:  # no picking or cooking shot yet: open on Mark's own photo of this crop
+        if opening.get("library_id") is None and opening.get("kind") != "photo":  # no real shot: open on Mark's own photo of this crop
             mine = library.find(c["id"], None, None, d, self.taken_media)
             if mine:
-                self.taken_media.add(mine["id"]); used.append(mine["id"])
-                opening = {**library.as_source(mine), "label": None, "sub": None}
+                ms = library.as_source(mine)
+                if not dup(ahash(ms["src"])):
+                    self.taken_media.add(mine["id"]); used.append(mine["id"]); remember(ms["src"])
+                    opening = {**ms, "label": None, "sub": None}
         sow_t = C.month_range(c["sow_or_plant_outside"] or c["sow_indoors"])
         if kind == "sow_to_plate":
-            steps = [src("sow", label=self.verb(c), sub=sow_t), src("grow", label="Grow", sub=None),
-                     src("pick", label="Pick", sub=C.month_range(c["harvest"]))]
+            grow_tip = (C.first_sentences(c["text"]["grow_tips"] or c["text"]["grow"], 1, 110) or [None])[0]
+            pick_tip = (C.first_sentences(c["text"]["harvest_tips"] or c["text"]["harvest"], 1, 110) or [None])[0]
+            steps = [src("sow", label=self.verb(c), sub=sow_t), src("grow", label="Grow", sub=None, fact=grow_tip),
+                     src("pick", label="Pick", sub=C.month_range(c["harvest"]), fact=pick_tip)]
             if r0:
                 steps.append(src("cook", r0, r0["image"], label="Cook", sub=r0["name"]))
         else:
-            steps = [src("pick", label="Pick", sub=C.month_range(c["harvest"]))]
+            steps = [src("pick", label="Pick", sub=C.month_range(c["harvest"]),
+                         fact=(C.first_sentences(c["text"]["harvest_tips"] or c["text"]["harvest"], 1, 110) or [None])[0])]
             for r in recipes[:2]:
                 steps.append(src("cook", r, r["image"], label="Cook", sub=r["name"]))
             if c["preserving"]:
@@ -440,7 +487,7 @@ class Week:
         post["related"] = [f"{hooks.lc(c['name'])} recipes", f"growing {hooks.lc(c['name'])} UK", f"storing {hooks.lc(c['name'])}"]
         post = self.finish(post, facts, [b for b in body if b], cands,
                            set(c["sow_indoors"] + c["sow_or_plant_outside"] + c["harvest"]) | {month}, self.numbers_for(c), True)
-        post["on_image_text"] = [post["hook"]["hook"]] + [f"{s.get('label') or ''} {s.get('sub') or ''}" for s in steps] + \
+        post["on_image_text"] = [post["hook"]["hook"]] + [f"{s.get('label') or ''} {s.get('sub') or ''} {s.get('fact') or ''}" for s in steps] + \
             [c["name"], "homegrownplate.co.uk"]
         if post["hook"]["hook"]:
             mp4, cover, meta = make_reel(self.r, self.out / f"{d.isoformat()}-reel", opening, steps, post["hook"]["hook"],
