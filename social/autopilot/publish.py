@@ -115,6 +115,12 @@ def buffer_check():
             shapes[t + "_full"] = d
         except Exception as e:  # noqa: BLE001
             shapes[t + "_full"] = str(e)[:200]
+    probe = 'query { __type(name: "%s") { fields { name args { name } type { name kind ofType { name kind ofType { name } } } } } }'
+    for t in ("Query", "Channel", "PinterestBoard"):
+        try:
+            shapes[t + "_fields"] = gql(probe % t)["__type"]
+        except Exception as e:  # noqa: BLE001
+            shapes[t + "_fields"] = str(e)[:200]
     pin = next((c for c in chans if c["service"] == "pinterest"), None)
     if pin:
         try:
