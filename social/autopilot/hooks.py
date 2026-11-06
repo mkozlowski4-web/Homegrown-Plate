@@ -102,8 +102,29 @@ def lc(name):
     return name[0].lower() + name[1:]
 
 
+HERB_BANNED = re.compile(r"\b(glut|too much|too many|waste|wasting|wasted|rot|rots|bin|binning|spare|surplus|use up)\b", re.I)
+
+
+def herb_candidates(kind, crop, month, extra=None):
+    """Herbs are snipped as needed, so no glut or waste talk: the stakes are paying for plastic packs and missing an easy win."""
+    n = lc(crop["name"])
+    out = [f"Stop buying {n} in plastic packs. Grow your own",
+           f"Nobody tells you {n} is this easy to grow",
+           f"Still paying for {n}? One plant fixes that"]
+    if "balcony" in crop["garden_sizes"]:
+        out.append(f"You don't need a garden to grow {n}")
+    if month and month in crop["sow_indoors"] + crop["sow_or_plant_outside"]:
+        out.append(f"Don't miss {month}: it's still {n} {'planting' if crop.get('perennial_planting') else 'sowing'} time")
+    if kind == "recipe" and extra:
+        out += [f"Stop buying {n}. Snip your own for {extra['name']}",
+                f"Nobody tells you how good homegrown {n} is in {extra['name']}"]
+    return out
+
+
 def candidates(kind, site, crop=None, month=None, extra=None):
     """Hook ideas built only from site facts. Gemini ideas are added by the caller and scored the same way."""
+    if crop and crop.get("group") == "herb":
+        return herb_candidates(kind, crop, month, extra)
     out = []
     if kind in ("sow_to_plate", "reel_sow") and crop:
         n = lc(crop["name"])

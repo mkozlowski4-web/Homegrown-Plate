@@ -119,6 +119,8 @@ class Week:
         g_hooks = [h for h in (g or {}).get("hooks", []) if isinstance(h, str)]
         if topic_words:  # Gemini's ideas must be about what this post actually shows
             g_hooks = [h for h in g_hooks if re.search(topic_words, h, re.I)]
+        if any(self.site.crops.get(x, {}).get("group") == "herb" for x in post.get("crops", [])[:1]):
+            g_hooks = [h for h in g_hooks if not hooks.HERB_BANNED.search(h)]
         cands = list(hook_cands) + g_hooks
         if post["kind"] == "reel":
             cands = [h for h in cands if len(h) <= 55]
@@ -534,7 +536,7 @@ class Week:
             post["hook"] = best or {"hook": title, "score": 0}
             frost = False
         elif kind == "question":
-            harvest = [c for c in self.site.in_season(months, "harvest") if c["id"] not in self.week_crops]
+            harvest = [c for c in self.site.in_season(months, "harvest") if c["id"] not in self.week_crops and c.get("group") != "herb"]
             c = self.pick_crop(harvest, d, "story_q") or harvest[0]
             qs = [f"Got a glut of {hooks.lc(c['name'])}? What do you cook first so none goes to waste?",
                   "What's one crop you'd never waste space on again?",

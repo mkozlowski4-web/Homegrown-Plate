@@ -114,7 +114,7 @@ UK spelling. Plain words, no gardening jargon. Never use em dashes. Never use th
 No hashtags except where asked. Do not say "link in bio".
 Use ONLY the facts below. Do not add any month, number, time, temperature, treatment or claim that is not in the facts.
 Copy timings and figures exactly as the facts give them; never turn a season into months (if the facts say "until spring", say "until spring").
-Never borrow figures from a different crop. Do not invent personal stories or anecdotes about Mark, his family or his garden;
+Never borrow figures from a different crop. If the crop is a herb, never talk about a glut, surplus or waste: herbs are snipped as needed. Do not invent personal stories or anecdotes about Mark, his family or his garden;
 first person is fine for advice and opinion ("I'd cook these first"), not for events that may not have happened.
 
 POST TYPE: {post['kind']} for {post['channel_group']}
