@@ -1,14 +1,4 @@
 {
  "week_start": "2026-11-08",
- "held": [
-  {
-   "date": "2026-11-12",
-   "kind": "pin",
-   "topic": "How to grow blackberry",
-   "reasons": [
-    "timings_from_site: 'July' used for sowing/planting but the site's months are ['December', 'February', 'January', 'March', 'November']",
-    "timings_from_site: 'October' used for sowing/planting but the site's months are ['December', 'February', 'January', 'March', 'November']"
-   ]
-  }
- ]
+ "held": []
 }

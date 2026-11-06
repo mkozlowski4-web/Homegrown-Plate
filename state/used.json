@@ -1,9 +1,9 @@
 {
  "glut:brussels-sprouts": "2026-11-08",
- "glut:lettuce": "2026-11-11",
- "reel_sow_to_plate:garlic": "2026-11-10",
- "reel_glut:lambs-lettuce": "2026-11-13",
- "story_crop:broad-bean": "2026-11-08",
- "story_crop:elephant-garlic": "2026-11-11",
- "story_crop:winter-purslane": "2026-11-14"
+ "glut:spring-onion": "2026-11-11",
+ "reel_sow_to_plate:broad-bean": "2026-11-10",
+ "reel_glut:lettuce": "2026-11-13",
+ "story_crop:garlic": "2026-11-08",
+ "story_crop:redcurrant": "2026-11-11",
+ "story_crop:elephant-garlic": "2026-11-14"
 }
