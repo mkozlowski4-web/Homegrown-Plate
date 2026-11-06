@@ -93,6 +93,14 @@ class Week:
         best.sort(key=lambda x: (-x[0], x[1]))
         return best[0][2] if best else None
 
+    def my_photo(self, c, d, post):
+        """Mark's own photo of this crop if one is free (not used this week or in the last 12 weeks)."""
+        it = library.find(c["id"], None, None, d, self.taken_media)
+        if it and it["kind"] == "photo":
+            self.taken_media.add(it["id"]); post.setdefault("library_used", []).append(it["id"])
+            return str(library.local_file(it))
+        return None
+
     def verb(self, c):
         return "Plant" if c.get("perennial_planting") and not c["sow_indoors"] else "Sow"
 
@@ -489,7 +497,7 @@ class Week:
             post["hook"] = best or {"hook": title, "score": 0}
             sow_t = C.month_range(c["sow_or_plant_outside"] or c["sow_indoors"])
             paras = [f"{self.verb(c)}: {sow_t}. Pick: {C.month_range(c['harvest'])}."] + post["safety_lines"]
-            img = self.site.best_image(c)
+            img = self.my_photo(c, d, post) or self.site.best_image(c)
             frost = True
             library.mark_topic(f"story_crop:{c['id']}", d)
         p = self.r.render("story", folder / f"story-{kind}.png", kicker={"job": "This week's job", "question": "Question", "crop": "Crop of the day"}[kind],
@@ -537,7 +545,8 @@ class Week:
         rnd = random.Random(d.isoformat())
         jitter = {o[2]["url"]: rnd.random() for o in options}
         bonus = lambda o: 0 if o[1] != "crop" else (0 if self.site.has_photo(o[2]) or o[2]["difficulty"] == "Easy" else 0.5)
-        options.sort(key=lambda o: (o[0] != 0, o[1] != want, str(o[0]), bonus(o) + jitter[o[2]["url"]]))
+        mine = library.crops_with_media(d)
+        options.sort(key=lambda o: (o[0] != 0, not (o[1] == "crop" and o[2]["id"] in mine), o[1] != want, str(o[0]), bonus(o) + jitter[o[2]["url"]]))
         _, kind, item = options[0]
         if kind == "month":
             names = lambda ids: [self.site.crops[i]["name"] for i in ids if i in self.site.crops]
@@ -559,7 +568,7 @@ class Week:
             cands = hooks.candidates("sow_to_plate" if c["id"] in {x["id"] for x in self.site.in_season(months, "sow")} else "glut", self.site, c, month)
             post = self.finish(post, self.crop_facts(c), body, cands, set(c["sow_indoors"] + c["sow_or_plant_outside"] + c["harvest"]) | {month},
                                self.numbers_for(c), True)
-            img, kicker, sub = self.site.best_image(c), "Grow guide", f"{self.verb(c)} {sow_t} · Pick {C.month_range(c['harvest'])}"
+            img, kicker, sub = self.my_photo(c, d, post) or self.site.best_image(c), "Grow guide", f"{self.verb(c)} {sow_t} · Pick {C.month_range(c['harvest'])}"
         else:
             r = item
             cs = [self.site.crops[x] for x in r["crops"] if x in harvest_ids and x in self.site.crops]
