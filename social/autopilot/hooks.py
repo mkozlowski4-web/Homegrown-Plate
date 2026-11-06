@@ -102,6 +102,36 @@ def lc(name):
     return name[0].lower() + name[1:]
 
 
+COUNTABLE = {"apple", "pear", "plum", "cherry", "fig", "peach", "apricot", "quince", "tomato", "courgette", "marrow", "cucumber", "gherkin",
+             "chilli", "sweet-pepper", "aubergine", "pumpkin", "butternut-squash", "patty-pan", "melon", "onion", "shallot", "leek", "potato",
+             "sweet-potato", "carrot", "parsnip", "beetroot", "turnip", "swede", "radish", "mooli", "brussels-sprouts", "bean", "french-bean",
+             "broad-bean", "borlotti-bean", "runner-bean", "pea", "redcurrant", "blackcurrant", "whitecurrant", "loganberry", "elderberry", "cobnut", "sweetcorn", "strawberry", "raspberry", "blackberry", "gooseberry", "blueberry",
+             "cauliflower", "cabbage", "artichoke", "globe-artichoke", "spring-onion", "egg", "grape"}
+
+
+def plural(crop):
+    """'too many courgettes' / 'too much kale': (phrase noun, countable?, pronoun)."""
+    n = lc(crop["name"])
+    if crop["id"] not in COUNTABLE:
+        return n, False, "it"
+    if n.endswith("s"):
+        p = n
+    elif re.search(r"[^aeiou]y$", n):
+        p = n[:-1] + "ies"
+    elif n.endswith("o") and not n.endswith("oo"):
+        p = n + "es"
+    elif re.search(r"(sh|ch|x)$", n):
+        p = n + "es"
+    else:
+        p = n + "s"
+    return p, True, "them"
+
+
+def too(crop):
+    p, countable, _ = plural(crop)
+    return f"too many {p}" if countable else f"too much {p}"
+
+
 HERB_BANNED = re.compile(r"\b(glut|too much|too many|waste|wasting|wasted|rot|rots|bin|binning|spare|surplus|use up)\b", re.I)
 
 
@@ -128,30 +158,37 @@ def candidates(kind, site, crop=None, month=None, extra=None):
     out = []
     if kind in ("sow_to_plate", "reel_sow") and crop:
         n = lc(crop["name"])
+        p, countable, _ = plural(crop)
+        are = "are" if countable else "is"
         verb = "planting" if crop.get("perennial_planting") else "sowing"
         sow = crop["sow_or_plant_outside"] + crop["sow_indoors"]
         if month in sow:
             out += [f"Nobody tells you {month} is still {n} {verb} time",
-                    f"Stop buying {n}. {'Plant' if verb == 'planting' else 'Sow'} your own this {month}"]
+                    f"Stop buying {p}. {'Plant' if verb == 'planting' else 'Sow'} your own this {month}"]
             nxt = MONTHS[(MONTHS.index(month) + 1) % 12]
             if nxt not in sow:
-                out.append(f"Last {verb} month for {n}: miss {month} and it waits a year")
+                out.append(f"Last {verb} month for {p}: miss {month} and it waits a year")
         if "balcony" in crop["garden_sizes"]:
-            out.append(f"You don't need a garden to grow {n}")
+            out.append(f"You don't need a garden to grow {p}")
         if crop["harvest"]:
-            out.append(f"From a {month or sow[0]} sowing to your plate: {n}, start to finish")
-            out += [f"Stop buying {n}. Grow your own", f"Don't miss {n} {verb} time", f"Nobody tells you {n} is this easy"]
+            out.append(f"From a {month or sow[0]} {verb} to your plate: {p}, start to finish")
+            out += [f"Stop buying {p}. Grow your own", f"Don't miss {n} {verb} time", f"Nobody tells you {p} {are} this easy"]
         out.append(f"The {n} job most beginners miss in {month}")
     if kind in ("glut", "reel_glut") and crop:
-        n = lc(crop["name"])
-        r = len(crop["recipes"]); p = len(crop["preserving"])
+        p, countable, it = plural(crop)
+        subj = "they" if countable else "it"
+        r = len(crop["recipes"])
+        cap = lambda t: t[0].upper() + t[1:]
+        out += [f"{cap(too(crop))}? Don't bin {it}",
+                f"More {p} than you can eat? Don't let {it} rot",
+                f"A bumper crop of {p}? Here's what to cook before {subj} {'go' if countable else 'goes'} off",
+                f"Nobody tells you what to do with all {'those' if countable else 'that'} {p}",
+                f"Stop binning spare {p}. Cook {it} instead"]
         if r >= 2:
-            out += [f"{r} ways to use a glut of {n} before it goes to waste",
-                    f"Got a glut of {n}? Don't let it rot. Cook it these {min(r, 3)} ways" if r >= 3 else ""]
-        if p:
-            out.append(f"Stop binning spare {n}. Here's how to keep it for months" if any(re.search(r"month", p["keeps"]) for p in crop["preserving"]) else f"Stop binning spare {n}. Here's how to keep it")
-        out.append(f"Nobody tells you what to do with a glut of {n}")
-        out += [f"Too much {n}? Don't bin it", f"Stop wasting your spare {n}", f"{n[0].upper() + n[1:]} glut? Don't let it rot"]
+            out.append(f"{r} ways to use up {p} before {subj} {'go' if countable else 'goes'} to waste")
+        if r >= 3:
+            out.append(f"{cap(too(crop))}? Don't let {it} rot. Cook {it} these 3 ways")
+        out.append(f"{cap(p)} glut? Don't let {it} rot")
     if kind == "preserve" and crop:
         n = lc(crop["name"])
         keeps = crop["preserving"][0]["keeps"]
@@ -175,8 +212,9 @@ def candidates(kind, site, crop=None, month=None, extra=None):
         out += [f"Don't miss this {month} garden job before the weekend's gone",
                 f"Stop putting off this {month} garden job"]
     if kind == "recipe" and crop and extra:
-        n = lc(crop["name"]); rn = extra["name"]
-        out += [f"Don't waste your {n}. Make {rn} instead",
-                f"Stop letting {n} go to waste. Make this {rn}",
+        n = lc(crop["name"]); rn = extra["name"]; p, countable, it = plural(crop)
+        out += [f"Don't waste your {p}. Make {rn} instead" if countable or crop["id"] not in ("calabrese",) else "",
+                f"{too(crop)[0].upper() + too(crop)[1:]}? Make {rn} before {'they go' if countable else 'it goes'} off",
+                f"Stop letting {p} go to waste. Make this {rn}",
                 f"Nobody tells you how good homegrown {n} is in {rn}"]
     return [h for h in out if h]

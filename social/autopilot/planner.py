@@ -82,7 +82,10 @@ class Week:
         media = library.crops_with_media(on)
         best = []
         no_herbs = kind.startswith("reel") or kind in ("glut", "preserve", "sow_to_plate")
+        niche = set(load("brand.json").get("niche_crops", {}).get("crops", []))
         for c in pool:
+            if c["id"] in niche:
+                continue
             if c["id"] in self.week_crops or (no_herbs and c.get("group") == "herb" and c["id"] not in media):
                 continue
             fresh = library.topic_free(f"{kind}:{c['id']}", on)
@@ -113,7 +116,7 @@ class Week:
         g = C.gemini_copy(post, facts) if self.use_gemini else None
         post["gemini"] = g
         topic_words = {
-            "sow_to_plate": r"\b(sow|sowing|plant|planting|grow|growing|start|seed|clove)", "glut": r"\b(glut|too much|too many|spare|waste|cook|use up|surplus)",
+            "sow_to_plate": r"\b(sow|sowing|plant|planting|grow|growing|start|seed|clove)", "glut": r"\b(glut|too much|too many|spare|waste|cook|use up|surplus|more than|bumper|all those|all that)",
             "preserve": r"\b(store|storing|keep|keeping|freeze|pickle|jar|preserv|cure|dry)", "kids": r"\b(kid|kids|child|children|little|family)",
             "month": r"\b(sow|sowing|plant|month)"}.get(post["topic_kind"])
         g_hooks = [h for h in (g or {}).get("hooks", []) if isinstance(h, str)]
@@ -166,6 +169,7 @@ class Week:
              "channel_group": " + ".join(channels), "media": [], "on_image_text": [], "ai_made": False, **kw}
         if crops:
             p["crop_name"] = self.site.crops[crops[0]]["name"]
+            p["plural_name"] = hooks.plural(self.site.crops[crops[0]])[0]
         p["search_phrase"] = C.search_phrase(p)
         return p
 
@@ -219,10 +223,11 @@ class Week:
     def crop_carousel(self, day, kind, c, month, folder, moment):
         name = c["name"]
         recipes = self.site.recipes_for(c)
-        topic = {"sow_to_plate": f"{name} from sowing to your plate", "glut": f"What to cook with a glut of {hooks.lc(name)}",
+        topic = {"sow_to_plate": f"{name} from sowing to your plate", "glut": f"What to cook with {hooks.too(c)}",
                  "preserve": f"How to keep {hooks.lc(name)}"}[kind]
         post = self.base_post("carousel", day, "18:30", ["instagram", "facebook"], kind, topic, c["url"], [c["id"]], month,
-                              moment=(moment or {}).get("id"), safety_lines=self.safety_for(c))
+                              moment=(moment or {}).get("id"), safety_lines=self.safety_for(c), too_phrase=hooks.too(c))
+        post["search_phrase"] = C.search_phrase(post)
         facts = self.crop_facts(c)
         post["related"] = [f"{hooks.lc(name)} recipes", f"growing {hooks.lc(name)} UK", f"storing {hooks.lc(name)}"]
         lib_cover = library.find(c["id"], None, None, self.start + timedelta(days=day), self.taken_media)
@@ -268,7 +273,7 @@ class Week:
                 specs.append({"layout": "text", "kicker": "Keep", "title": "Still too much? Keep it",
                               "paras": [f"{p['method']}: {C.clean(p['how'])} Keeps {p['keeps']}." for p in c["preserving"][:2]]})
             picks = [r["name"] for r in recipes[:3]]
-            body = [f"What to do with a glut of {hooks.lc(name)}? Pick it {C.month_range(c['harvest'])}, then this is what I'd cook first: {C.month_list(picks)}.",
+            body = [f"What to do with {hooks.too(c)}? Pick {hooks.plural(c)[2]} {C.month_range(c['harvest'])}, then this is what I'd cook first: {C.month_list(picks)}.",
                     (f"Still too much? {c['preserving'][0]['method']}: keeps {c['preserving'][0]['keeps']}." if c["preserving"] else ""),
                     "Every recipe is on the site."]
         else:
@@ -390,9 +395,10 @@ class Week:
             return None
         self.week_crops.add(c["id"])
         recipes = self.site.recipes_for(c)
-        topic = f"{c['name']}: sow it, grow it, cook it" if kind == "sow_to_plate" else f"{c['name']} glut: pick it, cook it, keep it"
+        topic = f"{c['name']}: sow it, grow it, cook it" if kind == "sow_to_plate" else f"{hooks.too(c)[0].upper() + hooks.too(c)[1:]}: pick, cook, keep"
         post = self.base_post("reel", day, "18:30", ["instagram", "facebook", "pinterest", "tiktok"], kind, topic, c["url"], [c["id"]],
-                              month, safety_lines=self.safety_for(c), moment=(moment or {}).get("id"))
+                              month, safety_lines=self.safety_for(c), moment=(moment or {}).get("id"), too_phrase=hooks.too(c))
+        post["search_phrase"] = C.search_phrase(post)
         used = []
         imgs = [i["url"] for i in c["images"] if i["kind"] == "photo"]
         planting_shot = {i["url"] for i in c["images"] if re.search(r"\b(plant|planting|sow|sowing|seed|seeds|clove|cloves|sets|string line|tray)\b", i.get("alt", ""), re.I)
@@ -487,7 +493,7 @@ class Week:
                 steps.append(src("store", label="Keep", sub=f"{c['preserving'][0]['method']}: {c['preserving'][0]['keeps']}"))
         facts = self.crop_facts(c)
         body = [f"How to grow {hooks.lc(c['name'])} in the UK, start to finish." if kind == "sow_to_plate" else
-                f"What to do with a glut of {hooks.lc(c['name'])}: pick it, cook it, keep it.",
+                f"What to do with {hooks.too(c)}: pick, cook, keep.",
                 (f"Then cook it: {C.month_list([r['name'] for r in recipes[:2]])}." if recipes else ""),
                 f"{self.verb(c)} {sow_t}, pick {C.month_range(c['harvest'])}." if sow_t and c["harvest"] else ""]
         cands = hooks.candidates("sow_to_plate" if kind == "sow_to_plate" else "glut", self.site, c, month)
@@ -536,16 +542,17 @@ class Week:
             post["hook"] = best or {"hook": title, "score": 0}
             frost = False
         elif kind == "question":
-            harvest = [c for c in self.site.in_season(months, "harvest") if c["id"] not in self.week_crops and c.get("group") != "herb"]
+            harvest = [c for c in self.site.in_season(months, "harvest") if c["id"] not in self.week_crops and c.get("group") != "herb"
+                       and c["id"] not in set(load("brand.json").get("niche_crops", {}).get("crops", []))]
             c = self.pick_crop(harvest, d, "story_q") or harvest[0]
-            qs = [f"Got a glut of {hooks.lc(c['name'])}? What do you cook first so none goes to waste?",
+            qs = [f"{hooks.too(c)[0].upper() + hooks.too(c)[1:]}? What do you cook first so none goes to waste?",
                   "What's one crop you'd never waste space on again?",
                   f"What did you lose to the weather this year? I'll start: half my {hooks.lc(c['name'])}."][:2]
             q = qs[(d.toordinal() // 7 + day) % len(qs)]
-            post = self.base_post("story", day, "09:00", ["instagram"], "story", "Question for growers", self.site.base + "/", [c["id"]] if "glut" in q else [], month)
+            post = self.base_post("story", day, "09:00", ["instagram"], "story", "Question for growers", self.site.base + "/", [c["id"]] if "cook first" in q else [], month)
             title = q
             paras = []
-            img = self.site.best_image(c) if "glut" in q else None
+            img = self.site.best_image(c) if "cook first" in q else None
             sc = hooks.score(title, [c["name"]])
             post["hook"] = {"hook": title, "score": sc[0], "parts": sc[1]}
             post["about_eating"] = False
@@ -596,8 +603,10 @@ class Week:
         if first_week and pinned.get(self.site.sow_page(month)["url"], "")[:7] != d.isoformat()[:7]:
             options.append((0, "month", self.site.sow_page(month)))
         sow_ids = {c["id"] for c in self.site.in_season(months, "sow")}
+        niche = set(load("brand.json").get("niche_crops", {}).get("crops", []))
+        recipes = [r for r in recipes if not any(x in niche for x in r["crops"])]
         for c in crops.values():
-            if c.get("group") == "herb" and c["id"] not in sow_ids:
+            if (c.get("group") == "herb" and c["id"] not in sow_ids) or c["id"] in niche:
                 continue
             options.append((pinned.get(c["url"], "0000"), "crop", c))
         for r in recipes:
