@@ -149,6 +149,17 @@ def buffer_check():
                     found[b["serviceId"]] = {"serviceId": b["serviceId"], "name": b.get("name") or ""}
         except Exception as ex:  # noqa: BLE001
             info["boards_from_posts_error"] = str(ex)[:400]
+        try:  # broader look, used when the filtered query finds nothing
+            qq = ('query { posts(first: 30, input: {organizationId: "%s"}) { edges { node { id status channelId dueAt '
+                  'metadata { __typename ... on PinterestPostMetadata { board { serviceId name } } } } } } }') % org["id"]
+            nodes = [e["node"] for e in gql(qq)["posts"]["edges"]]
+            info["recent_posts_debug"] = nodes
+            for n in nodes:
+                b = ((n.get("metadata") or {}).get("board")) or {}
+                if b.get("serviceId"):
+                    found[b["serviceId"]] = {"serviceId": b["serviceId"], "name": b.get("name") or ""}
+        except Exception as ex:  # noqa: BLE001
+            info["recent_posts_debug_error"] = str(ex)[:400]
         info["boards_from_posts"] = list(found.values())
     save("state/buffer.json", info)
     print("Pinterest boards known:", [b["name"] for b in info.get("boards_from_posts", [])])
