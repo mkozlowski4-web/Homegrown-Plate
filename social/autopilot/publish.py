@@ -266,3 +266,56 @@ def queue_due():
     save("state/queued.json", queued)
     save("state/queue-errors.json", errors[-200:])
     print(f"Sent {sent} post(s) to Buffer. Errors so far: {len(errors)}")
+
+
+# ---------------- results for the Monday report ----------------
+
+def _type_of(t):
+    while t and t.get("ofType"):
+        t = t["ofType"]
+    return t.get("name") if t else None
+
+
+def _selection(type_name, depth=0):
+    """Build a selection of every simple field of a Buffer type (the metric shape isn't documented)."""
+    d = gql('query { __type(name: "%s") { kind fields { name type { name kind ofType { name kind ofType { name kind } } } } '
+            'possibleTypes { name } } }' % type_name)["__type"]
+    if not d:
+        return ""
+    if d.get("possibleTypes"):
+        return "__typename " + " ".join("... on %s { %s }" % (pt["name"], _selection(pt["name"], depth + 1)) for pt in d["possibleTypes"])
+    out = []
+    for f in d.get("fields") or []:
+        tn = _type_of(f["type"])
+        kind = f["type"].get("kind") if f["type"].get("kind") != "NON_NULL" else (f["type"].get("ofType") or {}).get("kind")
+        if tn in ("String", "Int", "Float", "Boolean", "DateTime", "ID") or kind == "ENUM":
+            out.append(f["name"])
+        elif depth < 1 and tn:
+            sub = _selection(tn, depth + 1)
+            if sub:
+                out.append("%s { %s }" % (f["name"], sub))
+    return " ".join(out)
+
+
+def collect_results(days=8):
+    """Sent posts from the last week with Buffer's metrics, links and errors -> state/results/<date>.json."""
+    org = gql("query { account { organizations { id } } }")["account"]["organizations"][0]["id"]
+    post_t = gql('query { __type(name: "Post") { fields { name type { name kind ofType { name kind ofType { name kind } } } } } }')["__type"]
+    mt = _type_of(next(f["type"] for f in post_t["fields"] if f["name"] == "metrics"))
+    msel = _selection(mt) if mt else ""
+    since = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    q = ('query { posts(first: 100, input: {organizationId: "%s", filter: {status: [sent, error], dueAt: {start: "%s"}}}) '
+         '{ edges { node { id status channelService dueAt sentAt externalLink text metricsUpdatedAt error { message } %s } } } }'
+         % (org, since, ("metrics { %s }" % msel) if msel else ""))
+    try:
+        nodes = [e["node"] for e in gql(q)["posts"]["edges"]]
+    except Exception as ex:  # noqa: BLE001  (date filter shape differs: fall back to recent posts)
+        q2 = q.replace(', dueAt: {start: "%s"}' % since, "")
+        nodes = [e["node"] for e in gql(q2)["posts"]["edges"]]
+    queued = load("state/queued.json", {})
+    by_buffer = {v["buffer_id"]: k for k, v in queued.items()}
+    for n in nodes:
+        n["our_post"] = by_buffer.get(n["id"])
+    out = {"collected": datetime.now(timezone.utc).isoformat(), "metric_fields": msel, "posts": nodes}
+    save(f"state/results/{datetime.now(timezone.utc).date().isoformat()}.json", out)
+    print(f"Saved results for {len(nodes)} posts")

@@ -81,6 +81,11 @@ def cmd_intake(args):
     intake.run()
 
 
+def cmd_results(args):
+    from autopilot import publish
+    publish.collect_results()
+
+
 def cmd_buffer_check(args):
     from autopilot import publish
     publish.buffer_check()
@@ -94,5 +99,6 @@ if __name__ == "__main__":
     q = sp.add_parser("queue"); q.add_argument("--force", action="store_true"); q.set_defaults(f=cmd_queue)
     sp.add_parser("intake").set_defaults(f=cmd_intake)
     sp.add_parser("buffer-check").set_defaults(f=cmd_buffer_check)
+    sp.add_parser("results").set_defaults(f=cmd_results)
     a = ap.parse_args()
     a.f(a)

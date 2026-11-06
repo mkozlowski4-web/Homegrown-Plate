@@ -1,0 +1,33 @@
+name: Social - collect last week's results
+# Monday 07:30 UK (before the 08:45 report). Saves Buffer's numbers for each sent post to state/results/ on social-data.
+on:
+  schedule:
+    - cron: "30 7 * * 1"
+  workflow_dispatch:
+concurrency: social-autopilot
+permissions:
+  contents: write
+jobs:
+  results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: social
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: social }
+      - uses: actions/checkout@v4
+        with: { ref: social-data, path: social/data }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests
+      - name: Collect
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: python run.py results
+      - name: Save
+        working-directory: social/data
+        run: |
+          git config user.name "homegrown-plate-bot"; git config user.email "actions@users.noreply.github.com"
+          git add -A && (git commit -qm "Weekly results" && git push -q origin HEAD:social-data) || echo "nothing new"
