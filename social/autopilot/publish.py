@@ -136,7 +136,22 @@ def buffer_check():
             info["pinterest_boards"] = boards
         except Exception as e:  # noqa: BLE001
             info["pinterest_boards_error"] = str(e)[:300]
+    # Buffer's API lists no boards for some accounts, but every Pinterest post records its board:
+    # read boards from any pins in Buffer (drafts included) and remember them.
+    if pin:
+        found = {b["serviceId"]: b for b in load("state/buffer.json", {}).get("boards_from_posts", [])}
+        q = ('query { posts(first: 50, input: {organizationId: "%s", filter: {channelIds: ["%s"], status: [draft, scheduled, sent, error]}}) '
+             '{ edges { node { id metadata { ... on PinterestPostMetadata { board { serviceId name } } } } } } }') % (org["id"], pin["id"])
+        try:
+            for e in gql(q)["posts"]["edges"]:
+                b = ((e.get("node") or {}).get("metadata") or {}).get("board")
+                if b and b.get("serviceId"):
+                    found[b["serviceId"]] = {"serviceId": b["serviceId"], "name": b.get("name") or ""}
+        except Exception as ex:  # noqa: BLE001
+            info["boards_from_posts_error"] = str(ex)[:400]
+        info["boards_from_posts"] = list(found.values())
     save("state/buffer.json", info)
+    print("Pinterest boards known:", [b["name"] for b in info.get("boards_from_posts", [])])
     print(json.dumps({"organization": org["name"], "channels": [(c["service"], c["name"]) for c in chans]}, indent=1))
 
 
@@ -155,6 +170,8 @@ def board_id(post=None):
     PINTEREST_BOARD (a board name) or the first board is the fallback."""
     info = load("state/buffer.json", {})
     boards = (((info.get("pinterest_boards") or {}).get("channel") or {}).get("metadata") or {}).get("boards") or []
+    seen = {b["serviceId"] for b in boards}
+    boards = boards + [b for b in info.get("boards_from_posts", []) if b["serviceId"] not in seen]
     if not boards:
         return None
     kind = (post or {}).get("topic_kind") if (post or {}).get("kind") == "pin" else (post or {}).get("kind")
