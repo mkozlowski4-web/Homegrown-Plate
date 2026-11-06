@@ -125,7 +125,7 @@ def check(post, site):
 
     # ai_label
     if post.get("ai_made"):
-        for k in ("instagram", "facebook"):
+        for k in ("facebook",):
             if "Made with AI" not in _texts(post).get(k, ""):
                 fails.append(f"ai_label: {k} uses an AI-made image without the AI label")
 

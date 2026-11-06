@@ -133,14 +133,29 @@ def channel_id(service):
     return None
 
 
-def board_id():
-    want = env("PINTEREST_BOARD", "")
+BOARD_HINTS = {"pin_recipe": ["recipe"], "pin_month": ["sow", "calendar", "month"], "video_pin": ["grow"], "pin_crop": ["grow"]}
+
+
+def board_id(post=None):
+    """Recipe pins go to a board with 'recipe' in its name, month pins to one with 'sow', the rest to 'grow';
+    PINTEREST_BOARD (a board name) or the first board is the fallback."""
     info = load("state/buffer.json", {})
     boards = (((info.get("pinterest_boards") or {}).get("channel") or {}).get("metadata") or {}).get("boards") or []
+    if not boards:
+        return None
+    kind = (post or {}).get("topic_kind") if (post or {}).get("kind") == "pin" else (post or {}).get("kind")
+    for hint in BOARD_HINTS.get(kind, []):
+        for b in boards:
+            if hint in b["name"].lower():
+                return b["serviceId"]
+    want = env("PINTEREST_BOARD", "")
     for b in boards:
         if want and b["name"].lower() == want.lower():
             return b["serviceId"]
-    return boards[0]["serviceId"] if boards else None
+    for b in boards:
+        if "grow" in b["name"].lower():
+            return b["serviceId"]
+    return boards[0]["serviceId"]
 
 
 CREATE = """mutation($input: CreatePostInput!) { createPost(input: $input) {
@@ -154,18 +169,20 @@ def build_input(post, channel):
     if is_video:
         assets = [{"video": {"url": urls[0], "metadata": {"thumbnailOffset": post.get("reel", {}).get("cover_offset_ms", 1000)}}}]
     else:
-        assets = [{"image": {"url": u}} for u in urls]
+        alt = (post.get("hook") or {}).get("hook") or post.get("topic", "")
+        assets = [{"image": {"url": u, "metadata": {"altText": f"{alt} (Homegrown Plate, slide {i + 1})" if len(urls) > 1 else alt}}}
+                  for i, u in enumerate(urls)]
     inp = {"channelId": channel_id(channel), "schedulingType": "automatic", "mode": "customScheduled", "dueAt": post["due_utc"], "assets": assets}
     if channel == "instagram":
         typ = "story" if post["kind"] == "story" else "reel" if post["kind"] == "reel" else "post"
         inp["text"] = cap.get("instagram", "")
-        inp["metadata"] = {"instagram": {"type": typ, "shouldShareToFeed": True}}
+        inp["metadata"] = {"instagram": {"type": typ, "shouldShareToFeed": True, "isAiGenerated": bool(post.get("ai_made"))}}
     elif channel == "facebook":
         inp["text"] = cap.get("facebook", "")
         inp["metadata"] = {"facebook": {"type": "reel" if post["kind"] == "reel" else "post"}}
     elif channel == "pinterest":
         inp["text"] = cap.get("pin_description", "")
-        inp["metadata"] = {"pinterest": {"boardServiceId": board_id(), "title": cap.get("pin_title", ""), "url": post["url"]}}
+        inp["metadata"] = {"pinterest": {"boardServiceId": board_id(post), "title": cap.get("pin_title", ""), "url": post["url"]}}
     return inp
 
 
@@ -191,6 +208,9 @@ def queue_due():
                     continue  # the separate video_pin post covers Pinterest
                 key = f"{post['id']}|{ch}"
                 if key in queued or not channel_id(ch):
+                    continue
+                if ch == "pinterest" and not board_id(post):
+                    errors.append({"key": key, "error": "No Pinterest board yet", "at": now.isoformat()})
                     continue
                 try:
                     res = gql(CREATE, {"input": build_input(post, ch)})["createPost"]

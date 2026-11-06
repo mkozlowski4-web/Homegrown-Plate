@@ -61,7 +61,9 @@ Buffer input schema. If Buffer renames metadata fields, fix `publish.build_input
 ## Known limits
 
 - Buffer cannot add poll stickers to Stories, so the "poll" Story is a question card.
-- Buffer cannot set Meta's AI label; brand.json says AI images are never made, and the guardrail would require a "Made with AI" caption line if one ever appeared.
+- Instagram's AI label is set through Buffer (`isAiGenerated`); Facebook has no such field, so a "Made with AI." caption line is required there. brand.json says AI images are never made.
+- Buffer's Instagram `stickerFields` are only notes for manual reminders, not real stickers, so automatic polls are not possible (checked 6 Nov 2026).
+- Pinterest boards: recipe pins go to a board with "recipe" in its name, month pins to one with "sow", everything else to one with "grow".
 - Most crops on the site only have drawings, not photos. Posts built only from drawings lose 3 visual points; Mark's clips fix that.
 - Cloudflare Workers Builds is connected to this repo. Optional tidy-up in Cloudflare (Settings > Builds): exclude `social-data` and `social-media` from non-production branch builds, and add `social/*` and `.github/*` to build watch path excludes so code changes here don't redeploy the site.
 - Mark had no TikTok account as of 6 Nov 2026; TikTok captions are made anyway.
