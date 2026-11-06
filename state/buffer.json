@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T10:49:46.733610+00:00",
+ "checked": "2026-11-06T10:50:32.447348+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
@@ -467,6 +467,265 @@
     }
    ],
    "enumValues": null
+  },
+  "InstagramStickerFieldsInput": {
+   "name": "InstagramStickerFieldsInput",
+   "inputFields": [
+    {
+     "name": "music",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "other",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "products",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "text",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "topics",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    }
+   ],
+   "enumValues": null
+  },
+  "PostType": {
+   "name": "PostType",
+   "inputFields": null,
+   "enumValues": [
+    {
+     "name": "carousel"
+    },
+    {
+     "name": "event"
+    },
+    {
+     "name": "ghost_post"
+    },
+    {
+     "name": "offer"
+    },
+    {
+     "name": "post"
+    },
+    {
+     "name": "reel"
+    },
+    {
+     "name": "short"
+    },
+    {
+     "name": "story"
+    },
+    {
+     "name": "thread"
+    },
+    {
+     "name": "whats_new"
+    }
+   ]
+  },
+  "PostTypeFacebook": {
+   "name": "PostTypeFacebook",
+   "inputFields": null,
+   "enumValues": [
+    {
+     "name": "post"
+    },
+    {
+     "name": "reel"
+    },
+    {
+     "name": "story"
+    }
+   ]
+  },
+  "ShareMode": {
+   "name": "ShareMode",
+   "inputFields": null,
+   "enumValues": [
+    {
+     "name": "addToQueue"
+    },
+    {
+     "name": "customScheduled"
+    },
+    {
+     "name": "shareNext"
+    },
+    {
+     "name": "shareNow"
+    }
+   ]
+  },
+  "SchedulingType": {
+   "name": "SchedulingType",
+   "inputFields": null,
+   "enumValues": [
+    {
+     "name": "automatic"
+    },
+    {
+     "name": "notification"
+    }
+   ]
+  },
+  "ImageMetadataInput": {
+   "name": "ImageMetadataInput",
+   "inputFields": [
+    {
+     "name": "altText",
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": "String",
+       "kind": "SCALAR"
+      }
+     }
+    },
+    {
+     "name": "animatedThumbnail",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "userTags",
+     "type": {
+      "name": null,
+      "kind": "LIST",
+      "ofType": {
+       "name": null,
+       "kind": "NON_NULL"
+      }
+     }
+    }
+   ],
+   "enumValues": null
+  },
+  "VideoMetadataInput": {
+   "name": "VideoMetadataInput",
+   "inputFields": [
+    {
+     "name": "thumbnailOffset",
+     "type": {
+      "name": "Int",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "title",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    }
+   ],
+   "enumValues": null
+  },
+  "PinterestMetadata": {
+   "name": "PinterestMetadata",
+   "inputFields": null,
+   "enumValues": null
+  },
+  "PinterestBoard": {
+   "name": "PinterestBoard",
+   "inputFields": null,
+   "enumValues": null
+  },
+  "PinterestMetadata_full": {
+   "fields": [
+    {
+     "name": "boards",
+     "type": {
+      "name": null,
+      "kind": "NON_NULL",
+      "ofType": {
+       "name": null,
+       "kind": "LIST",
+       "ofType": {
+        "name": null
+       }
+      }
+     }
+    }
+   ],
+   "inputFields": null
+  },
+  "InstagramStickerFieldsInput_full": {
+   "fields": null,
+   "inputFields": [
+    {
+     "name": "music",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "other",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "products",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "text",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    },
+    {
+     "name": "topics",
+     "type": {
+      "name": "String",
+      "kind": "SCALAR",
+      "ofType": null
+     }
+    }
+   ]
   }
  },
  "pinterest_boards": {
