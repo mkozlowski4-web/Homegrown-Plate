@@ -68,6 +68,7 @@ class Week:
         self.taken_media = set()
         self.week_crops = set()
         self.posts = []
+        hooks.OPENINGS.clear()
 
     # ---------- helpers ----------
     def next_ask(self):

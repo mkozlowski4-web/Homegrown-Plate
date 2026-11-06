@@ -56,6 +56,13 @@ def backed(hook, site, crops=(), months_ok=(), numbers_ok=()):
     return True, ""
 
 
+OPENINGS = {}  # how often each hook opening has been used this week (reset by the planner)
+
+
+def opening(h):
+    return " ".join(h.lower().split()[:2])
+
+
 def pick(candidates, site, crop_names=(), months_ok=(), numbers_ok=(), avoid=()):
     """Score every candidate; return the best backed hook scoring 75+, plus the scored list."""
     scored = []
@@ -68,7 +75,9 @@ def pick(candidates, site, crop_names=(), months_ok=(), numbers_ok=(), avoid=())
         scored.append({"hook": h, "score": s, "parts": parts, "backed": ok, "why": why})
     min_s = 75
     good = [x for x in scored if x["backed"] and x["score"] >= min_s and x["hook"] not in avoid]
-    good.sort(key=lambda x: -x["score"])
+    good.sort(key=lambda x: -(x["score"] - 7 * OPENINGS.get(opening(x["hook"]), 0)))
+    if good:
+        OPENINGS[opening(good[0]["hook"])] = OPENINGS.get(opening(good[0]["hook"]), 0) + 1
     return (good[0] if good else None), scored
 
 
