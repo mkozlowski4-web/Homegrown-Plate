@@ -45,8 +45,12 @@ def score(hook, crop_names=()):
 
 
 def backed(hook, site, crops=(), months_ok=(), numbers_ok=()):
-    """A hook may only name months and numbers that the site backs for these crops."""
+    """A hook may only name months and numbers that the site backs for these crops (spelled-out numbers included)."""
+    from .guardrails import WORDNUM
     t = hook
+    for w, d in WORDNUM.items():
+        if d.isdigit() and w != "zero":
+            t = re.sub(rf"\b{w}\b", d, t, flags=re.I)
     for m in MONTHS:
         if re.search(rf"\b{m}\b", t) and m not in months_ok:
             return False, f"month {m} not in the site's months for this post"
@@ -59,8 +63,14 @@ def backed(hook, site, crops=(), months_ok=(), numbers_ok=()):
 OPENINGS = {}  # how often each hook opening has been used this week (reset by the planner)
 
 
-def opening(h):
-    return " ".join(h.lower().split()[:2])
+def opening(h, crop_names=()):
+    """The hook's pattern with crop names blanked, so 'Kale glut?' and 'Leek glut?' count as the same style."""
+    t = h.lower()
+    for n in sorted(crop_names, key=len, reverse=True):
+        if n:
+            t = t.replace(n.lower(), "x")
+    t = re.sub(r"\b(january|february|march|april|may|june|july|august|september|october|november|december)\b", "m", t)
+    return " ".join(t.split()[:3])
 
 
 def pick(candidates, site, crop_names=(), months_ok=(), numbers_ok=(), avoid=()):
@@ -75,9 +85,10 @@ def pick(candidates, site, crop_names=(), months_ok=(), numbers_ok=(), avoid=())
         scored.append({"hook": h, "score": s, "parts": parts, "backed": ok, "why": why})
     min_s = 75
     good = [x for x in scored if x["backed"] and x["score"] >= min_s and x["hook"] not in avoid]
-    good.sort(key=lambda x: -(x["score"] - 7 * OPENINGS.get(opening(x["hook"]), 0)))
+    key = lambda h: opening(h, crop_names)
+    good.sort(key=lambda x: -(x["score"] - 7 * OPENINGS.get(key(x["hook"]), 0)))
     if good:
-        OPENINGS[opening(good[0]["hook"])] = OPENINGS.get(opening(good[0]["hook"]), 0) + 1
+        OPENINGS[key(good[0]["hook"])] = OPENINGS.get(key(good[0]["hook"]), 0) + 1
     return (good[0] if good else None), scored
 
 
@@ -100,7 +111,7 @@ def candidates(kind, site, crop=None, month=None, extra=None):
         sow = crop["sow_or_plant_outside"] + crop["sow_indoors"]
         if month in sow:
             out += [f"Nobody tells you {month} is still {n} {verb} time",
-                    f"Stop buying {n}. {verb.capitalize()} your own this {month}"]
+                    f"Stop buying {n}. {'Plant' if verb == 'planting' else 'Sow'} your own this {month}"]
             nxt = MONTHS[(MONTHS.index(month) + 1) % 12]
             if nxt not in sow:
                 out.append(f"Last {verb} month for {n}: miss {month} and it waits a year")
