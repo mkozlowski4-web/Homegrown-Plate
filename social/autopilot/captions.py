@@ -64,27 +64,41 @@ def C_join(xs):
 
 # ---------------- Gemini ----------------
 
+MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+_DEAD = set()
+
+
 def gemini(prompt, want_json=True, parts_extra=None, model=None):
+    """Ask Gemini; on busy (429/503) or a missing model, wait and try the next model. None if all fail."""
     key = env("GEMINI_API_KEY")
     if not key:
         return None
-    model = model or env("GEMINI_MODEL", "gemini-flash-latest")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    models = [model or env("GEMINI_MODEL")] if (model or env("GEMINI_MODEL")) else []
+    models += [m for m in MODELS if m not in models and m not in _DEAD]
     parts = [{"text": prompt}] + (parts_extra or [])
     body = {"contents": [{"role": "user", "parts": parts}],
             "generationConfig": {"temperature": 0.8, **({"responseMimeType": "application/json"} if want_json else {})}}
-    for attempt in range(3):
-        try:
-            r = requests.post(url, headers={"x-goog-api-key": key}, json=body, timeout=90)
-            if r.status_code == 429:
-                time.sleep(20 * (attempt + 1)); continue
-            r.raise_for_status()
-            txt = r.json()["candidates"][0]["content"]["parts"][0]["text"]
-            return json.loads(txt) if want_json else txt
-        except Exception as e:  # noqa: BLE001
-            last = str(e)
-            time.sleep(5)
-    print("Gemini failed, using templates:", last if 'last' in dir() else "")
+    last = ""
+    for m in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent"
+        for attempt in range(3):
+            try:
+                r = requests.post(url, headers={"x-goog-api-key": key}, json=body, timeout=90)
+                if r.status_code in (429, 500, 503):
+                    last = f"{m}: {r.status_code} {r.text[:200]}"
+                    time.sleep(8 * (attempt + 1)); continue
+                if r.status_code == 404:
+                    _DEAD.add(m); last = f"{m}: not available"; break
+                if r.status_code in (400, 401, 403):
+                    print("Gemini refused the request:", r.status_code, r.text[:400])
+                    return None
+                r.raise_for_status()
+                txt = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+                return json.loads(txt) if want_json else txt
+            except Exception as e:  # noqa: BLE001
+                last = f"{m}: {e}"
+                time.sleep(4)
+    print("Gemini failed, using templates:", last)
     return None
 
 
