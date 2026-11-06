@@ -5,14 +5,14 @@
  },
  "channels": [
   {
+   "id": "6aee058ee29c69a17184451a",
+   "name": "homegrownplate",
+   "service": "pinterest"
+  },
+  {
    "id": "6aedaf30e29c69a1717fdeac",
    "name": "Homegrown Plate",
    "service": "facebook"
-  },
-  {
-   "id": "6aed0abce29c69a171776342",
-   "name": "homegrownplate",
-   "service": "pinterest"
   },
   {
    "id": "6aed0a9ee29c69a171775b32",
@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T15:07:13.077716+00:00",
+ "checked": "2026-11-06T16:52:38.862960+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
@@ -1994,7 +1994,7 @@
  },
  "pinterest_boards": {
   "channel": {
-   "id": "6aed0abce29c69a171776342",
+   "id": "6aee058ee29c69a17184451a",
    "metadata": {
     "boards": []
    }
