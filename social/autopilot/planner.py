@@ -112,7 +112,14 @@ class Week:
         crop_names = [self.site.crops[c]["name"] for c in post.get("crops", []) if c in self.site.crops]
         g = C.gemini_copy(post, facts) if self.use_gemini else None
         post["gemini"] = g
-        cands = list(hook_cands) + ([h for h in (g or {}).get("hooks", []) if isinstance(h, str)])
+        topic_words = {
+            "sow_to_plate": r"\b(sow|sowing|plant|planting|grow|growing|start|seed|clove)", "glut": r"\b(glut|too much|too many|spare|waste|cook|use up|surplus)",
+            "preserve": r"\b(store|storing|keep|keeping|freeze|pickle|jar|preserv|cure|dry)", "kids": r"\b(kid|kids|child|children|little|family)",
+            "month": r"\b(sow|sowing|plant|month)"}.get(post["topic_kind"])
+        g_hooks = [h for h in (g or {}).get("hooks", []) if isinstance(h, str)]
+        if topic_words:  # Gemini's ideas must be about what this post actually shows
+            g_hooks = [h for h in g_hooks if re.search(topic_words, h, re.I)]
+        cands = list(hook_cands) + g_hooks
         if post["kind"] == "reel":
             cands = [h for h in cands if len(h) <= 55]
         best, scored = hooks.pick(cands, self.site, crop_names, months_ok, numbers_ok)

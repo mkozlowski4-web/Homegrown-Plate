@@ -123,7 +123,7 @@ FACTS (from the site):
 {json.dumps(facts, ensure_ascii=False, indent=1)}
 
 Return JSON with:
-"hooks": 5 different hook lines, 12 words or fewer, each putting something at stake (a waste, a cost, a missed chance), using patterns like "Nobody tells you...", "Stop doing X", a number, permission ("You don't need a garden to..."), or before and after,
+"hooks": 5 different hook lines about exactly this post's topic ({post['topic']}), 12 words or fewer, each putting something at stake (a waste, a cost, a missed chance), using patterns like "Nobody tells you...", "Stop doing X", a number, permission ("You don't need a garden to..."), or before and after,
 "body": 2 to 4 short sentences for an Instagram caption after the hook, first person as Mark, including the search phrase "{post['search_phrase']}" naturally,
 "pin_title": Pinterest title under 100 characters starting with the search phrase,
 "pin_description": 150 to 300 characters, the search phrase in the first 50 characters, plus 2 to 4 related search phrases woven in,
