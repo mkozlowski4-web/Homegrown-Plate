@@ -1,0 +1,118 @@
+{
+ "collected": "2026-11-06T23:15:15.677572+00:00",
+ "metric_fields": "description name type unit value",
+ "posts": [
+  {
+   "id": "6aedaf31a1d597fbaa5afa94",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-05T22:43:47.000Z",
+   "sentAt": "2026-11-05T22:43:47.000Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122103081357535768?substory_index=2875262629509632",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-06T10:42:57.439Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  },
+  {
+   "id": "6aedaf31a1d597fbaa5afa92",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-05T22:45:58.000Z",
+   "sentAt": "2026-11-05T22:45:58.000Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122103083367535768?substory_index=1161684829750652",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-06T10:42:57.398Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  }
+ ]
+}
