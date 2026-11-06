@@ -2,14 +2,6 @@
  "week_start": "2026-11-08",
  "held": [
   {
-   "date": "2026-11-11",
-   "kind": "carousel",
-   "topic": "What to cook with a glut of lettuce",
-   "reasons": [
-    "timings_from_site: '5 to 10 days' is not in the site's text"
-   ]
-  },
-  {
    "date": "2026-11-13",
    "kind": "reel",
    "topic": "Lamb’s lettuce glut: pick it, cook it, keep it",
