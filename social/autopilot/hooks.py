@@ -76,9 +76,11 @@ def opening(h, crop_names=()):
 def pick(candidates, site, crop_names=(), months_ok=(), numbers_ok=(), avoid=()):
     """Score every candidate; return the best backed hook scoring 75+, plus the scored list."""
     scored = []
+    bait = re.compile(r"\b(trick|tricks|secret|you won't believe|shocking|hack|hacks|this one)\b", re.I)
+    banned = [w.lower() for w in (load("brand.json") or {}).get("voice", {}).get("never_words", [])]
     for h in candidates:
-        h = h.strip()
-        if not h:
+        h = h.strip().rstrip(".")
+        if not h or bait.search(h) or any(re.search(rf"(?<![\w-]){re.escape(w)}(?![\w-])", h.lower()) for w in banned) or "—" in h:
             continue
         s, parts = score(h, crop_names)
         ok, why = backed(h, site, months_ok=months_ok, numbers_ok=numbers_ok)
