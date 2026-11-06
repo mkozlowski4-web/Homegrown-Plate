@@ -586,6 +586,27 @@ class Week:
         return post
 
     # ---------- the week ----------
+    def safe(self, fn, *args):
+        """One post going wrong never stops the week: retry without Gemini, else record it as held."""
+        import traceback
+        try:
+            return fn(*args)
+        except Exception:  # noqa: BLE001
+            err = traceback.format_exc(limit=3)
+            print("Post failed, retrying with templates:", err[-400:])
+            g, self.use_gemini = self.use_gemini, False
+            try:
+                return fn(*args)
+            except Exception:  # noqa: BLE001
+                err = traceback.format_exc(limit=3)
+                d = self.start + timedelta(days=args[0])
+                return {"id": f"{d.isoformat()}-{fn.__name__}-error-{len(self.posts)}", "kind": fn.__name__, "date": d.isoformat(), "time": "",
+                        "due_utc": "", "channels": [], "topic_kind": "error", "topic": f"{fn.__name__} could not be made", "url": "",
+                        "crops": [], "media": [], "hook": {"hook": "", "score": 0}, "status": "held",
+                        "held_reasons": ["Could not be made: " + err.strip().splitlines()[-1][:200]], "captions": {}, "guardrails": {"passed": False, "fails": []}}
+            finally:
+                self.use_gemini = g
+
     def make(self):
         moments = moments_in_week(self.start)
         moment_slots = {}
@@ -609,7 +630,7 @@ class Week:
             else:
                 kind, moment = CAROUSEL_ROTATION[self.state["carousel"] % 4], None
                 self.state["carousel"] += 1
-            p = self.carousel(day, kind, moment)
+            p = self.safe(self.carousel, day, kind, moment)
             if p:
                 self.posts.append(p)
         # reels: Tue (day 2) and Fri (day 5)
@@ -625,17 +646,17 @@ class Week:
             else:
                 kind, moment = REEL_ROTATION[self.state["reel"] % 2], None
                 self.state["reel"] += 1
-            p = self.reel(day, kind, moment)
+            p = self.safe(self.reel, day, kind, moment)
             if p:
                 self.posts.append(p)
-                if p["status"] == "ready" or p.get("media"):
+                if p.get("media") and p.get("topic_kind") != "error":
                     vp = {**p, "id": p["id"] + "-videopin", "kind": "video_pin", "time": "20:30", "channels": ["pinterest"],
                           "due_utc": iso_utc(uk_dt(date.fromisoformat(p["date"]), "20:30"))}
                     self.posts.append(vp)
         self.state["deferred"] += deferred
         for day in range(7):
-            self.posts.append(self.story(day, STORY_ROTATION[day]))
-            self.posts.append(self.pin(day))
+            self.posts.append(self.safe(self.story, day, STORY_ROTATION[day]))
+            self.posts.append(self.safe(self.pin, day))
         done = set()
         for p in self.posts:
             ids = [i for i in p.get("library_used", []) if i not in done]

@@ -124,8 +124,18 @@ Return JSON with:
 "body": 2 to 4 short sentences for an Instagram caption after the hook, first person as Mark, including the search phrase "{post['search_phrase']}" naturally,
 "pin_title": Pinterest title under 100 characters starting with the search phrase,
 "pin_description": 150 to 300 characters, the search phrase in the first 50 characters, plus 2 to 4 related search phrases woven in,
-"tiktok_body": one or two plain sentences naming the crop and the job."""
-    return gemini(prompt)
+"tiktok_body": one or two plain sentences naming the crop and the job.
+Every value is a plain string except "hooks", which is a list of strings."""
+    g = gemini(prompt)
+    if isinstance(g, list):
+        g = next((x for x in g if isinstance(x, dict)), None)
+    if not isinstance(g, dict):
+        return None
+    flat = lambda v: " ".join(str(x) for x in v) if isinstance(v, (list, tuple)) else ("" if v is None else str(v))
+    out = {k: flat(g.get(k)) for k in ("body", "pin_title", "pin_description", "tiktok_body")}
+    hk = g.get("hooks") or []
+    out["hooks"] = [str(h) for h in (hk if isinstance(hk, list) else [hk]) if isinstance(h, (str, int, float))]
+    return out
 
 
 # ---------------- assembling ----------------
