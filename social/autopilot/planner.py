@@ -412,6 +412,11 @@ class Week:
 
         r0 = recipes[0] if recipes else None
         opening = src(["pick", "cook"], r0, r0["image"] if r0 and not self.site.has_photo(c) else None)
+        if opening.get("library_id") is None:  # no picking or cooking shot yet: open on Mark's own photo of this crop
+            mine = library.find(c["id"], None, None, d, self.taken_media)
+            if mine:
+                self.taken_media.add(mine["id"]); used.append(mine["id"])
+                opening = {**library.as_source(mine), "label": None, "sub": None}
         sow_t = C.month_range(c["sow_or_plant_outside"] or c["sow_indoors"])
         if kind == "sow_to_plate":
             steps = [src("sow", label=self.verb(c), sub=sow_t), src("grow", label="Grow", sub=None),
@@ -467,6 +472,11 @@ class Week:
             title = best["hook"] if best else "This week's garden job"
             paras = [C.clean(j["text"])]
             img = None
+            bed = next((it for it in library.items() if not it.get("crop") and it["kind"] == "photo" and it.get("usable", True)
+                        and it["id"] not in self.taken_media and library.free(it, d)), None)
+            if bed:  # Mark's general garden shots (beds, soil, string lines) suit the weekly job
+                self.taken_media.add(bed["id"]); post.setdefault("library_used", []).append(bed["id"])
+                img = str(library.local_file(bed))
             post["hook"] = best or {"hook": title, "score": 0}
             frost = False
         elif kind == "question":

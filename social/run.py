@@ -28,9 +28,11 @@ def cmd_week(args):
     if snap.exists():
         for t in tracked:
             src = snap / t.replace("/", "__")
+            if t == "library/library.json":
+                continue  # never replace the photo list: new photos must survive a remake
             if src.exists():
                 shutil.copy2(src, DATA / t)
-            elif (DATA / t).exists() and t != "library/library.json":
+            elif (DATA / t).exists():
                 (DATA / t).unlink()
         if (DATA / "library/library.json").exists():  # keep newly added clips, restore only their use history
             old = {i["id"]: i.get("used", []) for i in json.loads((snap / "library__library.json").read_text())["items"]} if (snap / "library__library.json").exists() else {}
