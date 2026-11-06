@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T14:58:28.350302+00:00",
+ "checked": "2026-11-06T15:07:13.077716+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
