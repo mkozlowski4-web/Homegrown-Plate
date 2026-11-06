@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T23:02:30.157934+00:00",
+ "checked": "2026-11-06T23:03:21.225743+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
@@ -2165,5 +2165,25 @@
    }
   }
  },
+ "recent_posts_debug": [
+  {
+   "id": "6aedaf31a1d597fbaa5afa94",
+   "status": "sent",
+   "channelId": "6aedaf30e29c69a1717fdeac",
+   "dueAt": "2026-11-05T22:43:47.000Z",
+   "metadata": {
+    "__typename": "FacebookPostMetadata"
+   }
+  },
+  {
+   "id": "6aedaf31a1d597fbaa5afa92",
+   "status": "sent",
+   "channelId": "6aedaf30e29c69a1717fdeac",
+   "dueAt": "2026-11-05T22:45:58.000Z",
+   "metadata": {
+    "__typename": "FacebookPostMetadata"
+   }
+  }
+ ],
  "boards_from_posts": []
 }
