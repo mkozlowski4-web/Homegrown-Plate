@@ -20,7 +20,7 @@
    "service": "instagram"
   }
  ],
- "checked": "2026-11-06T23:03:21.225743+00:00",
+ "checked": "2026-11-06T23:12:35.396516+00:00",
  "schema": {
   "CreatePostInput": {
    "name": "CreatePostInput",
@@ -2161,7 +2161,24 @@
   "channel": {
    "id": "6aee058ee29c69a17184451a",
    "metadata": {
-    "boards": []
+    "boards": [
+     {
+      "serviceId": "764908386652038797",
+      "name": "Grow Your Own Veg UK"
+     },
+     {
+      "serviceId": "764908386652038800",
+      "name": "Homegrown Recipes"
+     },
+     {
+      "serviceId": "764908386651356471",
+      "name": "Quick saves"
+     },
+     {
+      "serviceId": "764908386652038801",
+      "name": "What to Sow Each Month UK"
+     }
+    ]
    }
   }
  },
