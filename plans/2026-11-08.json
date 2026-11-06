@@ -1,0 +1,1530 @@
+{
+ "week_start": "2026-11-08",
+ "moments": [
+  {
+   "id": "christmas",
+   "title": "Sprouts and parsnips for Christmas dinner",
+   "event_date": "2026-12-25"
+  }
+ ],
+ "posts": [
+  {
+   "id": "2026-11-08-story-story-6",
+   "kind": "story",
+   "date": "2026-11-08",
+   "time": "09:00",
+   "due_utc": "2026-11-08T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Elephant garlic",
+   "url": "https://homegrownplate.co.uk/plants/elephant-garlic/",
+   "crops": [
+    "elephant-garlic"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Elephant garlic",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Nobody tells you November is still elephant garlic planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-story-story-6/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-08-carousel-glut-0",
+   "kind": "carousel",
+   "date": "2026-11-08",
+   "time": "18:30",
+   "due_utc": "2026-11-08T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook"
+   ],
+   "topic_kind": "glut",
+   "topic": "What to cook with a glut of Brussels sprouts",
+   "url": "https://homegrownplate.co.uk/plants/brussels-sprouts/",
+   "crops": [
+    "brussels-sprouts"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-carousel/slide01.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-carousel/slide02.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-carousel/slide03.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-carousel/slide04.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-carousel/slide05.png"
+   ],
+   "ai_made": false,
+   "moment": "christmas",
+   "safety_lines": [],
+   "crop_name": "Brussels sprouts",
+   "search_phrase": "what to do with a glut of Brussels sprouts",
+   "related": [
+    "Brussels sprouts recipes",
+    "growing Brussels sprouts UK",
+    "storing Brussels sprouts"
+   ],
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of Brussels sprouts",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you what to do with a glut of Brussels sprouts\n\nMy dad always showed me the value of using up every harvest. If you want to know what to do with a glut of Brussels sprouts, try roasting them with olive oil and balsamic vinegar for a caramelised flavour. You can also blanch small sprouts for three minutes and freeze them for up to 12 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+    "facebook": "Nobody tells you what to do with a glut of Brussels sprouts\n\nMy dad always showed me the value of using up every harvest. If you want to know what to do with a glut of Brussels sprouts, try roasting them with olive oil and balsamic vinegar for a caramelised flavour. You can also blanch small sprouts for three minutes and freeze them for up to 12 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+    "pin_title": "What to do with a glut of Brussels sprouts to avoid waste",
+    "pin_description": "What to do with a glut of Brussels sprouts when your stems are full. Learn how to store Brussels sprouts in the fridge or freezer. Check your local frost dates. homegrownplate.co.uk/plants/brussels-sprouts/",
+    "tiktok": "Nobody tells you what to do with a glut of Brussels sprouts\nHere is what to do with your Brussels sprouts harvest so nothing goes to waste. Roast them with balsamic vinegar, or blanch and freeze them for up to 12 months.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/brussels-sprouts/\n#growyourown #ukgardening #homegrown",
+    "ask": "save",
+    "search_phrase": "what to do with a glut of Brussels sprouts"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 94,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 7,
+     "channel_rules": 10
+    },
+    "notes": [
+     "uses site drawings, no real photos or clips"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "uses_drawings_only": true,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-carousel-glut-0/slide01.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-carousel-glut-0/slide02.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-carousel-glut-0/slide03.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-carousel-glut-0/slide04.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-carousel-glut-0/slide05.png"
+   ]
+  },
+  {
+   "id": "2026-11-08-pin-pin_crop-7",
+   "kind": "pin",
+   "date": "2026-11-08",
+   "time": "20:00",
+   "due_utc": "2026-11-08T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow Jerusalem artichoke",
+   "url": "https://homegrownplate.co.uk/plants/jerusalem-artichoke/",
+   "crops": [
+    "jerusalem-artichoke"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-08-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Jerusalem artichoke",
+   "search_phrase": "how to grow Jerusalem artichoke UK",
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of Jerusalem artichoke",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you what to do with a glut of Jerusalem artichoke\n\nPlant your tubers from February to April in sun or part shade. They need almost no care, but thin skins mean they go limp fast once lifted. I will show you how to grow Jerusalem artichoke UK growers can store right in the soil all winter. Just lift what you need from October to March so nothing goes to waste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/jerusalem-artichoke/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Nobody tells you what to do with a glut of Jerusalem artichoke\n\nPlant your tubers from February to April in sun or part shade. They need almost no care, but thin skins mean they go limp fast once lifted. I will show you how to grow Jerusalem artichoke UK growers can store right in the soil all winter. Just lift what you need from October to March so nothing goes to waste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/jerusalem-artichoke/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "How to grow Jerusalem artichoke UK: plant, harvest and store",
+    "pin_description": "How to grow Jerusalem artichoke UK: plant tubers from February to April in sun or part shade. Learn how to store Jerusalem artichokes in the soil all winter and make Jerusalem artichoke soup. Check your local frost dates. homegrownplate.co.uk/plants/jerusalem-artichoke/",
+    "tiktok": "Nobody tells you what to do with a glut of Jerusalem artichoke\nPlant Jerusalem artichoke tubers from February to April for an easy winter harvest. Earth up the stems lightly when they reach 30 cm.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/jerusalem-artichoke/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "how to grow Jerusalem artichoke UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-08-pin-pincrop-7/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-09-story-story-8",
+   "kind": "story",
+   "date": "2026-11-09",
+   "time": "09:00",
+   "due_utc": "2026-11-09T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "This week's job: November",
+   "url": "https://homegrownplate.co.uk/weekend-jobs/november/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-09-story/story-job.png"
+   ],
+   "ai_made": false,
+   "month_page": true,
+   "search_phrase": "",
+   "hook": {
+    "hook": "Don't miss this November garden job before the weekend's gone",
+    "score": 86,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-09-story-story-8/story-job.png"
+   ]
+  },
+  {
+   "id": "2026-11-09-pin-pin_recipe-9",
+   "kind": "pin",
+   "date": "2026-11-09",
+   "time": "20:00",
+   "due_utc": "2026-11-09T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Shaved Fennel & Orange Salad",
+   "url": "https://homegrownplate.co.uk/recipes/fennel-orange-salad/",
+   "crops": [
+    "fennel"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-09-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "fennel-orange-salad",
+   "safety_lines": [],
+   "crop_name": "Florence fennel",
+   "search_phrase": "Florence fennel recipe",
+   "hook": {
+    "hook": "Don't waste your Florence fennel. Make Shaved Fennel & Orange Salad instead",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Don't waste your Florence fennel. Make Shaved Fennel & Orange Salad instead\n\nI make this quick Shaved Fennel & Orange Salad using Florence fennel or bronze fennel from the plot. Slice the fennel as thinly as you can, keeping the feathery fronds so nothing gets wasted. Layer the fennel and orange slices on a platter, and this Florence fennel recipe is ready in 15 minutes to serve 4.\n\nFull guide on homegrownplate.co.uk/recipes/fennel-orange-salad/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Don't waste your Florence fennel. Make Shaved Fennel & Orange Salad instead\n\nI make this quick Shaved Fennel & Orange Salad using Florence fennel or bronze fennel from the plot. Slice the fennel as thinly as you can, keeping the feathery fronds so nothing gets wasted. Layer the fennel and orange slices on a platter, and this Florence fennel recipe is ready in 15 minutes to serve 4.\n\nFull guide on homegrownplate.co.uk/recipes/fennel-orange-salad/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "Florence fennel recipe: Shaved Fennel & Orange Salad",
+    "pin_description": "Florence fennel recipe. This Florence fennel recipe makes a fresh shaved fennel salad in 15 min to serve 4. Use Florence fennel or bronze fennel, slice thinly, and save the feathery fronds. Layer the fennel and orange slices on a platter to finish. homegrownplate.co.uk/recipes/fennel-orange-salad/",
+    "tiktok": "Don't waste your Florence fennel. Make Shaved Fennel & Orange Salad instead\nSlice Florence fennel or bronze fennel thinly to make a shaved fennel and orange salad in 15 minutes. Save the feathery fronds so none of your crop goes to waste.\nhomegrownplate.co.uk/recipes/fennel-orange-salad/\n#growyourown #ukgardening #homegrown",
+    "ask": "comment",
+    "search_phrase": "Florence fennel recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-09-pin-pinrecipe-9/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-10-story-story-10",
+   "kind": "story",
+   "date": "2026-11-10",
+   "time": "09:00",
+   "due_utc": "2026-11-10T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Question for growers",
+   "url": "https://homegrownplate.co.uk/",
+   "crops": [
+    "thyme"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-story/story-question.png"
+   ],
+   "ai_made": false,
+   "crop_name": "Thyme",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Got a glut of thyme? What do you cook first so none goes to waste?",
+    "score": 82,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 7,
+     "fits_uk_home_growers": 15
+    }
+   },
+   "about_eating": false,
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-story-story-10/story-question.png"
+   ]
+  },
+  {
+   "id": "2026-11-10-reel-sow_to_plate-2",
+   "kind": "reel",
+   "date": "2026-11-10",
+   "time": "18:30",
+   "due_utc": "2026-11-10T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook",
+    "pinterest",
+    "tiktok"
+   ],
+   "topic_kind": "sow_to_plate",
+   "topic": "Garlic: sow it, grow it, cook it",
+   "url": "https://homegrownplate.co.uk/plants/garlic/",
+   "crops": [
+    "garlic"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [
+    "Do not store raw garlic in oil at room temperature, as there is a risk of botulism."
+   ],
+   "moment": null,
+   "crop_name": "Garlic",
+   "search_phrase": "how to grow garlic in the UK",
+   "tiktok_tags": [
+    "#growyourown",
+    "#garlic",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "garlic recipes",
+    "growing garlic UK",
+    "storing garlic"
+   ],
+   "hook": {
+    "hook": "Nobody tells you November is still garlic planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still garlic planting time\n\nI plant my largest outer cloves from October to November in full sun. Here is how to grow garlic in the UK without letting heavy soil rot your bulbs. Once harvested, dry them in a warm, airy place for two to three weeks so they keep for up to nine months.\n\nDo not store raw garlic in oil at room temperature, as there is a risk of botulism.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Nobody tells you November is still garlic planting time\n\nI plant my largest outer cloves from October to November in full sun. Here is how to grow garlic in the UK without letting heavy soil rot your bulbs. Once harvested, dry them in a warm, airy place for two to three weeks so they keep for up to nine months.\n\nDo not store raw garlic in oil at room temperature, as there is a risk of botulism.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "How to grow garlic in the UK: planting, harvesting, and storing",
+    "pin_description": "How to grow garlic in the UK. Learn how to grow garlic in the UK from autumn planting to harvest. Do not store raw garlic in oil at room temperature, as there is a risk of botulism. Check your local frost dates. homegrownplate.co.uk/plants/garlic/",
+    "tiktok": "Nobody tells you November is still garlic planting time\nPlant garlic cloves in full sun from October to November to harvest and store your own crop.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/garlic/\n#growyourown #garlic #ukgardening #allotment #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow garlic in the UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "kitchen-window.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-reel-sowtoplate-2/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-reel-sowtoplate-2/cover.png"
+  },
+  {
+   "id": "2026-11-10-pin-pin_crop-11",
+   "kind": "pin",
+   "date": "2026-11-10",
+   "time": "20:00",
+   "due_utc": "2026-11-10T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow perpetual spinach",
+   "url": "https://homegrownplate.co.uk/plants/perpetual-spinach/",
+   "crops": [
+    "perpetual-spinach"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Perpetual spinach",
+   "search_phrase": "how to grow perpetual spinach UK",
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of perpetual spinach",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you what to do with a glut of perpetual spinach\n\nI sow seeds outdoors between March and August in ordinary garden soil. Learning how to grow perpetual spinach UK style means my family gets tender leaves from April right through to December. I just pick a few leaves at a time from the outside of each plant.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/perpetual-spinach/\n\nSave this for when you need it.",
+    "facebook": "Nobody tells you what to do with a glut of perpetual spinach\n\nI sow seeds outdoors between March and August in ordinary garden soil. Learning how to grow perpetual spinach UK style means my family gets tender leaves from April right through to December. I just pick a few leaves at a time from the outside of each plant.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/perpetual-spinach/\n\nSave this for when you need it.",
+    "pin_title": "How to grow perpetual spinach UK: easy crop guide",
+    "pin_description": "How to grow perpetual spinach UK. Learn how to grow perpetual spinach UK in a garden or on a balcony. Check your local frost dates. homegrownplate.co.uk/plants/perpetual-spinach/",
+    "tiktok": "Nobody tells you what to do with a glut of perpetual spinach\nPerpetual spinach is a low-effort crop you can sow outdoors from March to August. Water it in dry weather and pick the outer leaves as you need them.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/perpetual-spinach/\n#growyourown #ukgardening #homegrown",
+    "ask": "save",
+    "search_phrase": "how to grow perpetual spinach UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-pin-pincrop-11/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-10-reel-sow_to_plate-2-videopin",
+   "kind": "video_pin",
+   "date": "2026-11-10",
+   "time": "20:30",
+   "due_utc": "2026-11-10T20:30:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "sow_to_plate",
+   "topic": "Garlic: sow it, grow it, cook it",
+   "url": "https://homegrownplate.co.uk/plants/garlic/",
+   "crops": [
+    "garlic"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [
+    "Do not store raw garlic in oil at room temperature, as there is a risk of botulism."
+   ],
+   "moment": null,
+   "crop_name": "Garlic",
+   "search_phrase": "how to grow garlic in the UK",
+   "tiktok_tags": [
+    "#growyourown",
+    "#garlic",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "garlic recipes",
+    "growing garlic UK",
+    "storing garlic"
+   ],
+   "hook": {
+    "hook": "Nobody tells you November is still garlic planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still garlic planting time\n\nI plant my largest outer cloves from October to November in full sun. Here is how to grow garlic in the UK without letting heavy soil rot your bulbs. Once harvested, dry them in a warm, airy place for two to three weeks so they keep for up to nine months.\n\nDo not store raw garlic in oil at room temperature, as there is a risk of botulism.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Nobody tells you November is still garlic planting time\n\nI plant my largest outer cloves from October to November in full sun. Here is how to grow garlic in the UK without letting heavy soil rot your bulbs. Once harvested, dry them in a warm, airy place for two to three weeks so they keep for up to nine months.\n\nDo not store raw garlic in oil at room temperature, as there is a risk of botulism.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "How to grow garlic in the UK: planting, harvesting, and storing",
+    "pin_description": "How to grow garlic in the UK. Learn how to grow garlic in the UK from autumn planting to harvest. Do not store raw garlic in oil at room temperature, as there is a risk of botulism. Check your local frost dates. homegrownplate.co.uk/plants/garlic/",
+    "tiktok": "Nobody tells you November is still garlic planting time\nPlant garlic cloves in full sun from October to November to harvest and store your own crop.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/garlic/\n#growyourown #garlic #ukgardening #allotment #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow garlic in the UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-10-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "kitchen-window.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-reel-sowtoplate-2-videopin/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-10-reel-sowtoplate-2-videopin/cover.png"
+  },
+  {
+   "id": "2026-11-11-story-story-12",
+   "kind": "story",
+   "date": "2026-11-11",
+   "time": "09:00",
+   "due_utc": "2026-11-11T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Komatsuna",
+   "url": "https://homegrownplate.co.uk/plants/komatsuna/",
+   "crops": [
+    "komatsuna"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Komatsuna",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of komatsuna",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-story-story-12/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-11-carousel-glut-1",
+   "kind": "carousel",
+   "date": "2026-11-11",
+   "time": "18:30",
+   "due_utc": "2026-11-11T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook"
+   ],
+   "topic_kind": "glut",
+   "topic": "What to cook with a glut of lettuce",
+   "url": "https://homegrownplate.co.uk/plants/lettuce/",
+   "crops": [
+    "lettuce"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide01.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide02.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide03.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide04.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide05.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-carousel/slide06.png"
+   ],
+   "ai_made": false,
+   "moment": null,
+   "safety_lines": [],
+   "crop_name": "Lettuce",
+   "search_phrase": "what to do with a glut of lettuce",
+   "related": [
+    "lettuce recipes",
+    "growing lettuce UK",
+    "storing lettuce"
+   ],
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of lettuce",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you what to do with a glut of lettuce\n\nMy boys and I always end up with too much salad at once. If you are wondering what to do with a glut of lettuce, try cooking outer leaves into pea and lettuce soup to freeze for up to 6 months. You can also braise cos or gem hearts in butter and stock for a warm side dish.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lettuce/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Nobody tells you what to do with a glut of lettuce\n\nMy boys and I always end up with too much salad at once. If you are wondering what to do with a glut of lettuce, try cooking outer leaves into pea and lettuce soup to freeze for up to 6 months. You can also braise cos or gem hearts in butter and stock for a warm side dish.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lettuce/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "What to do with a glut of lettuce so nothing goes to waste",
+    "pin_description": "What to do with a glut of lettuce. Wondering what to do with a glut of lettuce from the garden? Learn how to store lettuce in the fridge for 5 to 10 days, make pea and lettuce soup for the freezer, or braise gem hearts in butter and. Check your local frost dates. homegrownplate.co.uk/plants/lettuce/",
+    "tiktok": "Nobody tells you what to do with a glut of lettuce\nHere is how to use up a lettuce harvest without wasting a leaf. You can cook surplus leaves into soup or braise the hearts in butter.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/lettuce/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "what to do with a glut of lettuce"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": false,
+    "fails": [
+     "timings_from_site: '5 to 10 days' is not in the site's text"
+    ]
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "held",
+   "held_reasons": [
+    "timings_from_site: '5 to 10 days' is not in the site's text"
+   ],
+   "uses_drawings_only": true,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide01.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide02.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide03.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide04.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide05.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-carousel-glut-1/slide06.png"
+   ]
+  },
+  {
+   "id": "2026-11-11-pin-pin_recipe-13",
+   "kind": "pin",
+   "date": "2026-11-11",
+   "time": "20:00",
+   "due_utc": "2026-11-11T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Hyssop & Rosemary Roast Lamb",
+   "url": "https://homegrownplate.co.uk/recipes/hyssop-roast-lamb/",
+   "crops": [
+    "hyssop"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-11-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "hyssop-roast-lamb",
+   "safety_lines": [],
+   "crop_name": "Hyssop",
+   "search_phrase": "hyssop recipe",
+   "hook": {
+    "hook": "Don't waste your hyssop. Make Hyssop & Rosemary Roast Lamb instead",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Don't waste your hyssop. Make Hyssop & Rosemary Roast Lamb instead\n\nI hate seeing fresh herbs go to waste in my small garden. If you need a simple hyssop recipe, try this roast lamb with rosemary and garlic. It serves 6 people and takes 2 hours 15 minutes.\n\nFull guide on homegrownplate.co.uk/recipes/hyssop-roast-lamb/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Don't waste your hyssop. Make Hyssop & Rosemary Roast Lamb instead\n\nI hate seeing fresh herbs go to waste in my small garden. If you need a simple hyssop recipe, try this roast lamb with rosemary and garlic. It serves 6 people and takes 2 hours 15 minutes.\n\nFull guide on homegrownplate.co.uk/recipes/hyssop-roast-lamb/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "Hyssop recipe for roast lamb with rosemary and garlic",
+    "pin_description": "Hyssop recipe. Looking for a hyssop recipe? Try this hyssop and rosemary roast lamb with garlic. Take the lamb out of the fridge 1 hour before cooking, mash the paste, and bake. Perfect for 6 people. homegrownplate.co.uk/recipes/hyssop-roast-lamb/",
+    "tiktok": "Don't waste your hyssop. Make Hyssop & Rosemary Roast Lamb instead\nI use fresh hyssop, rosemary, and garlic to make a paste for roast lamb.\nhomegrownplate.co.uk/recipes/hyssop-roast-lamb/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "hyssop recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-11-pin-pinrecipe-13/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-12-story-story-14",
+   "kind": "story",
+   "date": "2026-11-12",
+   "time": "09:00",
+   "due_utc": "2026-11-12T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "This week's job: November",
+   "url": "https://homegrownplate.co.uk/weekend-jobs/november/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-12-story/story-job.png"
+   ],
+   "ai_made": false,
+   "month_page": true,
+   "search_phrase": "",
+   "hook": {
+    "hook": "Don't miss this November garden job before the weekend's gone",
+    "score": 86,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-12-story-story-14/story-job.png"
+   ]
+  },
+  {
+   "id": "2026-11-12-pin-pin_crop-15",
+   "kind": "pin",
+   "date": "2026-11-12",
+   "time": "20:00",
+   "due_utc": "2026-11-12T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow blackberry",
+   "url": "https://homegrownplate.co.uk/plants/blackberry/",
+   "crops": [
+    "blackberry"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-12-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Blackberry",
+   "search_phrase": "how to grow blackberry UK",
+   "hook": {
+    "hook": "Nobody tells you November is still blackberry planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still blackberry planting time\n\nI plant bare-root canes between November and March in my small garden. Learning how to grow blackberry UK crops stopped us from wasting precious fruit. Now we freeze trayfuls of fresh berries for autumn crumbles.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/blackberry/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Nobody tells you November is still blackberry planting time\n\nI plant bare-root canes between November and March in my small garden. Learning how to grow blackberry UK crops stopped us from wasting precious fruit. Now we freeze trayfuls of fresh berries for autumn crumbles.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/blackberry/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "how to grow blackberry UK: plant canes and keep your harvest",
+    "pin_description": "How to grow blackberry UK. Learn how to grow blackberry UK style in small or large plots. Check your local frost dates. homegrownplate.co.uk/plants/blackberry/",
+    "tiktok": "Nobody tells you November is still blackberry planting time\nPlant bare-root blackberry canes between November and March in fertile soil. Tie new growth to wires to keep your fruiting canes separate.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/blackberry/\n#growyourown #ukgardening #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow blackberry UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-12-pin-pincrop-15/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-13-story-story-16",
+   "kind": "story",
+   "date": "2026-11-13",
+   "time": "09:00",
+   "due_utc": "2026-11-13T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Question for growers",
+   "url": "https://homegrownplate.co.uk/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-story/story-question.png"
+   ],
+   "ai_made": false,
+   "search_phrase": "",
+   "hook": {
+    "hook": "What's one crop you'd never waste space on again?",
+    "score": 79,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 8
+    }
+   },
+   "about_eating": false,
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-story-story-16/story-question.png"
+   ]
+  },
+  {
+   "id": "2026-11-13-reel-glut-4",
+   "kind": "reel",
+   "date": "2026-11-13",
+   "time": "18:30",
+   "due_utc": "2026-11-13T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook",
+    "pinterest",
+    "tiktok"
+   ],
+   "topic_kind": "glut",
+   "topic": "Lamb’s lettuce glut: pick it, cook it, keep it",
+   "url": "https://homegrownplate.co.uk/plants/lambs-lettuce/",
+   "crops": [
+    "lambs-lettuce"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "crop_name": "Lamb’s lettuce",
+   "search_phrase": "what to do with a glut of lamb’s lettuce",
+   "tiktok_tags": [
+    "#growyourown",
+    "#lambslettuce",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "lamb’s lettuce recipes",
+    "growing lamb’s lettuce UK",
+    "storing lamb’s lettuce"
+   ],
+   "hook": {
+    "hook": "Too much lamb’s lettuce? Don't bin it",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Too much lamb’s lettuce? Don't bin it\n\nI hate seeing good food spoiled after three to five days in the fridge. If you are wondering what to do with a glut of lamb’s lettuce, leave it standing outside to pick from October to March. You can also wilt rosettes into soups and freeze them for six months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lambs-lettuce/\n\nSave this for when you need it.",
+    "facebook": "Too much lamb’s lettuce? Don't bin it\n\nI hate seeing good food spoiled after three to five days in the fridge. If you are wondering what to do with a glut of lamb’s lettuce, leave it standing outside to pick from October to March. You can also wilt rosettes into soups and freeze them for six months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lambs-lettuce/\n\nSave this for when you need it.",
+    "pin_title": "What to do with a glut of lamb’s lettuce: pick, cook and keep",
+    "pin_description": "What to do with a glut of lamb’s lettuce in your garden. Learn how to harvest lamb’s lettuce rosettes, storing lamb’s lettuce in the fridge, or cooking lamb’s lettuce in soups to freeze for six months. Check your local frost dates. homegrownplate.co.uk/plants/lambs-lettuce/",
+    "tiktok": "Too much lamb’s lettuce? Don't bin it\nHere is how to pick and store lamb’s lettuce so none goes to waste over winter.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/lambs-lettuce/\n#growyourown #lambslettuce #ukgardening #allotment #homegrown",
+    "ask": "save",
+    "search_phrase": "what to do with a glut of lamb’s lettuce"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": false,
+    "fails": [
+     "timings_from_site: 'March' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']",
+     "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
+    ]
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "held",
+   "held_reasons": [
+    "timings_from_site: 'March' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']",
+    "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
+   ],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "kitchen-window.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": true,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-reel-glut-4/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-reel-glut-4/cover.png"
+  },
+  {
+   "id": "2026-11-13-pin-pin_recipe-17",
+   "kind": "pin",
+   "date": "2026-11-13",
+   "time": "20:00",
+   "due_utc": "2026-11-13T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Fresh Coriander & Mint Chutney",
+   "url": "https://homegrownplate.co.uk/recipes/coriander-chutney/",
+   "crops": [
+    "coriander"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "coriander-chutney",
+   "safety_lines": [],
+   "crop_name": "Coriander",
+   "search_phrase": "coriander recipe",
+   "hook": {
+    "hook": "Don't waste your coriander. Make Fresh Coriander & Mint Chutney instead",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Don't waste your coriander. Make Fresh Coriander & Mint Chutney instead\n\nI hate seeing good herbs go to waste after harvesting. This simple coriander recipe takes just 10 min and makes 1 small bowl of chutney. Blitz the coriander, mint, chillies, ginger and lime juice with 2 tbsp water until smooth. Stir in the yoghurt and season with salt and a pinch of sugar.\n\nFull guide on homegrownplate.co.uk/recipes/coriander-chutney/\n\nSave this for when you need it.",
+    "facebook": "Don't waste your coriander. Make Fresh Coriander & Mint Chutney instead\n\nI hate seeing good herbs go to waste after harvesting. This simple coriander recipe takes just 10 min and makes 1 small bowl of chutney. Blitz the coriander, mint, chillies, ginger and lime juice with 2 tbsp water until smooth. Stir in the yoghurt and season with salt and a pinch of sugar.\n\nFull guide on homegrownplate.co.uk/recipes/coriander-chutney/\n\nSave this for when you need it.",
+    "pin_title": "Coriander recipe for 10 min fresh coriander and mint chutney",
+    "pin_description": "Coriander recipe. Try this quick coriander recipe to use up your mint and chilli pepper harvest. This mint chutney takes 10 min and makes 1 small bowl. homegrownplate.co.uk/recipes/coriander-chutney/",
+    "tiktok": "Don't waste your coriander. Make Fresh Coriander & Mint Chutney instead\nUse your harvested coriander, mint and chilli pepper to make fresh chutney in 10 min. Blitz the herbs with ginger and lime juice, then stir in yoghurt.\nhomegrownplate.co.uk/recipes/coriander-chutney/\n#growyourown #ukgardening #homegrown",
+    "ask": "save",
+    "search_phrase": "coriander recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-pin-pinrecipe-17/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-13-reel-glut-4-videopin",
+   "kind": "video_pin",
+   "date": "2026-11-13",
+   "time": "20:30",
+   "due_utc": "2026-11-13T20:30:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "glut",
+   "topic": "Lamb’s lettuce glut: pick it, cook it, keep it",
+   "url": "https://homegrownplate.co.uk/plants/lambs-lettuce/",
+   "crops": [
+    "lambs-lettuce"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "crop_name": "Lamb’s lettuce",
+   "search_phrase": "what to do with a glut of lamb’s lettuce",
+   "tiktok_tags": [
+    "#growyourown",
+    "#lambslettuce",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "lamb’s lettuce recipes",
+    "growing lamb’s lettuce UK",
+    "storing lamb’s lettuce"
+   ],
+   "hook": {
+    "hook": "Too much lamb’s lettuce? Don't bin it",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Too much lamb’s lettuce? Don't bin it\n\nI hate seeing good food spoiled after three to five days in the fridge. If you are wondering what to do with a glut of lamb’s lettuce, leave it standing outside to pick from October to March. You can also wilt rosettes into soups and freeze them for six months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lambs-lettuce/\n\nSave this for when you need it.",
+    "facebook": "Too much lamb’s lettuce? Don't bin it\n\nI hate seeing good food spoiled after three to five days in the fridge. If you are wondering what to do with a glut of lamb’s lettuce, leave it standing outside to pick from October to March. You can also wilt rosettes into soups and freeze them for six months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lambs-lettuce/\n\nSave this for when you need it.",
+    "pin_title": "What to do with a glut of lamb’s lettuce: pick, cook and keep",
+    "pin_description": "What to do with a glut of lamb’s lettuce in your garden. Learn how to harvest lamb’s lettuce rosettes, storing lamb’s lettuce in the fridge, or cooking lamb’s lettuce in soups to freeze for six months. Check your local frost dates. homegrownplate.co.uk/plants/lambs-lettuce/",
+    "tiktok": "Too much lamb’s lettuce? Don't bin it\nHere is how to pick and store lamb’s lettuce so none goes to waste over winter.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/lambs-lettuce/\n#growyourown #lambslettuce #ukgardening #allotment #homegrown",
+    "ask": "save",
+    "search_phrase": "what to do with a glut of lamb’s lettuce"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": false,
+    "fails": [
+     "timings_from_site: 'March' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']",
+     "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
+    ]
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "held",
+   "held_reasons": [
+    "timings_from_site: 'March' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']",
+    "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
+   ],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-13-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "kitchen-window.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": true,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-reel-glut-4-videopin/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-13-reel-glut-4-videopin/cover.png"
+  },
+  {
+   "id": "2026-11-14-story-story-18",
+   "kind": "story",
+   "date": "2026-11-14",
+   "time": "09:00",
+   "due_utc": "2026-11-14T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Radish",
+   "url": "https://homegrownplate.co.uk/plants/radish/",
+   "crops": [
+    "radish"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-14-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Radish",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Nobody tells you what to do with a glut of radish",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-14-story-story-18/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-14-pin-pin_crop-19",
+   "kind": "pin",
+   "date": "2026-11-14",
+   "time": "20:00",
+   "due_utc": "2026-11-14T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow sweet cicely",
+   "url": "https://homegrownplate.co.uk/plants/sweet-cicely/",
+   "crops": [
+    "sweet-cicely"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-08/2026-11-14-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Sweet cicely",
+   "search_phrase": "how to grow sweet cicely UK",
+   "hook": {
+    "hook": "Nobody tells you November is still sweet cicely planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still sweet cicely planting time\n\nMy dad always kept a patch of this handy near his fruit bushes. If you want to know how to grow sweet cicely UK gardens can rely on, plant it in shade with moist soil. The young leaves sweeten tart rhubarb so you use less sugar and waste nothing.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/sweet-cicely/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Nobody tells you November is still sweet cicely planting time\n\nMy dad always kept a patch of this handy near his fruit bushes. If you want to know how to grow sweet cicely UK gardens can rely on, plant it in shade with moist soil. The young leaves sweeten tart rhubarb so you use less sugar and waste nothing.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/sweet-cicely/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "How to grow sweet cicely UK: Easy herb for shady gardens",
+    "pin_description": "How to grow sweet cicely UK. Learn how to grow sweet cicely UK style in partial or full shade. Check your local frost dates. homegrownplate.co.uk/plants/sweet-cicely/",
+    "tiktok": "Nobody tells you November is still sweet cicely planting time\nHere is how to grow sweet cicely in shade so you can sweeten tart fruit and waste less.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/sweet-cicely/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "how to grow sweet cicely UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-08/2026-11-14-pin-pincrop-19/pin.png"
+   ]
+  }
+ ]
+}

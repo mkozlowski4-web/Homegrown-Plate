@@ -1,0 +1,11 @@
+{
+ "carousel": 2,
+ "reel": 2,
+ "ask": 11,
+ "deferred": [
+  {
+   "slot": "carousel",
+   "kind": "sow_to_plate"
+  }
+ ]
+}
