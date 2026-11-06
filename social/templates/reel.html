@@ -1,0 +1,36 @@
+<!doctype html><html><head><meta charset="utf-8"><style>{% include 'base.css' %}
+{% if transparent %}html, body { background: transparent !important; }{% endif %}
+.hook { position: absolute; left: 60px; right: 60px; top: 300px; }
+.hook h1 { font-family: "HP Sans"; font-weight: 800; font-size: {{ size or 88 }}px; line-height: 1.42; color: #fff;
+  background: rgba(31,42,36,.82); padding: 4px 26px; border-radius: 28px; box-decoration-break: clone; -webkit-box-decoration-break: clone; display: inline; }
+.label { position: absolute; left: 60px; bottom: 360px; }
+.label span { font-weight: 800; font-size: 64px; color: var(--ink); background: var(--cream); padding: 16px 30px; border-radius: 22px; display: inline-block; }
+.label small { display: block; margin-top: 14px; font-size: 38px; font-weight: 600; color: #fff; background: rgba(31,42,36,.7); padding: 10px 22px; border-radius: 16px; width: fit-content; }
+.stage { position: absolute; inset: 0; background: var(--cream); }
+.stage .img { position: absolute; left: 90px; right: 90px; top: 420px; height: 900px; border-radius: 40px; }
+.end { position: absolute; inset: 0; background: var(--green); color: #fff; padding: 380px 80px; }
+.end h2 { font-family: "HP Serif"; font-weight: 700; font-size: 104px; line-height: 1.02; }
+.end p { font-size: 48px; margin-top: 40px; line-height: 1.35; }
+.cover { position: absolute; inset: 0; }
+.cover .img { position: absolute; inset: 0; }
+.cover .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(20,40,30,.82) 78%); }
+.cover h1 { position: absolute; left: 70px; right: 70px; bottom: 470px; font-family: "HP Serif"; font-weight: 700; font-size: 150px; line-height: .95; color: #fff; }
+.cover .k { position: absolute; left: 70px; bottom: 380px; }
+</style></head><body>
+{% if mode == 'hook' %}
+<div class="hook"><h1>{{ text }}</h1></div>
+{% elif mode == 'label' %}
+<div class="label"><span>{{ text }}</span>{% if sub %}<small>{{ sub }}</small>{% endif %}</div>
+{% elif mode == 'stage' %}
+<div class="stage"><div class="img {{ img_class }}" style="background-image:url('{{ image }}')"></div>
+  <div style="position:absolute;top:170px;left:90px" class="brand"><img src="{{ logo }}">Homegrown Plate</div></div>
+{% elif mode == 'end' %}
+<div class="end"><div class="brand" style="color:#fff"><img src="{{ logo_white }}">Homegrown Plate</div>
+  <h2 style="margin-top:90px">{{ text }}</h2><p>{{ sub }}</p>
+  <p style="font-weight:800;font-size:60px;margin-top:70px">homegrownplate.co.uk</p>
+  <p class="serif" style="font-style:italic;color:#d8f3dc;font-size:54px">Grow it. Cook it. Keep it.</p></div>
+{% elif mode == 'cover' %}
+<div class="cover"><div class="img {{ img_class }}" style="background-image:url('{{ image }}')"></div><div class="shade"></div>
+  <h1>{{ text }}</h1><div class="k"><span class="pill leaf">{{ sub }}</span></div></div>
+{% endif %}
+</body></html>

@@ -1,0 +1,105 @@
+name: Social - weekly posts
+# Saturday 06:00 UK. Cron is UTC, so two times are listed and the guard keeps the run that falls at 06:00-07:59 London time.
+# Code lives in social/ on main. Settings and records live on the social-data branch; finished media on the
+# social-media branch (served by GitHub Pages so Buffer can fetch it). Neither branch touches the site on main.
+on:
+  schedule:
+    - cron: "0 5 * * 6"
+    - cron: "0 6 * * 6"
+  workflow_dispatch:
+    inputs:
+      start:
+        description: "Week start (a Sunday, YYYY-MM-DD). Leave empty for next week."
+        required: false
+concurrency: social-autopilot
+permissions:
+  contents: write
+jobs:
+  week:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: social
+    steps:
+      - name: Only run at 06:00 UK time
+        id: guard
+        working-directory: .
+        run: |
+          H=$(TZ=Europe/London date +%H)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$H" != "06" ] && [ "$H" != "07" ]; then echo "go=no" >> $GITHUB_OUTPUT; else echo "go=yes" >> $GITHUB_OUTPUT; fi
+      - uses: actions/checkout@v4
+        if: steps.guard.outputs.go == 'yes'
+      - name: Get settings and records (social-data branch)
+        if: steps.guard.outputs.go == 'yes'
+        uses: actions/checkout@v4
+        with: { ref: social-data, path: social/data }
+      - name: Skip if this week is already made
+        id: done
+        if: steps.guard.outputs.go == 'yes'
+        run: |
+          NEXT=$(python3 -c "from autopilot.common import week_start_for,today_uk;print(week_start_for(today_uk()))")
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -f "data/plans/$NEXT.json" ]; then echo "skip=yes" >> $GITHUB_OUTPUT; else echo "skip=no" >> $GITHUB_OUTPUT; fi
+      - name: Get current media (social-media branch)
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with: { ref: social-media, path: social/media }
+      - uses: actions/setup-node@v4
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        with: { node-version: "20" }
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        with: { python-version: "3.12" }
+      - name: Install tools
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Refresh site-data.json from the site
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        run: |
+          (cd .. && node build.mjs > /dev/null)
+          node scripts/build_site_data.mjs .. data/site-data.json
+      - name: Copy new photos and videos from Drive
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -n "$GOOGLE_SERVICE_ACCOUNT_JSON" ]; then python run.py intake; else echo "No Drive key yet, skipping intake"; fi
+      - name: Make next week's posts
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          SITE_DIR: ..
+        run: python run.py week ${{ inputs.start && format('--start {0}', inputs.start) || '' }}
+      - name: Put the media online (social-media branch, rebuilt each week)
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        env:
+          MEDIA_DIR: media
+          MEDIA_BASE_URL: ${{ vars.MEDIA_BASE_URL || 'https://mkozlowski4-web.github.io/Homegrown-Plate' }}
+        run: |
+          mkdir -p media && rm -rf media/.git
+          python run.py publish-media
+          cd media
+          git init -q -b social-media
+          git config user.name "homegrown-plate-bot"; git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -qm "Social media for this week"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" social-media
+      - name: Save settings and records
+        if: always() && steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        working-directory: social/data
+        run: |
+          git config user.name "homegrown-plate-bot"; git config user.email "actions@users.noreply.github.com"
+          git add -A && (git commit -qm "Week made" && git pull -q --rebase origin social-data && git push -q origin HEAD:social-data) || echo "nothing to save"
+      - name: Send the next few days to Buffer (only once live)
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          PINTEREST_BOARD: ${{ vars.PINTEREST_BOARD }}
+        run: |
+          python run.py queue
+          cd data && git add -A && (git commit -qm "Queued" && git push -q origin HEAD:social-data) || true

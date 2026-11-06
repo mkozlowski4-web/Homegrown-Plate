@@ -1,0 +1,36 @@
+name: Social - check keys
+# Run by hand after adding keys. Checks Buffer, Gemini and Drive and saves what it finds.
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: social
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: social }
+      - uses: actions/checkout@v4
+        with: { ref: social-data, path: social/data }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-auth
+      - name: Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: python scripts/check_keys.py buffer
+      - name: Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/check_keys.py gemini
+      - name: Drive
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: python scripts/check_keys.py drive
+      - name: Save
+        working-directory: social/data
+        run: |
+          git config user.name "homegrown-plate-bot"; git config user.email "actions@users.noreply.github.com"
+          git add -A && (git commit -qm "Key check" && git push -q origin HEAD:social-data) || true

@@ -1,0 +1,31 @@
+@font-face { font-family: "HP Sans"; src: url("../assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+@font-face { font-family: "HP Sans"; src: url("../assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+@font-face { font-family: "HP Sans"; src: url("../assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+@font-face { font-family: "HP Sans"; src: url("../assets/fonts/Inter-Bold.otf"); font-weight: 700; }
+@font-face { font-family: "HP Sans"; src: url("../assets/fonts/Inter-ExtraBold.otf"); font-weight: 800; }
+@font-face { font-family: "HP Serif"; src: url("../assets/fonts/texgyrepagella-regular.otf"); font-weight: 400; }
+@font-face { font-family: "HP Serif"; src: url("../assets/fonts/texgyrepagella-bold.otf"); font-weight: 700; }
+@font-face { font-family: "HP Serif"; src: url("../assets/fonts/texgyrepagella-italic.otf"); font-style: italic; }
+:root {
+  --green: {{ c.green }}; --leaf: {{ c.leaf }}; --cream: {{ c.cream }}; --soil: {{ c.soil }};
+  --tomato: {{ c.tomato }}; --ink: {{ c.ink }}; --muted: {{ c.muted }}; --line: {{ c.line }};
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: {{ w }}px; height: {{ h }}px; overflow: hidden; }
+body { font-family: "HP Sans", sans-serif; color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; }
+.serif { font-family: "HP Serif", Georgia, serif; }
+.brand { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 30px; color: var(--green); letter-spacing: .2px; }
+.brand img { width: 46px; height: 46px; }
+.url { font-weight: 600; color: var(--green); font-size: 30px; }
+.pill { display: inline-block; background: var(--green); color: #fff; font-weight: 700; font-size: 26px; padding: 10px 22px; border-radius: 999px; letter-spacing: .5px; text-transform: uppercase; }
+.pill.tomato { background: var(--tomato); }
+.pill.leaf { background: var(--leaf); color: var(--ink); }
+.photo { background-size: cover; background-position: center; }
+.drawing { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #fff; }
+.chip { display: inline-block; border: 3px solid var(--green); color: var(--green); font-weight: 600; font-size: 30px; padding: 8px 20px; border-radius: 999px; margin: 0 10px 14px 0; background: #fff; }
+.note { background: #fff4e5; border-left: 10px solid var(--tomato); padding: 22px 26px; font-size: 30px; line-height: 1.35; border-radius: 12px; }
+.frost { font-size: 26px; color: var(--muted); font-weight: 500; }
+.dots { display: flex; gap: 10px; }
+.dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); display: block; }
+.dots i.on { background: var(--green); }
+.brand[style*="#fff"] img { filter: brightness(0) invert(1); }

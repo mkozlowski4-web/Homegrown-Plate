@@ -1,0 +1,7 @@
+requests
+jinja2
+playwright
+pillow
+pillow-heif
+numpy
+google-auth

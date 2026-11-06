@@ -1,0 +1,6 @@
+data/
+build/
+.render/
+.clips/
+media/
+__pycache__/

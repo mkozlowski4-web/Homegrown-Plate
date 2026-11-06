@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><style>{% include 'base.css' %}
+body { background: var(--green); color: #fff; }
+.wrap { position: absolute; inset: 0; padding: 230px 80px 260px; display: flex; flex-direction: column; }
+h1 { font-family: "HP Serif"; font-weight: 700; font-size: 92px; line-height: 1.02; margin: 34px 0 40px; }
+p { font-size: 44px; line-height: 1.38; }
+.card { background: var(--cream); color: var(--ink); border-radius: 36px; padding: 48px; margin-top: 30px; }
+.img { height: 640px; border-radius: 36px; margin-top: 40px; }
+.answer { margin-top: 44px; background: rgba(255,255,255,.14); border: 3px dashed rgba(255,255,255,.6); border-radius: 30px; padding: 36px; font-size: 40px; text-align: center; }
+.foot .brand, .foot .url { font-size: 38px; }
+.foot { position: absolute; left: 80px; right: 80px; bottom: 150px; display: flex; justify-content: space-between; align-items: center; }
+.frost { color: #d8f3dc; }
+</style></head><body>
+<div class="wrap">
+  <span class="pill leaf" style="align-self:flex-start;font-size:36px;padding:14px 30px">{{ kicker }}</span>
+  <h1>{{ title }}</h1>
+  {% if image %}<div class="img {{ img_class }}" style="background-image:url('{{ image }}')"></div>{% endif %}
+  {% for p in paras %}<div class="card"><p>{{ p }}</p></div>{% endfor %}
+  {% if question %}<div class="answer">Reply and tell me &#8599;</div>{% endif %}
+  {% if frost %}<p class="frost" style="font-size:30px;margin-top:30px">{{ frost }}</p>{% endif %}
+</div>
+<div class="foot"><div class="brand" style="color:#fff"><img src="{{ logo_white }}">Homegrown Plate</div><span class="url" style="color:#fff">homegrownplate.co.uk</span></div>
+</body></html>
