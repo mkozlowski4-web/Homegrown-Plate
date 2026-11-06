@@ -10,7 +10,11 @@
     "source": "Mark, 6 Nov 2026"
   },
   "voice": {
-    "three_words": ["warm", "practical", "down-to-earth"],
+    "three_words": [
+      "warm",
+      "practical",
+      "down-to-earth"
+    ],
     "how_it_sounds": "First person, like Mark talking over the fence: a small garden with four raised beds and a greenhouse, a dad who grew up watching his own dad on the allotment, two young sons. Plain English, short sentences, no jargon. Honest about what goes wrong. Cares most about not wasting what you grow.",
     "do": [
       "Say 'I' and 'you'",
@@ -19,11 +23,50 @@
       "Lean on the whole journey: sow it, grow it, cook it, keep it"
     ],
     "never_words": [
-      "delve", "elevate", "seamless", "robust", "unlock", "unleash", "game-changer", "game changer", "dive in", "dive into",
-      "embark", "journey of", "tapestry", "testament", "realm", "navigate", "foster", "leverage", "elevated", "curated",
-      "ultimate guide", "level up", "supercharge", "hack", "hacks", "must-have", "nestled", "boasts", "vibrant",
-      "in today's", "let's be honest", "here's the thing", "transformative", "harness", "plethora", "myriad",
-      "link in bio", "yard", "zucchini", "eggplant", "cilantro", "arugula", "fall planting", "scallions"
+      "delve",
+      "elevate",
+      "seamless",
+      "robust",
+      "unlock",
+      "unleash",
+      "game-changer",
+      "game changer",
+      "dive in",
+      "dive into",
+      "embark",
+      "journey of",
+      "tapestry",
+      "testament",
+      "realm",
+      "navigate",
+      "foster",
+      "leverage",
+      "elevated",
+      "curated",
+      "ultimate guide",
+      "level up",
+      "supercharge",
+      "hack",
+      "hacks",
+      "must-have",
+      "nestled",
+      "boasts",
+      "vibrant",
+      "in today's",
+      "let's be honest",
+      "here's the thing",
+      "transformative",
+      "harness",
+      "plethora",
+      "myriad",
+      "link in bio",
+      "yard",
+      "zucchini",
+      "eggplant",
+      "cilantro",
+      "arugula",
+      "fall planting",
+      "scallions"
     ],
     "never_words_source": "Usual AI words plus US gardening words, Mark 5-6 Nov 2026",
     "jargon_to_avoid": "Mark wants plain terms, not complex gardening jargon"
@@ -44,7 +87,12 @@
     "facebook": true,
     "pinterest": true,
     "tiktok": false,
-    "tiktok_note": "Mark has no TikTok account yet (6 Nov 2026). TikTok captions are still made so the daily TikTok task can start the day the account exists."
+    "tiktok_note": "Mark has no TikTok account yet (6 Nov 2026). TikTok captions are still made so the daily TikTok task can start the day the account exists.",
+    "instagram_handle": "homegrown.plate",
+    "instagram_url": "https://www.instagram.com/homegrown.plate/",
+    "facebook_name": "Homegrown Plate",
+    "pinterest_name": "Homegrown Plate",
+    "accounts_source": "Mark, 6 Nov 2026 (Instagram, Facebook Page and Pinterest already exist)"
   },
   "ai_images": "Never generated. Only Mark's photos and videos and the site's own images are used."
 }
