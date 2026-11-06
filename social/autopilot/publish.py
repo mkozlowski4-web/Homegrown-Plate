@@ -99,7 +99,9 @@ def buffer_check():
     # schema of the inputs we use, so field names can be checked against the live API
     shapes = {}
     for t in ("CreatePostInput", "PostInputMetaData", "InstagramPostMetadataInput", "PinterestPostMetadataInput", "FacebookPostMetadataInput",
-              "AssetsInput", "ImageAssetInput", "VideoAssetInput"):
+              "AssetsInput", "ImageAssetInput", "VideoAssetInput", "InstagramStickerFieldsInput", "PostType", "PostTypeFacebook",
+              "ShareMode", "SchedulingType", "ImageMetadataInput", "VideoMetadataInput", "PinterestMetadata", "Board", "PinterestBoard",
+              "InstagramPollStickerInput", "InstagramStickerInput"):
         try:
             d = gql('query { __type(name: "%s") { name inputFields { name type { name kind ofType { name kind } } } enumValues { name } } }' % t)["__type"]
             if d:
@@ -107,6 +109,12 @@ def buffer_check():
         except Exception as e:  # noqa: BLE001
             shapes[t] = str(e)[:200]
     info["schema"] = shapes
+    for t in ("PinterestMetadata", "InstagramStickerFieldsInput"):
+        try:
+            d = gql('query { __type(name: "%s") { fields { name type { name kind ofType { name kind ofType { name } } } } inputFields { name type { name kind ofType { name kind ofType { name } } } } } }' % t)["__type"]
+            shapes[t + "_full"] = d
+        except Exception as e:  # noqa: BLE001
+            shapes[t + "_full"] = str(e)[:200]
     pin = next((c for c in chans if c["service"] == "pinterest"), None)
     if pin:
         try:
