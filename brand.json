@@ -69,7 +69,8 @@
       "scallions"
     ],
     "never_words_source": "Usual AI words plus US gardening words, Mark 5-6 Nov 2026",
-    "jargon_to_avoid": "Mark wants plain terms, not complex gardening jargon"
+    "jargon_to_avoid": "Mark wants plain terms, not complex gardening jargon",
+    "glut_wording": "Vary it: 'too many' for things you count (Brussels sprouts, courgettes, apples), 'too much' for leaves and the rest, also 'more than you can eat', 'a bumper crop', 'all those'. Use the word 'glut' rarely. Never for herbs. Mark, 6 Nov 2026."
   },
   "spelling": "en-GB",
   "never_post": [
@@ -97,5 +98,56 @@
     "pinterest_url": "https://uk.pinterest.com/homegrownplate/",
     "pinterest_username": "homegrownplate"
   },
-  "ai_images": "Never generated. Only Mark's photos and videos and the site's own images are used."
+  "ai_images": "Never generated. Only Mark's photos and videos and the site's own images are used.",
+  "niche_crops": {
+    "crops": [
+      "jerusalem-artichoke",
+      "lambs-lettuce",
+      "winter-purslane",
+      "komatsuna",
+      "mizuna",
+      "tatsoi",
+      "mustard-greens",
+      "orache",
+      "land-cress",
+      "salsify",
+      "scorzonera",
+      "sea-kale",
+      "tomatillo",
+      "physalis",
+      "popcorn",
+      "mooli",
+      "kohlrabi",
+      "edamame",
+      "chicory",
+      "endive",
+      "radicchio",
+      "romanesco",
+      "horseradish",
+      "watercress",
+      "wild-garlic",
+      "patty-pan",
+      "globe-artichoke",
+      "quince",
+      "cobnut",
+      "elderberry",
+      "hardy-kiwi",
+      "loganberry",
+      "whitecurrant",
+      "apricot",
+      "hyssop",
+      "sweet-cicely",
+      "angelica",
+      "lovage",
+      "chervil",
+      "savory",
+      "sorrel",
+      "lemon-verbena",
+      "lemongrass",
+      "bronze-fennel",
+      "sweet-marjoram",
+      "viola"
+    ],
+    "rule": "Never featured in reels, carousels, Stories or pins (they still appear in the site's monthly lists). Mark asked to avoid posts about niche crops, 6 Nov 2026; list drafted by Claude for Mark to edit."
+  }
 }
