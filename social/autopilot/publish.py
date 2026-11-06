@@ -121,6 +121,14 @@ def buffer_check():
             shapes[t + "_fields"] = gql(probe % t)["__type"]
         except Exception as e:  # noqa: BLE001
             shapes[t + "_fields"] = str(e)[:200]
+    iprobe = 'query { __type(name: "%s") { inputFields { name type { name kind ofType { name kind ofType { name } } } } enumValues { name } } }'
+    for t in ("PostsInput", "PostsFiltersInput", "PostStatus", "PostsSortInput"):
+        try:
+            shapes[t + "_input"] = gql(iprobe % t)["__type"]
+        except Exception as e:  # noqa: BLE001
+            shapes[t + "_input"] = str(e)[:200]
+    q = next((f for f in (shapes.get("Query_fields") or {}).get("fields", []) if f["name"] == "posts"), None)
+    shapes["posts_query"] = q
     pin = next((c for c in chans if c["service"] == "pinterest"), None)
     if pin:
         try:
