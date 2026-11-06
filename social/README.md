@@ -51,7 +51,7 @@ Run locally from `social/` with the data branch checked out into `social/data`: 
 
 - `BUFFER_API_KEY`: Buffer API key (Buffer > Settings > API).
 - `GEMINI_API_KEY`: Google AI Studio key. Note: Gemini's terms say UK users get paid services only; if the free key is refused, captions fall back to templates.
-- `GOOGLE_SERVICE_ACCOUNT_JSON`: service account key JSON; the Social inbox folder is shared with its email as Viewer.
+- Drive: no key. Google blocks service account keys on Mark's account, so the workflows sign in keylessly (workload identity pool `github`, provider `homegrown-plate` in project `project-9cb4a1e7-00fd-4f37-938`, number 777311628580, limited to this repo) as `homegrown-playe-drive@project-9cb4a1e7-00fd-4f37-938.iam.gserviceaccount.com`, which has Viewer on the Social inbox folder.
 - Variables (optional): `PINTEREST_BOARD` (board name), `MEDIA_BASE_URL`.
 - GitHub Pages: Settings > Pages > Deploy from a branch > `social-media` / root.
 

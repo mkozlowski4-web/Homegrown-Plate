@@ -14,6 +14,7 @@ on:
 concurrency: social-autopilot
 permissions:
   contents: write
+  id-token: write
 jobs:
   week:
     runs-on: ubuntu-latest
@@ -62,18 +63,29 @@ jobs:
         run: |
           (cd .. && node build.mjs > /dev/null)
           node scripts/build_site_data.mjs .. data/site-data.json
+      - name: Sign in to Google (keyless, read-only Drive)
+        id: gauth
+        if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
+        continue-on-error: true
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/777311628580/locations/global/workloadIdentityPools/github/providers/homegrown-plate
+          service_account: homegrown-playe-drive@project-9cb4a1e7-00fd-4f37-938.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive.readonly
+          access_token_lifetime: 3600s
       - name: Copy new photos and videos from Drive
         if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
         env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_ACCESS_TOKEN: ${{ steps.gauth.outputs.access_token }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          if [ -n "$GOOGLE_SERVICE_ACCOUNT_JSON" ]; then python run.py intake; else echo "No Drive key yet, skipping intake"; fi
+          if [ -n "$GOOGLE_ACCESS_TOKEN" ]; then python run.py intake; else echo "Could not sign in to Google Drive, skipping intake"; fi
       - name: Make next week's posts
         if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_ACCESS_TOKEN: ${{ steps.gauth.outputs.access_token }}
           SITE_DIR: ..
         run: python run.py week ${{ inputs.start && format('--start {0}', inputs.start) || '' }}
       - name: Put the media online (social-media branch, rebuilt each week)

@@ -1,6 +1,6 @@
 """Drive 'Social inbox' -> library/. New photos and videos are copied, made smaller, and labelled
 (crop, task, dish) so the planner can match them to posts. Uses a Google service account that Mark
-shared the folder with (read-only). Secret: GOOGLE_SERVICE_ACCOUNT_JSON. Folder: DRIVE_FOLDER_ID."""
+shared the folder with (read-only). Sign-in is keyless (GitHub to Google workload identity), giving GOOGLE_ACCESS_TOKEN. Folder: DRIVE_FOLDER_ID."""
 import base64
 import json
 import re
@@ -25,6 +25,10 @@ TASK_WORDS = {"sow": ["sow", "sowing", "seed", "seeds", "plant", "planting", "pl
 
 
 def token():
+    """Keyless: the workflow signs in to Google as the read-only helper and passes a one-hour token.
+    (Google blocks downloadable keys on Mark's account, so GOOGLE_SERVICE_ACCOUNT_JSON is only a fallback.)"""
+    if env("GOOGLE_ACCESS_TOKEN"):
+        return env("GOOGLE_ACCESS_TOKEN")
     from google.auth.transport.requests import Request
     from google.oauth2 import service_account
     info = json.loads(env("GOOGLE_SERVICE_ACCOUNT_JSON"))
