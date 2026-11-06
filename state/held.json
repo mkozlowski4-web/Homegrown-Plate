@@ -1,37 +1,4 @@
 {
  "week_start": "2026-11-08",
- "held": [
-  {
-   "date": "2026-11-10",
-   "kind": "reel",
-   "topic": "Garlic: sow it, grow it, cook it",
-   "reasons": [
-    "timings_from_site: 'October' used for picking but the site's harvest months are ['August', 'July', 'June']"
-   ]
-  },
-  {
-   "date": "2026-11-10",
-   "kind": "video_pin",
-   "topic": "Garlic: sow it, grow it, cook it",
-   "reasons": [
-    "timings_from_site: 'October' used for picking but the site's harvest months are ['August', 'July', 'June']"
-   ]
-  },
-  {
-   "date": "2026-11-13",
-   "kind": "reel",
-   "topic": "Lamb’s lettuce glut: pick it, cook it, keep it",
-   "reasons": [
-    "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
-   ]
-  },
-  {
-   "date": "2026-11-13",
-   "kind": "video_pin",
-   "topic": "Lamb’s lettuce glut: pick it, cook it, keep it",
-   "reasons": [
-    "timings_from_site: 'October' used for picking but the site's harvest months are ['December', 'February', 'January', 'November']"
-   ]
-  }
- ]
+ "held": []
 }
