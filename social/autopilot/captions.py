@@ -64,7 +64,7 @@ def C_join(xs):
 
 # ---------------- Gemini ----------------
 
-MODELS = ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+MODELS = ["gemini-3.5-flash", "gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
 _DEAD = set()
 
 

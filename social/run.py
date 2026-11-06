@@ -21,6 +21,30 @@ def cmd_week(args):
     from autopilot import planner, preview
     from autopilot.render import Renderer
     start = date.fromisoformat(args.start) if args.start else week_start_for(today_uk())
+    # remaking a week starts from the records as they were before it was first made
+    from autopilot.common import DATA
+    snap = DATA / "state" / "snapshots" / start.isoformat()
+    tracked = ["state/rotation.json", "state/used.json", "state/pinned.json", "library/library.json"]
+    if snap.exists():
+        for t in tracked:
+            src = snap / t.replace("/", "__")
+            if src.exists():
+                shutil.copy2(src, DATA / t)
+            elif (DATA / t).exists() and t != "library/library.json":
+                (DATA / t).unlink()
+        if (DATA / "library/library.json").exists():  # keep newly added clips, restore only their use history
+            old = {i["id"]: i.get("used", []) for i in json.loads((snap / "library__library.json").read_text())["items"]} if (snap / "library__library.json").exists() else {}
+            lib = json.loads((DATA / "library/library.json").read_text())
+            for i in lib["items"]:
+                i["used"] = old.get(i["id"], [])
+            (DATA / "library/library.json").write_text(json.dumps(lib, indent=1))
+    else:
+        snap.mkdir(parents=True, exist_ok=True)
+        for t in tracked:
+            if (DATA / t).exists():
+                shutil.copy2(DATA / t, snap / t.replace("/", "__"))
+    for old in sorted((DATA / "state" / "snapshots").glob("*"))[:-4]:
+        shutil.rmtree(old)
     out = ROOT / "build" / f"week-{start.isoformat()}"
     if out.exists():
         shutil.rmtree(out)
