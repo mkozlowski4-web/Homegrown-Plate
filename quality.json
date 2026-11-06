@@ -1,0 +1,13 @@
+{
+ "_about": "Quality check after guardrails. Under min_score: rewrite once, then hold and list in the weekly email.",
+ "weights": {
+  "hook": 30,
+  "search_words": 20,
+  "one_ask": 15,
+  "sounds_human": 15,
+  "visual": 10,
+  "channel_rules": 10
+ },
+ "min_score": 70,
+ "reason": "Starting weights from Mark's brief, 5 Nov 2026"
+}

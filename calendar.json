@@ -1,0 +1,13 @@
+{
+  "_about": "Key moments. Each one goes out lead_weeks before its date (default 6), taking the slot of an ordinary carousel or reel that week. The post it replaces moves back a week. To add a date, add an entry like the others (date as MM-DD, or 'easter-7' style for Easter-relative dates).",
+  "default_lead_weeks": 6,
+  "moments": [
+    {"id": "halloween", "date": "10-31", "title": "Pumpkins ready for Halloween", "slot": "carousel", "kind": "glut", "crops": ["pumpkin", "butternut-squash"], "angle": "Cure and store pumpkins in time for Halloween, and cook the flesh instead of binning it"},
+    {"id": "christmas", "date": "12-25", "title": "Sprouts and parsnips for Christmas dinner", "slot": "carousel", "kind": "glut", "crops": ["brussels-sprouts", "parsnip"], "angle": "Your own sprouts and parsnips on the Christmas table: when to pick and how to keep them"},
+    {"id": "seed-planning", "date": "02-15", "title": "Plan your seed order", "slot": "carousel", "kind": "month", "month_offset": 1, "angle": "January seed planning: what you'll be sowing first"},
+    {"id": "first-sowings", "date": "03-21", "title": "First sowings of spring", "slot": "reel", "kind": "sow_to_plate", "crops": ["tomato", "chilli", "broad-bean"], "angle": "Get the first seeds in before spring runs away"},
+    {"id": "easter-kids", "date": "easter-7", "title": "Easter holiday growing with kids", "slot": "carousel", "kind": "kids"},
+    {"id": "summer-kids", "date": "07-22", "title": "Summer holiday growing with kids", "slot": "carousel", "kind": "kids"},
+    {"id": "october-half-term-kids", "date": "10-24", "title": "Half-term growing with kids", "slot": "carousel", "kind": "kids", "lead_weeks": 2}
+  ]
+}

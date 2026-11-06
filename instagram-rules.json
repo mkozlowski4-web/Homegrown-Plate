@@ -1,0 +1,142 @@
+{
+ "hook_rules": [
+  {
+   "id": "stakes",
+   "value": "required",
+   "claim": "Hooks put something at stake (a cost, a missed chance, a waste), never just the topic.",
+   "source": "Mark's brief, 5 Nov 2026",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "patterns",
+   "value": [
+    "Nobody tells you...",
+    "Stop doing X",
+    "a number",
+    "a numbered list",
+    "permission (You don't need a garden to...)",
+    "before and after"
+   ],
+   "claim": "Best-performing hook patterns for this account to start from.",
+   "source": "Mark's brief, 5 Nov 2026 (to be tested against results)",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "min_score",
+   "value": 75,
+   "claim": "Only hooks scoring 75 or more out of 100 are used.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "backed_by_site",
+   "value": true,
+   "claim": "Every crop, month and number in a hook must be in site-data.json.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  }
+ ],
+ "hook_score_weights": {
+  "stakes": 30,
+  "specific_detail": 20,
+  "curiosity": 20,
+  "short_and_clear": 15,
+  "fits_uk_home_growers": 15
+ },
+ "hook_score_weights_reason": "Starting weights from Mark's brief, 5 Nov 2026. Change only with a stated reason, and not on results alone until about 10 posts per platform.",
+ "platform": "instagram (rules also used for Facebook copies)",
+ "assumptions": [
+  {
+   "id": "first_line_post",
+   "value": 125,
+   "claim": "Feed captions are cut behind 'more' after roughly 125 characters, so the first line must work on its own under 125.",
+   "source": "https://www.sendible.com/insights/instagram-character-limit",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "first_line_reel",
+   "value": 55,
+   "claim": "Reels show even less caption over the video; keep the first line under 55 characters.",
+   "source": "Mark's brief; reels overlay shows about one short line (https://www.clipspeed.ai/blog/instagram-reels-captions.html)",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "caption_max",
+   "value": 2200,
+   "claim": "Instagram captions allow up to 2,200 characters.",
+   "source": "https://www.sendible.com/insights/instagram-character-limit",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "hashtags",
+   "value": 0,
+   "claim": "No hashtags. Instagram capped posts and reels at 5 hashtags (Dec 2025) and its head says hashtags do not increase reach; plain search words in the caption do the work. Same on Facebook.",
+   "source": "https://www.socialmediatoday.com/news/instagram-implements-new-limits-on-hashtag-use/808309/",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "search_words",
+   "value": "plain search phrases such as 'what to sow in November UK', 'growing garlic in pots'",
+   "claim": "Captions carry the words people type into Instagram search.",
+   "source": "Mark's brief; Instagram search reads captions (https://www.socialmediatoday.com/news/instagram-implements-new-limits-on-hashtag-use/808309/)",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "one_ask",
+   "value": [
+    "save",
+    "send to a fellow grower",
+    "comment"
+   ],
+   "claim": "One ask per caption, rotating save / send / comment. Sends per reach is one of the most important ranking signals.",
+   "source": "https://searchenginejournal.com/instagram-algorithm-shift-why-sends-matter-more-than-ever/521389",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "no_link_in_bio",
+   "value": true,
+   "claim": "Name the site as plain text (homegrownplate.co.uk) instead of 'link in bio'.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "reel_spec",
+   "value": {
+    "size": "1080x1920",
+    "seconds": [
+     15,
+     30
+    ],
+    "open_shot_seconds": 1.2,
+    "hook_on_screen_by_seconds": 2
+   },
+   "claim": "Vertical 9:16 reels, best shot first, hook as large text in the first 2 seconds because many watch muted.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "carousel_spec",
+   "value": {
+    "size": "1080x1350",
+    "slides": [
+     5,
+     8
+    ]
+   },
+   "claim": "4:5 portrait slides take the most feed space.",
+   "source": "https://www.sendible.com/insights/instagram-character-limit",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "post_time",
+   "value": "18:30 Europe/London",
+   "claim": "Reels Tue and Fri, carousels Wed and Sun, Stories daily 09:00.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  }
+ ],
+ "style": {
+  "no_em_dashes": true,
+  "banned_words_from": "brand.json voice.never_words"
+ }
+}

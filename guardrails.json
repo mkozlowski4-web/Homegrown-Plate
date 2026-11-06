@@ -1,0 +1,53 @@
+{
+  "_about": "Checked on every post before it is queued. A post that fails any rule is held back and listed in the weekly email. It is never quietly rewritten.",
+  "rules": [
+    {
+      "id": "ad_label",
+      "what": "A post linking to anything that earns commission starts with a clear 'Ad' label. 'aff' or 'affiliate' alone is not enough.",
+      "commission_domains_from": "brand.json commission.current_commission_domains",
+      "label_must_start_caption": "Ad",
+      "source": "https://www.asa.org.uk/resource/recognising-ads-social-media.html",
+      "date_checked": "2026-11-06"
+    },
+    {
+      "id": "timings_from_site",
+      "what": "Any sowing, planting or harvest month named in a post must match the crop's months in site-data.json. Wherever timing matters the post carries the frost line.",
+      "frost_line": "Check your local frost dates.",
+      "applies_to_kinds": ["reel", "carousel", "pin", "story"]
+    },
+    {
+      "id": "preserving_from_site",
+      "what": "Preserving times, temperatures, acidity and storage figures must appear word for word in the site's preserving text for that crop or recipe. Nothing improvised.",
+      "number_pattern": "numbers with units: °C, °F, minutes, mins, hours, days, weeks, months, %, ml, litres, g, kg, pH"
+    },
+    {
+      "id": "toxic_parts",
+      "what": "Never show a toxic part as edible. When a post is about a crop the site warns about, it carries the site's own warning sentence.",
+      "warn_crops_from": "site-data.json crops[].safety",
+      "always_flag_phrases": ["rhubarb leaves", "rhubarb leaf", "green potato", "green potatoes", "potato leaves", "tomato leaves", "raw kidney beans", "raw red kidney beans", "potato berries", "elder leaves", "parsnip sap"],
+      "edible_words": ["eat", "eating", "edible", "cook", "recipe", "delicious", "tasty", "add to", "salad"],
+      "negation_words": ["never", "not", "don't", "do not", "poison", "poisonous", "toxic", "avoid", "discard", "compost"]
+    },
+    {
+      "id": "kids_safety",
+      "what": "Every kids' post carries the site's adult-helper note for that project, plus the general 'grown-up says it is safe' rule.",
+      "notes_from": "site-data.json kids.projects[].adult_note and kids.adult_helper_notes"
+    },
+    {
+      "id": "pests_from_site",
+      "what": "Pest and disease advice only from the site's own pest pages. Any treatment or product named must appear on that page.",
+      "treatment_words": ["spray", "pesticide", "insecticide", "fungicide", "neem", "washing-up liquid", "washing up liquid", "soapy water", "nematodes", "pellets", "slug pellets", "copper", "garlic spray", "bicarbonate", "milk spray", "sulphur", "pyrethrum"]
+    },
+    {
+      "id": "ai_label",
+      "what": "If any image or clip is AI-made, the post carries the platform's AI label (TikTok setting via the Chrome task; caption line 'Made with AI' on Buffer channels, which cannot set Meta's label through the API).",
+      "caption_line": "Made with AI.",
+      "policy": "brand.json says AI images are never generated, so this should never trigger."
+    },
+    {
+      "id": "style_basics",
+      "what": "No em dashes, no AI words, no 'link in bio', no hashtags on Instagram or Facebook, only links to homegrownplate.co.uk (or a disclosed commission link).",
+      "banned_from": "brand.json voice.never_words"
+    }
+  ]
+}

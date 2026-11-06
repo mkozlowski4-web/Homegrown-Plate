@@ -1,0 +1,85 @@
+{
+ "hook_rules": [
+  {
+   "id": "stakes",
+   "value": "required",
+   "claim": "Hooks put something at stake (a cost, a missed chance, a waste), never just the topic.",
+   "source": "Mark's brief, 5 Nov 2026",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "patterns",
+   "value": [
+    "Nobody tells you...",
+    "Stop doing X",
+    "a number",
+    "a numbered list",
+    "permission (You don't need a garden to...)",
+    "before and after"
+   ],
+   "claim": "Best-performing hook patterns for this account to start from.",
+   "source": "Mark's brief, 5 Nov 2026 (to be tested against results)",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "min_score",
+   "value": 75,
+   "claim": "Only hooks scoring 75 or more out of 100 are used.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "backed_by_site",
+   "value": true,
+   "claim": "Every crop, month and number in a hook must be in site-data.json.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  }
+ ],
+ "hook_score_weights": {
+  "stakes": 30,
+  "specific_detail": 20,
+  "curiosity": 20,
+  "short_and_clear": 15,
+  "fits_uk_home_growers": 15
+ },
+ "hook_score_weights_reason": "Starting weights from Mark's brief, 5 Nov 2026. Change only with a stated reason, and not on results alone until about 10 posts per platform.",
+ "platform": "tiktok",
+ "assumptions": [
+  {
+   "id": "caption_shape",
+   "value": "hook line first, crop and job in plain words, the site, 3 to 5 specific hashtags",
+   "claim": "TikTok search reads caption words; a few specific hashtags help categorise.",
+   "source": "https://www.socialmediatoday.com/news/instagram-implements-new-limits-on-hashtag-use/808309/ (hashtags categorise rather than boost); Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "hashtags",
+   "value": [
+    3,
+    5
+   ],
+   "claim": "3 to 5 specific hashtags, e.g. #growyourown #garlic #ukallotment.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "post_time",
+   "value": "19:00 Europe/London",
+   "claim": "Each new reel scheduled in TikTok Studio for 19:00 by the daily Chrome task.",
+   "source": "Mark's brief",
+   "date_checked": "2026-11-06"
+  },
+  {
+   "id": "status",
+   "value": "waiting",
+   "claim": "Mark has no TikTok account yet; captions are made but nothing is scheduled.",
+   "source": "Mark, 6 Nov 2026",
+   "date_checked": "2026-11-06"
+  }
+ ],
+ "style": {
+  "no_em_dashes": true,
+  "banned_words_from": "brand.json voice.never_words"
+ }
+}
