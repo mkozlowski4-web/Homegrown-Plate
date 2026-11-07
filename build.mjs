@@ -1139,7 +1139,7 @@ ${regionBar()}
 </div>
 <p class="muted small-note">Timings vary by region, frost dates and variety. Check the <a href="/plants/">Plant Guide</a> for details on each crop. Prefer a list? See <a href="/what-to-sow/">what to sow each month</a> and <a href="/what-to-preserve/">what to preserve each month</a>.</p>`;
   addPage({
-    path: '/calendar/', section: 'calendar', body, title: 'UK Planting Calendar',
+    path: '/calendar/', section: 'calendar', body, title: 'UK Planting Calendar: when to sow, plant and harvest',
     description: `Month-by-month UK guide to when to sow indoors, sow or plant outside and harvest ${PLANTS.length} crops.`,
     crumbs: [['Home', '/'], ['Planting Calendar', '/calendar/']],
   });
@@ -1359,12 +1359,29 @@ ${wkItems(m)}
 <p><a class="btn" href="/this-weekend/">Jobs for this weekend, with a plan for your garden</a></p>
 <p><a href="/weekend-jobs/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/weekend-jobs/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a></p>`;
     addPage({
-      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'weekend', body: page, title: `Garden jobs for a weekend in ${name}`,
-      description: `${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').toLowerCase()).join('; ')}. Weekend garden jobs for ${name} in the UK.`,
+      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'weekend', body: page, title: `${name} garden jobs (UK): what to do this weekend`,
+      description: `${name} garden jobs: ${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase())).join('; ')}.`,
       crumbs: [['Home', '/'], ['This weekend', '/this-weekend/'], [name, `/weekend-jobs/${monthSlug(m)}/`]],
     });
   }
 }
+
+/* Crops most people search for, used to lead month page descriptions with names searchers recognise. */
+const POPULAR = ['garlic', 'onion', 'broad-bean', 'potato', 'tomato', 'pea', 'strawberry', 'lettuce', 'carrot', 'raspberry', 'apple', 'courgette',
+  'runner-bean', 'french-bean', 'beetroot', 'spinach', 'kale', 'leek', 'chilli', 'cabbage', 'radish', 'parsnip', 'brussels-sprouts', 'rhubarb', 'spring-onion', 'cucumber'];
+const popularFirst = (list, k = 3) => [...list].sort((a, b) => {
+  const ia = POPULAR.indexOf(a.id), ib = POPULAR.indexOf(b.id);
+  return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib) || a.name.localeCompare(b.name, 'en-GB');
+}).slice(0, k).map((p) => plural(p.name));
+function plural(name) {
+  const n = name.toLowerCase().replace(/^french /, 'French ');
+  if (/^(garlic|lettuce|spinach|kale|rhubarb|beetroot|chard|rocket|sweetcorn|asparagus|celery|celeriac|squash|brussels sprouts)$/.test(n)) return n;
+  if (/(o|ch|sh|x|s)$/.test(n)) return n + 'es';
+  if (/[^aeiou]y$/.test(n)) return n.slice(0, -1) + 'ies';
+  if (/lli$/.test(n)) return n + 'es';
+  return n + 's';
+}
+const andList = (xs) => xs.length > 1 ? xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1] : xs.join('');
 
 function buildMonthly() {
   const byName = [...PLANTS].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
@@ -1389,8 +1406,8 @@ ${section('Ready to harvest', harvest, `Nothing is ready to harvest in ${name}. 
 <p class="muted small-note">Tap any crop for full sowing, growing and harvesting advice.</p>
 <p><a href="/what-to-sow/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/what-to-sow/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a> &middot; <a href="/calendar/">Full planting calendar</a></p>`;
     addPage({
-      path: `/what-to-sow/${monthSlug(m)}/`, section: 'calendar', body, title: `What to sow and plant in ${name} (UK)`,
-      description: `What to sow and plant in the UK in ${name}: ${n(indoors.length, 'crop')} to start indoors, ${outside.length} to sow or plant outside and ${harvest.length} to harvest.`,
+      path: `/what-to-sow/${monthSlug(m)}/`, section: 'calendar', body, title: `What to plant and sow in ${name} (UK veg, fruit and herbs)`,
+      description: `What to plant in ${name} in the UK${outside.length || indoors.length ? `, including ${andList(popularFirst(outside.length ? outside : indoors))}` : ''}: ${outside.length} crops to sow or plant outside, ${indoors.length} to start indoors and ${harvest.length} to harvest.`,
       crumbs: [['Home', '/'], ['What to sow', '/what-to-sow/'], [name, `/what-to-sow/${monthSlug(m)}/`]],
     });
   });
@@ -1428,8 +1445,8 @@ ${inSeason.length ? `<h2>In season now <span class="count">(${inSeason.length})<
 ${soon.length ? `<h2>Coming in ${FULL_MONTHS[next]} <span class="count">(${soon.length})</span></h2>\n<p class="muted">Get jars, freezer bags and space ready for these.</p>\n<p class="card-tags">${tagList(soon)}</p>` : ''}
 <p><a href="/what-to-preserve/${monthSlug(prevM)}/">&larr; ${FULL_MONTHS[prevM]}</a> &middot; <a href="/what-to-preserve/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/preserving/">All preserving methods</a></p>`;
     addPage({
-      path: `/what-to-preserve/${monthSlug(m)}/`, section: 'preserving', body, title: `What to preserve and store in ${name} (UK)`,
-      description: `${inSeason.length ? `${n(inSeason.length, 'crop')} to freeze, dry, pickle or store in the UK in ${name}` : `How to use your stored harvest in ${name}`}, with the best way to keep each one.`,
+      path: `/what-to-preserve/${monthSlug(m)}/`, section: 'preserving', body, title: `What's in season in ${name} (UK) and how to store it`,
+      description: `${inSeason.length ? `In season in the UK in ${name}: ${inSeason.length > 3 ? `${popularFirst(inSeason).join(', ')} and ${inSeason.length - 3} more` : andList(popularFirst(inSeason))}, with the best way to freeze, dry, pickle or store each one` : `Little is in season in the UK in ${name}. How to use your stored harvest`}.`,
       crumbs: [['Home', '/'], ['What to preserve', '/what-to-preserve/'], [name, `/what-to-preserve/${monthSlug(m)}/`]],
     });
   });
