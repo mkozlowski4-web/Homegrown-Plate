@@ -1249,3 +1249,6 @@ html, body { overflow-x: clip; } /* safety net: nothing can make the page slide 
   .mem-table th, .mem-table td { padding: 8px 4px; font-size: .8rem; overflow-wrap: anywhere; hyphens: auto; }
   .mem-table tbody th { padding-left: 10px; }
 }
+/* Dashboard: Google Search connection */
+.dash-ok { color: var(--green); font-weight: 600; }
+.linkish { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }

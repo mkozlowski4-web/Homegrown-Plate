@@ -136,16 +136,24 @@
     t.appendChild(tb); var w = el('div', 'dash-rank-wrap'); w.appendChild(t); return w;
   };
 
-  var setupHelp = function (c, reason, email) {
+  var connectBtn = function (label) {
+    var a = el('a', 'btn-small', label); a.href = '/api/admin/search/connect'; return a;
+  };
+  var setupHelp = function (c, reason, email, canConnect) {
     var box = el('div', 'callout');
     var texts = {
-      'not-configured': 'Not connected yet. Google only shares ranking data through its Search Console service, so this needs a one-time setup.',
+      'not-configured': canConnect
+        ? 'Not connected yet. Tap the button and sign in with the Google account you use for Search Console, then allow Homegrown Plate to see your search figures. It can only read them, never change anything.'
+        : 'Not connected yet. Google only shares ranking data through its Search Console service, so this needs a one-time setup.',
+      reconnect: 'The connection to Google has stopped working, for example because access was removed in your Google account. Please connect again.',
+      'owner-no-access': 'That Google account cannot see homegrownplate.co.uk in Search Console. Connect again and choose the Google account you use for Search Console.',
       'bad-key': 'The saved Google key could not be used. Please check that the whole key file was pasted into the secret called GOOGLE_SERVICE_ACCOUNT.',
       'no-access': 'Google is refusing access. Add ' + (email || 'the service account email') + ' as a user on your Search Console property (Settings, then Users and permissions, then Add user, with Restricted permission).',
       error: 'Google did not answer just now. Try again in a few minutes. Data from Search Console can also take a few days to start appearing for a new site.'
     };
     box.appendChild(el('p', '', texts[reason] || texts.error));
-    if (reason === 'not-configured') {
+    if (canConnect) { var p = el('p'); p.appendChild(connectBtn(reason === 'not-configured' ? 'Connect Google Search' : 'Connect again')); box.appendChild(p); }
+    else if (reason === 'not-configured') {
       var ol = el('ol');
       ['In Google Cloud (console.cloud.google.com), create a project and turn on the Google Search Console API.',
        'Create a service account and download its key as a JSON file.',
@@ -156,12 +164,23 @@
     c.appendChild(box);
   };
 
+  /* Result of tapping Connect Google Search (?gsc=...), shown once. */
+  var gscResult = (/[?&]gsc=([a-z]+)/.exec(location.search) || [])[1] || '';
+  if (gscResult) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { /* ignore */ } }
+  var gscMsgs = {
+    connected: 'Connected to Google Search. Figures can take a few days to appear for a new site.',
+    cancelled: 'Connecting to Google was cancelled. You can try again below.',
+    noscope: 'Google did not give permission to see search figures. Please connect again and tick the box to allow it.',
+    failed: 'Connecting to Google did not work. Please try again.',
+    off: 'Google sign-in is not set up, so Search Console cannot be connected this way.'
+  };
   var loadSearch = function (box, d) {
     var c = card('Google search', 'Where your site appears in Google results, from Search Console. It runs about two days behind.'); box.appendChild(c);
+    if (gscMsgs[gscResult]) { c.appendChild(el('p', gscResult === 'connected' ? 'dash-ok' : 'acct-error', gscMsgs[gscResult])); gscResult = ''; }
     c.appendChild(el('p', 'muted', 'Loading...'));
     fetch('/api/admin/search?days=' + Math.min(d, 90), { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : { connected: false, reason: 'error' }; }).catch(function () { return { connected: false, reason: 'error' }; }).then(function (g) {
       c.removeChild(c.lastChild);
-      if (!g.connected) { setupHelp(c, g.reason, g.email); return; }
+      if (!g.connected) { setupHelp(c, g.reason, g.email, g.canConnect); return; }
       var tiles = el('div', 'dash-tiles');
       tiles.appendChild(tile('Average position', g.totals.impressions ? String(g.totals.position) : 'n/a', 'Lower is better. 1 is the top of page one.'));
       tiles.appendChild(tile('Clicks from Google', fmt(g.totals.clicks), g.start + ' to ' + g.end));
@@ -176,6 +195,15 @@
       var a = el('div'); a.appendChild(el('h3', '', 'Top searches')); a.appendChild(g.queries.length ? table(g.queries, 'Search') : el('p', 'muted', 'None yet.')); grid.appendChild(a);
       var b = el('div'); b.appendChild(el('h3', '', 'Top pages in Google')); b.appendChild(g.pages.length ? table(g.pages, 'Page') : el('p', 'muted', 'None yet.')); grid.appendChild(b);
       c.appendChild(grid);
+      if (g.owner) {
+        var off = el('button', 'linkish small-note', 'Disconnect Google Search'); off.type = 'button';
+        off.addEventListener('click', function () {
+          if (!confirm('Disconnect Google Search from the dashboard? You can connect it again at any time.')) return;
+          fetch('/api/admin/search/disconnect', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+            .then(function () { box.textContent = ''; loadSearch(box, d); });
+        });
+        var pOff = el('p', 'muted'); pOff.appendChild(off); c.appendChild(pOff);
+      }
     });
   };
 

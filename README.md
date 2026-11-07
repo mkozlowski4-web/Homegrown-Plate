@@ -123,11 +123,13 @@ The dashboard is `/admin/` (not in the sitemap, `noindex`); its data comes from 
 
 `/admin/` has a "Google search" section (average position, clicks, impressions, top searches and pages) read from the Search Console API by `src/worker/gsc.mjs`. Until it is set up it shows a "Not connected yet" panel.
 
-One-time setup:
-1. Google Cloud: create a project, enable the **Google Search Console API**, create a **service account** and download its JSON key.
-2. Search Console → Settings → Users and permissions → add the service account's email as a **Restricted** user on the homegrownplate.co.uk property.
-3. Cloudflare → Workers → homegrown-plate → Settings → Variables and Secrets → add a secret named `GOOGLE_SERVICE_ACCOUNT` containing the whole JSON.
-4. Optional: variable `GSC_SITE` if the property isn't `sc-domain:homegrownplate.co.uk` (URL-prefix properties look like `https://homegrownplate.co.uk/`).
+One-time setup (usual way, no keys):
+1. Google Cloud, in the same project as Continue with Google: enable the **Google Search Console API**.
+2. On `/admin/`, tap **Connect Google Search**, choose the Google account that owns the Search Console property and allow read-only access. Google shows an "unverified app" warning for this read-only permission because the app has not been through Google's review; as the owner, choose Advanced and continue. The refresh token is stored encrypted in the `settings` table (`migrations/0006_settings.sql`, applied 7 Nov 2026), keyed from `GOOGLE_CLIENT_SECRET`, so changing that secret means connecting again. **Disconnect Google Search** under the figures removes it and revokes it with Google.
+
+Fallback (service account): new Google Cloud accounts block service account keys by default (`iam.disableServiceAccountKeyCreation`). Where keys are allowed: create a service account and JSON key, add its email as a **Restricted** user in Search Console, and add the whole JSON as the Cloudflare secret `GOOGLE_SERVICE_ACCOUNT`. The owner connection above takes priority when both exist.
+
+Optional: variable `GSC_SITE` if the property isn't `sc-domain:homegrownplate.co.uk` (URL-prefix properties look like `https://homegrownplate.co.uk/`).
 
 Google's data runs about two days behind, and a new site can show nothing for a few weeks.
 

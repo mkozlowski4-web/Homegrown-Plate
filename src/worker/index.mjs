@@ -4,7 +4,7 @@
 
 import { forecast } from './weather.mjs';
 import { collect, stats, tidyAnalytics } from './analytics.mjs';
-import { searchStats } from './gsc.mjs';
+import { searchStats, saveSearchToken, forgetSearchToken } from './gsc.mjs';
 import { paymentsOn, isMember, startCheckout, billingPortal, cancelOnDelete, webhook } from './billing.mjs';
 import { redeem, listCodes, createCode, setCodeActive } from './codes.mjs';
 import { googleOn, googleStart, googleCallback } from './google.mjs';
@@ -282,7 +282,7 @@ async function api(request, env, url, ctx) {
   }
   if (path === '/api/auth/google' && method === 'GET') return googleStart(url, env);
   if (path === '/api/auth/google/callback' && method === 'GET') {
-    return googleCallback(request, url, env, { getCookie, safeEqual, clientIp, tooMany, noteAttempt, startSession, sessionCookie, sessionMaxAge: SESSION_DAYS * 86400, cleanData });
+    return googleCallback(request, url, env, { getCookie, safeEqual, clientIp, tooMany, noteAttempt, startSession, sessionCookie, sessionMaxAge: SESSION_DAYS * 86400, cleanData, currentUser, saveSearchToken });
   }
   if (path === '/api/signup' && method === 'POST') return signup(request, env);
   if (path === '/api/login' && method === 'POST') return login(request, env);
@@ -296,6 +296,15 @@ async function api(request, env, url, ctx) {
   if (path === '/api/admin/search' && method === 'GET') {
     if (!user.is_admin) return fail(404, 'Not found.');
     return json(await searchStats(env, url.searchParams.get('days')));
+  }
+  if (path === '/api/admin/search/connect' && method === 'GET') {
+    if (!user.is_admin) return fail(404, 'Not found.');
+    return googleStart(url, env, 'gsc');
+  }
+  if (path === '/api/admin/search/disconnect' && method === 'POST') {
+    if (!user.is_admin) return fail(404, 'Not found.');
+    await forgetSearchToken(env);
+    return json({ ok: true });
   }
   if (path === '/api/weather' && method === 'GET') {
     if (!isMember(user)) return fail(402, 'The week-ahead plan is for members.');

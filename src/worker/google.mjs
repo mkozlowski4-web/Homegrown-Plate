@@ -15,6 +15,7 @@ const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const STATE_COOKIE = 'hp_google';
 const STATE_PATH = '/api/auth/google';
 const ISSUERS = ['accounts.google.com', 'https://accounts.google.com'];
+const GSC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 
 export const googleOn = (env) => !!(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
 
@@ -36,35 +37,39 @@ function decodeIdToken(idToken) {
   } catch { return null; }
 }
 
-/* Step 1: send the visitor to Google. */
-export async function googleStart(url, env) {
-  if (!googleOn(env)) return back(url.origin, 'off');
+/* Step 1: send the visitor to Google. mode 'gsc' is the owner connecting Search Console for the dashboard
+   (read-only access to search figures, kept as a refresh token); anything else is signing in. */
+export async function googleStart(url, env, mode = 'login') {
+  if (!googleOn(env)) return mode === 'gsc' ? backAdmin(url.origin, 'off') : back(url.origin, 'off');
   const state = randomB64(24), verifier = randomB64(48);
   const challenge = b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));
   const q = new URLSearchParams({
     client_id: env.GOOGLE_CLIENT_ID,
     redirect_uri: url.origin + '/api/auth/google/callback',
     response_type: 'code',
-    scope: 'openid email',
+    scope: mode === 'gsc' ? GSC_SCOPE : 'openid email',
     state,
     code_challenge: challenge,
     code_challenge_method: 'S256',
-    prompt: 'select_account',
+    prompt: mode === 'gsc' ? 'select_account consent' : 'select_account',
   });
+  if (mode === 'gsc') q.set('access_type', 'offline');
   const h = new Headers({ Location: AUTH_URL + '?' + q, 'Cache-Control': 'no-store' });
-  h.append('Set-Cookie', `${STATE_COOKIE}=${state}.${verifier}; Path=${STATE_PATH}; HttpOnly; Secure; SameSite=Lax; Max-Age=600`);
+  h.append('Set-Cookie', `${STATE_COOKIE}=${mode === 'gsc' ? 'gsc' : 'login'}.${state}.${verifier}; Path=${STATE_PATH}; HttpOnly; Secure; SameSite=Lax; Max-Age=600`);
   return new Response(null, { status: 302, headers: h });
 }
 
 /* Step 2: Google sends the visitor back. Returns a redirect to the account page with ?google=ok, new, cancelled, failed or off.
-   h holds helpers from index.mjs: getCookie, safeEqual, clientIp, tooMany, noteAttempt, startSession, sessionCookie, sessionMaxAge, cleanData. */
+   h holds helpers from index.mjs: getCookie, safeEqual, clientIp, tooMany, noteAttempt, startSession, sessionCookie, sessionMaxAge, cleanData,
+   currentUser and saveSearchToken (for the Search Console connection). */
 export async function googleCallback(request, url, env, h) {
+  const [mode, state, verifier] = h.getCookie(request, STATE_COOKIE).split('.');
+  if (mode === 'gsc') return gscCallback(request, url, env, h, state, verifier);
   if (!googleOn(env)) return back(url.origin, 'off', [clearState]);
   const ipKey = 'google:' + h.clientIp(request);
   if (await h.tooMany(env, ipKey, 30, 900000)) return back(url.origin, 'busy', [clearState]);
   await h.noteAttempt(env, ipKey);
 
-  const [state, verifier] = h.getCookie(request, STATE_COOKIE).split('.');
   const gotState = url.searchParams.get('state') || '';
   if (!state || !verifier || !h.safeEqual(state, gotState)) return back(url.origin, 'failed', [clearState]);
   if (url.searchParams.get('error')) return back(url.origin, 'cancelled', [clearState]);
@@ -111,4 +116,36 @@ export async function googleCallback(request, url, env, h) {
   }
   const token = await h.startSession(env, user.id);
   return back(url.origin, result, [clearState, h.sessionCookie(token, h.sessionMaxAge)]);
+}
+
+const backAdmin = (origin, result, cookies = []) => {
+  const h = new Headers({ Location: origin + '/admin/?gsc=' + result, 'Cache-Control': 'no-store' });
+  cookies.forEach((c) => h.append('Set-Cookie', c));
+  return new Response(null, { status: 302, headers: h });
+};
+
+/* The owner is back from Google after allowing read-only Search Console access. Only an admin who is signed in can save it. */
+async function gscCallback(request, url, env, h, state, verifier) {
+  if (!googleOn(env)) return backAdmin(url.origin, 'off', [clearState]);
+  const user = await h.currentUser(request, env);
+  if (!user || !user.is_admin) return backAdmin(url.origin, 'failed', [clearState]);
+  if (!state || !verifier || !h.safeEqual(state, url.searchParams.get('state') || '')) return backAdmin(url.origin, 'failed', [clearState]);
+  if (url.searchParams.get('error')) return backAdmin(url.origin, 'cancelled', [clearState]);
+  const code = url.searchParams.get('code');
+  if (!code) return backAdmin(url.origin, 'failed', [clearState]);
+  if (!String(url.searchParams.get('scope') || '').split(' ').includes(GSC_SCOPE)) return backAdmin(url.origin, 'noscope', [clearState]);
+  try {
+    const r = await fetch(TOKEN_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        code, client_id: env.GOOGLE_CLIENT_ID, client_secret: env.GOOGLE_CLIENT_SECRET,
+        redirect_uri: url.origin + '/api/auth/google/callback', grant_type: 'authorization_code', code_verifier: verifier,
+      }),
+    });
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok || !body.refresh_token) { console.error('gsc token', r.status, body.error); return backAdmin(url.origin, 'failed', [clearState]); }
+    await h.saveSearchToken(env, body.refresh_token, body.access_token, body.expires_in);
+  } catch (e) { console.error('gsc token', e && e.message); return backAdmin(url.origin, 'failed', [clearState]); }
+  return backAdmin(url.origin, 'connected', [clearState]);
 }
