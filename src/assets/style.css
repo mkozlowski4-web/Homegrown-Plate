@@ -460,6 +460,13 @@ html[data-kids] .kids-pill { background: #ffd23f; color: #3b2a00; border-color: 
 .acct-tabs { display: flex; gap: 8px; margin: 14px 0; }
 .acct-tabs .chip[aria-selected="true"] { background: var(--green); border-color: var(--green); color: #fff; }
 .acct-form { max-width: 460px; margin-top: 8px; }
+/* Continue with Google (plain text button, no third-party script) */
+.acct-google { max-width: 460px; margin: 16px 0 4px; }
+.btn-google { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 18px; border: 1px solid #747775; border-radius: 999px; background: #fff; color: #1f1f1f !important; font-weight: 600; text-decoration: none !important; }
+.btn-google:hover { background: #f6f8f6; }
+.acct-google .acct-error:empty { display: none; }
+.acct-or { display: flex; align-items: center; gap: 10px; margin: 14px 0 0; color: var(--muted); font-size: .9rem; }
+.acct-or::before, .acct-or::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
 .acct-form h2 { margin-top: 0; }
 .acct-field { display: grid; gap: 4px; margin: 10px 0; }
 .acct-field label { font-weight: 600; }

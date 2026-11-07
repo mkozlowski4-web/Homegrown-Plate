@@ -7,6 +7,7 @@ import { collect, stats, tidyAnalytics } from './analytics.mjs';
 import { searchStats } from './gsc.mjs';
 import { paymentsOn, isMember, startCheckout, billingPortal, cancelOnDelete, webhook } from './billing.mjs';
 import { redeem, listCodes, createCode, setCodeActive } from './codes.mjs';
+import { googleOn, googleStart, googleCallback } from './google.mjs';
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 100000; /* the maximum the Workers runtime allows */
@@ -87,7 +88,7 @@ const sessionCookie = (token, maxAge) => `${COOKIE}=${token}; Path=/; HttpOnly; 
 async function currentUser(request, env) {
   const token = getCookie(request, COOKIE);
   if (!/^[0-9a-f]{64}$/.test(token)) return null;
-  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin, u.plan, u.paid_until, u.cancel_at_end, u.stripe_customer, u.stripe_sub, u.gift_until FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
+  const row = await env.DB.prepare('SELECT u.id, u.email, u.created_at, u.is_admin, u.plan, u.paid_until, u.cancel_at_end, u.stripe_customer, u.stripe_sub, u.gift_until, (u.pw_hash != \'\') AS has_pw, (u.google_sub IS NOT NULL) AS google FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token_hash = ? AND s.expires_at > ?')
     .bind(await sha256(token), Date.now()).first();
   return row || null;
 }
@@ -171,6 +172,10 @@ async function login(request, env) {
   const user = await env.DB.prepare('SELECT id, email, pw_hash, pw_salt, plan, paid_until, cancel_at_end, stripe_customer, stripe_sub, gift_until FROM users WHERE email = ?').bind(email).first();
   /* Always do the same work so timing does not reveal whether an email has an account. */
   const candidate = await hashPassword(password, user ? user.pw_salt : '00'.repeat(16));
+  if (user && !user.pw_hash) {
+    await noteAttempt(env, ipKey);
+    return fail(401, 'This account signs in with Google. Use the Continue with Google button.');
+  }
   if (!user || !safeEqual(candidate, user.pw_hash)) {
     await Promise.all([noteAttempt(env, emailKey), noteAttempt(env, ipKey)]);
     return fail(401, 'That email and password do not match.');
@@ -218,8 +223,11 @@ async function changePassword(request, user, env) {
   const row = await env.DB.prepare('SELECT pw_hash, pw_salt FROM users WHERE id = ?').bind(user.id).first();
   const key = 'login:' + user.email;
   if (await tooMany(env, key, 8, 900000)) return fail(429, 'Too many attempts. Please wait 15 minutes and try again.');
-  const current = await hashPassword(typeof body.current === 'string' ? body.current.slice(0, 128) : '', row.pw_salt);
-  if (!safeEqual(current, row.pw_hash)) { await noteAttempt(env, key); return fail(401, 'Your current password is not right.'); }
+  /* Accounts made with Google have no password yet, so they can set one without a current password. */
+  if (row.pw_hash) {
+    const current = await hashPassword(typeof body.current === 'string' ? body.current.slice(0, 128) : '', row.pw_salt);
+    if (!safeEqual(current, row.pw_hash)) { await noteAttempt(env, key); return fail(401, 'Your current password is not right.'); }
+  }
   const problem = passwordProblem(body.next, user.email); if (problem) return fail(400, problem);
   const salt = randomHex(16);
   const token = getCookie(request, COOKIE);
@@ -235,8 +243,13 @@ async function deleteAccount(request, user, env) {
   const row = await env.DB.prepare('SELECT pw_hash, pw_salt FROM users WHERE id = ?').bind(user.id).first();
   const key = 'login:' + user.email;
   if (await tooMany(env, key, 8, 900000)) return fail(429, 'Too many attempts. Please wait 15 minutes and try again.');
-  const given = await hashPassword(typeof body.password === 'string' ? body.password.slice(0, 128) : '', row.pw_salt);
-  if (!safeEqual(given, row.pw_hash)) { await noteAttempt(env, key); return fail(401, 'That password is not right.'); }
+  if (row.pw_hash) {
+    const given = await hashPassword(typeof body.password === 'string' ? body.password.slice(0, 128) : '', row.pw_salt);
+    if (!safeEqual(given, row.pw_hash)) { await noteAttempt(env, key); return fail(401, 'That password is not right.'); }
+  } else if (normEmail(body.confirm) !== user.email) {
+    /* No password (a Google account): typing the email address confirms it. */
+    await noteAttempt(env, key); return fail(401, 'Type your email address exactly as shown to confirm.');
+  }
   try { await cancelOnDelete(env, user.id); } catch (e) {
     console.error('cancel on delete', e && e.message);
     return fail(502, 'We could not stop your membership payments just now, so your account has not been deleted. Please try again in a few minutes.');
@@ -261,11 +274,15 @@ async function api(request, env, url, ctx) {
   }
   if (path === '/api/me' && method === 'GET') {
     const user = await currentUser(request, env);
-    return json({ user: user ? { email: user.email, admin: !!user.is_admin, ...planInfo(user) } : null, payments: paymentsOn(env, user) });
+    return json({ user: user ? { email: user.email, admin: !!user.is_admin, hasPassword: !!user.has_pw, google: !!user.google, ...planInfo(user) } : null, payments: paymentsOn(env, user), googleOn: googleOn(env) });
   }
   if (path === '/api/hit' && method === 'POST') {
     /* Page view and interaction counter (no response body, no cookies). Bots and the owner are filtered out. */
     return collect(request, env, url, await currentUser(request, env), ctx);
+  }
+  if (path === '/api/auth/google' && method === 'GET') return googleStart(url, env);
+  if (path === '/api/auth/google/callback' && method === 'GET') {
+    return googleCallback(request, url, env, { getCookie, safeEqual, clientIp, tooMany, noteAttempt, startSession, sessionCookie, sessionMaxAge: SESSION_DAYS * 86400, cleanData });
   }
   if (path === '/api/signup' && method === 'POST') return signup(request, env);
   if (path === '/api/login' && method === 'POST') return login(request, env);

@@ -1205,8 +1205,31 @@
     var show = function (inState, email) {
       out.hidden = inState; inn.hidden = !inState; if (email) $('#acctEmail').textContent = email;
       if (inState && window.hpMemberUi) window.hpMemberUi();
-      var adminLink = $('[data-admin-link]'); if (adminLink) { adminLink.hidden = true; if (inState) Acct.api('GET', '/api/me').then(function (r) { adminLink.hidden = !(r.ok && r.body.user && r.body.user.admin); }).catch(function () { /* hidden */ }); }
+      var adminLink = $('[data-admin-link]'); if (adminLink) adminLink.hidden = true;
+      if (inState) Acct.api('GET', '/api/me').then(function (r) { var u = r.ok && r.body.user; if (adminLink) adminLink.hidden = !(u && u.admin); if (u) pwMode(u.hasPassword !== false); }).catch(function () { /* leave as is */ });
     };
+    /* Accounts made with Google have no password: offer to set one, and confirm deletion by typing the email. */
+    var hasPw = true;
+    var pwMode = function (has) {
+      hasPw = has;
+      $('[data-pw-current]').hidden = !has; $('[data-pw-google]').hidden = has;
+      $('[data-pw-summary]').textContent = has ? 'Change password' : 'Set a password';
+      $('[data-pw-button]').textContent = has ? 'Change password' : 'Set password';
+      $('[data-del-pass]').hidden = !has; $('[data-del-confirm]').hidden = has;
+    };
+    /* Continue with Google: shown only once it is set up on the server. */
+    var gBox = $('[data-google]'), gErr = $('[data-google-error]');
+    var gMsgs = {
+      cancelled: 'Google sign-in was cancelled. You can try again, or use your email address below.',
+      failed: 'Google sign-in did not work. Please try again, or use your email address below.',
+      busy: 'Too many sign-in attempts from this connection. Please wait 15 minutes and try again.',
+      other: 'That email address already has an account linked to a different Google account. Please sign in with your email and password instead.',
+      off: 'Google sign-in is not available just now. Please use your email address below.',
+    };
+    var gResult = (/[?&]google=([a-z]+)/.exec(location.search) || [])[1] || '';
+    if (gResult) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { /* ignore */ } }
+    Acct.api('GET', '/api/me').then(function (r) { if (gBox) gBox.hidden = !(r.ok && r.body.googleOn); }).catch(function () { /* stays hidden */ });
+    if (gMsgs[gResult] && gErr) { gErr.textContent = gMsgs[gResult]; if (gBox) gBox.hidden = false; }
     var errorOf = function (form) { return form.querySelector('[data-error]'); };
     var busy = function (form, on) { Array.prototype.forEach.call(form.querySelectorAll('button[type=submit]'), function (b) { b.disabled = on; }); };
     var nice = function (r) { return (r && r.body && r.body.error) || 'Something went wrong. Please check your connection and try again.'; };
@@ -1246,21 +1269,31 @@
       e.preventDefault(); var err = errorOf(fPw); err.textContent = ''; busy(fPw, true);
       Acct.api('POST', '/api/password', { current: $('#pwCur').value, next: $('#pwNew').value }).then(function (r) {
         busy(fPw, false); if (!r.ok) { err.textContent = nice(r); return; }
-        $('#pwCur').value = ''; $('#pwNew').value = ''; err.textContent = ''; var ok = $('#acctStatus'); ok.textContent = 'Password changed. Other devices have been signed out.';
+        var wasSet = !hasPw;
+        $('#pwCur').value = ''; $('#pwNew').value = ''; err.textContent = ''; pwMode(true);
+        var ok = $('#acctStatus'); ok.textContent = wasSet ? 'Password set. You can now sign in with Google or with your email and password.' : 'Password changed. Other devices have been signed out.';
       }).catch(function () { err.textContent = nice(); busy(fPw, false); });
     });
     fDel.addEventListener('submit', function (e) {
       e.preventDefault(); var err = errorOf(fDel); err.textContent = '';
       if (!window.confirm('Delete your account and saved garden permanently? This cannot be undone.')) return;
       busy(fDel, true);
-      Acct.api('POST', '/api/delete', { password: $('#delPass').value }).then(function (r) {
+      Acct.api('POST', '/api/delete', { password: $('#delPass').value, confirm: $('#delConfirm').value }).then(function (r) {
         busy(fDel, false); if (!r.ok) { err.textContent = nice(r); return; }
-        $('#delPass').value = ''; Acct.setOut(); show(false);
+        $('#delPass').value = ''; $('#delConfirm').value = ''; Acct.setOut(); show(false);
       }).catch(function () { err.textContent = nice(); busy(fDel, false); });
     });
 
     /* Which state to show on arrival */
-    if (signedIn) {
+    if (gResult === 'ok' || gResult === 'new') {
+      /* Just back from Google: the session cookie is set. Keep what is on this device and what is on the account, as with a password sign-in. */
+      Acct.api('GET', '/api/me').then(function (me) {
+        if (!me.ok || !me.body.user) { Acct.setOut(); show(false); if (gErr) gErr.textContent = gMsgs.failed; return; }
+        return Acct.api('GET', '/api/data').then(function (d) {
+          return afterAuth({ body: { user: me.body.user, data: d.ok ? d.body.data : null } }, me.body.user.email);
+        }).then(function () { if (gResult === 'new' && window.hpTrack) window.hpTrack('signup'); });
+      }).catch(function () { show(false); if (gErr) gErr.textContent = gMsgs.failed; });
+    } else if (signedIn) {
       Acct.api('GET', '/api/me').then(function (r) { if (r.ok && r.body.user) show(true, r.body.user.email); else { Acct.setOut(); show(false); } }).catch(function () { show(false); });
     } else {
       /* A session cookie may exist from before the browser data was cleared: offer it back. */

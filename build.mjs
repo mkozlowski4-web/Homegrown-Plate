@@ -1674,6 +1674,11 @@ function buildAccount() {
 <div id="acct" hidden>
   <section id="acctOut">
     <p class="lead">Save your garden to a free account and it follows you: the same crops, ticked-off jobs and area on your phone, tablet and computer, even after you clear your browser. You do not need an account to use the site.</p>
+    <div class="acct-google" data-google hidden>
+      <a class="btn-google" href="/api/auth/google">Continue with Google</a>
+      <p class="acct-error" role="alert" data-google-error></p>
+      <p class="acct-or"><span>or use your email address</span></p>
+    </div>
     <div class="acct-tabs" role="tablist" aria-label="Account">
       <button type="button" class="chip" role="tab" id="tabIn" aria-selected="true" aria-controls="formIn">Sign in</button>
       <button type="button" class="chip" role="tab" id="tabUp" aria-selected="false" aria-controls="formUp">Create account</button>
@@ -1701,19 +1706,21 @@ function buildAccount() {
     <div class="card"><h2>Your garden</h2><p>Changes you make on any device are saved automatically and appear on your other devices next time you open the site.</p><p><a class="btn-small" href="/my-garden/">Go to My Garden</a></p><p data-admin-link hidden><a class="btn-small" href="/admin/">Open the visitor dashboard</a></p></div>
     <div class="card"><h2>Look after your account</h2>
       <p><button type="button" class="chip" id="acctOutBtn">Sign out</button> <a class="chip" href="/api/export" download>Download my data</a></p>
-      <details><summary>Change password</summary>
+      <details><summary data-pw-summary>Change password</summary>
         <form id="formPw" class="acct-form" novalidate>
-          ${field('pwCur', 'Current password', 'password', 'current-password', 'required maxlength="128"')}
+          <p class="muted small-note" data-pw-google hidden>You sign in with Google. You can also set a password, so you can sign in with your email address too.</p>
+          <div data-pw-current>${field('pwCur', 'Current password', 'password', 'current-password', 'required maxlength="128"')}</div>
           ${field('pwNew', 'New password (10+ characters)', 'password', 'new-password', 'required minlength="10" maxlength="128"')}
           <p class="acct-error" role="alert" data-error></p>
-          <button class="chip" type="submit">Change password</button>
+          <button class="chip" type="submit" data-pw-button>Change password</button>
         </form>
         <p class="muted small-note">Changing it signs you out on your other devices.</p>
       </details>
       <details><summary>Delete my account</summary>
         <form id="formDel" class="acct-form" novalidate>
-          <p>This permanently deletes your email, password and saved garden from our servers, and stops any membership payments. The garden on this device stays. It cannot be undone.</p>
-          ${field('delPass', 'Your password', 'password', 'current-password', 'required maxlength="128"')}
+          <p>This permanently deletes your email, password (if you have one) and saved garden from our servers, and stops any membership payments. The garden on this device stays. It cannot be undone.</p>
+          <div data-del-pass>${field('delPass', 'Your password', 'password', 'current-password', 'required maxlength="128"')}</div>
+          <div data-del-confirm hidden>${field('delConfirm', 'Type your email address to confirm', 'email', 'off', 'maxlength="254"')}</div>
           <p class="acct-error" role="alert" data-error></p>
           <button class="chip chip-danger" type="submit">Delete everything</button>
         </form>
@@ -1738,7 +1745,8 @@ function buildPrivacy() {
 <p>We keep:</p>
 <ul>
   <li>your <strong>email address</strong>, to recognise you when you sign in;</li>
-  <li>a <strong>scrambled copy of your password</strong> (we cannot read your password);</li>
+  <li>a <strong>scrambled copy of your password</strong>, if you chose one (we cannot read your password);</li>
+  <li>if you sign in with Google, the <strong>account number Google gives us</strong> for you, so we recognise you next time. Google tells us your email address and confirms it is yours. We do not ask for your name, photo, contacts or anything else, and Google does not see your garden;</li>
   <li>your <strong>garden</strong>: the crops you added, jobs you ticked off, your region and the first letters of your postcode (never your full postcode), and whether kids mode is on;</li>
   <li>a small sign-in record on each device so you stay signed in for up to 30 days, and short-lived technical records (such as failed sign-in attempts) to block password guessing.</li>
 </ul>
@@ -1747,9 +1755,9 @@ function buildPrivacy() {
 <p>If you are signed in, the weekend jobs page asks our server for the forecast for your region (one of six, such as the Midlands or central Scotland). Our server gets it from MET Norway, using a fixed city for each region, so MET Norway never receives your location, postcode or any detail about you. Forecasts are kept for a few hours to avoid repeat requests.</p>
 <h2>Counting visits</h2>
 <p>We count how many people visit and which pages and features they use, so we can see what is useful. This is done without cookies and without storing anything on your device. We do not save your IP address or browser details. Each visit is given a short anonymous code that is made from your connection and browser together with a random value that is thrown away every day, so we cannot recognise you from one day to the next or build a profile of you. We also keep your rough country, the type of device (phone, tablet or computer), and the website that sent you here, if any. If your browser sends a Do Not Track or Global Privacy Control signal, we do not count you at all.</p>
-<h2>Where it is kept</h2>
 <h2>If you become a member</h2>
 <p>Membership payments are taken by <a href="https://stripe.com/gb/privacy">Stripe</a>, who handle your card details. We never see or store them. We keep a reference to your Stripe customer and membership, and the date your membership runs to, so we know you are a member. Stripe keeps payment records as the law requires.</p>
+<h2>Where it is kept</h2>
 <p>Account data is stored with Cloudflare, who also host this site, in a database set up in their European region.</p>
 <h2>Your choices</h2>
 <ul>

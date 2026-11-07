@@ -101,6 +101,10 @@ Accounts are optional; the site works fully without one. A small Cloudflare Work
 - The browser side is the `Acct` block in `src/assets/site.js`. While signed in (`hp-acct` in localStorage) every change to `hp-garden*`, `hp-region` and `hp-kids` is pushed, and every page load pulls the account copy (the account wins; the first sign-in on a device merges).
 - Pages: `/account/` (sign in, create, change password, download data, delete account) and `/privacy/`. Set `CONTACT_EMAIL` in `build.mjs` to show a contact address on the privacy page.
 - There is no password reset yet: it needs an email-sending service.
+- **Continue with Google** (`src/worker/google.mjs`): the Worker does the whole Google sign-in itself (OAuth code flow with PKCE), so no Google script runs on the site and the CSP is unchanged. It asks Google only for the email address (scopes `openid email`) and stores Google's account id in `users.google_sub` (`migrations/0005_google.sql`, applied 7 Nov 2026). A Google sign-in with the same verified email as a password account links to that account. Accounts made with Google have no password (empty `pw_hash`) until the person sets one on the account page; deleting one is confirmed by typing the email address. The button only shows once both settings exist:
+  1. Google Cloud console, Google Auth Platform: set up the consent screen (External, app name Homegrown Plate, authorised domain `homegrownplate.co.uk`) and publish it. No Google review is needed for these basic scopes.
+  2. Clients > Create client > Web application, with the authorised redirect URI `https://homegrownplate.co.uk/api/auth/google/callback`.
+  3. Put the client ID in `wrangler.jsonc` under `vars` as `GOOGLE_CLIENT_ID`, and add `GOOGLE_CLIENT_SECRET` in Cloudflare as a **Secret**.
 - Run the schema again with `wrangler d1 execute homegrown-plate --remote --file migrations/0001_init.sql` if the database is ever recreated (the id in `wrangler.jsonc` must then be updated).
 
 ## About, contact, disclosure and kit pages
