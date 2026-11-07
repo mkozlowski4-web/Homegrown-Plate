@@ -42,6 +42,22 @@ In Workers & Pages, open the project, then Settings > Builds:
 
 Custom domains are `homegrownplate.co.uk` (the canonical address used in page tags and the sitemap) and `www.homegrownplate.co.uk`. Set up a redirect from `www` to the bare domain. To use a different canonical address, set the `SITE_URL` environment variable in Cloudflare (for example `https://www.homegrownplate.co.uk`).
 
+## Membership and payments
+
+What each kind of visitor gets is set out on `/membership/`. In short: no account means up to 5 crops in My Garden and general monthly jobs; a free account means up to 8 crops, a monthly plan for their own crops and area, and their garden on every device; members (£12 a year) get unlimited crops and the week-ahead plan with the forecast and best days for each job. The 8-crop limit and the week-ahead forecast are enforced by the Worker, not just the page.
+
+Payments use Stripe Checkout and the Stripe customer portal (`src/worker/billing.mjs`). Until all three settings below exist, the site says membership is opening soon and nothing can be bought.
+
+1. Apply the database change once by running `migrations/0003_membership.sql` in the D1 console (done on 3 Nov 2026). The migrations in this repo are applied by hand, so do not use `wrangler d1 migrations apply`, which would try to re-run them.
+2. In Stripe (start in **test mode**): create a product "Homegrown Plate membership" with a recurring yearly price of £12, and copy the price id (`price_...`).
+3. In Stripe, Developers > Webhooks, add the endpoint `https://homegrownplate.co.uk/api/stripe-webhook` with the events `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated` and `customer.subscription.deleted`. Copy its signing secret (`whsec_...`).
+4. In Stripe, Settings > Billing > Customer portal, turn on cancelling and updating payment methods.
+5. Put the price id in `wrangler.jsonc` under `vars` as `STRIPE_PRICE` (it is not secret, and dashboard text variables are wiped by each deploy). In Cloudflare, Worker > Settings > Variables and Secrets, add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` as **Secrets**. Use test values first (only admin accounts can join while the key is a test key), pay with Stripe's test card 4242 4242 4242 4242, then swap all three for live ones.
+
+**Access codes:** make codes on `/admin/` (Access codes). Each gives member access for a set number of days, can be limited to a number of people and a last day to use it, and can be turned off. People enter it on their account page, or open the link from Copy link (`/account/?code=...`), which fills it in. Each account can use a code once, days from several codes add up, and someone on code time who then joins is not charged until the code time ends.
+
+To give someone free membership (or yourself, for testing), run in the D1 console: `UPDATE users SET plan = 'comp' WHERE email = 'them@example.com';` Set it back with `plan = 'free'`.
+
 ## Updating content
 
 - **Add a crop:** copy an entry in `src/data/plants.mjs`, give it a unique lowercase `id`, list the garden sizes it suits, then add a matching line in `src/data/calendar.mjs` and (optionally) list it under the sizes in `sizes.mjs`.

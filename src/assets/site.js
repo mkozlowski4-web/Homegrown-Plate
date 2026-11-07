@@ -582,10 +582,20 @@
   var garden = loadGarden();
   var baseOf = function (id) { return String(id).split('--')[0]; };
   var gardenBases = function () { var b = {}; loadGarden().forEach(function (id) { b[baseOf(id)] = true; }); return b; };
-  /* Free plan: the crop limit is ready but switched off until paid membership exists.
-     Set FREE_LIMIT_ON to true to show the "x of 6" meter and stop adding at 6. */
-  var FREE_LIMIT = 6, FREE_LIMIT_ON = false;
-  var atLimit = function (list) { return FREE_LIMIT_ON && list.length >= FREE_LIMIT; };
+  /* Crop limits: 5 without an account, 8 with a free account, no limit for members.
+     The account limit is also enforced by the server; 'hp-plan' only changes what the page shows. */
+  var Plan = {
+    signedIn: function () { try { return localStorage.getItem('hp-acct') === '1'; } catch (e) { return false; } },
+    member: function () { try { return Plan.signedIn() && localStorage.getItem('hp-plan') === 'member'; } catch (e) { return false; } },
+    limit: function () { return Plan.member() ? Infinity : Plan.signedIn() ? 8 : 5; },
+    fullText: function () {
+      return Plan.signedIn() ? 'Your garden is full (' + Plan.limit() + ' crops on a free account). Members can add as many as they like.'
+        : 'Your garden is full (' + Plan.limit() + ' crops). Create a free account for up to 8.';
+    },
+    nextLink: function () { return Plan.signedIn() ? ['Become a member', '/membership/'] : ['Create a free account', '/account/#create']; },
+  };
+  window.hpPlan = Plan;
+  var atLimit = function (list) { return list.length >= Plan.limit(); };
 
   /* "In your garden" ticks on crop tiles and links across the site */
   var markGarden = function () {
@@ -620,7 +630,14 @@
     addBtn.addEventListener('click', function () {
       garden = loadGarden();
       var at = garden.indexOf(gid);
-      if (at < 0 && atLimit(garden)) { if (openLink) { openLink.hidden = false; openLink.textContent = 'Your free garden is full (' + FREE_LIMIT + ' crops). Open my garden'; } return; }
+      if (at < 0 && atLimit(garden)) {
+        var fullMsg = addBtn.parentNode.querySelector('.garden-full');
+        if (!fullMsg) { fullMsg = mk('p', 'garden-full small-note'); addBtn.parentNode.insertBefore(fullMsg, addBtn.nextSibling); }
+        fullMsg.textContent = Plan.fullText() + ' ';
+        var nl = Plan.nextLink(), na = mk('a', null, nl[0]); na.href = nl[1]; fullMsg.appendChild(na);
+        fullMsg.appendChild(document.createTextNode(' or ')); var og = mk('a', null, 'open my garden'); og.href = '/my-garden/'; fullMsg.appendChild(og);
+        return;
+      }
       if (at > -1) garden.splice(at, 1); else garden.push(gid);
       saveGarden(garden);
       paintAdd(); markGarden();
@@ -691,13 +708,22 @@
       if (gStarter) { gStarter.hidden = mine.length > 0; if (!mine.length) renderStarter(); }
       var acctP = $('[data-acct-prompt]'); if (acctP) acctP.hidden = Acct.signedIn() || !mine.length;
       if (gFree) {
-        gFree.hidden = !FREE_LIMIT_ON;
-        var n = Math.min(mine.length, FREE_LIMIT);
-        $('#gFreeText').textContent = mine.length + ' of ' + FREE_LIMIT + ' free crops';
-        $('#gFreeFill').style.width = Math.round(n / FREE_LIMIT * 100) + '%';
-        var note = $('#gFreeNote'); note.hidden = mine.length < FREE_LIMIT;
-        note.textContent = 'Your free garden is full. Remove a crop to add another.';
-        gFree.classList.toggle('is-full', mine.length >= FREE_LIMIT);
+        var lim = Plan.limit();
+        gFree.hidden = lim === Infinity || !mine.length;
+        if (lim !== Infinity) {
+          var n = Math.min(mine.length, lim);
+          $('#gFreeText').textContent = mine.length + ' of ' + lim + ' crops' + (Plan.signedIn() ? ' on a free account' : '');
+          $('#gFreeFill').style.width = Math.round(n / lim * 100) + '%';
+          var note = $('#gFreeNote'); note.hidden = mine.length < lim; note.textContent = '';
+          if (mine.length >= lim) {
+            note.appendChild(document.createTextNode((mine.length > lim
+              ? 'You have ' + mine.length + ' crops, more than the ' + lim + ' you can add on ' + (Plan.signedIn() ? 'a free account' : 'this device without an account') + '. You keep them all, but remove some to add new ones. '
+              : 'Your garden is full. Remove a crop to add another, or ')));
+            var nl = Plan.nextLink(), na = el('a', null, nl[0].charAt(0).toLowerCase() + nl[0].slice(1)); na.href = nl[1]; note.appendChild(na);
+            note.appendChild(document.createTextNode(Plan.signedIn() ? ' for unlimited crops.' : ' for up to 8.'));
+          }
+          gFree.classList.toggle('is-full', mine.length >= lim);
+        }
       }
     };
 
@@ -727,8 +753,7 @@
     }
     var gStarterAdd = $('#gStarterAdd');
     if (gStarterAdd) gStarterAdd.addEventListener('click', function () {
-      var picks = starterPicks();
-      picks.forEach(function (p) { if (garden.indexOf(p.id) < 0 && !atLimit(garden)) garden.push(p.id); });
+      var picks = starterPicks().filter(function (p) { if (garden.indexOf(p.id) > -1 || atLimit(garden)) return false; garden.push(p.id); return true; });
       saveGarden(garden); renderResults(); renderMine(); renderMonth(); markGarden();
       if (gStarterDone) {
         gStarterDone.textContent = '';
@@ -810,6 +835,7 @@
       var done = loadDone();
       gJobs.textContent = '';
       gRecipes.textContent = '';
+      if (!Plan.signedIn()) { renderGeneralMonth(m, done); return; }
       if (!mine.length) {
         gJobs.appendChild(el('p', 'empty', 'Add some crops to see your jobs for ' + MONTH_NAMES[m] + '.'));
         return;
@@ -842,6 +868,41 @@
         a.appendChild(tags);
         gRecipes.appendChild(a);
       });
+    };
+
+    /* Without an account: the month's general UK jobs and in-season recipes, and an invitation to sign up
+       for a plan built from their own crops and area. */
+    var WK_TAG = { dry: 'Needs a dry day', wet: 'Fine in damp weather', indoor: 'Indoors or under cover', frost: 'Only if frost is forecast', any: 'Any weather' };
+    var renderGeneralMonth = function (m, done) {
+      var invite = el('div', 'callout month-invite');
+      invite.appendChild(el('strong', null, 'Want a plan for your own crops? '));
+      invite.appendChild(document.createTextNode('Create a free account and this page lists what to sow, plant, harvest and look after each month for the crops in your garden, with dates for your area. '));
+      var go = el('a', 'btn-small', 'Create a free account'); go.href = '/account/#create'; invite.appendChild(go);
+      gJobs.appendChild(invite);
+      var card = el('section', 'card job-card care-card');
+      card.appendChild(el('h3', null, 'Jobs for ' + MONTH_NAMES[m] + ' in a typical UK garden'));
+      card.appendChild(el('p', 'muted small-note', 'General jobs for the time of year. Pick the ones that suit your plot.'));
+      var ul = el('ul', 'job-list');
+      (gData.wk[m] || []).forEach(function (j, idx) {
+        var id = 'g:' + idx, li = el('li'), lab = el('label');
+        var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
+        cb.addEventListener('change', function () { var d = loadDone(); var at = d.indexOf(id); if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1); saveDone(d); });
+        lab.appendChild(cb);
+        var sp = el('span', 'care-text', j[1] + ' '); sp.appendChild(el('span', 'wk-tag wk-' + j[0], WK_TAG[j[0]] || '')); lab.appendChild(sp);
+        li.appendChild(lab); ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      gJobs.appendChild(card);
+      $('#gRecipeTitle').textContent = 'Recipes in season in ' + MONTH_NAMES[m];
+      var season = {}; gData.plants.forEach(function (p) { if (!p.v && p.h.charAt(m) === '1') season[p.id] = true; });
+      gData.recipes.map(function (r) { return { r: r, n: r.u.filter(function (u) { return season[u]; }).length }; })
+        .filter(function (x) { return x.n > 0; }).sort(function (a, b) { return b.n - a.n || a.r.t.localeCompare(b.r.t); }).slice(0, 6)
+        .forEach(function (x) {
+          var a = el('a', 'card card-link'); a.href = '/recipes/' + x.r.id + '/';
+          a.appendChild(el('h3', null, x.r.t)); a.appendChild(el('p', 'muted card-meta', x.r.m));
+          var tags = el('p', 'card-tags'); x.r.u.filter(function (u) { return season[u] && byId[u]; }).forEach(function (u) { tags.appendChild(el('span', 'tag', byId[u].e + ' ' + byId[u].n)); });
+          a.appendChild(tags); gRecipes.appendChild(a);
+        });
     };
 
     var toggle = function (id) {
@@ -879,6 +940,7 @@
       garden = loadGarden().filter(function (id) { return byId[id]; });
       gRoot.hidden = false;
       renderResults(); renderMine(); renderMonth();
+      document.addEventListener('hp-plan', function () { renderResults(); renderMine(); renderMonth(); });
     }).catch(function () {
       gRoot.hidden = false;
       gRoot.textContent = 'Sorry, My Garden could not load. Please refresh the page.';
@@ -971,7 +1033,8 @@
         ids.forEach(function (id) { if (list.indexOf(id) < 0 && !atLimit(list)) { list.push(id); added++; } });
         saveGarden(list); markGarden();
         msg.textContent = '';
-        var text = document.createTextNode(added ? 'Added ' + added + (added === 1 ? ' crop. ' : ' crops. ') : 'Already in your garden. ');
+        var skipped = ids.filter(function (id) { return list.indexOf(id) < 0; }).length;
+        var text = document.createTextNode((added ? 'Added ' + added + (added === 1 ? ' crop. ' : ' crops. ') : skipped ? '' : 'Already in your garden. ') + (skipped ? Plan.fullText() + ' ' : ''));
         var link = document.createElement('a'); link.href = '/my-garden/'; link.textContent = 'Open my garden';
         msg.appendChild(text); msg.appendChild(link);
       });
@@ -1027,7 +1090,7 @@
       };
       b.addEventListener('click', function () {
         var list = loadGarden(), at = list.indexOf(id);
-        if (at < 0 && atLimit(list)) return;
+        if (at < 0 && atLimit(list)) { b.textContent = 'Full'; b.title = Plan.fullText(); setTimeout(paint, 2500); return; }
         if (at > -1) list.splice(at, 1); else list.push(id);
         saveGarden(list); paint(); if (calMine.checked) applyCal();
       });
@@ -1085,12 +1148,17 @@
       var done = {}; Object.keys(local.done || {}).concat(Object.keys(server.done || {})).forEach(function (k) { done[k] = union(local.done[k], server.done && server.done[k]); });
       return { garden: union(server.garden, local.garden), done: done, region: server.region || local.region, kids: server.kids || local.kids };
     };
+    var setPlan = function (b) { if (!b || !b.plan) return; try { if (b.plan === 'member') ls.setItem('hp-plan', 'member'); else ls.removeItem('hp-plan'); } catch (e) { /* ignore */ } };
     var push = function () {
       if (!signedIn()) return Promise.resolve();
-      return api('PUT', '/api/data', { data: collect() }).then(function (r) { if (r.status === 401) setOut(); return r; }).catch(function () {});
+      return api('PUT', '/api/data', { data: collect() }).then(function (r) {
+        if (r.status === 401) setOut();
+        if (r.ok) { setPlan(r.body); if (r.body.trimmed && r.body.data) { apply(r.body.data); reloadOnce(); } }
+        return r;
+      }).catch(function () {});
     };
     var schedulePush = function () { if (quiet || !signedIn()) return; clearTimeout(timer); timer = setTimeout(push, 700); };
-    var setOut = function () { try { ls.removeItem(FLAG); } catch (e) { /* ignore */ } };
+    var setOut = function () { try { ls.removeItem(FLAG); ls.removeItem('hp-plan'); } catch (e) { /* ignore */ } };
     var setIn = function () { try { ls.setItem(FLAG, '1'); } catch (e) { /* ignore */ } };
 
     /* Any change to our own saved keys is sent to the account. */
@@ -1111,12 +1179,14 @@
       return api('GET', '/api/data').then(function (r) {
         if (r.status === 401) { setOut(); return null; }
         if (!r.ok || !r.body.data) return null;
+        var wasMember = Plan.member(); setPlan(r.body);
         var local = collect();
+        if (wasMember !== Plan.member()) document.dispatchEvent(new CustomEvent('hp-plan'));
         if (!same(local, r.body.data)) { apply(r.body.data); reloadOnce(); } else { try { sessionStorage.removeItem('hp-sync-reloads'); } catch (e) { /* ignore */ } }
         return r.body.data;
       }).catch(function () { return null; });
     };
-    return { api: api, collect: collect, apply: apply, merge: merge, same: same, push: push, pull: pull, signedIn: signedIn, setIn: setIn, setOut: setOut, quiet: function (v) { quiet = v; } };
+    return { api: api, setPlan: setPlan, collect: collect, apply: apply, merge: merge, same: same, push: push, pull: pull, signedIn: signedIn, setIn: setIn, setOut: setOut, quiet: function (v) { quiet = v; } };
   })();
 
   (function accountUi() {
@@ -1134,6 +1204,7 @@
     var out = $('#acctOut'), inn = $('#acctIn');
     var show = function (inState, email) {
       out.hidden = inState; inn.hidden = !inState; if (email) $('#acctEmail').textContent = email;
+      if (inState && window.hpMemberUi) window.hpMemberUi();
       var adminLink = $('[data-admin-link]'); if (adminLink) { adminLink.hidden = true; if (inState) Acct.api('GET', '/api/me').then(function (r) { adminLink.hidden = !(r.ok && r.body.user && r.body.user.admin); }).catch(function () { /* hidden */ }); }
     };
     var errorOf = function (form) { return form.querySelector('[data-error]'); };
@@ -1147,7 +1218,7 @@
     if (location.hash === '#create') tab(true);
 
     var afterAuth = function (r, email) {
-      Acct.setIn();
+      Acct.setIn(); Acct.setPlan(r.body.user);
       var local = Acct.collect(), merged = Acct.merge(local, r.body.data || { garden: [], done: {}, region: null, kids: false });
       Acct.apply(merged); return Acct.push().then(function () { show(true, email); try { sessionStorage.removeItem('hp-sync-reloads'); } catch (e) { /* ignore */ } });
     };
@@ -1164,7 +1235,7 @@
       if (pass.length < 10) { err.textContent = 'Use at least 10 characters for your password.'; busy(fUp, false); return; }
       Acct.api('POST', '/api/signup', { email: $('#upEmail').value, password: pass, data: Acct.collect() }).then(function (r) {
         if (!r.ok) { err.textContent = nice(r); busy(fUp, false); return; }
-        $('#upPass').value = ''; Acct.setIn(); show(true, r.body.user.email); busy(fUp, false); if (window.hpTrack) window.hpTrack('signup');
+        $('#upPass').value = ''; Acct.setIn(); Acct.setPlan(r.body.user); show(true, r.body.user.email); busy(fUp, false); if (window.hpTrack) window.hpTrack('signup');
       }).catch(function () { err.textContent = nice(); busy(fUp, false); });
     });
     $('#acctOutBtn').addEventListener('click', function () {
@@ -1196,6 +1267,93 @@
       Acct.api('GET', '/api/me').then(function (r) { if (r.ok && r.body.user) { Acct.setIn(); Acct.pull().then(function () { show(true, r.body.user.email); }); } }).catch(function () { /* stay signed out */ });
     }
   })();
+
+  /* ---- Membership: join and manage buttons on the membership and account pages ---- */
+  var memberUi = function () {
+    var boxes = $$('[data-member-actions]'); if (!boxes.length) return;
+    var welcome = /[?&]member=welcome/.test(location.search), tries = 0;
+    var fmt = function (ms) { return new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
+    var draw = function (fill) { boxes.forEach(function (b) { b.textContent = ''; fill(b); }); };
+    var go = function (path, btn, box) {
+      btn.disabled = true;
+      Acct.api('POST', path, {}).then(function (r) {
+        if (r.ok && r.body.url) { location.href = r.body.url; return; }
+        btn.disabled = false; var e = box.querySelector('.acct-error'); if (e) e.textContent = (r.body && r.body.error) || 'Something went wrong. Please try again.';
+      }).catch(function () { btn.disabled = false; });
+    };
+    var button = function (box, text, cls, path) {
+      var b = mk('button', cls, text); b.type = 'button'; b.addEventListener('click', function () { go(path, b, box); }); return b;
+    };
+    /* Access codes: ?code=XYZ in the address fills the box in. */
+    var linkCode = (location.search.match(/[?&]code=([A-Za-z0-9-]{4,32})/) || [])[1] || '';
+    var codeForm = function (box, u) {
+      var f = mk('form', 'code-form'); f.noValidate = true;
+      var lab = mk('label', null, 'Got a code?'); lab.htmlFor = 'codeIn' + boxes.indexOf(box);
+      var inp = mk('input'); inp.id = lab.htmlFor; inp.type = 'text'; inp.autocomplete = 'off'; inp.spellcheck = false; inp.maxLength = 32; inp.placeholder = 'For example GROW-ABCD-1234'; inp.value = linkCode;
+      var b = mk('button', 'chip', 'Use code'); b.type = 'submit';
+      var row = mk('div', 'code-row'); row.appendChild(inp); row.appendChild(b);
+      var out = mk('p', 'code-msg'); out.setAttribute('role', 'status');
+      f.appendChild(lab); f.appendChild(row); f.appendChild(out);
+      f.addEventListener('submit', function (e) {
+        e.preventDefault(); out.className = 'code-msg'; out.textContent = '';
+        if (!inp.value.trim()) { out.textContent = 'Type or paste your code first.'; return; }
+        b.disabled = true;
+        Acct.api('POST', '/api/redeem', { code: inp.value }).then(function (r) {
+          b.disabled = false;
+          if (!r.ok) { out.className = 'code-msg acct-error'; out.textContent = (r.body && r.body.error) || 'Something went wrong. Please try again.'; return; }
+          linkCode = ''; justRedeemed = r.body; load();
+        }).catch(function () { b.disabled = false; out.textContent = 'Something went wrong. Please check your connection and try again.'; });
+      });
+      return f;
+    };
+    var justRedeemed = null;
+    var load = function () {
+      Acct.api('GET', '/api/me').then(function (r) {
+        var u = r.ok && r.body.user, on = r.ok && r.body.payments;
+        if (u) { Acct.setIn(); Acct.setPlan(u); } else if (r.ok) Acct.setOut();
+        if (welcome && u && u.plan !== 'member' && tries++ < 8) { draw(function (b) { b.appendChild(mk('p', null, 'Thank you! Setting up your membership…')); }); setTimeout(load, 2000); return; }
+        var price = boxes[0].getAttribute('data-price');
+        draw(function (box) {
+          var err = mk('p', 'acct-error'); err.setAttribute('role', 'alert');
+          if (justRedeemed) box.appendChild(mk('p', 'mem-welcome', 'Code accepted: ' + justRedeemed.days + (justRedeemed.days === 1 ? ' day' : ' days') + ' of member access. Enjoy the week-ahead plan and unlimited crops.'));
+          if (u && u.plan === 'member') {
+            if (welcome) box.appendChild(mk('p', 'mem-welcome', 'Welcome, you are now a member. Thank you for supporting Homegrown Plate.'));
+            var line = u.gift ? 'You have a free membership.'
+              : u.paying ? (u.renews ? 'You are a member. Your membership renews on ' + fmt(u.paidUntil) + '.' : 'You are a member until ' + fmt(u.paidUntil) + '. It will not renew.')
+              : u.codeUntil ? 'You have member access from a code until ' + fmt(u.codeUntil) + '.'
+              : 'You are a member.';
+            if (u.paying && !u.renews && u.codeUntil) line += ' Your code then carries it on until ' + fmt(u.codeUntil) + '.';
+            box.appendChild(mk('p', null, line));
+            var p = mk('p'); var a = mk('a', 'btn-small', 'Your week ahead'); a.href = '/this-weekend/'; p.appendChild(a);
+            if (u.billing && on) { p.appendChild(document.createTextNode(' ')); p.appendChild(button(box, 'Manage membership', 'chip', '/api/billing')); }
+            box.appendChild(p);
+            if (u.billing && on) box.appendChild(mk('p', 'muted small-note', 'Cancel, change your card or download receipts on the secure Stripe page.'));
+            if (u.codeUntil && !u.paying && !u.gift && on) {
+              box.appendChild(mk('p', null, 'Want to keep it when your code runs out? Join now and your first payment is only taken when your code time ends.'));
+              box.appendChild(button(box, 'Keep my membership' + (price ? ', ' + price : ''), 'btn', '/api/checkout'));
+            }
+          } else if (!u) {
+            box.appendChild(mk('p', null, on ? 'Membership is linked to an account, so create a free account (or sign in) first, then come back here to join.' : 'Membership opens soon. In the meantime, a free account gives you a monthly plan for your own crops.'));
+            var c2 = mk('a', 'btn', 'Create a free account'); c2.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : '') + '#create'; box.appendChild(c2);
+            box.appendChild(document.createTextNode(' ')); var si = mk('a', null, 'Sign in'); si.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : ''); box.appendChild(si);
+            box.appendChild(mk('p', 'muted small-note', 'Got a code for free member access? Create an account or sign in, and you can enter it on your account page.'));
+          } else if (!on) {
+            box.appendChild(mk('p', null, 'Membership opens soon. Your free account keeps working as it does now.'));
+          } else {
+            if (u.paidUntil) box.appendChild(mk('p', null, 'Your membership ended on ' + fmt(u.paidUntil) + '. Join again to carry on with the week-ahead plan and unlimited crops.'));
+            else box.appendChild(mk('p', null, 'You are on a free account. Become a member for unlimited crops and a week-ahead plan with the weather forecast.'));
+            box.appendChild(button(box, (u.paidUntil ? 'Join again' : 'Become a member') + (price ? ', ' + price : ''), 'btn', '/api/checkout'));
+          }
+          box.appendChild(err);
+          if (u && !u.gift && !(u.paying && u.renews)) box.appendChild(codeForm(box, u));
+        });
+        justRedeemed = null;
+      }).catch(function () { draw(function (b) { b.appendChild(mk('p', 'muted', 'Could not check your membership just now. Please refresh the page.')); }); });
+    };
+    load();
+  };
+  window.hpMemberUi = memberUi;
+  memberUi();
 
   /* ---- Counting visits and interactions: no cookies, nothing stored on your device ---- */
   (function track() {
