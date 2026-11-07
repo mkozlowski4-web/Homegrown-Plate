@@ -1739,6 +1739,8 @@ function buildPrivacy() {
   const body = `
 <h1>Privacy</h1>
 <p class="lead">Homegrown Plate is a small independent gardening site for the UK. This page explains in plain words what we keep and why.</p>
+<h2>Who runs this site</h2>
+<p>Homegrown Plate is run by Mark Kozlowski, a sole trader based in the UK, who is responsible for the personal data described on this page (the "data controller"). Homegrown Plate is registered with the Information Commissioner's Office (ICO), the UK's data protection regulator. For any question about your data, email <a href="mailto:hello@homegrownplate.co.uk">hello@homegrownplate.co.uk</a>.</p>
 <h2>If you just browse</h2>
 <p>You do not need an account. Your garden, area, ticked-off jobs and kids mode setting are kept only in your own browser, and nothing about them is sent to us.</p>
 <h2>If you create an account</h2>
@@ -1764,6 +1766,7 @@ function buildPrivacy() {
   <li><strong>See your data:</strong> sign in and choose <a href="/account/">Download my data</a>.</li>
   <li><strong>Delete your data:</strong> sign in and choose Delete my account. Everything we hold about you is removed straight away.</li>
   <li><strong>Change your mind:</strong> you can stop using an account at any time and keep using the site without one.</li>
+  <li><strong>Complain:</strong> if you are unhappy with how we handle your data, please tell us first so we can put it right. You also have the right to complain to the <a href="https://ico.org.uk/make-a-complaint/">ICO</a>.</li>
 </ul>
 ${CONTACT_EMAIL ? `<p>Questions about your data? Email <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>` : ''}
 <p class="muted small-note">If you are unhappy with how your data is handled you can also complain to the Information Commissioner's Office (ico.org.uk).</p>`;
