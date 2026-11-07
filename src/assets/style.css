@@ -212,6 +212,7 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 @media (pointer: coarse) {
   a.tag-link, .tag-link { padding: 8px 12px; margin: 3px 4px 3px 0; }
   .hero-links a, a.back, .card-link .more-link, .card a { display: inline-block; padding: 8px 0; }
+  .card a.btn-small { padding: 8px 16px; } /* small buttons in cards keep their side padding */
   .hero-links { line-height: 1.2; }
   main li a { display: inline-block; padding: 6px 0; }
 }
