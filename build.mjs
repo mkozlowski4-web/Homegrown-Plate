@@ -1890,6 +1890,7 @@ function buildAdmin() {
 <h1>Dashboard</h1>
 <p class="muted">Visits and interactions with bots and scrapers filtered out. Only the site owner can see the figures.</p>
 <div class="chip-group" role="group" aria-label="Time range">
+  <button type="button" class="chip" data-days="1" aria-pressed="false">1 day</button>
   <button type="button" class="chip" data-days="7" aria-pressed="false">7 days</button>
   <button type="button" class="chip" data-days="30" aria-pressed="true">30 days</button>
   <button type="button" class="chip" data-days="90" aria-pressed="false">90 days</button>

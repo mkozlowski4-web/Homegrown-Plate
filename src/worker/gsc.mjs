@@ -127,7 +127,7 @@ async function fetchAll(env, getToken, days) {
 
 /* Result for the dashboard. Never throws; says what is wrong in plain terms instead. */
 export async function searchStats(env, daysRaw) {
-  const days = [7, 30, 90].includes(Number(daysRaw)) ? Number(daysRaw) : 30;
+  const days = [1, 7, 30, 90].includes(Number(daysRaw)) ? Number(daysRaw) : 30;
   const refresh = await ownerRefresh(env);
   const key = refresh ? null : readKey(env);
   const owner = typeof refresh === 'string';

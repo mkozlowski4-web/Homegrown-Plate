@@ -113,7 +113,7 @@ export async function tidyAnalytics(env) {
 const all = async (env, sql, ...args) => (await env.DB.prepare(sql).bind(...args).all()).results || [];
 
 export async function stats(env, daysRaw) {
-  const days = [7, 30, 90, 365].includes(Number(daysRaw)) ? Number(daysRaw) : 30;
+  const days = [1, 7, 30, 90, 365].includes(Number(daysRaw)) ? Number(daysRaw) : 30;
   const from = dayOf(Date.now() - (days - 1) * 86400000), today = dayOf();
   const [daily, pages, refs, countries, devices, events, filtered, newUsers, totalUsers] = await Promise.all([
     all(env, "SELECT day, SUM(kind = 'view') AS views, COUNT(DISTINCT CASE WHEN kind = 'view' THEN vid END) AS visitors, SUM(kind = 'event') AS events FROM hits WHERE day >= ? GROUP BY day ORDER BY day", from),
