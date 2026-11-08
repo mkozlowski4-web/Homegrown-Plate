@@ -77,6 +77,28 @@ const typeHref = (p, ts) => `/plants/${p.id}/${ts.length ? `#type-${ts[0].slug}`
 
 
 const lower = (s) => s.toLowerCase();
+/* Crop page <title>, worded the way people search: "When to plant garlic in the UK and how to grow it".
+   Crops started from seed use "sow"; crops started from cloves, sets, plants or tubers use "plant". */
+const KEEP_CAPITAL = /^(Brussels|French|Florence|Swiss|Jerusalem|Chinese)\b/;
+/* How each crop reads in a search ("when to plant apple trees", "when to sow carrots"); crops not listed keep their own name. */
+const SEARCH_NAME = {
+  apple: 'apple trees', apricot: 'apricot trees', aubergine: 'aubergines', bay: 'bay trees', blackberry: 'blackberries',
+  blackcurrant: 'blackcurrants', blueberry: 'blueberries', 'borlotti-bean': 'borlotti beans', 'broad-bean': 'broad beans',
+  cabbage: 'cabbages', carrot: 'carrots', cauliflower: 'cauliflowers', cherry: 'cherry trees', chilli: 'chilli peppers',
+  cobnut: 'cobnuts and hazelnuts', courgette: 'courgettes', cucumber: 'cucumbers', elderberry: 'elder', fig: 'fig trees',
+  'french-bean': 'French beans', gherkin: 'gherkins', 'globe-artichoke': 'globe artichokes', gooseberry: 'gooseberries',
+  grape: 'grapes', 'jerusalem-artichoke': 'Jerusalem artichokes', leek: 'leeks', loganberry: 'loganberries and tayberries',
+  marrow: 'marrows', melon: 'melons', nasturtium: 'nasturtiums', onion: 'onions', parsnip: 'parsnips', 'patty-pan': 'patty pan squash',
+  pea: 'peas', peach: 'peach trees', pear: 'pear trees', plum: 'plum trees', potato: 'potatoes', pumpkin: 'pumpkins',
+  quince: 'quince trees', radish: 'radishes', raspberry: 'raspberries', redcurrant: 'redcurrants', bean: 'runner beans',
+  shallot: 'shallots', 'spring-onion': 'spring onions', strawberry: 'strawberries', swede: 'swedes', 'sweet-pepper': 'sweet peppers',
+  'sweet-potato': 'sweet potatoes', tomatillo: 'tomatillos', tomato: 'tomatoes', turnip: 'turnips', viola: 'violas and pansies',
+  whitecurrant: 'whitecurrants', 'hardy-kiwi': 'hardy kiwi', 'butternut-squash': 'butternut squash', lavender: 'lavender',
+};
+const titleName = (p) => SEARCH_NAME[p.id] || (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
+const isPlural = (n) => /s$/.test(n) && !/(asparagus|ss)$/.test(n);
+const plantPageTitle = (p) => { const n = titleName(p); return `When to ${p.sowTitle ? 'plant' : 'sow'} ${n} in the UK and how to grow ${isPlural(n) ? 'them' : 'it'}`; };
+const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : `${t} recipe`);
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
 const joinAnd = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
@@ -905,7 +927,7 @@ ${related.length ? accordion('cook', `Cook with ${lower(p.name)}`, `<ul class="c
 </div>
 </div>`;
     addPage({
-      path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: `How to grow ${p.name} in the UK`,
+      path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: plantPageTitle(p),
       description: plantDescription(p, cal),
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
       image: PHOTOS.get(p.id)?.src || '',
@@ -1086,7 +1108,7 @@ ${recipeGrowBlock(r, crops)}`;
     if (img) recipeLd.image = [`${SITE}${img.src}`];
     addPage({
       path: `/recipes/${r.id}/`, section: 'recipes', body: img?.photo ? body2.replace('</h1>', `</h1>\n<img class="recipe-photo" src="${img.src}" alt="${esc(img.alt)}" width="1200" height="900" loading="eager" decoding="async">`) : body2,
-      title: r.title, description, image: img?.src || '',
+      title: recipePageTitle(r.title), description, image: img?.src || '',
       ld: [recipeLd],
       crumbs: [['Home', '/'], ['Recipes', '/recipes/'], [r.title, `/recipes/${r.id}/`]],
     });
