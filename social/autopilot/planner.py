@@ -108,7 +108,9 @@ class Week:
         return "Plant" if c.get("perennial_planting") and not c["sow_indoors"] else "Sow"
 
     def safety_for(self, crop):
-        return [s for s in crop["safety"] if re.search(r"poison|toxic|never be eaten|never eat|solanine|oxalic|botulism|blister|burn", s, re.I)][:1]
+        # Social posts carry no risk or safety warnings (Mark's call, 8 Nov 2026).
+        # The full warnings stay on the crop pages on the site.
+        return []
 
     def finish(self, post, facts, body_lines, hook_cands, months_ok, numbers_ok, frost):
         """Gemini copy (optional), hook choice, captions, guardrails, quality (one rewrite), status."""

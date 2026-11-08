@@ -120,13 +120,6 @@ def check(post, site):
             win = low[max(0, mm.start() - 80): mm.end() + 80]
             if any(e in win for e in tox["edible_words"]) and not any(n in win for n in tox["negation_words"]):
                 fails.append(f"toxic_parts: '{ph}' appears next to eating words without a warning")
-    for c in crops:
-        warn = [s for s in c["safety"] if re.search(r"poison|toxic|never be eaten|never eat|solanine|oxalic|botulism|blister|burn", s, re.I)]
-        if warn and post.get("about_eating", True):
-            for k in ("instagram", "pin_description"):
-                t = _texts(post).get(k, "")
-                if t and not any(w[:40] in t for w in warn):
-                    fails.append(f"toxic_parts: {k} is about {c['name']} but misses the site's warning ('{warn[0][:60]}...')")
 
     # kids_safety
     if post.get("kid"):
