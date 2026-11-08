@@ -2,6 +2,7 @@ import { SALADS_SOUPS_LEAVES } from './recipes/salads-soups-leaves.mjs';
 import { MAINS_VEG } from './recipes/mains-veg.mjs';
 import { DRINKS } from './recipes/drinks.mjs';
 import { FRUIT_HERBS_PRESERVES } from './recipes/fruit-herbs-preserves.mjs';
+import { BATCH_TWO } from './recipes/batch-two.mjs';
 /* Recipes. 'uses' lists crop ids; each ingredient is [crop id or keyword, label, quantity]. */
 const BASE_RECIPES = [
   { id:"caprese-salad", title:"Tomato & Basil Salad", time:"10 min", serves:"2", uses:["tomato","basil"],
@@ -39,4 +40,4 @@ const BASE_RECIPES = [
     tips:["Toast the nuts lightly first for a deeper flavour, and pick basil in the morning before the sun wilts it.", "Pulse rather than blitz for a rougher texture, and stir the cheese in by hand so the pesto does not turn bitter.", "Keeps for about a week in the fridge under a layer of oil. For longer, freeze it in ice cube trays and bag the cubes."] }
 ];
 
-export const RECIPES = [...BASE_RECIPES, ...SALADS_SOUPS_LEAVES, ...MAINS_VEG, ...FRUIT_HERBS_PRESERVES, ...DRINKS];
+export const RECIPES = [...BASE_RECIPES, ...SALADS_SOUPS_LEAVES, ...MAINS_VEG, ...FRUIT_HERBS_PRESERVES, ...DRINKS, ...BATCH_TWO];
