@@ -90,7 +90,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Keep the soil moist, since irregular watering causes cracked, woody roots and bolting. Weed carefully, and earth up the shoulders of roots exposed above the soil to prevent greening.",
       "Flea beetle is the main pest, leaving tiny holes in leaves, especially on young plants. Slugs may also bite roots. Fine mesh is the best protection. As a brassica, it should be rotated with the cabbage family."],
       tips: ["Water regularly and evenly.", "Cover with fine mesh.", "Rotate with other brassicas.", "Earth up exposed roots."] },
-    pests: ["Flea beetle", "Slugs", "Cabbage root fly", "Bolting from spring sowing"],
+    pests: ["Flea beetle", "Slugs", "Cabbage root fly", "Bolting from spring sowing", "White blister"],
     harvest: { p: [
       "Pull roots 8–10 weeks after sowing, when they are 20–30 cm long and about 5 cm wide, from October onwards. Loosen the soil with a fork first if the soil is firm. Roots left in the ground too long turn woody and hot.",
       "In mild areas, roots can stay in the ground over winter under straw, but lift before hard frosts. Pull the tender leaves for use as greens."],

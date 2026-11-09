@@ -93,7 +93,7 @@ export const ROOTS = [
       "Radishes need very little care apart from steady moisture. Water regularly, particularly in dry weather, because drought gives hot, woody roots that split. Thin seedlings to 2–3 cm apart once they are about 2 cm tall, giving each root room to swell.",
       "Flea beetle is the main pest, peppering the leaves with tiny holes. Cover rows with fine mesh or fleece from sowing and keep plants watered, as healthy plants grow away from damage. Keep weeds down early, and rotate radishes with the rest of the brassica group to avoid clubroot."],
       tips: ["Cover with fine mesh at sowing to keep flea beetle off.", "Water during dry spells for sweet, crisp roots.", "Thin early so the roots can swell.", "Grow in a different bed each year, as radish is a brassica."] },
-    pests: ["Flea beetle", "Slugs", "Cabbage root fly", "Bolting in hot, dry weather"],
+    pests: ["Flea beetle", "Slugs", "Cabbage root fly", "Bolting in hot, dry weather", "White blister"],
     harvest: { p: [
       "Most varieties are ready three to five weeks after sowing, when the roots are about 2–3 cm across. Pull a few to check. Left too long, they turn woody, pithy and fiery, so harvest promptly and eat while crisp. Pull gently and in the morning, when the roots are at their juiciest.",
       "Winter radishes need 8–12 weeks and can be left in the ground until needed, though lift them before hard frosts in cold areas. If a plant bolts, let it flower and form seed pods: the green pods are crunchy, peppery and delicious in salads and stir-fries."],

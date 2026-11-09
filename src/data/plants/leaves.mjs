@@ -65,7 +65,7 @@ export const LEAVES = [
       "Rocket needs little care, but regular watering is important, as drought makes the leaves bitter and fiery and causes bolting. Keep it weeded and thin plants to 10–15 cm for larger leaves, or leave them close for baby leaf.",
       "Flea beetle is the main pest, leaving numerous small holes in the leaves. Fine mesh from sowing, plus consistent watering, protects the crop. Slugs can eat young seedlings. Rotate rocket with other brassicas, as it is in the same family."],
       tips: ["Water regularly to avoid fiery, bitter leaves.", "Use fine mesh to keep out flea beetle.", "Sow in partial shade during summer.", "Rotate with other brassicas."] },
-    pests: ["Flea beetle", "Slugs", "Aphids", "Bolting in hot weather"],
+    pests: ["Flea beetle", "Slugs", "Aphids", "Bolting in hot weather", "White blister"],
     harvest: { p: [
       "Start picking when the leaves are 5–10 cm long, from four weeks after sowing, using scissors to cut leaves about 2.5 cm above the base. Leave the centre to regrow, and you can cut again two or three times. Young leaves are the mildest, and older ones become hotter.",
       "Pick regularly to delay flowering. Once rocket bolts, the cream flowers are edible and peppery in salads, and wild rocket will go on flowering for weeks. Allow one or two plants to set seed, and they will self-sow around the garden."],

@@ -115,7 +115,7 @@ export const BRASSICAS = [
       "Water thoroughly in dry weather and feed in midsummer with a general fertiliser, then stop feeding in late summer to avoid soft, loose sprouts. Stake each stem or earth up around it by autumn, as the tall, top-heavy plants rock easily in gales and loosen the roots.",
       "Remove yellowing lower leaves in autumn, which can carry fungal diseases, and check regularly for whitefly, aphids and cabbage caterpillars. Keep nets on until picking is finished. Clubroot is a risk on acid soil, so lime the bed and rotate crops."],
       tips: ["Stake or earth up stems before autumn gales.", "Stop feeding by late summer.", "Remove yellow leaves regularly.", "Pinch out the growing tip in autumn for even sprouts."] },
-    pests: ["Cabbage whitefly", "Cabbage white caterpillars", "Aphids", "Pigeons", "Clubroot"],
+    pests: ["Cabbage whitefly", "Cabbage white caterpillars", "Aphids", "Pigeons", "Clubroot", "White blister"],
     harvest: { p: [
       "Pick sprouts from the bottom of the stem upwards when they are firm, about 2–4 cm across, usually from October onwards. Twist or snap them off, picking a few from each plant at a time. Frost improves the flavour, making them sweeter and milder.",
       "Cut or break off the top of the plant in autumn to encourage the sprouts to mature at the same time. At the end of the season, the top ‘sprout tops’ can be cooked like cabbage greens. Pull up the stems when finished and chop them up for the compost heap."],
@@ -190,7 +190,7 @@ export const BRASSICAS = [
       "Water regularly, because dry soil leads to bolting and tough leaves. Mulch to retain moisture and keep the roots cool. Feed with a liquid fertiliser every two weeks if growth slows. Pak choi has shallow roots, so weed carefully by hand.",
       "Flea beetle, slugs and caterpillars are the main pests; cover with fine insect mesh from sowing. Keep plants well spaced for air flow and rotate with other brassicas to avoid clubroot. Overwintering plants benefit from a cloche or fleece in hard frosts."],
       tips: ["Water consistently to avoid bolting.", "Cover with fine mesh from sowing.", "Pick off slugs on damp evenings.", "Protect winter crops with fleece."] },
-    pests: ["Flea beetle", "Slugs", "Caterpillars", "Bolting in heat or cold stress"],
+    pests: ["Flea beetle", "Slugs", "Caterpillars", "Bolting in heat or cold stress", "White blister"],
     harvest: { p: [
       "Harvest baby leaves from about three to four weeks, cutting them with scissors about 2.5 cm above the base so the plant regrows. Full-size heads are ready in six to eight weeks, cut at the base with a knife. Harvest when the stems are plump and the leaves are smooth and glossy.",
       "Do not let plants stand too long, as they bolt quickly and the stems become tough. A bolted plant can still be used: eat the flower shoots, which are tender and sweet like tender-stem broccoli. In winter, pick leaves from plants under cover as needed."],
@@ -215,7 +215,7 @@ export const BRASSICAS = [
       "Mizuna needs very little care. Keep the soil moist, as drought makes the leaves hot and woody, and water in the morning. Cut back flowering shoots to prolong picking. It will grow in poor soil, though a little compost gives better leaf.",
       "Flea beetle makes small holes in the leaves, mainly in spring and summer, and is kept away with fine mesh. Slugs may feed on autumn sowings. Plants in the ground survive hard winters, but those under cloches give fresher leaves in freezing weather."],
       tips: ["Cut hard to regrow fresh leaves.", "Use mesh against flea beetle.", "Water in dry weather.", "Cover winter crops with a cloche or fleece."] },
-    pests: ["Flea beetle", "Slugs", "Aphids", "Bolting in hot weather"],
+    pests: ["Flea beetle", "Slugs", "Aphids", "Bolting in hot weather", "White blister"],
     harvest: { p: [
       "Begin cutting baby leaves about three weeks after sowing, using scissors to snip them 2.5 cm above the soil. The plants regrow, and you can cut several times over a few weeks. Larger leaves can be harvested individually from the outside of each plant for stir-fries.",
       "Plants will eventually flower, usually in spring, producing yellow blooms that are edible and attractive to pollinators. Let one or two plants go to seed to collect seeds for future sowings. Pull up the old plants after flowering and resow."],

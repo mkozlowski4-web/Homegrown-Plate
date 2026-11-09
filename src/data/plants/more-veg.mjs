@@ -115,7 +115,7 @@ export const MORE_VEG = [
       "Water regularly; stress makes leaves hot and bitter and causes bolting. Weed carefully. No feed is needed.",
       "Flea beetle, slugs and caterpillars are the main pests. Rotate with other brassicas. Plants tolerate frost, and leaf flavour mellows in cold."],
       tips: ["Water regularly.", "Net against pests.", "Rotate with other brassicas.", "Cut before flowering."] },
-    pests: ["Flea beetle", "Slugs", "Caterpillars", "Bolting in heat"],
+    pests: ["Flea beetle", "Slugs", "Caterpillars", "Bolting in heat", "White blister"],
     harvest: { p: [
       "Pick baby leaves from three weeks, cutting 2.5 cm above the ground for regrowth. Full leaves are ready from six to eight weeks. Pick outer leaves first.",
       "Younger leaves are milder. Flowers and flower buds are edible. Cut before flowering for the best flavour."],

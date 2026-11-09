@@ -43,9 +43,9 @@ export const GROUP_CALENDAR = {
     "trailing-and-basket": { i: "001100000000", o: "000011000000", h: "000000111000" }, // Trailing and basket
   },
   "strawberry": {
-    "summer-fruiting": { i: "000000000000", o: "001100001100", h: "000001100000" }, // Summer-fruiting
-    "perpetual": { i: "000000000000", o: "001100001100", h: "000000111100" }, // Perpetual (everbearing)
-    "alpine": { i: "000000000000", o: "001100001100", h: "000001111100" }, // Alpine
+    "summer-fruiting": { i: "000000000000", o: "001100011000", h: "000001100000" }, // Summer-fruiting
+    "perpetual": { i: "000000000000", o: "001100011000", h: "000000111100" }, // Perpetual (everbearing)
+    "alpine": { i: "000000000000", o: "001100011000", h: "000001111100" }, // Alpine
   },
   "raspberry": {
     "summer-fruiting": { i: "000000000000", o: "111000000011", h: "000001100000" }, // Summer-fruiting

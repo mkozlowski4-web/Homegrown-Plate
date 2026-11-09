@@ -27,6 +27,7 @@ import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
 import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
+import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -287,6 +288,13 @@ const firstFit = (options, max = 160) => trimDesc(options.filter(Boolean).find((
 const cropInText = (p) => (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
   description = trimDesc(description);
+  /* One-line quick answer under the heading, and a "Related" box at the end, for pages listed in seo-links.mjs. */
+  if (QUICK_ANSWERS[path]) {
+    const qa = `<p class="quick-answer"><strong>Quick answer:</strong> ${esc(QUICK_ANSWERS[path])}</p>`;
+    body = /<p class="latin">.*?<\/p>/.test(body) ? body.replace(/(<p class="latin">.*?<\/p>)/, `$1\n    ${qa}`) : body.replace('</h1>', `</h1>\n${qa}`);
+  }
+  const related = (RELATED_LINKS[path] || []).filter(([, href]) => href !== path);
+  if (related.length) body += `\n<aside class="related-links" aria-label="Related pages"><h2>Related</h2><ul>${related.map(([text, href]) => `<li><a href="${href}">${esc(text)}</a></li>`).join('')}</ul></aside>`;
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
   const url = `${SITE}${path}`;
   const SHORT = { 'Plant Guide': 'Grow', 'Recipes': 'Cook', 'Preserving': 'Keep', 'Planting Calendar': 'Calendar' };
@@ -2097,4 +2105,10 @@ buildOffline();
 buildSupportFiles();
 buildServiceWorker();
 
+/* Every page named in seo-links.mjs must exist, so a renamed page never leaves a dead link. */
+{
+  const missing = [...Object.keys(QUICK_ANSWERS), ...Object.keys(RELATED_LINKS), ...Object.values(RELATED_LINKS).flat().map(([, href]) => href)]
+    .filter((path) => !existsSync(join(DIST, path, 'index.html')));
+  if (missing.length) { console.error(`seo-links.mjs names pages that do not exist: ${[...new Set(missing)].join(', ')}`); process.exit(1); }
+}
 console.log(`Built ${pages.length} pages + 404 into dist/ (site URL: ${SITE})`);
