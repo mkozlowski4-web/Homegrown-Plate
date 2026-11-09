@@ -1,0 +1,517 @@
+{
+ "collected": "2026-11-09T08:43:59.921647+00:00",
+ "metric_fields": "description name type unit value",
+ "posts": [
+  {
+   "id": "6aef499c85e64aecef9f13c8",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-06T23:00:53.000Z",
+   "sentAt": "2026-11-06T23:00:53.000Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008131198",
+   "text": " ",
+   "metricsUpdatedAt": "2026-11-08T15:54:16.847Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  },
+  {
+   "id": "6aef499c85e64aecef9f13c6",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-06T23:01:52.000Z",
+   "sentAt": "2026-11-06T23:01:52.000Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008131210",
+   "text": " ",
+   "metricsUpdatedAt": "2026-11-08T15:54:16.852Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  },
+  {
+   "id": "6aef499c85e64aecef9f13c4",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-06T23:01:31.000Z",
+   "sentAt": "2026-11-06T23:01:31.000Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008131206",
+   "text": " ",
+   "metricsUpdatedAt": "2026-11-08T15:54:16.849Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 100
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  },
+  {
+   "id": "6aee5f45af7e526d43e99a09",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-08T20:00:00.000Z",
+   "sentAt": "2026-11-08T20:01:15.281Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008163677",
+   "text": "how to grow leeks UK in your garden, allotment or raised beds. Learn when to sow, how to harvest hardy leeks from autumn through spring, and simple ways to store them so nothing goes to waste. Grow it. Cook it. Keep it. Check your local frost dates. homegrownplate.co.uk/plants/leek/",
+   "metricsUpdatedAt": "2026-11-06T23:14:13.371Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-pin-pin_crop-7|pinterest"
+  },
+  {
+   "id": "6aee5f45af7e526d43e999df",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-08T18:30:00.000Z",
+   "sentAt": "2026-11-08T18:30:47.246Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122105975409535768",
+   "text": "Too many Brussels sprouts? Don't bin them\n\nIf you are wondering what to do with too many Brussels sprouts, start with how you cook them. I like to roast them with olive oil and balsamic vinegar for a caramelised flavour. You can also boil or steam whole sprouts for six to eight minutes. That way, nothing from your harvest gets wasted.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-09T07:43:44.168Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 4
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-carousel-glut-0|facebook"
+  },
+  {
+   "id": "6aee5f44a7751de7c9b2b7b9",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-08T18:30:00.000Z",
+   "sentAt": "2026-11-08T18:32:04.209Z",
+   "externalLink": "https://www.instagram.com/p/DffaAMLINJT/",
+   "text": "Too many Brussels sprouts? Don't bin them\n\nIf you are wondering what to do with too many Brussels sprouts, start with how you cook them. I like to roast them with olive oil and balsamic vinegar for a caramelised flavour. You can also boil or steam whole sprouts for six to eight minutes. That way, nothing from your harvest gets wasted.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-08T22:01:21.448Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 5
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of new followers you gained from this post. Helps you see which content turns viewers into followers.",
+     "name": "Follows",
+     "type": "follows",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 2
+    }
+   ],
+   "our_post": "2026-11-08-carousel-glut-0|instagram"
+  },
+  {
+   "id": "6aee5f449214322f68b96fd2",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-08T09:00:00.000Z",
+   "sentAt": "2026-11-08T09:01:31.950Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4025763943083753119",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-09T07:30:14.456Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 8
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-story-story-6|instagram"
+  },
+  {
+   "id": "6aedaf31a1d597fbaa5afa94",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-05T22:43:47.000Z",
+   "sentAt": "2026-11-05T22:43:47.000Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122103081357535768?substory_index=2875262629509632",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-09T07:43:44.168Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 3
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  },
+  {
+   "id": "6aedaf31a1d597fbaa5afa92",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-05T22:45:58.000Z",
+   "sentAt": "2026-11-05T22:45:58.000Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122103083367535768?substory_index=1161684829750652",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-09T07:43:44.168Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 7
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": null
+  }
+ ]
+}
