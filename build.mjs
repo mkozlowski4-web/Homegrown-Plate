@@ -124,9 +124,44 @@ function monthRanges(bits) {
 }
 
 /* "25 min" -> "PT25M" for recipe structured data */
-function isoDuration(text) {
-  const m = String(text).match(/^(\d+)\s*min/i);
-  return m ? `PT${m[1]}M` : null;
+/* Minutes to an ISO 8601 duration for structured data: 95 -> "PT1H35M", 4320 -> "P3D". */
+function isoDuration(mins) {
+  if (mins == null) return null;
+  const d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60), m = mins % 60;
+  const t = `${h ? `${h}H` : ''}${m ? `${m}M` : ''}`;
+  if (!d && !t) return 'PT0M';
+  return `P${d ? `${d}D` : ''}${t ? `T${t}` : ''}`;
+}
+/* "1 hr 15 min" -> 75; "3 days" -> 4320. Returns null if no time is found. */
+function minutesIn(text) {
+  const t = String(text).toLowerCase();
+  if (/overnight/.test(t)) return 12 * 60;
+  if (/chilling/.test(t)) return 2 * 60; // recipes say "chill for at least 2 hours"
+  if (/freezing/.test(t)) return 6 * 60; // "freeze for at least 6 hours"
+  const unit = { w: 10080, d: 1440, h: 60, m: 1 };
+  let total = 0, found = false;
+  for (const [, n, u] of t.matchAll(/(\d+)\s*(weeks?|days?|hours?|hrs?|hr|minutes?|mins?|min)\b/g)) { total += Number(n) * unit[u[0]]; found = true; }
+  return found ? total : null;
+}
+/* Prep, cook and total time for a recipe. The recipe card gives one hands-on time ("1 hr 15 min"), sometimes plus waiting
+   ("+ overnight"). Cooking time is the heat steps added up from the method (roast, simmer, boil, bake and so on, using the
+   longer figure of a range like 8–10 minutes); the rest of the hands-on time is prep. Waiting only counts towards the total. */
+const COOK_STEP = /\b(bake|baked|roast|simmer|boil|fry|fried|cook|steam|grill|toast|blanch|stew|poach|saut[eé]|caramelis|reduce|bubble|heat|griddle|char|wilt|melt|brown)/i;
+const WAIT_STEP = /\b(leave|chill|cool|rest|soak|marinate|stand|infuse|steep|freeze|drain|drip|dry)\b/i;
+function recipeTimes(r) {
+  const [handsOn, waiting] = String(r.time).split('+');
+  const active = minutesIn(handsOn);
+  if (active == null) return null;
+  let cook = 0;
+  for (const step of r.steps) {
+    for (const sentence of step.split(/(?<=\.)\s+/)) {
+      if (!COOK_STEP.test(sentence) || WAIT_STEP.test(sentence.split(/\d/)[0].slice(-25))) continue;
+      for (const [, a, b, u] of sentence.matchAll(/(\d+)(?:\s*[–-]\s*(\d+))?\s*(hours?|hrs?|minutes?|mins?)\b/gi)) cook += Number(b || a) * (/^h/i.test(u) ? 60 : 1);
+    }
+  }
+  cook = Math.min(cook, Math.max(active - 5, 0)); // always leave at least 5 minutes for prep
+  const wait = waiting ? minutesIn(waiting) || 0 : 0;
+  return { prep: active - cook, cook, total: active + wait };
 }
 
 /* ---------- plant taxonomy ---------- */
@@ -1154,8 +1189,9 @@ ${recipeGrowBlock(r, crops)}`;
       recipeInstructions: r.steps.map((text) => ({ '@type': 'HowToStep', text })),
       url: `${SITE}/recipes/${r.id}/`,
     };
-    const iso = isoDuration(r.time);
-    if (iso) recipeLd.totalTime = iso;
+    const times = recipeTimes(r);
+    if (times) Object.assign(recipeLd, { prepTime: isoDuration(times.prep), cookTime: isoDuration(times.cook), totalTime: isoDuration(times.total) });
+    else console.warn(`Recipe ${r.id} has a time Google cannot read: "${r.time}"`);
     const cat = RECIPE_CATEGORIES.find((c) => c.id === RECIPE_CATEGORY_OF.get(r.id));
     if (cat) recipeLd.recipeCategory = cat.label;
     recipeLd.recipeCuisine = 'British';
