@@ -98,7 +98,10 @@ const SEARCH_NAME = {
 };
 const titleName = (p) => SEARCH_NAME[p.id] || (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
 const isPlural = (n) => /s$/.test(n) && !/(asparagus|ss)$/.test(n);
-const plantPageTitle = (p) => { const n = titleName(p); return `When to ${p.sowTitle ? 'plant' : 'sow'} ${n} in the UK and how to grow ${isPlural(n) ? 'them' : 'it'}`; };
+/* Short enough for Google to show in full (about 60 characters with " | Homegrown Plate"): "Garlic: when to plant and how to grow (UK)". */
+const plantPageTitle = (p) => { const n = titleName(p); return `${n.charAt(0).toUpperCase()}${n.slice(1)}: when to ${p.sowTitle ? 'plant' : 'sow'} and how to grow (UK)`; };
+/* Leave off " | Homegrown Plate" when it would push a title past 65 characters. */
+const withinTitle = (t) => ({ title: t, fullTitle: `${t} | Homegrown Plate`.length > 65 });
 const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : `${t} recipe`);
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
@@ -321,13 +324,14 @@ const trimDesc = (s) => {
 const firstFit = (options, max = 160) => trimDesc(options.filter(Boolean).find((o) => o.length <= max) || options.filter(Boolean).pop());
 /* Crop name inside a sentence: lower case except names such as Brussels sprouts, French beans or Swiss chard. */
 const cropInText = (p) => (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
-function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
+function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '', updated = '' }) {
   description = trimDesc(description);
   /* One-line quick answer under the heading, and a "Related" box at the end, for pages listed in seo-links.mjs. */
   if (QUICK_ANSWERS[path]) {
     const qa = `<p class="quick-answer"><strong>Quick answer:</strong> ${esc(QUICK_ANSWERS[path])}</p>`;
     body = /<p class="latin">.*?<\/p>/.test(body) ? body.replace(/(<p class="latin">.*?<\/p>)/, `$1\n    ${qa}`) : body.replace('</h1>', `</h1>\n${qa}`);
   }
+  if (updated) body += `\n<p class="muted small-note page-updated">Updated <time datetime="${updated}">${longDate(updated)}</time></p>`;
   const related = (RELATED_LINKS[path] || []).filter(([, href]) => href !== path);
   if (related.length) body += `\n<aside class="related-links" aria-label="Related pages"><h2>Related</h2><ul>${related.map(([text, href]) => `<li><a href="${href}">${esc(text)}</a></li>`).join('')}</ul></aside>`;
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
@@ -423,6 +427,20 @@ ${body}
 function addPage({ path, ...opts }) {
   const { ld = [], crumbs } = opts;
   const allLd = [...ld];
+  /* The page's fingerprint covers its title, description and body, so the "Updated" date and Article data below never change it. */
+  const hash = createHash('sha1').update(JSON.stringify([opts.title, opts.description, opts.body])).digest('hex').slice(0, 12);
+  if (opts.article) {
+    const updated = pageUpdated(path, hash);
+    allLd.push({
+      '@context': 'https://schema.org', '@type': 'Article',
+      headline: opts.title.slice(0, 110), description: trimDesc(opts.description),
+      dateModified: updated, mainEntityOfPage: `${SITE}${path}`,
+      ...(opts.image ? { image: [`${SITE}${opts.image}`] } : {}),
+      author: { '@type': 'Person', name: 'Mark Kozlowski', url: `${SITE}/about/` },
+      publisher: { '@type': 'Organization', name: SITE_NAME, url: `${SITE}/`, logo: { '@type': 'ImageObject', url: `${SITE}/icons/icon-512.png` } },
+    });
+    opts = { ...opts, updated };
+  }
   if (crumbs) {
     allLd.push({
       '@context': 'https://schema.org',
@@ -432,8 +450,16 @@ function addPage({ path, ...opts }) {
   }
   outFile(path, layout({ ...opts, path, ld: allLd }));
   pages.push(path);
-  if (!opts.noindex) pageHash.set(path, createHash('sha1').update(JSON.stringify([opts.title, opts.description, opts.body])).digest('hex').slice(0, 12));
+  if (!opts.noindex) pageHash.set(path, hash);
 }
+/* Day a page's content last changed, from the saved sitemap dates; today if it has changed since they were saved. */
+let savedDates;
+function pageUpdated(path, hash) {
+  savedDates ??= existsSync(join(ROOT, 'src/data/page-dates.json')) ? JSON.parse(readFileSync(join(ROOT, 'src/data/page-dates.json'), 'utf8')) : {};
+  const old = savedDates[path];
+  return old && old.h === hash ? old.d : new Date().toISOString().slice(0, 10);
+}
+const longDate = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const emoji = (e) => `<span class="emoji" aria-hidden="true">${e}</span>`;
 const plantLink = (p) => `<a href="/plants/${p.id}/" class="tag tag-link${kh(p)}">${esc(p.name)}</a>`;
@@ -1006,7 +1032,7 @@ ${related.length ? accordion('cook', `Cook with ${lower(p.name)}`, `<ul class="c
 </div>
 </div>`;
     addPage({
-      path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), title: plantPageTitle(p),
+      path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), ...withinTitle(plantPageTitle(p)), article: true,
       description: plantDescription(p, cal),
       crumbs: [['Home', '/'], ['Plant Guide', '/plants/'], [p.name, `/plants/${p.id}/`]],
       image: PHOTOS.get(p.id)?.src || '',
@@ -1065,7 +1091,7 @@ ${affected.length ? `<h2>Crops it affects</h2>
 <p class="card-tags">${affected.map(plantLink).join('')}</p>` : ''}
 <p class="muted small-note">If you choose to use any treatment, use only products approved for UK home gardens, follow the label and avoid spraying open flowers. See all <a href="/pests/">pests and diseases</a>.</p>`;
     addPage({
-      path: `/pests/${e.id}/`, section: 'pests', body: body2, title: `${e.name}: how to spot, prevent and treat`,
+      path: `/pests/${e.id}/`, section: 'pests', body: body2, title: `${e.name}: how to spot, prevent and treat`, article: true,
       description: firstFit([
         `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name)} in a UK garden.`,
         `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name).replace(/\s*\(.*\)$/, '')} in a UK garden.`,
