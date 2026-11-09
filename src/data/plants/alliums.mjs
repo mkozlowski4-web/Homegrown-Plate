@@ -25,7 +25,7 @@ export const ALLIUMS = [
       "Cured onions keep for four to six months in nets, trays or plaited ropes in a cool, dry, airy place (4–10°C), out of frost. Check them often and remove any with soft necks. Peeled and chopped onions can be frozen raw in freezer bags for use in cooked dishes, though they will not suit salads afterwards."],
       tips: ["Store in nets or trays with good airflow, never in a plastic bag.", "Check stored onions monthly for rot.", "Freeze chopped onion in portions for cooking.", "Soak sliced red onion in cold water for a milder bite."] } },
 
-  { id: "garlic", name: "Garlic", latin: "Allium sativum", emoji: "🧄", sizes: ["small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "garlic", name: "Garlic", latin: "Allium sativum", emoji: "🧄", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full"], sunText: "Full sun, in an open site",
     facts: [["Type", "Hardy perennial bulb, grown as an annual"], ["Sow", "Oct–Nov (best) or Feb–Mar, planting cloves"], ["Height", "30–60 cm"], ["Spacing", "15 cm apart in rows 25–30 cm apart"], ["Planting depth", "2.5–5 cm, pointed end up"], ["Time to harvest", "8–9 months (autumn planting)"], ["Good companions", "Roses, tomatoes, carrots, beetroot"]],
     info: [

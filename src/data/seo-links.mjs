@@ -21,6 +21,9 @@ const IN = {
   strawberry: ['Best time to plant strawberries', '/plants/strawberry/'],
   salsify: ['How to grow salsify', '/plants/salsify/'],
   whiteBlister: ['White blister on brassicas', '/pests/white-blister/'],
+  storeVeg: ['How to store your veg over winter', '/guides/storing-veg-over-winter/'],
+  christmas: ['Christmas dinner from the veg patch', '/guides/christmas-dinner-from-the-veg-patch/'],
+  garlicPots: ['How to grow garlic in pots', '/guides/growing-garlic-in-pots/'],
 };
 
 /* Page path -> links to show in a "Related" box at the end of that page. */
@@ -63,4 +66,18 @@ export const RELATED_LINKS = {
   '/pests/clubroot/': [IN.whiteBlister],
   '/pests/flea-beetle/': [IN.whiteBlister],
   '/pests/downy-mildew/': [IN.whiteBlister],
+
+  '/preserving/': [IN.storeVeg],
+  '/harvest/': [IN.storeVeg],
+  '/what-to-preserve/october/': [IN.storeVeg],
+  '/what-to-preserve/november/': [IN.storeVeg],
+  '/what-to-sow/october/': [IN.garlicPots],
+  '/what-to-sow/november/': [IN.garlicPots],
+  '/what-to-sow/march/': [IN.christmas],
+  '/sizes/balcony/': [IN.garlicPots],
+  '/weekend-jobs/october/': [IN.storeVeg, IN.garlicPots],
+  '/weekend-jobs/november/': [IN.storeVeg, IN.garlicPots],
+  '/weekend-jobs/december/': [IN.christmas],
+  '/recipes/garlic-bread/': [IN.garlicPots],
+  '/recipes/roast-elephant-garlic/': [IN.garlicPots],
 };

@@ -28,6 +28,7 @@ import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
 import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
 import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
+import { GUIDES } from './src/data/guides.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -412,7 +413,7 @@ ${body}
         <a href="https://www.facebook.com/profile.php?id=61596073060128" rel="me noopener" target="_blank" aria-label="Homegrown Plate on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21z"/></svg></a>
         <a href="https://uk.pinterest.com/homegrownplate/" rel="me noopener" target="_blank" aria-label="Homegrown Plate on Pinterest"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.5a9.5 9.5 0 0 0-3.5 18.3c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.5 2.1-.8 3.3-.2 1 .5 1.8 1.5 1.8 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.5 2.1-4.5 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.2c0 .2-.2.2-.4.1-1.3-.6-2.1-2.5-2.1-4 0-3.2 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.9 0 3.5-2.2 6.4-5.3 6.4-1 0-2-.5-2.3-1.2l-.6 2.4c-.2.9-.9 2-1.3 2.7A9.5 9.5 0 1 0 12 2.5z"/></svg></a>
       </div></div>
-    <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a></nav>
+    <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a><a href="/guides/">Seasonal guides</a></nav>
     <nav class="foot-col" aria-label="Cook and keep"><strong>Cook and keep</strong><a href="/recipes/">Recipes</a><a href="/preserving/">Preserving</a><a href="/what-to-preserve/">What to preserve</a><a href="/kids/">Growing with kids</a></nav>
     <nav class="foot-col" aria-label="Start here"><strong>Start here</strong><a href="/beginners/">Beginner&rsquo;s guide</a><a href="/howto/">Grow in 7 steps</a><a href="/glossary/">Gardening words</a><a href="/kit/">Essential kit</a><a href="/install/">Get the app</a></nav>
     <nav class="foot-col" aria-label="Site"><strong>Site</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/account/">Account</a><a href="/membership/">Membership</a><a href="/privacy/">Privacy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a></nav>
@@ -1310,6 +1311,66 @@ ${HOWTO.map((s, i) => `<div class="step"><div class="num">${i + 1}</div><div><h3
   });
 }
 
+/* ---------- seasonal guides: /guides/ ---------- */
+/* Guide text: escape it, then turn [text](/path/) into links and **words** into bold. Links are checked after the build. */
+const guideLinks = new Set();
+function guideText(t) {
+  return esc(t)
+    .replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, (_, text, href) => { guideLinks.add(href); return `<a href="${href}">${text}</a>`; })
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+/* Each guide also gets linked from the pages of the crops it covers, through the Related box. */
+for (const g of GUIDES) {
+  for (const id of g.crops) (RELATED_LINKS[`/plants/${id}/`] ||= []).push([g.h1, `/guides/${g.slug}/`]);
+  for (const r of g.sections.flatMap((x) => x.recipes || [])) (RELATED_LINKS[`/recipes/${r}/`] ||= []).push([g.h1, `/guides/${g.slug}/`]);
+}
+function buildArticles() {
+  const recipeMap = new Map(RECIPES.map((r) => [r.id, r]));
+  for (const g of GUIDES) {
+    const sec = (x) => {
+      const out = [`<h2>${esc(x.h)}</h2>`];
+      for (const t of x.p || []) out.push(`<p>${guideText(t)}</p>`);
+      if (x.list) out.push(`<ul class="tips">${x.list.map((t) => `<li>${guideText(t)}</li>`).join('')}</ul>`);
+      if (x.steps) out.push(`<ol class="guide-steps">${x.steps.map((t) => `<li>${guideText(t)}</li>`).join('')}</ol>`);
+      if (x.table) out.push(`<div class="guide-table-wrap"><table class="guide-table"><thead><tr>${x.table.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${x.table.rows.map((r) => `<tr>${r.map((c, i) => (i ? `<td>${guideText(c)}</td>` : `<th scope="row">${guideText(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>`);
+      for (const t of x.after || []) out.push(`<p>${guideText(t)}</p>`);
+      if (x.recipes) {
+        const rs = x.recipes.map((id) => { const r = recipeMap.get(id); if (!r) throw new Error(`Guide ${g.slug} names a recipe that does not exist: ${id}`); return r; });
+        out.push(`<ul class="cook-list">${rs.map((r) => { guideLinks.add(`/recipes/${r.id}/`); return `<li><a href="/recipes/${r.id}/"><strong>${esc(r.title)}</strong><span>${esc(r.time)} &middot; ${esc(servesText(r.serves))}</span></a></li>`; }).join('')}</ul>`);
+      }
+      return out.join('\n');
+    };
+    const crops = g.crops.map((id) => { const p = plantMap.get(id); if (!p) throw new Error(`Guide ${g.slug} names a crop that does not exist: ${id}`); return p; });
+    const body = `
+<a class="back" href="/guides/">&larr; All guides</a>
+<article class="guide">
+<h1>${esc(g.h1)}</h1>
+<p class="lead">${guideText(g.lead)}</p>
+${g.sections.map(sec).join('\n')}
+<h2>Crops in this guide</h2>
+<p class="card-tags">${crops.map(plantLink).join('')}</p>
+</article>`;
+    QUICK_ANSWERS[`/guides/${g.slug}/`] ||= g.quick;
+    addPage({
+      path: `/guides/${g.slug}/`, section: 'guides', body: glossify(body), ...withinTitle(g.title), article: true,
+      description: g.description, image: PHOTOS.get(g.image)?.src || '',
+      crumbs: [['Home', '/'], ['Guides', '/guides/'], [g.h1, `/guides/${g.slug}/`]],
+    });
+  }
+  const list = GUIDES.map((g) => `<a href="/guides/${g.slug}/" class="card card-link">${plantImg(plantMap.get(g.image))}<h3>${esc(g.h1)}</h3><p class="muted card-note">${esc(g.description)}</p></a>`).join('\n  ');
+  addPage({
+    path: '/guides/', section: 'guides', title: 'Seasonal growing guides',
+    description: 'In-depth guides for UK home growers: storing veg over winter, growing your own Christmas dinner, garlic in pots and more.',
+    body: `
+<h1>Seasonal guides</h1>
+<p class="lead">Longer guides that bring together advice from across the site. For single crops, see the <a href="/plants/">plant guide</a>.</p>
+<div class="grid">
+  ${list}
+</div>`,
+    crumbs: [['Home', '/'], ['Guides', '/guides/']],
+  });
+}
+
 /* ---------- preserving: every storage method, grouped by type ---------- */
 const STORE_GROUPS = [
   ['freeze', 'Freezing', 'Freeze raw, blanched or cooked crops in portions.', /freez/i],
@@ -2162,6 +2223,7 @@ buildAdmin();
 buildMyGarden();
 buildCalendar();
 buildGuides();
+buildArticles();
 build404();
 buildOffline();
 buildSupportFiles();
@@ -2170,7 +2232,8 @@ buildServiceWorker();
 /* Every page named in seo-links.mjs must exist, so a renamed page never leaves a dead link. */
 {
   const missing = [...Object.keys(QUICK_ANSWERS), ...Object.keys(RELATED_LINKS), ...Object.values(RELATED_LINKS).flat().map(([, href]) => href)]
-    .filter((path) => !existsSync(join(DIST, path, 'index.html')));
-  if (missing.length) { console.error(`seo-links.mjs names pages that do not exist: ${[...new Set(missing)].join(', ')}`); process.exit(1); }
+    .concat([...guideLinks])
+    .filter((path) => !existsSync(join(DIST, path.split('#')[0], 'index.html')));
+  if (missing.length) { console.error(`seo-links.mjs or guides.mjs names pages that do not exist: ${[...new Set(missing)].join(', ')}`); process.exit(1); }
 }
 console.log(`Built ${pages.length} pages + 404 into dist/ (site URL: ${SITE})`);
