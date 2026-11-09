@@ -50,8 +50,8 @@
    "id": "title_max",
    "value": 100,
    "claim": "Pin titles max 100 characters; put the search phrase early because only the first 30-40 show in the feed.",
-   "source": "https://socialrails.com/blog/pinterest-character-limits-guide",
-   "date_checked": "2026-11-06"
+   "source": "https://help.pinterest.com/en/article/review-pin-specs",
+   "date_checked": "2026-11-09"
   },
   {
    "id": "description_len",
@@ -59,9 +59,9 @@
     150,
     300
    ],
-   "claim": "Description 150 to 300 characters (limit 500), main phrase in the first 50, plus 2 to 4 related phrases.",
-   "source": "https://socialrails.com/blog/pinterest-character-limits-guide; Mark's brief",
-   "date_checked": "2026-11-06"
+   "claim": "Description 150 to 300 characters (Pinterest's limit is now 800), main phrase in the first 50, plus 2 to 4 related phrases. Pinterest says descriptions don't show in the home or search feed, so the title and the image text matter most.",
+   "source": "https://help.pinterest.com/en/article/review-pin-specs; Mark's brief",
+   "date_checked": "2026-11-09"
   },
   {
    "id": "hashtags",
