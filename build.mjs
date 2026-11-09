@@ -1444,7 +1444,7 @@ function buildWeekend() {
   const sections = wkSections();
 
   const body = `
-<h1>Garden jobs this weekend</h1>
+<h1>Allotment and garden jobs this weekend</h1>
 <p class="lead">What to do in the garden this weekend, for the time of year in the UK. <a href="/membership/">Members</a> get a plan for the whole week ahead, with jobs for their own crops, the forecast for their area and the best days to do each one.</p>
 ${regionBar('wkRegion')}
 <noscript><p class="empty">This page needs JavaScript to pick the right month. Choose a month below instead.</p></noscript>
@@ -1457,14 +1457,14 @@ ${monthLinks}
 <p class="muted small-note">General advice for typical UK conditions. Adjust for your local frost dates and soil, and check the forecast before sowing or planting out.</p>
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
-    path: '/this-weekend/', section: 'weekend', body, title: 'Garden jobs this weekend in the UK',
-    description: 'What to do in your UK garden this weekend: sowing, planting, harvesting and tidying jobs for the time of year, with a week-ahead plan and forecast for members.',
+    path: '/this-weekend/', section: 'weekend', body, title: 'Allotment and garden jobs this weekend (UK)',
+    description: 'What to do on your UK allotment or garden this weekend: sowing, planting, harvesting and tidying jobs, with a week-ahead plan and forecast for members.',
     crumbs: [['Home', '/'], ['This weekend', '/this-weekend/']],
   });
   for (const [m, name] of FULL_MONTHS.entries()) {
     const prev = (m + 11) % 12, next = (m + 1) % 12;
     const page = `
-<h1>Garden jobs for a weekend in ${name}</h1>
+<h1>${name} allotment and garden jobs</h1>
 <p class="lead">${esc(name)} jobs for the vegetable patch, fruit, herbs and greenhouse in a typical UK garden. Pick the ones that suit your weather and your plot.</p>
 ${monthNav('weekend-jobs', m)}
 <ul class="wk-list">
@@ -1474,8 +1474,8 @@ ${wkItems(m)}
 <p><a class="btn" href="/this-weekend/">Jobs for this weekend, with a plan for your garden</a></p>
 <p><a href="/weekend-jobs/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/weekend-jobs/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a></p>`;
     addPage({
-      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'weekend', body: page, title: `${name} garden jobs (UK): what to do this weekend`,
-      description: `${name} garden jobs: ${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase())).join('; ')}.`,
+      path: `/weekend-jobs/${monthSlug(m)}/`, section: 'weekend', body: page, title: `${name} allotment and garden jobs (UK)`,
+      description: `${name} allotment and garden jobs: ${WEEKEND_JOBS[m].slice(0, 3).map(([, t]) => t.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase())).join('; ')}.`,
       crumbs: [['Home', '/'], ['This weekend', '/this-weekend/'], [name, `/weekend-jobs/${monthSlug(m)}/`]],
     });
   }
