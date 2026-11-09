@@ -273,7 +273,18 @@ const NAV = [
 const VERIFICATION_TAGS = [
   '<meta name="fo-verify" content="9802a8cf-5857-475b-be4a-7821a8d791c7" />', // FlexOffers
 ];
-const trimDesc = (s) => { if (s.length <= 160) return s; const cut = s.slice(0, 157); return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\s]+$/, '') + '...'; };
+/* Keep descriptions within 160 characters without a trailing "...": cut back to the last full sentence or clause and finish it with a full stop. */
+const trimDesc = (s) => {
+  if (s.length <= 160) return s;
+  const cut = s.slice(0, 160);
+  const end = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '), cut.lastIndexOf(': '));
+  if (end >= 70) return cut.slice(0, end).replace(/[,;:.\s]+$/, '') + '.';
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\s]+$/, '').replace(/\s+(and|or|the|a|an|to|with|of|in|for|from|on|at|by)$/i, '') + '.';
+};
+/* First wording that fits in a search result; falls back to trimming the last one. */
+const firstFit = (options, max = 160) => trimDesc(options.filter(Boolean).find((o) => o.length <= max) || options.filter(Boolean).pop());
+/* Crop name inside a sentence: lower case except names such as Brussels sprouts, French beans or Swiss chard. */
+const cropInText = (p) => (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '' }) {
   description = trimDesc(description);
   const pageTitle = fullTitle ? title : `${title} | ${SITE_NAME}`;
@@ -823,11 +834,36 @@ function careSection(p) {
 
 /* Meta description that is specific to each crop: when to sow and harvest, and how hard it is. */
 function plantDescription(p, cal) {
-  const sow = p.facts.find(([l]) => l === 'Sow');
-  const harvest = monthRanges(cal.h);
-  const clip = (t, n) => (t.length <= n ? t : t.slice(0, t.lastIndexOf(' ', n - 1)).replace(/[,;:.]$/, '') + '…');
-  const parts = [`How to grow ${lower(p.name)} in the UK.`, sow ? `Sow ${clip(sow[1].replace(/\.$/, ''), 60)}.` : '', harvest ? `Harvest ${harvest}.` : '', `${p.difficulty} to grow. ${p.sunText}.`];
-  return clip(parts.filter(Boolean).join(' '), 158);
+  const MONTH = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Late|Early|Mid|All year)/;
+  const sowFact = p.facts.find(([l]) => l === 'Sow')?.[1].replace(/\.$/, '').trim();
+  /* Turn the "Sow" fact into a sentence that starts with the right verb: "Sow Mar–May.", "Plant crowns Mar–Apr." */
+  const sowSentence = (t) => {
+    if (!t) return '';
+    t = t.replace(/;\s*seed /g, ', or sow seed ');
+    const planting = t.match(/^(.+?), planting (.+)$/);
+    if (planting) return `Plant ${planting[2]} ${planting[1]}.`;
+    if (MONTH.test(t)) return `Sow ${t.replace(/^All year/, 'all year')}.`;
+    if (/^(Fresh )?seed /i.test(t)) return `Sow ${lowerFirst(t)}.`;
+    return `${t.charAt(0).toUpperCase()}${t.slice(1)}.`;
+  };
+  const sowFull = sowSentence(sowFact);
+  const sowShort = sowSentence(sowFact && sowFact.split(/;|, or /)[0]);
+  const h = monthRanges(cal.h);
+  const harvest = !h ? '' : h === 'All year' ? 'Harvest all year round.' : `Harvest ${h}.`;
+  const sun = p.sunText ? `Grows ${/^A /.test(p.sunText) ? 'on' : 'in'} ${lowerFirst(p.sunText).replace(/;\s*/g, ', ')}${/[.!]$/.test(p.sunText) ? '' : '.'}` : '';
+  /* Shorter sun note for long descriptions; kept whole when it changes with the season ("full sun in spring, partial shade in summer"). */
+  const sunShort = sun && (/ in (spring|summer|autumn|winter)\b/.test(sun) ? sun : `${sun.split(/[,;(]/)[0].replace(/[.\s]+$/, '')}.`);
+  const lead = `How to grow ${titleName(p)} in the UK.`;
+  const diff = `${p.difficulty} to grow.`;
+  const join = (...xs) => xs.filter(Boolean).join(' ');
+  return firstFit([
+    join(lead, sowFull, harvest, diff, sun),
+    join(lead, sowFull, harvest, diff, sunShort),
+    join(lead, sowShort, harvest, diff, sun),
+    join(lead, sowShort, harvest, diff, sunShort),
+    join(lead, sowShort, harvest, diff),
+    join(lead, sowShort, harvest),
+  ]);
 }
 function buildPlants() {
   const FRUIT_IDS = new Set([...FRUIT, ...MORE_FRUIT].map((p) => p.id));
@@ -987,7 +1023,13 @@ ${affected.length ? `<h2>Crops it affects</h2>
 <p class="muted small-note">If you choose to use any treatment, use only products approved for UK home gardens, follow the label and avoid spraying open flowers. See all <a href="/pests/">pests and diseases</a>.</p>`;
     addPage({
       path: `/pests/${e.id}/`, section: 'pests', body: body2, title: `${e.name}: how to spot, prevent and treat`,
-      description: `${e.summary} How to spot ${lower(e.name)}, prevent it and deal with it in a UK garden.`,
+      description: firstFit([
+        `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name)} in a UK garden.`,
+        `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name).replace(/\s*\(.*\)$/, '')} in a UK garden.`,
+        `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name).replace(/\s*\(.*\)$/, '')}.`,
+        `${e.summary} How to spot, prevent and treat it.`,
+        e.summary,
+      ]),
       crumbs: [['Home', '/'], ['Pests & Diseases', '/pests/'], [e.name, `/pests/${e.id}/`]],
     });
   }
@@ -1089,7 +1131,14 @@ function buildRecipes() {
 <div class="recipe-steps"><ol>${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
 ${r.tips && r.tips.length ? `<h2>Tips</h2>\n${tipsList(r.tips)}` : ''}
 ${recipeGrowBlock(r, crops)}`;
-    const description = `${r.title}: ready in ${r.time}, ${servesText(r.serves)}. Made with home-grown ${joinAnd(crops.map((p) => lower(p.name)))}.`;
+    const cropNames = crops.map(cropInText);
+    const intro = `${r.title}: ready in ${r.time}, ${servesText(r.serves)}.`;
+    const description = firstFit([
+      cropNames.length ? `${intro} Made with home-grown ${joinAnd(cropNames)}.` : intro,
+      cropNames.length > 2 ? `${intro} Made with home-grown ${cropNames.slice(0, 2).join(', ')} and more.` : '',
+      cropNames.length ? `${intro} Made with home-grown ${cropNames[0]}.` : '',
+      intro,
+    ]);
     const recipeLd = {
       '@context': 'https://schema.org', '@type': 'Recipe', name: r.title, description,
       recipeYield: r.serves,
