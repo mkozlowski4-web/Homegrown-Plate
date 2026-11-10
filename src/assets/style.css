@@ -1273,3 +1273,10 @@ html, body { overflow-x: clip; } /* safety net: nothing can make the page slide 
 
 /* Tall (portrait) plant photos: show the whole photo instead of a wide strip. Set "tall": true in src/photos/photos.json */
 .plant-top .pt-media img.photo.tall, .plant-top .pt-media .pimg.photo.large.tall { height: auto; aspect-ratio: 3 / 4; }
+@media (max-width: 959px) {
+  .plant-top .pt-media img.photo.tall, .plant-top .pt-media .pimg.photo.large.tall { width: auto; max-width: 100%; height: 400px; margin: 0 auto; }
+  .plant-top .pt-media:has(img.tall) figcaption { text-align: center; }
+}
+@media (max-width: 640px) {
+  .plant-top .pt-media img.photo.tall, .plant-top .pt-media .pimg.photo.large.tall { height: 300px; }
+}
