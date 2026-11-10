@@ -114,7 +114,7 @@
   var plus = mk('button', 'servings-btn', '+'); plus.type = 'button';
   plus.setAttribute('aria-label', people ? 'More servings' : 'Bigger batch');
   var reset = mk('button', 'servings-reset', 'Back to the original'); reset.type = 'button';
-  [label, minus, out, plus, reset].forEach(function (n) { box.appendChild(n); });
+  (people ? [label, minus, out, plus, reset] : [minus, out, plus, reset]).forEach(function (n) { box.appendChild(n); });
   var note = mk('p', 'servings-note muted small-note',
     'Amounts like "a handful" or "to taste" stay as written, so go by eye. Bigger batches may need a bigger pan and a little longer to cook.');
   list.parentNode.insertBefore(box, list);

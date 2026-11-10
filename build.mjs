@@ -30,6 +30,7 @@ import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
 import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
 import { GUIDES } from './src/data/guides.mjs';
+import { recipeNutrition, fmtNutrient, NUTRIENTS } from './src/data/nutrition.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -1235,6 +1236,8 @@ function buildRecipes() {
 
   for (const r of RECIPES) {
     const crops = r.uses.map((id) => plantMap.get(id));
+    const nutri = recipeNutrition(r);
+    if (nutri.unread.length) console.warn(`Nutrition: recipe ${r.id} has lines it cannot work out: ${nutri.unread.join('; ')}`);
     const body2 = `
 <a class="back" href="/recipes/">&larr; All recipes</a>
 <h1>${esc(r.title)}</h1>
@@ -1252,6 +1255,7 @@ function buildRecipes() {
 <h2>Method</h2>
 <div class="recipe-steps"><ol>${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
 ${recipeStepPhotos(r)}${r.tips && r.tips.length ? `<h2>Tips</h2>\n${tipsList(r.tips)}` : ''}
+${nutritionBlock(r, nutri)}
 ${recipeGrowBlock(r, crops)}`;
     const cropNames = crops.map(cropInText);
     const intro = `${r.title}: ready in ${r.time}, ${servesText(r.serves)}.`;
@@ -1271,6 +1275,8 @@ ${recipeGrowBlock(r, crops)}`;
     const times = recipeTimes(r);
     if (times) Object.assign(recipeLd, { prepTime: isoDuration(times.prep), cookTime: isoDuration(times.cook), totalTime: isoDuration(times.total) });
     else console.warn(`Recipe ${r.id} has a time Google cannot read: "${r.time}"`);
+    const nLd = nutritionLd(nutri);
+    if (nLd) recipeLd.nutrition = nLd;
     const cat = RECIPE_CATEGORIES.find((c) => c.id === RECIPE_CATEGORY_OF.get(r.id));
     if (cat) recipeLd.recipeCategory = cat.label;
     recipeLd.recipeCuisine = 'British';
@@ -1285,6 +1291,33 @@ ${recipeGrowBlock(r, crops)}`;
       crumbs: [['Home', '/'], ['Recipes', '/recipes/'], [r.title, `/recipes/${r.id}/`]],
     });
   }
+}
+
+/* Nutrition guide per portion for a recipe page (worked out in src/data/nutrition.mjs) */
+function nutritionBlock(r, n) {
+  if (!n?.values) return '';
+  const per = n.portion === '1 serving' ? `Per serving (the recipe serves ${r.serves})`
+    : /^1 serving/.test(n.portion) ? `Per serving, based on ${Math.round(n.portions)} servings`
+    : `Per portion: ${n.portion}`;
+  const cells = NUTRIENTS.map(([k, label]) => `<div><dt>${label}</dt><dd>${fmtNutrient(k, n.values[k])}</dd></div>`).join('');
+  return `<h2>Nutrition</h2>
+<div class="nutrition">
+<p class="nutrition-per">${esc(per)}</p>
+<dl class="nutrition-grid">${cells}</dl>
+<p class="muted small-note">A rough guide worked out from typical values for each ingredient, so it will vary with the exact ingredients and amounts you use. It leaves out salt and pepper added to taste, optional extras and anything served on the side.</p>
+</div>`;
+}
+
+function nutritionLd(n) {
+  if (!n?.values) return null;
+  const v = n.values, g = (k) => fmtNutrient(k, v[k]);
+  return {
+    '@type': 'NutritionInformation',
+    servingSize: n.portion === '1 serving' || /^1 serving/.test(n.portion) ? '1 serving' : n.portion,
+    calories: g('kcal').replace('kcal', 'calories'),
+    fatContent: g('fat'), saturatedFatContent: g('saturates'), carbohydrateContent: g('carbs'), sugarContent: g('sugars'),
+    fiberContent: g('fibre'), proteinContent: g('protein'), sodiumContent: `${Math.round(v.salt / 2.5 * 1000)} mg`,
+  };
 }
 
 function buildCalendar() {

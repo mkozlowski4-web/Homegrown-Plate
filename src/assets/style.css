@@ -1381,3 +1381,14 @@ html.cook-open, html.cook-open body { overflow: hidden; }
 .ing-qty.is-changed { background: #fff3c4; border-radius: 4px; padding: 0 3px; }
 .servings-note { margin-top: 6px; }
 @media print { .servings-btn, .servings-reset, .servings-note { display: none !important; } .ing-qty.is-changed { background: none; } }
+
+/* Nutrition guide on recipe pages */
+.nutrition { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; max-width: 720px; }
+.nutrition-per { margin: 0 0 10px; font-weight: 700; }
+.nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
+.nutrition-grid div { background: var(--cream); border-radius: 10px; padding: 8px 6px; text-align: center; }
+.nutrition-grid dt { font-size: .82rem; color: var(--muted); }
+.nutrition-grid dd { margin: 2px 0 0; font-weight: 700; font-size: 1.02rem; color: var(--ink); }
+.nutrition .small-note { margin: 10px 0 0; }
+.nutrition-grid dd { white-space: nowrap; }
+@media (max-width: 480px) { .nutrition { padding: 14px 12px; } .nutrition-grid { gap: 6px; } .nutrition-grid dd { font-size: .9rem; } .nutrition-grid div { padding: 7px 2px; } }
