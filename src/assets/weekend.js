@@ -87,6 +87,21 @@
         });
       });
     });
+    /* Jobs worked out from planting dates in My Garden (site.js) that fall in this week */
+    var P = window.hpPlantings;
+    if (P) {
+      var pls = P.load(), lo = dates[0], hi = dates[dates.length - 1];
+      var KIND = { pot: 'indoor', hard: 'any', out: 'plant', thin: 'dry', harv: 'harvest' };
+      pls.forEach(function (pl) {
+        var p = byId[pl.id];
+        if (!p || ids.indexOf(pl.id) < 0 || (kids && p.k)) return;
+        P.schedule(P.regionize(p, off), pl, pls).jobs.forEach(function (j) {
+          if (j.d < lo || j.d > hi) return;
+          add({ id: 'pl:' + pl.k + ':' + j.t, kind: KIND[j.t] || (pl.w === 'i' ? 'indoor' : 'plant'), p: p,
+            text: p.n + ' (' + P.label(pl, true) + '): ' + j.text.charAt(0).toLowerCase() + j.text.slice(1) + ', suggested for ' + P.fmt(j.d) + '.' });
+        });
+      });
+    }
     return tasks;
   }
   /* The month's general UK jobs, read from the page (for every half-month the week touches). */
@@ -279,7 +294,7 @@
   build();
   /* Re-plan when the area, garden, sign-in or membership changes. */
   var last = '';
-  function sig() { try { return ['hp-region', 'hp-garden', 'hp-acct', 'hp-plan', 'hp-kids'].map(function (k) { return localStorage.getItem(k); }).join('|'); } catch (e) { return ''; } }
+  function sig() { try { return ['hp-region', 'hp-garden', 'hp-garden-plantings', 'hp-acct', 'hp-plan', 'hp-kids'].map(function (k) { return localStorage.getItem(k); }).join('|'); } catch (e) { return ''; } }
   last = sig();
   setInterval(function () { var s = sig(); if (s !== last) { last = s; build(); } }, 1500);
 })();

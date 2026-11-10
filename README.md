@@ -62,6 +62,7 @@ To give someone free membership (or yourself, for testing), run in the D1 consol
 
 - **Add a crop:** copy an entry in `src/data/plants.mjs`, give it a unique lowercase `id`, list the garden sizes it suits, then add a matching line in `src/data/calendar.mjs` and (optionally) list it under the sizes in `sizes.mjs`.
 - **Add a recipe:** copy an entry in one of the files in `src/data/recipes/` (or the starter list in `src/data/recipes.mjs`). The `id` becomes the web address, and `uses` lists the crop ids it features.
+- **Crop timings (planting dates in My Garden):** edit `src/data/timings.mjs`. Each crop has its weeks to first harvest (`w`, from sowing, or from planting when `from: "p"`), weeks from sowing indoors to planting out (`out`), how often to sow again for a steady supply (`again`), whether it keeps cropping (`keep`), and for fruit and perennials the first season with a harvest (`year`). `TYPE_TIMINGS` covers types that differ, such as maincrop potatoes. The build stops if a crop has no entry.
 - **Add care tasks:** edit `src/data/care.mjs`. Each crop has a list of `[months, text]` jobs (months like `"4-8"` or `"11-2"`). They show on the plant page and in My Garden.
 - **Variety type timings:** crops with types (for example autumn and spring onion sets) have each type's months in `src/data/group-calendar.mjs`, keyed by the type's short id. A crop's calendar is its own months plus all its types' months, so lists like "What to sow in October" pick up every type. The build stops if a type has no entry. `tools/make-group-calendar.mjs` drafted the file from each type's timing text; edit the data file directly from now on.
 - **Calendar timings:** each is 12 characters, January to December, `1` meaning active. `i` = sow indoors, `o` = sow or plant outside, `h` = harvest.
@@ -97,7 +98,7 @@ The site can be installed to a phone or computer home screen. `static/manifest.w
 Accounts are optional; the site works fully without one. A small Cloudflare Worker (`src/worker/index.mjs`, set as `main` in `wrangler.jsonc`) runs first for `/api/*` only and serves everything else from `dist/`. Data is in a D1 database (`homegrown-plate`, schema in `migrations/0001_init.sql`).
 
 - Email and password. Passwords are PBKDF2-SHA256 hashed with a per-user salt; session tokens live in an HttpOnly cookie and only their SHA-256 hash is stored. Sign-in attempts are rate limited, and write requests must come from the site's own origin.
-- Stored per account: email, password hash, and one JSON blob (garden crops, ticked-off jobs, region and postcode area only, kids mode). The Worker validates and trims this blob.
+- Stored per account: email, password hash, and one JSON blob (garden crops, planting dates, ticked-off jobs, region and postcode area only, kids mode). The Worker validates and trims this blob.
 - The browser side is the `Acct` block in `src/assets/site.js`. While signed in (`hp-acct` in localStorage) every change to `hp-garden*`, `hp-region` and `hp-kids` is pushed, and every page load pulls the account copy (the account wins; the first sign-in on a device merges).
 - Pages: `/account/` (sign in, create, change password, download data, delete account) and `/privacy/`. Set `CONTACT_EMAIL` in `build.mjs` to show a contact address on the privacy page.
 - There is no password reset yet: it needs an email-sending service.
@@ -132,6 +133,11 @@ Fallback (service account): new Google Cloud accounts block service account keys
 Optional: variable `GSC_SITE` if the property isn't `sc-domain:homegrownplate.co.uk` (URL-prefix properties look like `https://homegrownplate.co.uk/`).
 
 Google's data runs about two days behind, and a new site can show nothing for a few weeks.
+
+## Planting dates and succession sowing (My Garden)
+Each crop in My Garden can have any number of planting dates (`hp-garden-plantings` in localStorage, synced with accounts as `plantings`): `{ k, id, d: 'YYYY-MM-DD', w }` where `w` is `i` (sown indoors), `o` (sown outside) or `p` (planted out). Adding the same crop more than once is how succession sowing works. The crop limits count different crops, not plantings, so extra sowings of a crop are free on every plan.
+
+From the date and `src/data/timings.mjs`, `Plantings.schedule()` in `site.js` suggests dates for: moving seedlings into pots, hardening off, planting out (kept inside the crop's planting-out months for the visitor's area), thinning, the harvest window (kept inside the crop's harvest months, so overwintered crops land in the right season), and the next sowing for crops sown little and often. These show under each crop on the My crops tab, in a "From your planting dates" card on Jobs by month (signed in), and in the members' week-ahead plan. The Worker validates the list and drops plantings for crops no longer in the garden; a page that sends no `plantings` field keeps the stored ones.
 
 ## Garden jobs this weekend
 `/this-weekend/` shows the current month's UK jobs (`src/data/weekend-jobs.mjs`, one list per month with a weather tag and optional first/second-half) to everyone, with static pages at `/weekend-jobs/<month>/`. Signed-in visitors also get a day-by-day plan (`src/assets/weekend.js`) that combines those jobs with the crops in My Garden (shifted for their region) and the weekend forecast.

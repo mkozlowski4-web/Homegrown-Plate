@@ -53,8 +53,15 @@ function passwordProblem(pw, email) {
 /* Only the fields the site stores are accepted, with strict shapes and sizes. */
 function cleanData(d) {
   if (!d || typeof d !== 'object') return null;
-  const out = { garden: [], done: {}, region: null, kids: false };
+  const out = { garden: [], plantings: [], done: {}, region: null, kids: false };
   if (Array.isArray(d.garden)) out.garden = [...new Set(d.garden.filter((x) => typeof x === 'string' && ID_RE.test(x)))].slice(0, 300);
+  /* Planting dates: { k: key, id: crop id, d: 'YYYY-MM-DD', w: 'i' | 'o' | 'p' }. Older pages do not send them (null = keep the stored ones). */
+  if (Array.isArray(d.plantings)) {
+    const seen = new Set();
+    out.plantings = d.plantings.filter((q) => q && typeof q === 'object' && typeof q.k === 'string' && /^[a-z0-9]{1,12}$/.test(q.k)
+      && typeof q.id === 'string' && ID_RE.test(q.id) && typeof q.d === 'string' && /^20\d\d-[01]\d-[0-3]\d$/.test(q.d) && ['i', 'o', 'p'].includes(q.w)
+      && !seen.has(q.k) && seen.add(q.k)).map(({ k, id, d: day, w }) => ({ k, id, d: day, w })).slice(0, 400);
+  } else out.plantings = null;
   if (d.done && typeof d.done === 'object' && !Array.isArray(d.done)) {
     for (const [k, v] of Object.entries(d.done).slice(0, 60)) {
       if (!/^\d{4}-\d{1,2}$/.test(k) || !Array.isArray(v)) continue;
@@ -69,6 +76,14 @@ function cleanData(d) {
   }
   out.kids = d.kids === true;
   return out;
+}
+
+/* Planting dates only for crops still in the garden; prev is the stored copy, used when an older page sent none. */
+function finishPlantings(data, prev) {
+  const list = data.plantings === null ? (prev && Array.isArray(prev.plantings) ? prev.plantings : []) : data.plantings;
+  const inGarden = new Set(data.garden);
+  data.plantings = list.filter((q) => inGarden.has(q.id));
+  return data;
 }
 
 /* ---- request helpers ---- */
@@ -158,6 +173,7 @@ async function signup(request, env) {
   } catch { return fail(409, 'There is already an account with that email. Try signing in instead.'); }
   const data = cleanData(body.data) || cleanData({});
   data.garden = data.garden.slice(0, FREE_ACCOUNT_CROPS);
+  finishPlantings(data, null);
   await env.DB.prepare('INSERT INTO user_data (user_id, json, updated_at) VALUES (?, ?, ?)').bind(userId, JSON.stringify(data), Date.now()).run();
   const token = await startSession(env, userId);
   return json({ user: { email, ...planInfo({ plan: 'free' }) }, data }, 201, { 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) });
@@ -201,12 +217,18 @@ async function getData(user, env) {
 async function putData(request, user, env) {
   const { body, error } = await readJson(request); if (error) return error;
   const data = cleanData(body.data); if (!data) return fail(400, 'Could not read that data.');
-  let trimmed = false;
+  let trimmed = false, prev;
+  const stored = async () => {
+    if (prev === undefined) { const row = await env.DB.prepare('SELECT json FROM user_data WHERE user_id = ?').bind(user.id).first(); prev = row ? JSON.parse(row.json) : null; }
+    return prev;
+  };
   if (!isMember(user) && data.garden.length > FREE_ACCOUNT_CROPS) {
-    const prev = await env.DB.prepare('SELECT json FROM user_data WHERE user_id = ?').bind(user.id).first();
-    const c = capGarden(data.garden, prev ? JSON.parse(prev.json).garden : [], user);
+    const c = capGarden(data.garden, (await stored())?.garden || [], user);
     data.garden = c.garden; trimmed = c.trimmed;
   }
+  const before = data.plantings ? data.plantings.length : -1;
+  finishPlantings(data, data.plantings === null ? await stored() : null);
+  if (before > -1 && data.plantings.length !== before) trimmed = true;
   const now = Date.now();
   await env.DB.prepare('INSERT INTO user_data (user_id, json, updated_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET json = excluded.json, updated_at = excluded.updated_at')
     .bind(user.id, JSON.stringify(data), now).run();

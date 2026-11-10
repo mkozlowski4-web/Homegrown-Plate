@@ -597,6 +597,87 @@
   window.hpPlan = Plan;
   var atLimit = function (list) { return list.length >= Plan.limit(); };
 
+  /* ---- Planting dates: each crop in My Garden can have several plantings (for succession sowing).
+     A planting is { k: key, id: crop id, d: 'YYYY-MM-DD', w: 'i' sown indoors | 'o' sown outside | 'p' planted out }.
+     From the date and the crop's timings (garden-data.json "tm") we suggest dates for its jobs and harvest. ---- */
+  var Plantings = (function () {
+    var PKEY = 'hp-garden-plantings', DAY = 86400000;
+    var HOW = { i: 'Sown indoors', o: 'Sown outside', p: 'Planted out' };
+    var valid = function (x) { return x && typeof x === 'object' && typeof x.k === 'string' && typeof x.id === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x.d) && !!HOW[x.w]; };
+    var load = function () { try { var v = JSON.parse(localStorage.getItem(PKEY) || '[]'); return Array.isArray(v) ? v.filter(valid) : []; } catch (e) { return []; } };
+    var save = function (list) { try { localStorage.setItem(PKEY, JSON.stringify(list)); } catch (e) { /* storage unavailable */ } };
+    var newKey = function () { return Math.random().toString(36).slice(2, 10); };
+    var parse = function (s) { var a = s.split('-'); return new Date(+a[0], +a[1] - 1, +a[2]); };
+    var iso = function (d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); };
+    var addDays = function (d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); };
+    var on = function (bits, d) { return (bits || '').charAt(d.getMonth()) === '1'; };
+    var firstOfNext = function (d) { return new Date(d.getFullYear(), d.getMonth() + 1, 1); };
+    /* The date itself if its month is on, otherwise the 1st of the next month that is on */
+    var nextOn = function (bits, d) { if (!/1/.test(bits || '')) return null; for (var i = 0; i < 24; i++) { if (on(bits, d)) return d; d = firstOfNext(d); } return null; };
+    /* Last day of the run of "on" months that contains d */
+    var seasonEnd = function (bits, d) { var m = new Date(d.getFullYear(), d.getMonth(), 1); for (var i = 0; i < 11 && on(bits, firstOfNext(m)); i++) m = firstOfNext(m); return new Date(m.getFullYear(), m.getMonth() + 1, 0); };
+    var SHORT_M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var fmt = function (d, year) { return d.getDate() + ' ' + SHORT_M[d.getMonth()] + (year ? ' ' + d.getFullYear() : ''); };
+    var fmtMonth = function (d) { return SHORT_M[d.getMonth()] + ' ' + d.getFullYear(); };
+
+    /* p: the crop from garden-data.json (with month bits already set for the visitor's region), pl: a planting.
+       Returns { jobs: [{ t, d, text }], harvest: { from, to, until, season, note } or null }. */
+    var schedule = function (p, pl, all) {
+      var tm = p.tm || {}, d = parse(pl.d), jobs = [], plantOut = null, harvest = null;
+      var job = function (t, date, text) { jobs.push({ t: t, d: date, text: text }); };
+      if (pl.w === 'i' && /1/.test(p.o)) {
+        var ow = tm.out || 6;
+        plantOut = nextOn(p.o, addDays(d, ow * 7)) || addDays(d, ow * 7);
+        if (ow >= 6) job('pot', addDays(d, 21), 'Move the seedlings into their own small pots');
+        var hd = addDays(plantOut, -10);
+        if (hd > addDays(d, 14)) job('hard', hd, 'Start hardening off: put the plants outside by day and bring them in at night');
+        job('out', plantOut, 'Plant out');
+      }
+      if (pl.w === 'o' && tm.w && tm.from !== 'p') job('thin', addDays(d, Math.round(Math.max(10, Math.min(21, tm.w[0] * 7 * 0.4)))), 'Thin the seedlings to their final spacing');
+      if (/1/.test(p.h)) {
+        if (tm.w) {
+          var base = d, a = tm.w[0], b = tm.w[1];
+          if (tm.from === 'p') { if (plantOut) base = plantOut; }
+          else if (pl.w === 'p') { var cut = tm.out || 4; a = Math.max(2, a - cut); b = Math.max(a + 1, b - cut); }
+          var hs = addDays(base, a * 7), he = addDays(base, b * 7);
+          hs = nextOn(p.h, hs) || hs;
+          var end = seasonEnd(p.h, hs);
+          if (he > end) he = end;
+          if (he < addDays(hs, 14)) he = addDays(hs, 14) > end ? end : addDays(hs, 14); /* at least a fortnight's window */
+          if (he < hs) he = hs;
+          harvest = { from: hs, to: he, until: tm.keep && end > he ? end : null };
+          job('harv', hs, tm.keep ? 'Start picking' : 'Start harvesting');
+        } else {
+          var yr = tm.year || 1, first = nextOn(p.h, addDays(d, 28));
+          if (first) {
+            first = new Date(first.getFullYear() + yr - 1, first.getMonth(), 1);
+            harvest = { from: first, to: seasonEnd(p.h, first), season: true, note: yr > 1 ? 'Fruit and perennial crops take a while to settle in, so expect a small first crop.' : '' };
+            job('harv', first, 'First harvest season starts');
+          }
+        }
+      }
+      /* Succession: suggest the next sowing while it is still the season for it, unless there already is one */
+      if (tm.again && pl.w !== 'p') {
+        var na = addDays(d, tm.again * 7), bits = pl.w === 'i' ? p.i : p.o;
+        var later = (all || []).some(function (q) { return q.k !== pl.k && q.id === pl.id && parse(q.d) > d; });
+        if (!later && on(bits, na)) job('again', na, 'Sow the next batch for a steady supply');
+      }
+      jobs.sort(function (x, y) { return x.d - y.d; });
+      return { jobs: jobs, harvest: harvest };
+    };
+    var label = function (pl, lower) { var t = HOW[pl.w] + ' ' + fmt(parse(pl.d), parse(pl.d).getFullYear() !== new Date().getFullYear()); return lower ? t.charAt(0).toLowerCase() + t.slice(1) : t; };
+    /* Month bits for a crop shifted for a region offset (used by the week plan) */
+    var regionize = function (p, off) {
+      var o = {}, k; for (k in p) o[k] = p[k];
+      o.i = Region.monthBits(Region.shifted(p.i, 'i', off)); o.o = Region.monthBits(Region.shifted(p.o, 'o', off)); o.h = Region.monthBits(Region.shifted(p.h, 'h', off));
+      return o;
+    };
+    return { KEY: PKEY, HOW: HOW, load: load, save: save, newKey: newKey, parse: parse, iso: iso, addDays: addDays, fmt: fmt, fmtMonth: fmtMonth, schedule: schedule, label: label, regionize: regionize, DAY: DAY };
+  })();
+  window.hpPlantings = Plantings;
+  /* Removing a crop from the garden also removes its planting dates */
+  var dropPlantings = function (id) { var l = Plantings.load(), keep = l.filter(function (q) { return q.id !== id; }); if (keep.length !== l.length) Plantings.save(keep); };
+
   /* "In your garden" ticks on crop tiles and links across the site */
   var markGarden = function () {
     var mine = gardenBases();
@@ -638,7 +719,7 @@
         fullMsg.appendChild(document.createTextNode(' or ')); var og = mk('a', null, 'open my garden'); og.href = '/my-garden/'; fullMsg.appendChild(og);
         return;
       }
-      if (at > -1) garden.splice(at, 1); else garden.push(gid);
+      if (at > -1) { garden.splice(at, 1); dropPlantings(gid); } else garden.push(gid);
       saveGarden(garden);
       paintAdd(); markGarden();
     });
@@ -690,16 +771,126 @@
       });
     };
 
+    /* Month ranges in plain words, for example "Feb–Apr" */
+    var SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var monthsText = function (bits) {
+      if (!/1/.test(bits)) return '';
+      if (!/0/.test(bits)) return 'all year';
+      var out = [], k, start = -1, s = 0; while (bits.charAt(s) === '1') s++; /* start after a gap so runs over the new year stay whole */
+      for (k = 0; k <= 12; k++) {
+        var m = (s + k) % 12, isOn = k < 12 && bits.charAt(m) === '1';
+        if (isOn && start < 0) start = m;
+        if (!isOn && start > -1) { var last = (m + 11) % 12; out.push(SHORT_MONTHS[start] + (last !== start ? '–' + SHORT_MONTHS[last] : '')); start = -1; }
+      }
+      return out.join(' and ');
+    };
+    var openForm = null; /* crop id whose "add a planting date" form is open */
+    var refresh = function () { renderResults(); renderMine(); renderMonth(); markGarden(); };
+
+    var plantingRow = function (p, pl, all) {
+      var s = Plantings.schedule(p, pl, all), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var li = el('li', 'g-planting');
+      var top = el('div', 'g-pl-top');
+      top.appendChild(el('strong', null, Plantings.label(pl)));
+      var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove the ' + p.n.toLowerCase() + ' planting from ' + Plantings.label(pl, true));
+      x.addEventListener('click', function () { Plantings.save(Plantings.load().filter(function (q) { return q.k !== pl.k; })); refresh(); });
+      top.appendChild(x);
+      li.appendChild(top);
+      if (s.harvest) {
+        var h = s.harvest, ht;
+        if (h.season) ht = 'First harvest: ' + (h.from.getMonth() === h.to.getMonth() ? Plantings.fmtMonth(h.from) : SHORT_MONTHS[h.from.getMonth()] + '–' + Plantings.fmtMonth(h.to));
+        else ht = 'Ready about ' + (h.to - h.from < 7 * Plantings.DAY ? Plantings.fmt(h.from) : Plantings.fmt(h.from) + ' to ' + Plantings.fmt(h.to)) + (h.from.getFullYear() !== now.getFullYear() ? ' ' + h.from.getFullYear() : '') + (h.until ? ', then keep picking until about the end of ' + SHORT_MONTHS[h.until.getMonth()] : '');
+        li.appendChild(el('p', 'g-pl-harvest', ht + '.'));
+        if (h.note) li.appendChild(el('p', 'muted small-note', h.note));
+      }
+      var jobs = s.jobs.filter(function (j) { return j.t !== 'harv'; });
+      if (jobs.length) {
+        var ol = el('ol', 'g-pl-jobs');
+        jobs.forEach(function (j) {
+          var item = el('li', j.d < today ? 'is-past' : null);
+          item.appendChild(el('span', 'g-pl-date', Plantings.fmt(j.d)));
+          item.appendChild(document.createTextNode(' ' + j.text));
+          if (j.t === 'again') {
+            var addB = el('button', 'link-btn', 'Add this sowing'); addB.type = 'button';
+            addB.setAttribute('aria-label', 'Add a ' + p.n.toLowerCase() + ' sowing on ' + Plantings.fmt(j.d));
+            addB.addEventListener('click', function () { var l = Plantings.load(); l.push({ k: Plantings.newKey(), id: p.id, d: Plantings.iso(j.d), w: pl.w }); Plantings.save(l); refresh(); });
+            item.appendChild(document.createTextNode(' ')); item.appendChild(addB);
+          }
+          ol.appendChild(item);
+        });
+        li.appendChild(ol);
+      }
+      return li;
+    };
+
+    var plantingForm = function (p) {
+      var f = el('form', 'g-pl-form');
+      var uid = 'pl-' + p.id.replace(/[^a-z0-9]/g, '');
+      var dl = el('label', null, 'Date'); dl.setAttribute('for', uid + '-d');
+      var di = el('input'); di.type = 'date'; di.id = uid + '-d'; di.required = true; di.value = Plantings.iso(now);
+      var wl = el('label', null, 'How'); wl.setAttribute('for', uid + '-w');
+      var ws = el('select'); ws.id = uid + '-w';
+      var hasIn = /1/.test(p.i), hasOut = /1/.test(p.o);
+      [['i', 'Sown indoors or under cover'], ['o', 'Sown outside'], ['p', 'Planted out (young plants, sets, tubers or bare-root)']].forEach(function (o) {
+        if (o[0] === 'i' && !hasIn) return;
+        if (o[0] !== 'i' && !hasOut && hasIn) return;
+        var op = el('option', null, o[1]); op.value = o[0]; ws.appendChild(op);
+      });
+      var m = now.getMonth();
+      /* Default to whichever way of starting the crop comes round next */
+      var pick = ws.options[0].value, k;
+      for (k = 0; k < 12; k++) { var mm = (m + k) % 12; if (p.i.charAt(mm) === '1') { pick = 'i'; break; } if (p.o.charAt(mm) === '1') { pick = p.tm && (p.tm.from === 'p' || !p.tm.w) ? 'p' : 'o'; break; } }
+      ws.value = pick;
+      if (!ws.value && ws.options.length) ws.value = ws.options[0].value;
+      var row = el('div', 'g-pl-fields');
+      var c1 = el('div'); c1.appendChild(dl); c1.appendChild(di); row.appendChild(c1);
+      var c2 = el('div'); c2.appendChild(wl); c2.appendChild(ws); row.appendChild(c2);
+      f.appendChild(row);
+      var hints = [];
+      if (hasIn) hints.push('sow indoors ' + monthsText(p.i));
+      if (hasOut) hints.push('sow or plant outside ' + monthsText(p.o));
+      if (hints.length) f.appendChild(el('p', 'muted small-note', 'Usual times in your area: ' + hints.join(', ') + '.'));
+      if (p.tm && p.tm.again) f.appendChild(el('p', 'muted small-note', 'For a steady supply, sow a little every ' + (p.tm.again === 1 ? 'week' : p.tm.again + ' weeks') + ' and add each sowing as its own date.'));
+      var acts = el('p', 'g-pl-actions');
+      var ok = el('button', 'btn-small', 'Add date'); ok.type = 'submit'; acts.appendChild(ok);
+      var cancel = el('button', 'link-btn', 'Cancel'); cancel.type = 'button';
+      cancel.addEventListener('click', function () { openForm = null; renderMine(); });
+      acts.appendChild(cancel);
+      f.appendChild(acts);
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(di.value)) { di.focus(); return; }
+        var l = Plantings.load(); l.push({ k: Plantings.newKey(), id: p.id, d: di.value, w: ws.value }); Plantings.save(l);
+        openForm = null; refresh();
+      });
+      return f;
+    };
+
     var renderMine = function () {
       gSelected.textContent = '';
       var mine = garden.map(function (id) { return byId[id]; }).filter(Boolean);
+      var pls = Plantings.load();
       mine.forEach(function (p) {
-        var li = el('li');
-        li.appendChild(plantImgEl(p));
-        var a = el('a', null, p.n); a.href = '/plants/' + (p.b || p.id) + '/' + (p.a ? '#' + p.a : ''); li.appendChild(a);
+        var li = el('li', 'g-crop');
+        var head = el('div', 'g-crop-head');
+        head.appendChild(plantImgEl(p));
+        var a = el('a', null, p.n); a.href = '/plants/' + (p.b || p.id) + '/' + (p.a ? '#' + p.a : ''); head.appendChild(a);
         var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + p.n);
-        x.addEventListener('click', function () { toggle(p.id); });
-        li.appendChild(x);
+        x.addEventListener('click', function () {
+          if (pls.some(function (q) { return q.id === p.id; }) && !window.confirm('Remove ' + p.n.toLowerCase() + ' and its planting dates from your garden?')) return;
+          toggle(p.id);
+        });
+        head.appendChild(x);
+        li.appendChild(head);
+        var mineP = pls.filter(function (q) { return q.id === p.id; }).sort(function (q, r) { return q.d < r.d ? -1 : q.d > r.d ? 1 : 0; });
+        if (mineP.length) { var ul = el('ul', 'g-plantings'); mineP.forEach(function (pl) { ul.appendChild(plantingRow(p, pl, pls)); }); li.appendChild(ul); }
+        if (openForm === p.id) li.appendChild(plantingForm(p));
+        else {
+          var addD = el('button', 'link-btn g-add-date', mineP.length ? '+ Add another planting date' : '+ Add a planting date'); addD.type = 'button';
+          addD.setAttribute('aria-label', 'Add a planting date for ' + p.n.toLowerCase());
+          addD.addEventListener('click', function () { openForm = p.id; renderMine(); var fi = $('#pl-' + p.id.replace(/[^a-z0-9]/g, '') + '-d'); if (fi) fi.focus(); });
+          li.appendChild(addD);
+        }
         gSelected.appendChild(li);
       });
       gEmpty.hidden = mine.length > 0;
@@ -841,7 +1032,41 @@
         return;
       }
       var at = function (key) { return mine.filter(function (p) { return p[key].charAt(m) === '1'; }); };
-      var harvest = at('h');
+      /* Crops with planting dates are ready when one of their plantings is; others follow the usual months */
+      var pls = Plantings.load(), mStart = new Date(view.y, m, 1), mEnd = new Date(view.y, m + 1, 0);
+      var harvest = mine.filter(function (p) {
+        var mp = pls.filter(function (q) { return q.id === p.id; });
+        if (!mp.length) return p.h.charAt(m) === '1';
+        return mp.some(function (pl) {
+          var h = Plantings.schedule(p, pl, pls).harvest; if (!h) return false;
+          if (h.season) return mEnd >= h.from && p.h.charAt(m) === '1';
+          return h.from <= mEnd && (h.until || h.to) >= mStart;
+        });
+      });
+      var dated = [];
+      pls.forEach(function (pl) {
+        var p = byId[pl.id]; if (!p || garden.indexOf(pl.id) < 0) return;
+        Plantings.schedule(p, pl, pls).jobs.forEach(function (j) { if (j.d >= mStart && j.d <= mEnd) dated.push({ p: p, pl: pl, j: j }); });
+      });
+      if (dated.length) {
+        dated.sort(function (x, y) { return x.j.d - y.j.d; });
+        var dc = el('section', 'card job-card dated-card');
+        dc.appendChild(el('h3', null, 'From your planting dates'));
+        dc.appendChild(el('p', 'muted small-note', 'Suggested dates worked out from when you sowed or planted. Go by how the plants look too.'));
+        var dul = el('ul', 'job-list');
+        dated.forEach(function (x) {
+          var id = 'pl:' + x.pl.k + ':' + x.j.t, li = el('li'), lab = el('label');
+          var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
+          cb.addEventListener('change', function () { var d = loadDone(); var k = d.indexOf(id); if (cb.checked && k < 0) d.push(id); else if (!cb.checked && k > -1) d.splice(k, 1); saveDone(d); });
+          lab.appendChild(cb);
+          var sp = el('span', 'care-text');
+          sp.appendChild(el('strong', null, Plantings.fmt(x.j.d) + ', ' + x.p.n + ' (' + Plantings.label(x.pl, true) + '): '));
+          sp.appendChild(document.createTextNode(x.j.text.charAt(0).toLowerCase() + x.j.text.slice(1) + '.'));
+          lab.appendChild(sp); li.appendChild(lab); dul.appendChild(li);
+        });
+        dc.appendChild(dul);
+        gJobs.appendChild(dc);
+      }
       gJobs.appendChild(jobCard('Sow indoors', 'Start under cover on a windowsill or in a greenhouse.', at('i'), 'i', done));
       gJobs.appendChild(jobCard('Sow or plant outside', 'Direct sow, or plant out young plants, bare-root trees and bushes.', at('o'), 'o', done));
       gJobs.appendChild(jobCard('Harvest', 'Ready to pick or lift this month.', harvest, 'h', done));
@@ -908,7 +1133,7 @@
     var toggle = function (id) {
       var at = garden.indexOf(id);
       if (at < 0 && atLimit(garden)) return;
-      if (at > -1) garden.splice(at, 1); else garden.push(id);
+      if (at > -1) { garden.splice(at, 1); dropPlantings(id); if (openForm === id) openForm = null; } else garden.push(id);
       saveGarden(garden);
       if (gStarterDone && garden.length === 0) gStarterDone.hidden = true;
       renderResults(); renderMine(); renderMonth(); markGarden();
@@ -916,7 +1141,7 @@
 
     gSearch.addEventListener('input', renderResults);
     gClear.addEventListener('click', function () {
-      if (window.confirm('Remove every crop from your garden?')) { garden = []; saveGarden(garden); renderResults(); renderMine(); renderMonth(); }
+      if (window.confirm('Remove every crop and planting date from your garden?')) { garden = []; saveGarden(garden); Plantings.save([]); renderResults(); renderMine(); renderMonth(); }
     });
     var shift = function (d) { view.m += d; if (view.m < 0) { view.m = 11; view.y--; } if (view.m > 11) { view.m = 0; view.y++; } renderMonth(); };
     $('#gPrev').addEventListener('click', function () { shift(-1); });
@@ -1091,7 +1316,7 @@
       b.addEventListener('click', function () {
         var list = loadGarden(), at = list.indexOf(id);
         if (at < 0 && atLimit(list)) { b.textContent = 'Full'; b.title = Plan.fullText(); setTimeout(paint, 2500); return; }
-        if (at > -1) list.splice(at, 1); else list.push(id);
+        if (at > -1) { list.splice(at, 1); dropPlantings(id); } else list.push(id);
         saveGarden(list); paint(); if (calMine.checked) applyCal();
       });
       paint(); th.appendChild(b);
@@ -1116,9 +1341,10 @@
     };
     var readJson = function (k, d) { try { var v = JSON.parse(ls.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
     var collect = function () {
-      var data = { garden: [], done: {}, region: null, kids: false }, i, k, m;
+      var data = { garden: [], plantings: [], done: {}, region: null, kids: false }, i, k, m;
       if (!ls) return data;
       var g = readJson('hp-garden', []); if (Array.isArray(g)) data.garden = g.filter(function (x) { return typeof x === 'string'; });
+      data.plantings = Plantings.load();
       for (i = 0; i < ls.length; i++) { k = ls.key(i); m = DONE_RE.exec(k || ''); if (m) { var d = readJson(k, []); if (Array.isArray(d) && d.length) data.done[m[1] + '-' + m[2]] = d; } }
       var r = readJson('hp-region', null); if (r && typeof r === 'object') data.region = r;
       data.kids = ls.getItem('hp-kids') === '1';
@@ -1128,6 +1354,7 @@
       quiet = true;
       try {
         rawSet('hp-garden', JSON.stringify(data.garden || []));
+        rawSet(Plantings.KEY, JSON.stringify(data.plantings || []));
         var want = {}; Object.keys(data.done || {}).forEach(function (k) { want['hp-garden-done-' + k] = data.done[k]; });
         var stale = [], i, k; for (i = 0; i < ls.length; i++) { k = ls.key(i); if (DONE_RE.test(k || '') && !want[k]) stale.push(k); }
         stale.forEach(rawRemove);
@@ -1140,13 +1367,15 @@
     var same = function (a, b) { return JSON.stringify(norm(a)) === JSON.stringify(norm(b)); };
     var norm = function (d) {
       var done = {}; Object.keys(d.done || {}).sort().forEach(function (k) { done[k] = (d.done[k] || []).slice().sort(); });
-      return { g: (d.garden || []).slice().sort(), d: done, r: d.region ? { off: d.region.off, name: d.region.name, z: d.region.z || '', pc: d.region.pc || '' } : null, k: !!d.kids };
+      var pl = (d.plantings || []).map(function (q) { return q.k + q.id + q.d + q.w; }).sort();
+      return { g: (d.garden || []).slice().sort(), p: pl, d: done, r: d.region ? { off: d.region.off, name: d.region.name, z: d.region.z || '', pc: d.region.pc || '' } : null, k: !!d.kids };
     };
     var union = function (a, b) { var s = {}; return (a || []).concat(b || []).filter(function (x) { if (s[x]) return false; s[x] = 1; return true; }); };
     /* First sign-in on a device: keep what is on the device and what is on the account. */
     var merge = function (local, server) {
       var done = {}; Object.keys(local.done || {}).concat(Object.keys(server.done || {})).forEach(function (k) { done[k] = union(local.done[k], server.done && server.done[k]); });
-      return { garden: union(server.garden, local.garden), done: done, region: server.region || local.region, kids: server.kids || local.kids };
+      var seenP = {}, plantings = (server.plantings || []).concat(local.plantings || []).filter(function (q) { if (seenP[q.k]) return false; seenP[q.k] = 1; return true; });
+      return { garden: union(server.garden, local.garden), plantings: plantings, done: done, region: server.region || local.region, kids: server.kids || local.kids };
     };
     var setPlan = function (b) { if (!b || !b.plan) return; try { if (b.plan === 'member') ls.setItem('hp-plan', 'member'); else ls.removeItem('hp-plan'); } catch (e) { /* ignore */ } };
     var push = function () {

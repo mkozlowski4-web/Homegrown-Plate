@@ -25,6 +25,7 @@ import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
+import { TIMINGS, TYPE_TIMINGS } from './src/data/timings.mjs';
 import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
 import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
@@ -64,6 +65,8 @@ for (const p of PLANTS) {
   /* Short label for lists, e.g. "autumn-planted sets" */
   for (const g of p.groups) g.short = g.name.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
 }
+for (const p of PLANTS) if (!TIMINGS[p.id]) typeErrors.push(`No timings in timings.mjs for ${p.id} (needed for planting dates in My Garden)`);
+for (const k of Object.keys(TYPE_TIMINGS)) { const [c, t] = k.split('--'); const pl = PLANTS.find((x) => x.id === c); if (!pl || !(pl.groups || []).some((g) => g.slug === t)) typeErrors.push(`timings.mjs TYPE_TIMINGS has unknown type ${k}`); }
 if (typeErrors.length) { console.error(typeErrors.join('\n')); process.exit(1); }
 /* Which of a crop's types are active for a calendar key in a month (empty if the crop has no types) */
 const typesIn = (p, k, m) => (p.groups || []).filter((g) => g.cal && g.cal[k][m] === '1');
@@ -764,10 +767,10 @@ function gardenData() {
   if (gardenMemo) return gardenMemo;
   const data = {
     plants: PLANTS.flatMap((p) => {
-      const base = { k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id) };
+      const base = { k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id), tm: TIMINGS[p.id] };
       if (p.groups && p.groups.length > 1) base.t = p.groups.map((g) => ({ s: g.slug, n: g.short, i: g.cal.i, o: g.cal.o, h: g.cal.h }));
       /* Each type can also be added on its own, as "<crop>--<type>" */
-      const types = p.groups && p.groups.length > 1 ? p.groups.map((g) => ({ ...base, t: undefined, id: `${p.id}--${g.slug}`, b: p.id, v: 1, n: `${p.name}: ${lowerFirst(g.short)}`, i: g.cal.i, o: g.cal.o, h: g.cal.h, a: `type-${g.slug}` })) : [];
+      const types = p.groups && p.groups.length > 1 ? p.groups.map((g) => ({ ...base, t: undefined, id: `${p.id}--${g.slug}`, b: p.id, v: 1, n: `${p.name}: ${lowerFirst(g.short)}`, i: g.cal.i, o: g.cal.o, h: g.cal.h, a: `type-${g.slug}`, tm: { ...TIMINGS[p.id], ...TYPE_TIMINGS[`${p.id}--${g.slug}`] } })) : [];
       return [base, ...types];
     }),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
@@ -854,6 +857,7 @@ ${wkSections()}
       <h2 id="gMineTitle">Your garden <span class="count" id="gCount"></span></h2>
       <div class="free-meter" id="gFree" hidden><div class="fm-top"><span id="gFreeText"></span></div><span class="fm-bar" aria-hidden="true"><span class="fm-fill" id="gFreeFill"></span></span><p class="muted small-note" id="gFreeNote" hidden></p></div>
       <p class="muted" id="gEmpty">Nothing here yet. Add a few crops on the left and your monthly jobs will appear below.</p>
+      <p class="muted small-note">Add a planting date to any crop to get suggested dates for its jobs and harvest. Sowing in batches? Add a date for each sowing.</p>
       <ul class="garden-chips" id="gSelected"></ul>
       <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
     </section>

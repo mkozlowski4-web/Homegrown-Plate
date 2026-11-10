@@ -191,9 +191,30 @@ main .hero .hero-links a:not(.tag):not(.btn) { color: #fff; }
 .garden-results .g-name { flex: 1; }
 .g-btn, .btn-garden { background: var(--green); color: #fff; border: 0; border-radius: 999px; padding: 6px 14px; font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
 .g-btn[aria-pressed="true"], .btn-garden[aria-pressed="true"] { background: #e6f4ec; color: var(--green); }
-.garden-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.garden-chips li { display: flex; align-items: center; gap: 8px; background: #e6f4ec; border-radius: 999px; padding: 4px 6px 4px 6px; }
-.garden-chips .g-x { background: none; border: 0; cursor: pointer; font-size: 1.1rem; color: var(--green); padding: 0 6px; }
+.garden-chips { display: flex; flex-direction: column; gap: 10px; }
+.garden-chips .g-crop { border: 1px solid var(--line); border-radius: 14px; padding: 8px 10px; }
+.g-crop-head { display: flex; align-items: center; gap: 8px; }
+.g-crop-head a { font-weight: 700; flex: 1; }
+.garden-chips .g-x { background: none; border: 0; cursor: pointer; font-size: 1.1rem; color: var(--green); padding: 0 6px; min-width: 32px; min-height: 32px; }
+.g-add-date { font-size: .9rem; margin-top: 2px; }
+.g-plantings { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+.g-planting { background: #e6f4ec; border-radius: 10px; padding: 6px 8px 8px 10px; }
+.g-pl-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.g-pl-harvest { margin: 2px 0 0; font-size: .92rem; }
+.g-planting .small-note { margin: 2px 0 0; }
+.g-pl-jobs { list-style: none; padding: 0; margin: 6px 0 0; font-size: .9rem; display: grid; gap: 3px; }
+.g-pl-jobs .is-past { opacity: .6; }
+.g-pl-date { display: inline-block; min-width: 4.2em; font-weight: 700; color: var(--green); }
+.g-pl-jobs .link-btn { font-size: .88rem; min-height: 0; }
+.g-pl-form { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+.g-pl-fields { display: flex; flex-wrap: wrap; gap: 10px; }
+.g-pl-fields > div { display: flex; flex-direction: column; gap: 3px; flex: 1 1 140px; }
+.g-pl-fields label { font-size: .85rem; font-weight: 600; }
+.g-pl-fields input, .g-pl-fields select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); min-height: 38px; max-width: 100%; }
+.g-pl-form .small-note { margin: 6px 0 0; }
+.g-pl-actions { display: flex; align-items: center; gap: 14px; margin: 8px 0 0; }
+button.btn-small { border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+.dated-card { grid-column: 1 / -1; }
 .month-nav { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 .month-nav h2 { flex: 0 1 auto; }
 .jobs-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); margin-top: 12px; }
