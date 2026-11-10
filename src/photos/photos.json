@@ -55,6 +55,7 @@
   },
   "rosemary": {
     "alt": "A young rosemary bush with tall, upright stems of needle-like leaves, growing against a garden fence",
-    "credit": "Photo: Mark K."
+    "credit": "Photo: Mark K.",
+    "tall": true
   }
 }

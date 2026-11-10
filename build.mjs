@@ -474,7 +474,7 @@ try { sharp = (await import('sharp')).default; } catch { /* optional: photos are
 const PHOTOS = new Map();
 for (const p of PLANTS) {
   const ext = ['jpg', 'jpeg', 'png', 'webp'].find((e) => existsSync(join(PHOTO_DIR, `${p.id}.${e}`)));
-  if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '', more: photoMeta[p.id]?.more || [] });
+  if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '', more: photoMeta[p.id]?.more || [], tall: !!photoMeta[p.id]?.tall });
 }
 async function writePlantImages() {
   mkdirSync(join(DIST, 'img/plants'), { recursive: true });
@@ -502,7 +502,7 @@ async function writePlantImages() {
 function plantImg(p, size = 'small') {
   const ph = PHOTOS.get(p.id);
   const px = size === 'large' ? 160 : 72;
-  if (ph) return `<img class="pimg photo ${size}" src="${size === 'large' ? ph.src : ph.small}" width="${px}" height="${px}" alt="${size === 'large' ? esc(ph.alt) : ''}" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
+  if (ph) return `<img class="pimg photo ${size}${size === 'large' && ph.tall ? ' tall' : ''}" src="${size === 'large' ? ph.src : ph.small}" width="${size === 'large' && ph.tall ? 150 : px}" height="${size === 'large' && ph.tall ? 200 : px}" alt="${size === 'large' ? esc(ph.alt) : ''}" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
   return `<img class="pimg ${size}" src="/img/plants/${p.id}.svg" width="${px}" height="${px}" alt="" loading="${size === 'large' ? 'eager' : 'lazy'}" decoding="async">`;
 }
 const galleryHtml = (p) => { const ph = PHOTOS.get(p.id); if (!ph || !ph.more.length) return ''; return `<div class="plant-gallery">${ph.more.map((m) => `<figure><img src="${m.src}" alt="${esc(m.alt)}" loading="lazy" decoding="async"><figcaption>${esc(m.caption)} <span class="muted">${esc(ph.credit)}</span></figcaption></figure>`).join('')}</div>`; };

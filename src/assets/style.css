@@ -1270,3 +1270,6 @@ html, body { overflow-x: clip; } /* safety net: nothing can make the page slide 
 .guide-table tbody th { font-weight: 600; }
 .guide-table td:last-child:not(:nth-child(2)) { white-space: nowrap; }
 @media (max-width: 600px) { .guide-table { font-size: .88rem; } .guide-table th, .guide-table td { padding: 6px 7px; } }
+
+/* Tall (portrait) plant photos: show the whole photo instead of a wide strip. Set "tall": true in src/photos/photos.json */
+.plant-top .pt-media img.photo.tall, .plant-top .pt-media .pimg.photo.large.tall { height: auto; aspect-ratio: 3 / 4; }
