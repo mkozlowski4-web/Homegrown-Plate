@@ -11,7 +11,7 @@
   var days = 30;
 
   var EVENT_NAMES = { add_crop: 'Added a crop to My Garden', tick_job: 'Ticked off a job', kids_on: 'Turned on Kids mode', region_set: 'Set their area', search: 'Used a search box', install: 'Tapped Install app', signup: 'Created an account' };
-  var FILTER_NAMES = { 'known-bot': 'Known bots and crawlers (search engines, AI agents, SEO tools)', 'automated-browser': 'Automated browsers', datacenter: 'Cloud and hosting servers', 'no-user-agent': 'Missing browser details', 'no-language': 'Scripts with no language setting', 'too-fast': 'Far too many pages in an hour', owner: 'Your own visits (never counted)' };
+  var FILTER_NAMES = { 'known-bot': 'Known bots and crawlers (search engines, AI agents, SEO tools)', 'automated-browser': 'Automated browsers', datacenter: 'Cloud and hosting servers', 'no-user-agent': 'Missing browser details', 'no-language': 'Scripts with no language setting', 'too-fast': 'Far too many pages in an hour', china: 'Visits from China (almost always scrapers)',owner: 'Your own visits (never counted)' };
   var regionName = null; try { regionName = new Intl.DisplayNames(['en-GB'], { type: 'region' }); } catch (e) { regionName = null; }
   var country = function (c) { try { return regionName ? regionName.of(c) || c : c; } catch (e) { return c; } };
   var title = function (s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; };

@@ -17,6 +17,8 @@ const BOT_UA = /bot\b|bot[\/;_ -]|crawl|spider|slurp|scrap|headless|phantom|sele
    deliberately NOT here, so people using them are still counted.) */
 const DATACENTER_ASN = new Set([16509, 14618, 15169, 396982, 19527, 8075, 8068, 14061, 16276, 24940, 63949, 20473, 31898, 45102, 132203, 51167, 60781, 28753, 9009, 12876, 8560, 26496, 27357, 36351, 55286, 62567, 394380, 46606, 35916, 40021, 53667, 49981, 29802, 136907, 37963, 45090]);
 
+const SKIP_COUNTRIES = new Set(['CN']);
+
 const DAILY_CAP = 40000; /* protects the database allowance from floods */
 const MAX_BODY = 2000;
 
@@ -46,6 +48,10 @@ export function classify(request, body) {
   if (!request.headers.get('Accept-Language')) return 'no-language';
   const asn = Number(request.cf && request.cf.asn);
   if (asn && DATACENTER_ASN.has(asn)) return 'datacenter';
+  /* The site is for UK growers. Visits from China are almost always scrapers on Chinese cloud networks, so they are
+     counted as filtered rather than as visitors. */
+  const country = request.cf && request.cf.country;
+  if (country && SKIP_COUNTRIES.has(country)) return 'china';
   return '';
 }
 
