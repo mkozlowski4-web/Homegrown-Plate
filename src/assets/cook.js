@@ -1,0 +1,296 @@
+/* Homegrown Plate: cooking mode for recipe pages.
+   Full-screen, one step at a time, big Back and Next buttons, a timer, and the screen kept on
+   (Screen Wake Lock) while it is open. The recipe page works the same without this file. */
+(function () {
+  'use strict';
+
+  var startBtn = document.querySelector('[data-cook-start]');
+  var stepEls = document.querySelectorAll('.recipe-steps li');
+  if (!startBtn || !stepEls.length) return;
+
+  var title = (document.querySelector('main h1') || {}).textContent || 'Recipe';
+  var steps = Array.prototype.map.call(stepEls, function (li) { return li.textContent.trim(); });
+  var ingredients = Array.prototype.map.call(document.querySelectorAll('.recipe-ingredients li'), function (li) {
+    return { text: li.textContent.replace(/\(grown in the garden\)/, '').trim(), grown: li.classList.contains('ing-have') };
+  });
+
+  /* Card 0 is the ingredients, then one card per step. */
+  var pages = [{ kind: 'ing' }].concat(steps.map(function (s, i) { return { kind: 'step', n: i + 1, text: s }; }));
+
+  function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function btn(cls, text, label) { var b = mk('button', cls, text); b.type = 'button'; if (label) b.setAttribute('aria-label', label); return b; }
+
+  /* First time mentioned in a step, in seconds: "simmer for 15 minutes", "roast for 45–60 minutes" (uses 45),
+     "1 hour", "1 hr 15 min". Nothing over 12 hours (overnight soaks are not timer jobs). */
+  function stepSeconds(text) {
+    var re = /(\d+(?:\.\d+)?)(?:\s*(?:–|-|to)\s*\d+(?:\.\d+)?)?\s*(hours?|hrs?|minutes?|mins?|seconds?|secs?)\b(?:\s*(?:and\s*)?(\d+)\s*(minutes?|mins?))?/i;
+    var m = text.match(re);
+    if (!m) return 0;
+    var n = parseFloat(m[1]), unit = m[2].toLowerCase();
+    var s = /^h/.test(unit) ? n * 3600 : /^m/.test(unit) ? n * 60 : n;
+    if (m[3] && /^h/.test(unit)) s += parseInt(m[3], 10) * 60;
+    s = Math.round(s);
+    return s > 0 && s <= 12 * 3600 ? s : 0;
+  }
+  function niceLength(s) {
+    var h = Math.floor(s / 3600), m = Math.round((s % 3600) / 60);
+    if (s < 60) return s + ' sec';
+    return (h ? h + ' hr' + (m ? ' ' : '') : '') + (m ? m + ' min' : '');
+  }
+  function clock(s) {
+    s = Math.max(0, Math.round(s));
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    var pad = function (x) { return (x < 10 ? '0' : '') + x; };
+    return (h ? h + ':' + pad(m) : m) + ':' + pad(sec);
+  }
+
+  /* ---- Build the overlay ---- */
+  var ov = mk('div', 'cook-mode');
+  ov.setAttribute('role', 'dialog');
+  ov.setAttribute('aria-modal', 'true');
+  ov.setAttribute('aria-label', 'Cooking mode: ' + title);
+  ov.hidden = true;
+
+  var top = mk('div', 'cook-top');
+  var topText = mk('div', 'cook-top-text');
+  var tTitle = mk('p', 'cook-title', title);
+  var awake = mk('p', 'cook-awake');
+  topText.appendChild(tTitle); topText.appendChild(awake);
+  var closeBtn = btn('cook-close', '×', 'Close cooking mode');
+  top.appendChild(topText); top.appendChild(closeBtn);
+
+  var progress = mk('div', 'cook-progress'); progress.setAttribute('aria-hidden', 'true');
+  var bar = mk('span'); progress.appendChild(bar);
+
+  var card = mk('div', 'cook-card');
+  card.setAttribute('aria-live', 'polite');
+  var count = mk('p', 'cook-count');
+  var body = mk('div', 'cook-body');
+  card.appendChild(count); card.appendChild(body);
+
+  /* Timer */
+  var timer = mk('div', 'cook-timer');
+  var tRow = mk('div', 'cook-timer-row');
+  var tLabel = mk('span', 'cook-timer-label', 'Timer');
+  var tDisplay = mk('span', 'cook-timer-display', '0:00');
+  tDisplay.setAttribute('role', 'timer');
+  tRow.appendChild(tLabel); tRow.appendChild(tDisplay);
+  var tSuggest = btn('cook-timer-set', '');
+  tSuggest.hidden = true;
+  var tBtns = mk('div', 'cook-timer-btns');
+  var tMinus = btn('cook-tbtn', '−1 min', 'Take 1 minute off the timer');
+  var tGo = btn('cook-tbtn cook-tgo', 'Start');
+  var tPlus = btn('cook-tbtn', '+1 min', 'Add 1 minute to the timer');
+  var tReset = btn('cook-tbtn', 'Reset');
+  [tMinus, tGo, tPlus, tReset].forEach(function (b) { tBtns.appendChild(b); });
+  var tHint = mk('p', 'cook-timer-hint', 'Start from 0:00 to count up, or add minutes to count down.');
+  timer.appendChild(tRow); timer.appendChild(tSuggest); timer.appendChild(tBtns); timer.appendChild(tHint);
+
+  var nav = mk('div', 'cook-nav');
+  var backBtn = btn('cook-back', '← Back');
+  var nextBtn = btn('cook-next', 'Next →');
+  nav.appendChild(backBtn); nav.appendChild(nextBtn);
+
+  var inner = mk('div', 'cook-inner');
+  [top, progress, card, timer].forEach(function (n) { inner.appendChild(n); });
+  ov.appendChild(inner); ov.appendChild(nav);
+  document.body.appendChild(ov);
+
+  /* ---- Pages ---- */
+  var at = 0;
+  function render() {
+    var p = pages[at];
+    body.textContent = '';
+    if (p.kind === 'ing') {
+      count.textContent = 'Before you start';
+      body.appendChild(mk('h2', 'cook-h', 'Ingredients'));
+      var ul = mk('ul', 'cook-ings');
+      ingredients.forEach(function (i) { var li = mk('li', i.grown ? 'ing-have' : '', i.text); ul.appendChild(li); });
+      body.appendChild(ul);
+    } else {
+      count.textContent = 'Step ' + p.n + ' of ' + steps.length;
+      body.appendChild(mk('p', 'cook-step', p.text));
+    }
+    var secs = p.kind === 'step' ? stepSeconds(p.text) : 0;
+    tSuggest.hidden = !secs;
+    if (secs) { tSuggest.textContent = 'Set timer for ' + niceLength(secs); tSuggest.setAttribute('data-secs', secs); }
+    bar.style.width = Math.round((at / (pages.length - 1)) * 100) + '%';
+    backBtn.disabled = at === 0;
+    nextBtn.textContent = at === pages.length - 1 ? 'Finish' : at === 0 ? 'Start cooking →' : 'Next →';
+  }
+  function go(d) {
+    if (at + d < 0) return;
+    if (at + d > pages.length - 1) { close(); return; }
+    at += d; render();
+    card.scrollTop = 0;
+  }
+  backBtn.addEventListener('click', function () { go(-1); });
+  nextBtn.addEventListener('click', function () { go(1); });
+
+  /* Swipe left/right on the step card */
+  var sx = null, sy = null;
+  card.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  card.addEventListener('touchend', function (e) {
+    if (sx == null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    sx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* ---- Timer: counts down when it has time on it, otherwise counts up like a stopwatch ---- */
+  var mode = 'down', remain = 0, elapsed = 0, running = false, startedAt = 0, base = 0, tick = null, ringing = null, audio = null;
+  function now() { return Date.now(); }
+  function current() {
+    if (!running) return mode === 'down' ? remain : elapsed;
+    var gone = (now() - startedAt) / 1000;
+    return mode === 'down' ? base - gone : base + gone;
+  }
+  function paint() {
+    var v = current();
+    if (running && mode === 'down' && v <= 0) { done(); return; }
+    tDisplay.textContent = clock(mode === 'down' ? Math.ceil(v) : Math.floor(v));
+    if (timer.classList.contains('is-done')) return;
+    tGo.textContent = running ? 'Pause' : (mode === 'down' && remain > 0) || (mode === 'up' && elapsed > 0) ? 'Resume' : 'Start';
+    timer.classList.toggle('is-running', running);
+    timer.classList.toggle('is-up', mode === 'up' && (running || elapsed > 0));
+    tMinus.disabled = mode === 'up' && (running || elapsed > 0);
+  }
+  function unlockAudio() {
+    try {
+      if (!audio) { var AC = window.AudioContext || window.webkitAudioContext; if (AC) audio = new AC(); }
+      if (audio && audio.state === 'suspended') audio.resume();
+    } catch (e) { /* no sound available */ }
+  }
+  function beep() {
+    if (!audio) return;
+    try {
+      [0, 0.25, 0.5].forEach(function (t) {
+        var o = audio.createOscillator(), g = audio.createGain();
+        o.frequency.value = 880; o.type = 'sine';
+        g.gain.setValueAtTime(0.0001, audio.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.4, audio.currentTime + t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + t + 0.2);
+        o.connect(g); g.connect(audio.destination);
+        o.start(audio.currentTime + t); o.stop(audio.currentTime + t + 0.22);
+      });
+    } catch (e) { /* ignore */ }
+  }
+  function start() {
+    unlockAudio();
+    stopRinging();
+    if (mode === 'down' && remain <= 0) { mode = 'up'; }
+    base = mode === 'down' ? remain : elapsed;
+    startedAt = now(); running = true;
+    clearInterval(tick); tick = setInterval(paint, 250);
+    paint();
+  }
+  function pause() {
+    if (!running) return;
+    var v = current(); running = false; clearInterval(tick);
+    if (mode === 'down') remain = Math.max(0, v); else elapsed = v;
+    paint();
+  }
+  function reset() {
+    running = false; clearInterval(tick); stopRinging();
+    mode = 'down'; remain = 0; elapsed = 0; paint();
+  }
+  function setDown(secs) {
+    stopRinging();
+    var was = running;
+    running = false; clearInterval(tick);
+    mode = 'down'; remain = Math.max(0, secs); elapsed = 0;
+    if (was && remain > 0) start(); else paint();
+  }
+  function adjust(d) {
+    if (mode === 'up' && (running || elapsed > 0)) return;
+    var v = mode === 'down' ? current() : 0;
+    var next = Math.max(0, v + d);
+    if (running) { base = next; startedAt = now(); paint(); } else { mode = 'down'; remain = next; paint(); }
+  }
+  function done() {
+    running = false; clearInterval(tick); remain = 0; mode = 'down';
+    tDisplay.textContent = '0:00';
+    timer.classList.remove('is-running');
+    timer.classList.add('is-done');
+    tGo.textContent = 'Stop alarm';
+    tLabel.textContent = 'Time’s up';
+    var rings = 0;
+    beep(); if (navigator.vibrate) navigator.vibrate([400, 200, 400, 200, 400]);
+    ringing = setInterval(function () {
+      rings++; beep(); if (navigator.vibrate) navigator.vibrate([400, 200, 400]);
+      if (rings >= 14) stopRinging();
+    }, 2000);
+  }
+  function stopRinging() {
+    if (ringing) { clearInterval(ringing); ringing = null; }
+    if (navigator.vibrate) navigator.vibrate(0);
+    timer.classList.remove('is-done');
+    tLabel.textContent = 'Timer';
+  }
+  tGo.addEventListener('click', function () {
+    if (timer.classList.contains('is-done')) { stopRinging(); paint(); return; }
+    if (running) pause(); else start();
+  });
+  tReset.addEventListener('click', reset);
+  tPlus.addEventListener('click', function () { adjust(60); });
+  tMinus.addEventListener('click', function () { adjust(-60); });
+  tSuggest.addEventListener('click', function () { unlockAudio(); setDown(parseInt(tSuggest.getAttribute('data-secs'), 10)); });
+
+  /* ---- Keep the screen on ---- */
+  var lock = null, open = false;
+  function wake() {
+    if (!('wakeLock' in navigator)) { awake.textContent = 'Your browser can’t keep the screen on. Turn off auto-lock in your phone’s settings while you cook.'; return; }
+    navigator.wakeLock.request('screen').then(function (l) {
+      lock = l; awake.textContent = 'Screen will stay on';
+      l.addEventListener('release', function () { if (lock === l) lock = null; });
+    }).catch(function () { awake.textContent = 'Screen may turn off. Check battery saver is off.'; });
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (open && document.visibilityState === 'visible') { if (!lock) wake(); paint(); }
+  });
+
+  /* ---- Open and close ---- */
+  var lastFocus = null, pushed = false;
+  function openMode() {
+    if (open) return;
+    open = true; lastFocus = document.activeElement;
+    at = 0; render(); paint();
+    ov.hidden = false;
+    document.documentElement.classList.add('cook-open');
+    wake();
+    try { history.pushState({ cook: 1 }, ''); pushed = true; } catch (e) { pushed = false; }
+    nextBtn.focus();
+  }
+  function close(fromHistory) {
+    if (!open) return;
+    open = false;
+    ov.hidden = true;
+    document.documentElement.classList.remove('cook-open');
+    if (lock) { lock.release().catch(function () {}); lock = null; }
+    stopRinging();
+    if (pushed && !fromHistory) { pushed = false; history.back(); }
+    pushed = false;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  /* The phone's back button closes cooking mode instead of leaving the recipe */
+  window.addEventListener('popstate', function () { if (open) close(true); });
+  closeBtn.addEventListener('click', function () { close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!open) return;
+    if (e.key === 'Escape') { close(); }
+    else if (e.target && /^(BUTTON|INPUT)$/.test(e.target.tagName) && (e.key === ' ' || e.key === 'Enter')) { /* let buttons work */ }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+  /* Keep keyboard focus inside the overlay */
+  ov.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var f = Array.prototype.filter.call(ov.querySelectorAll('button'), function (b) { return !b.disabled && !b.hidden && b.offsetParent !== null; });
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  });
+
+  startBtn.parentNode.hidden = false;
+  startBtn.addEventListener('click', openMode);
+})();

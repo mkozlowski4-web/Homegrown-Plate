@@ -361,6 +361,8 @@ function layout({ title, description, path, body, section, ld = [], noindex = fa
       body = /<img class="recipe-photo"[^>]*>/.test(body) ? body.replace(/(<img class="recipe-photo"[^>]*>)/, `$1${top}`) : body.replace('<h2>Ingredients</h2>', `${top.trim()}\n<h2>Ingredients</h2>`);
     } else body += bar;
   }
+  /* Cooking mode script on recipe pages (added here so a script update does not change the pages' sitemap dates). */
+  if (/^\/recipes\/[^/]+\/$/.test(path) && body.includes('data-cook-start')) body += `\n<script src="/assets/cook.js?v=${assetVersion['cook.js']}" defer></script>`;
   description = trimDesc(description);
   /* One-line quick answer under the heading, and a "Related" box at the end, for pages listed in seo-links.mjs. */
   if (QUICK_ANSWERS[path]) {
@@ -1234,8 +1236,9 @@ function buildRecipes() {
 <h1>${esc(r.title)}</h1>
 <p class="muted">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
 <p>Crops from your garden in this recipe: ${crops.map(plantLink).join('')}</p>
+<p class="cook-start" hidden><button type="button" class="cook-start-btn" data-cook-start><span aria-hidden="true">&#127859;</span> Cooking mode</button> <span class="muted">One step at a time, with a timer. Keeps your screen on.</span></p>
 <h2>Ingredients</h2>
-<ul>
+<ul class="recipe-ingredients">
   ${r.ingredients.map(([key, label, qty]) => {
     const grown = plantMap.has(key);
     return `<li class="${grown ? 'ing-have' : 'ing-need'}">${esc(qty)} ${esc(label)}${grown ? ' <span aria-hidden="true">&#127807;</span><span class="sr-only">(grown in the garden)</span>' : ''}</li>`;
@@ -2242,7 +2245,7 @@ validate();
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'assets'), { recursive: true });
 
-for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js', 'weekend.js']) {
+for (const f of ['style.css', 'site.js', 'theme.js', 'admin.js', 'weekend.js', 'cook.js']) {
   const buf = readFileSync(join(ROOT, 'src/assets', f));
   assetVersion[f] = createHash('sha1').update(buf).digest('hex').slice(0, 8);
   writeFileSync(join(DIST, 'assets', f), buf);
