@@ -1392,3 +1392,12 @@ html.cook-open, html.cook-open body { overflow: hidden; }
 .nutrition .small-note { margin: 10px 0 0; }
 .nutrition-grid dd { white-space: nowrap; }
 @media (max-width: 480px) { .nutrition { padding: 14px 12px; } .nutrition-grid { gap: 6px; } .nutrition-grid dd { font-size: .9rem; } .nutrition-grid div { padding: 7px 2px; } }
+
+/* Recipes: five drop-down filters side by side, wrapping to two columns (one on small phones) */
+.recipe-filters { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px 16px; align-items: end; }
+.recipe-filters .filter-search { max-width: none; }
+.recipe-filters select { margin-top: 4px; width: 100%; }
+.recipe-filters .filter-note, .recipe-filters .filter-actions, .recipe-filters .filter-status { grid-column: 1 / -1; margin: 0; }
+.recipe-filters .filter-note { font-size: .88rem; }
+@media (max-width: 420px) { .recipe-filters { grid-template-columns: 1fr 1fr; gap: 10px; } }
+@media (max-width: 340px) { .recipe-filters { grid-template-columns: 1fr; } }

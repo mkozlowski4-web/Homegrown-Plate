@@ -23,6 +23,7 @@ import { PICKS, WHY, SOIL, BUY, YEAR } from './src/data/beginners.mjs';
 import { KIDS_NOTES, PROJECTS as KID_PROJECTS, RECIPES as KID_RECIPES } from './src/data/kids.mjs';
 import { PESTS, PEST_KINDS, pestForLabel } from './src/data/pests.mjs';
 import { RECIPE_CATEGORIES, RECIPE_CATEGORY_OF } from './src/data/recipe-categories.mjs';
+import { CUISINES, RECIPE_CUISINE_OF, DIETS, HEALTH, recipeDiets, recipeHealth, usesParmesan } from './src/data/recipe-tags.mjs';
 import { HOWTO, HARVEST } from './src/data/guide.mjs';
 import { MONTHS, CALENDAR } from './src/data/calendar.mjs';
 import { TIMINGS, TYPE_TIMINGS } from './src/data/timings.mjs';
@@ -273,6 +274,7 @@ function validate() {
     tasks.forEach(([spec, text], k) => { if (!careBits(spec)) errors.push(`Care task ${k + 1} for ${id} has bad months "${spec}"`); if (!text || text.length < 25) errors.push(`Care task ${k + 1} for ${id} is too short`); });
   }
   for (const r of RECIPES) if (!RECIPE_CATEGORY_OF.has(r.id)) errors.push(`Recipe ${r.id} has no category in recipe-categories.mjs`);
+  for (const r of RECIPES) if (!RECIPE_CUISINE_OF.has(r.id)) errors.push(`Recipe ${r.id} has no cuisine in recipe-tags.mjs`);
   for (const r of RECIPES) for (const id of r.uses) if (!plantMap.has(id)) soft(`Recipe ${r.id} uses unknown plant "${id}"`);
 
   warnings.forEach((w) => console.warn(`warning: ${w}`));
@@ -1203,31 +1205,40 @@ function recipeImage(r) {
 
 function buildRecipes() {
   const withRecipes = PLANTS.filter((p) => RECIPES.some((r) => r.uses.includes(p.id)));
-  const cards = RECIPES.map((r) => `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${RECIPE_CATEGORY_OF.get(r.id)}">
+  const cards = RECIPES.map((r) => {
+    const cat = RECIPE_CATEGORY_OF.get(r.id);
+    const diets = recipeDiets(r);
+    const health = recipeHealth(r, recipeNutrition(r).values, cat);
+    return `<a href="/recipes/${r.id}/" class="card card-link" data-recipe data-uses="${r.uses.join(' ')}" data-cat="${cat}" data-cuisine="${RECIPE_CUISINE_OF.get(r.id)}" data-diet="${diets.join(' ')}" data-health="${health.join(' ')}"${usesParmesan(r) ? ' data-parmesan' : ''}>
     <h3>${esc(r.title)}</h3>
     <p class="muted card-meta">${esc(r.time)} &middot; ${esc(servesText(r.serves))}</p>
     <p class="card-tags">${r.uses.map((u) => { const p = plantMap.get(u); return `<span class="tag${kh(p)}">${esc(p.name)}</span>`; }).join('')}</p>
-  </a>`).join('\n  ');
+  </a>`;
+  }).join('\n  ');
+  const select = (id, label, anyLabel, opts) => `<div class="filter-search"><label for="${id}">${label}</label>
+    <select id="${id}">
+      <option value="all">${anyLabel}</option>
+      ${opts.map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('\n      ')}
+    </select>
+  </div>`;
   const body = `
 <h1>Garden Recipes</h1>
 <p class="lead">Every recipe is built around crops you can grow yourself.</p>
-<div class="filter-panel" id="recipeFilters" hidden>
-  <fieldset class="chip-group">
-    <legend>Type of dish</legend>
-      ${[chip('cat', 'any', 'All recipes', true), ...RECIPE_CATEGORIES.map((c) => chip('cat', c.id, esc(c.label)))].join('\n      ')}
-  </fieldset>
-  <div class="filter-search"><label for="recipeFilter">Crop</label>
-    <select id="recipeFilter">
-      <option value="all">All crops</option>
-      ${withRecipes.map((p) => `<option value="${p.id}">${esc(p.name)}</option>`).join('\n      ')}
-    </select>
-  </div>
+<div class="filter-panel recipe-filters" id="recipeFilters" hidden>
+  ${select('recipeCat', 'Type of dish', 'All dishes', RECIPE_CATEGORIES.map((c) => [c.id, c.label]))}
+  ${select('recipeFilter', 'Crop', 'All crops', withRecipes.map((p) => [p.id, p.name]))}
+  ${select('recipeCuisine', 'Cuisine', 'All cuisines', CUISINES.map((c) => [c.id, c.label]))}
+  ${select('recipeDiet', 'Diet', 'Any diet', DIETS.map((d) => [d.id, d.label]))}
+  ${select('recipeHealth', 'Healthy choices', 'Any', HEALTH.map((h) => [h.id, h.label]))}
+  <p class="filter-note muted" id="recipeNote" hidden>Parmesan is made with animal rennet. Use a vegetarian hard cheese in recipes that call for it.</p>
+  <p class="filter-note muted" id="recipeHealthNote" hidden>${HEALTH.map((h) => `<span data-health-note="${h.id}" hidden>${esc(h.note)} </span>`).join('')}Based on the rough nutrition guide on each recipe.</p>
+  <p class="filter-actions"><button type="button" class="link-btn" id="recipeReset" hidden>Clear filters</button></p>
   <p class="filter-status"><span id="recipeCount" aria-live="polite"></span></p>
 </div>
 <div class="grid">
   ${cards}
 </div>
-<div class="empty" id="recipeEmpty" hidden>No recipes match those filters. Try a different type of dish or crop.</div>`;
+<div class="empty" id="recipeEmpty" hidden>No recipes match those filters. Try clearing one of them.</div>`;
   addPage({
     path: '/recipes/', section: 'recipes', body, title: 'Garden Recipes',
     description: `${RECIPES.length} simple recipes built around crops you can grow yourself, from tomato salad to courgette fritters and fresh pesto.`,

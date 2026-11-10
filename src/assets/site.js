@@ -535,41 +535,50 @@
     syncToggle();
   }
 
-  /* ---- Recipe filter ---- */
+  /* ---- Recipe filter: drop-downs for dish type, crop, cuisine, diet and healthy choices ---- */
   var recipeFilters = $('#recipeFilters');
   if (recipeFilters) {
     recipeFilters.hidden = false;
-    var cropSel = $('#recipeFilter');
     var recipeCards = $$('[data-recipe]');
     var recipeEmpty = $('#recipeEmpty');
     var recipeCount = $('#recipeCount');
-    var catChips = $$('#recipeFilters [data-filter="cat"]');
-    var rState = { cat: 'any', crop: 'all' };
+    var recipeReset = $('#recipeReset');
+    var recipeNote = $('#recipeNote');
+    var recipeHealthNote = $('#recipeHealthNote');
+    /* query-string name, select, and how a card matches */
+    var rFilters = [
+      { key: 'cat', sel: $('#recipeCat'), match: function (c, v) { return c.getAttribute('data-cat') === v; } },
+      { key: 'crop', sel: $('#recipeFilter'), match: function (c, v) { return c.getAttribute('data-uses').split(' ').indexOf(v) > -1; } },
+      { key: 'cuisine', sel: $('#recipeCuisine'), match: function (c, v) { return c.getAttribute('data-cuisine') === v; } },
+      { key: 'diet', sel: $('#recipeDiet'), match: function (c, v) { return (c.getAttribute('data-diet') || '').split(' ').indexOf(v) > -1; } },
+      { key: 'health', sel: $('#recipeHealth'), match: function (c, v) { return (c.getAttribute('data-health') || '').split(' ').indexOf(v) > -1; } },
+    ];
     var rParams = new URLSearchParams(location.search);
-    var rCat = rParams.get('cat');
-    if (rCat && catChips.some(function (c) { return c.getAttribute('data-value') === rCat; })) rState.cat = rCat;
-    var rCrop = rParams.get('crop');
-    if (rCrop && Array.prototype.some.call(cropSel.options, function (o) { return o.value === rCrop; })) { rState.crop = rCrop; cropSel.value = rCrop; }
+    rFilters.forEach(function (f) {
+      var v = rParams.get(f.key);
+      if (v && Array.prototype.some.call(f.sel.options, function (o) { return o.value === v; })) f.sel.value = v;
+    });
     var applyRecipes = function () {
-      var shown = 0;
+      var shown = 0, parm = false;
       recipeCards.forEach(function (card) {
-        var okCat = rState.cat === 'any' || card.getAttribute('data-cat') === rState.cat;
-        var okCrop = rState.crop === 'all' || card.getAttribute('data-uses').split(' ').indexOf(rState.crop) > -1;
-        card.hidden = !(okCat && okCrop);
-        if (!card.hidden) shown++;
+        var ok = rFilters.every(function (f) { return f.sel.value === 'all' || f.match(card, f.sel.value); });
+        card.hidden = !ok;
+        if (ok) { shown++; if (card.hasAttribute('data-parmesan')) parm = true; }
       });
-      catChips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-value') === rState.cat)); });
+      var qs = new URLSearchParams();
+      rFilters.forEach(function (f) { if (f.sel.value !== 'all') qs.set(f.key, f.sel.value); });
+      var diet = $('#recipeDiet').value;
+      recipeNote.hidden = !(parm && diet === 'vegetarian');
+      var hv = $('#recipeHealth').value;
+      recipeHealthNote.hidden = hv === 'all';
+      $$('[data-health-note]').forEach(function (n) { n.hidden = n.getAttribute('data-health-note') !== hv; });
+      recipeReset.hidden = !qs.toString();
       recipeCount.textContent = 'Showing ' + shown + ' of ' + recipeCards.length + ' recipes';
       recipeEmpty.hidden = shown > 0;
-      var qs = new URLSearchParams();
-      if (rState.cat !== 'any') qs.set('cat', rState.cat);
-      if (rState.crop !== 'all') qs.set('crop', rState.crop);
       try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs.toString() : '')); } catch (err) { /* ignore */ }
     };
-    catChips.forEach(function (c) {
-      c.addEventListener('click', function () { rState.cat = c.getAttribute('data-value'); applyRecipes(); });
-    });
-    cropSel.addEventListener('change', function () { rState.crop = cropSel.value; applyRecipes(); });
+    rFilters.forEach(function (f) { f.sel.addEventListener('change', applyRecipes); });
+    recipeReset.addEventListener('click', function () { rFilters.forEach(function (f) { f.sel.value = 'all'; }); applyRecipes(); });
     applyRecipes();
   }
 
