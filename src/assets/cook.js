@@ -11,11 +11,88 @@
   var title = (document.querySelector('main h1') || {}).textContent || 'Recipe';
   var steps = Array.prototype.map.call(stepEls, function (li) { return li.textContent.trim(); });
   var ingredients = Array.prototype.map.call(document.querySelectorAll('.recipe-ingredients li'), function (li) {
-    return { text: li.textContent.replace(/\(grown in the garden\)/, '').trim(), grown: li.classList.contains('ing-have') };
+    return { text: li.textContent.replace(/\(grown in the garden\)/, '').replace(/🌿/g, '').trim(), grown: li.classList.contains('ing-have') };
   });
 
-  /* Card 0 is the ingredients, then one card per step. */
-  var pages = [{ kind: 'ing' }].concat(steps.map(function (s, i) { return { kind: 'step', n: i + 1, text: s }; }));
+  /* ---- Which ingredients a step uses ----
+     An ingredient line reads "quantity name, preparation", e.g. "2 Red sweet peppers, deseeded".
+     Its key words are the first and last main words of each name ("peppers"; "garlic" for "Garlic cloves"; "cumin" and
+     "coriander" for "Ground cumin and coriander"), matched as whole words in the step, singular or plural. General words in
+     a step ("the herbs", "the cheese", "the fruit") also match the ingredients they cover. */
+  function stem(w) {
+    return w.replace(/ies$/, 'i').replace(/(o|ch|sh|x|ss)es$/, '$1').replace(/([^s])s$/, '$1').replace(/y$/, 'i');
+  }
+  function words(t) {
+    return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').match(/[a-z]+/g) || [];
+  }
+  function stemSet(list) { var o = {}; list.split(' ').forEach(function (w) { o[stem(w)] = 1; }); return o; }
+  /* Quantities, sizes, parts and describing words: never the main word of an ingredient. */
+  var NOT_KEY = stemSet('g kg ml l litre litres liter cl tbsp tsp tablespoon teaspoon cup cups pinch handful handfuls bunch bunches ' +
+    'large medium small big little few some about a an of from each splash squeeze dash knob drizzle sprig sprigs stalk stalks clove cloves ' +
+    'leaves leaf head heads piece pieces slice slices tin tins can jar jars pack packet bag ball fillet fillets block sheet sheets cm inch ' +
+    'stick sticks bulb bulbs spear spears root roots powder kernels kernel flowers flower pod extract flakes flake shapes shape breast thigh ' +
+    'fresh dried ground whole plain extra virgin red green yellow white black brown golden dark light sweet hot mild ripe young baby ' +
+    'flaky sea table fine coarse caster icing granulated soft firm thick thin double single full fat skimmed semi unsalted salted mature ' +
+    'cold warm boiling optional other any mixed mix chopped sliced grated juice zest finely roughly vegetable veg free range smoked ' +
+    'to taste serve for frying and or the with in plus your favourite good quality made homemade shop bought spring new culinary cooked');
+  /* "Olive oil" is oil, not olives; "Cider vinegar" is vinegar, not cider. */
+  var ONLY_LAST = stemSet('oil vinegar stock juice sauce butter milk cream flour sugar syrup water wine paste yoghurt');
+  /* A general word in a step, and the ingredient words it covers. */
+  var GROUPS = {
+    herb: 'herb basil mint parsley chive chervil tarragon dill coriander thyme rosemary sage oregano marjoram savory lovage sorrel bay',
+    cheese: 'cheese cheddar gruyere parmesan feta mozzarella stilton ricotta halloumi pecorino goat brie camembert mascarpone',
+    pasta: 'pasta spaghetti linguine penne rigatoni orecchiette tagliatelle fusilli macaroni lasagne pappardelle farfalle conchiglie',
+    bread: 'bread sourdough ciabatta baguette loaf roll bun',
+    toast: 'bread sourdough ciabatta baguette loaf',
+    fruit: 'fruit currant redcurrant whitecurrant blackcurrant raspberry loganberry tayberry strawberry blackberry gooseberry blueberry jostaberry',
+    currant: 'currant redcurrant whitecurrant blackcurrant',
+    berry: 'raspberry loganberry tayberry strawberry blackberry gooseberry blueberry jostaberry',
+    spice: 'spice cumin coriander paprika cinnamon ginger nutmeg clove turmeric cardamom allspice',
+    leaf: 'leaf lettuce purslane cress radicchio rocket endive mizuna chicory salad',
+    green: 'cabbage sprout kale chard spinach cavolo greens',
+    pepper: 'pepper' };
+  var GROUP_OF = {};
+  Object.keys(GROUPS).forEach(function (g) { GROUP_OF[stem(g)] = stemSet(GROUPS[g]); });
+  function keyWords(line) {
+    var parts = line.split(','), name = '', keys = [];
+    for (var i = 0; i < parts.length && !keys.length; i++) {
+      name = parts[i].replace(/\([^)]*\)/g, ' ');
+      name.split(/\s+(?:and|or|&)\s+|\s*\/\s*/i).forEach(function (part) {
+        var ws = words(part).map(stem).filter(function (w) { return w.length > 1 && !NOT_KEY[w]; });
+        if (!ws.length) return;
+        var last = ws[ws.length - 1];
+        keys.push(last);
+        if (ws.length > 1 && !ONLY_LAST[last]) keys.push(ws[0]);
+      });
+    }
+    if (!keys.length) { var all = words(line).map(stem); if (all.length) keys.push(all[all.length - 1]); } /* "3 Cloves" */
+    return keys;
+  }
+  function stepUses(step, line) {
+    var low = line.toLowerCase();
+    var leafy = /\bleaf|\bleaves\b/.test(low);
+    var black = /\bpepper\b/.test(low) && !/\b(sweet|bell|red|green|yellow|orange|chilli|padron|romano)\b|\bpeppers\b/.test(low);
+    var t = step.toLowerCase();
+    /* "season with salt and pepper" is seasoning, not the peppers in the recipe */
+    if (!black) t = t.replace(/(?:salt|season(?:ing)?)(?:\s+(?:with|and|well with))+\s+(?:black\s+)?pepper\b/g, 'salt');
+    /* "leaves" is salad leaves; "leave to cool" is not */
+    var sw = words(t).map(function (w) { return w === 'leaves' ? 'leaf' : stem(w); }), have = {};
+    sw.forEach(function (w) {
+      have[w] = 1;
+      var g = GROUP_OF[w];
+      if (g && !(w === 'pepper')) for (var k in g) have[k] = 1;
+    });
+    if (have.season) { have.salt = 1; if (black) have.pepper = 1; }
+    if (have.leaf && leafy) return true;
+    /* "Put everything in a large pan", "blend all the ingredients" */
+    if (/\b(?:put|place|add|tip|blitz|blend|whizz|mix|combine|stir)\s+(?:\w+\s+)?(?:everything|all the ingredients)\b/.test(t)) return true;
+    return keyWords(line).some(function (k) { return have[k]; });
+  }
+
+  /* Card 0 is the ingredients, then one card per step, each with the ingredients that step mentions. */
+  var pages = [{ kind: 'ing' }].concat(steps.map(function (s, i) {
+    return { kind: 'step', n: i + 1, text: s, ings: ingredients.filter(function (ing) { return stepUses(s, ing.text); }) };
+  }));
 
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function btn(cls, text, label) { var b = mk('button', cls, text); b.type = 'button'; if (label) b.setAttribute('aria-label', label); return b; }
@@ -110,6 +187,14 @@
     } else {
       count.textContent = 'Step ' + p.n + ' of ' + steps.length;
       body.appendChild(mk('p', 'cook-step', p.text));
+      if (p.ings.length) {
+        var box = mk('div', 'cook-uses');
+        box.appendChild(mk('p', 'cook-uses-h', 'For this step'));
+        var ul2 = mk('ul', 'cook-uses-list');
+        p.ings.forEach(function (i) { ul2.appendChild(mk('li', i.grown ? 'ing-have' : '', i.text)); });
+        box.appendChild(ul2);
+        body.appendChild(box);
+      }
     }
     var secs = p.kind === 'step' ? stepSeconds(p.text) : 0;
     tSuggest.hidden = !secs;
