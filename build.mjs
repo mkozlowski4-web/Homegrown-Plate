@@ -325,7 +325,35 @@ const trimDesc = (s) => {
 const firstFit = (options, max = 160) => trimDesc(options.filter(Boolean).find((o) => o.length <= max) || options.filter(Boolean).pop());
 /* Crop name inside a sentence: lower case except names such as Brussels sprouts, French beans or Swiss chard. */
 const cropInText = (p) => (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
+/* Share links: WhatsApp, Facebook, Pinterest, email and copy link, plus the phone's own share menu where it has one (site.js). */
+const SHARE_PAGES = /^\/(plants|pests|recipes|guides|sizes|weekend-jobs|what-to-sow|what-to-preserve)\/[^/]+\/$|^\/(beginners|kids|calendar|preserving|howto|this-weekend)\/$/;
+const SHARE_ICONS = {
+  whatsapp: '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.8l1.2-1.2 1.7.8c-.2 1.1-1.2 1.8-2.3 1.6C11 15 8.6 12.6 8.1 10.2c-.2-1 .5-2 1.6-2.2l.8 1.7z"/>',
+  facebook: '<path d="M14 8h2.5V4.5H14c-2.2 0-3.5 1.5-3.5 3.7V10H8v3.5h2.5V21H14v-7.5h2.5L17 10h-3V8.6c0-.4.3-.6.6-.6z"/>',
+  pinterest: '<circle cx="12" cy="12" r="9"/><path d="M11 8.5c2.5-.8 5 .6 4.6 3.2-.3 2-1.9 3-3.2 2.6-1-.3-1.2-1.3-1.2-1.3M11.6 10.5 9.5 20"/>',
+  email: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/>',
+  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  share: '<path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>',
+};
+function shareBar({ path, title, image }) {
+  const url = `${SITE}${path}`;
+  const u = encodeURIComponent(url);
+  const t = encodeURIComponent(title);
+  const what = path.startsWith('/recipes/') ? 'recipe' : path.startsWith('/plants/') || path.startsWith('/guides/') || path.startsWith('/pests/') ? 'guide' : 'page';
+  const icon = (k) => `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SHARE_ICONS[k]}</svg>`;
+  const link = (k, label, href) => `<a class="share-btn share-${k}" href="${esc(href)}" target="_blank" rel="noopener">${icon(k)}<span>${label}</span></a>`;
+  return `\n<aside class="share-bar" aria-label="Share this ${what}" data-share-url="${esc(url)}" data-share-title="${esc(title)}"><h2>Share this ${what}</h2><div class="share-links">`
+    + `<button type="button" class="share-btn share-native" data-share-native hidden>${icon('share')}<span>Share</span></button>`
+    + link('whatsapp', 'WhatsApp', `https://wa.me/?text=${t}%20${u}`)
+    + link('facebook', 'Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`)
+    + link('pinterest', 'Pinterest', `https://www.pinterest.com/pin/create/button/?url=${u}&description=${t}${image ? `&media=${encodeURIComponent(SITE + image)}` : ''}`)
+    + `<a class="share-btn share-email" href="${esc(`mailto:?subject=${t}&body=${t}%0A${u}`)}">${icon('email')}<span>Email</span></a>`
+    + `<button type="button" class="share-btn share-copy" data-share-copy hidden>${icon('link')}<span>Copy link</span></button>`
+    + `</div></aside>`;
+}
+
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '', updated = '' }) {
+  if (!noindex && SHARE_PAGES.test(path)) body += shareBar({ path, title, image });
   description = trimDesc(description);
   /* One-line quick answer under the heading, and a "Related" box at the end, for pages listed in seo-links.mjs. */
   if (QUICK_ANSWERS[path]) {

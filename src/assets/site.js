@@ -1478,3 +1478,25 @@
   function upd() { var n = count(); if (badge) badge.textContent = n ? '(' + n + ')' : ''; }
   upd(); setInterval(upd, 1500);
 })();
+
+/* ---- Share bar: phone share menu and copy link (the other links work without this) ---- */
+(function () {
+  var bar = document.querySelector('.share-bar');
+  if (!bar) return;
+  var url = bar.getAttribute('data-share-url'), title = bar.getAttribute('data-share-title');
+  var nat = bar.querySelector('[data-share-native]'), copy = bar.querySelector('[data-share-copy]');
+  if (nat && navigator.share) {
+    nat.hidden = false;
+    nat.addEventListener('click', function () { navigator.share({ title: title, url: url }).catch(function () {}); });
+  }
+  if (copy && navigator.clipboard) {
+    copy.hidden = false;
+    var label = copy.querySelector('span');
+    copy.addEventListener('click', function () {
+      navigator.clipboard.writeText(url).then(function () {
+        label.textContent = 'Link copied';
+        setTimeout(function () { label.textContent = 'Copy link'; }, 2000);
+      }).catch(function () {});
+    });
+  }
+})();

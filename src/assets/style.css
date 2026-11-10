@@ -1287,3 +1287,12 @@ html, body { overflow-x: clip; } /* safety net: nothing can make the page slide 
 @media (max-width: 640px) {
   .plant-top .pt-media img.photo.tall, .plant-top .pt-media .pimg.photo.large.tall { height: 300px; }
 }
+
+/* Share bar */
+.share-bar { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--line); }
+.share-bar h2 { font-size: 1.1rem; margin: 0 0 10px; }
+.share-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.share-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--green); font: inherit; font-size: .92rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+.share-btn:hover, .share-btn:focus-visible { border-color: var(--green); }
+.share-btn[hidden] { display: none; }
+@media (max-width: 520px) { .share-btn { padding: 8px 12px; } }
