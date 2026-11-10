@@ -1242,10 +1242,10 @@ function buildRecipes() {
 <p>Crops from your garden in this recipe: ${crops.map(plantLink).join('')}</p>
 <p class="cook-start" hidden><button type="button" class="cook-start-btn" data-cook-start><span aria-hidden="true">&#127859;</span> Cooking mode</button> <span class="muted">One step at a time, with a timer. Keeps your screen on.</span></p>
 <h2>Ingredients</h2>
-<ul class="recipe-ingredients">
+<ul class="recipe-ingredients" data-serves="${esc(r.serves)}">
   ${r.ingredients.map(([key, label, qty]) => {
     const grown = plantMap.has(key);
-    return `<li class="${grown ? 'ing-have' : 'ing-need'}">${esc(qty)} ${esc(label)}${grown ? ' <span aria-hidden="true">&#127807;</span><span class="sr-only">(grown in the garden)</span>' : ''}</li>`;
+    return `<li class="${grown ? 'ing-have' : 'ing-need'}"><span class="ing-qty">${esc(qty)}</span> ${esc(label)}${grown ? ' <span aria-hidden="true">&#127807;</span><span class="sr-only">(grown in the garden)</span>' : ''}</li>`;
   }).join('\n  ')}
 </ul>
 <p class="muted small-note">Green items are crops you can grow yourself.</p>

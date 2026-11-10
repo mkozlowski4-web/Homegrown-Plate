@@ -1,17 +1,176 @@
-/* Homegrown Plate: cooking mode for recipe pages.
-   Full-screen, one step at a time, big Back and Next buttons, a timer, and the screen kept on
-   (Screen Wake Lock) while it is open. The recipe page works the same without this file. */
+/* Homegrown Plate: recipe page extras.
+   1. Servings: a "Serves 4  −  +" control above the ingredients that rescales every amount it can read
+      ("200 g", "1/2 tsp", "2 large", "1–2", "400 ml tin"). Words like "a handful" or "to taste" stay as they are.
+      Recipes that make a batch ("makes about 4 jars") get a batch size control instead.
+   2. Cooking mode: full-screen, one step at a time, big Back and Next buttons, a timer, and the screen kept on
+      (Screen Wake Lock) while it is open.
+   The recipe page works the same without this file. */
 (function () {
   'use strict';
 
+  var list = document.querySelector('.recipe-ingredients[data-serves]');
+  if (!list) return;
+  var qtyEls = list.querySelectorAll('.ing-qty');
+  if (!qtyEls.length) return;
+  var originals = Array.prototype.map.call(qtyEls, function (el) { return el.textContent; });
+
+  /* ---- Reading and writing amounts ---- */
+  var NUM = '(\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+(?:\\.\\d+)?)';
+  var ADJ = '(?:(large|medium|small|thick|fresh|generous)\\s+)?';
+  var NOUNS = { head: 'heads', clove: 'cloves', ball: 'balls', slice: 'slices', nest: 'nests', sheet: 'sheets', loaf: 'loaves',
+    bunch: 'bunches', handful: 'handfuls', thumb: 'thumbs', piece: 'pieces', jar: 'jars', bottle: 'bottles', slab: 'slabs',
+    bowl: 'bowls', square: 'squares', leaf: 'leaves', tin: 'tins', block: 'blocks' };
+  var SINGULAR = {};
+  Object.keys(NOUNS).forEach(function (k) { SINGULAR[NOUNS[k]] = k; });
+  var nounAlt = Object.keys(NOUNS).concat(Object.keys(SINGULAR)).join('|');
+  /* number (or range), then a unit, or a size word and/or a countable word */
+  var AMOUNT = new RegExp(NUM + '(?:\\s*[–-]\\s*' + NUM + ')?(?:\\s*(kg|g|ml|litres?|tbsp|tsp|cm)\\b|\\s+' + ADJ + '(' + nounAlt + ')\\b|\\s+(large|medium|small|thick|fresh|generous)\\b)?', 'g');
+
+  function num(t) {
+    t = t.trim();
+    var m = t.match(/^(\d+)\s+(\d+)\/(\d+)$/);
+    if (m) return +m[1] + m[2] / m[3];
+    m = t.match(/^(\d+)\/(\d+)$/);
+    if (m) return m[1] / m[2];
+    return parseFloat(t);
+  }
+  var GLYPH = { 0.25: '¼', 0.5: '½', 0.75: '¾' };
+  function frac(v) {           /* 1.5 -> "1½", 0.25 -> "¼" */
+    var whole = Math.floor(v + 1e-9), part = Math.round((v - whole) * 4) / 4;
+    if (part === 1) { whole += 1; part = 0; }
+    return (whole ? String(whole) : '') + (part ? GLYPH[part] : (whole ? '' : '0'));
+  }
+  function dec(v) { return String(Math.round(v * 10) / 10); }
+  function step(v, by, min) { return Math.max(min || by, Math.round(v / by) * by); }
+
+  /* A scaled number in a unit: returns [number text, unit text] */
+  function metric(v, unit) {
+    if (unit === 'kg') { if (v < 1) return metric(v * 1000, 'g'); return [dec(step(v, 0.1)), 'kg']; }
+    if (/^litre/.test(unit)) { if (v < 1) return metric(v * 1000, 'ml'); v = step(v, 0.1); return [dec(v), v === 1 ? 'litre' : 'litres']; }
+    if (unit === 'g' || unit === 'ml') {
+      if (v >= 1000) return unit === 'g' ? metric(v / 1000, 'kg') : metric(v / 1000, 'litres');
+      return [String(v < 10 ? step(v, 0.5) : v < 100 ? step(v, 5) : step(v, 10)), unit];
+    }
+    if (unit === 'tsp') { if (v >= 3) return metric(v / 3, 'tbsp'); return [frac(step(v, 0.25)), 'tsp']; }
+    if (unit === 'tbsp') { if (v < 0.5) return metric(v * 3, 'tsp'); return [frac(step(v, 0.5)), 'tbsp']; }
+    if (unit === 'cm') return [String(step(v, 1)), 'cm'];
+    return [frac(v < 1 ? step(v, 0.25) : v < 3 ? step(v, 0.5) : step(v, 1)), ''];
+  }
+
+  function scaleText(text, f) {
+    if (f === 1) return text;
+    /* A pack size: "400 ml tin" is one tin, so it becomes "2 × 400 ml tins" */
+    var pack = text.match(/^(\d+(?:\.\d+)?\s*(?:g|ml))\s+(tin|sheet|block)$/);
+    if (pack) {
+      var n = f < 1 ? step(f, 0.25) : step(f, 0.5);
+      return n === 1 ? text : frac(n) + ' × ' + pack[1] + ' ' + (n > 1 ? NOUNS[pack[2]] : pack[2]);
+    }
+    return text.replace(AMOUNT, function (all, a, b, unit, adj1, noun, adj2) {
+      var lo = num(a) * f, hi = b ? num(b) * f : null;
+      var adj = adj1 || adj2;
+      if (unit) {
+        var A = metric(lo, unit), out = A[0];
+        if (hi != null) {
+          var B = metric(hi, unit);
+          if (B[1] === A[1]) out = B[0] === A[0] ? A[0] : A[0] + '–' + B[0];
+          else out = A[0] + ' ' + A[1] + '–' + B[0];
+          return out + ' ' + B[1];
+        }
+        return out + ' ' + A[1];
+      }
+      var lo2 = metric(lo, '')[0], hi2 = hi != null ? metric(hi, '')[0] : null;
+      var n = hi2 != null && hi2 !== lo2 ? lo2 + '–' + hi2 : lo2;
+      var biggest = hi != null ? hi : lo, many = biggest > 1.01;
+      var tail = '';
+      if (adj) tail += ' ' + adj;
+      if (noun) {
+        var one = SINGULAR[noun] || noun;
+        tail += ' ' + (many ? NOUNS[one] : one);
+      }
+      return n + tail;
+    });
+  }
+
+  /* ---- The control ---- */
+  var servesRaw = list.getAttribute('data-serves');
+  var people = servesRaw.match(/^(\d+)(?:\s*[–-]\s*(\d+))?$/);
+  var batchable = !people && AMOUNT.test(servesRaw);
+  AMOUNT.lastIndex = 0;
+  if (!people && !batchable) return;
+
+  var base = people ? (people[2] ? (+people[1] + +people[2]) / 2 : +people[1]) : 1;
+  var MULTS = [0.5, 1, 1.5, 2, 3, 4];
+  var maxPeople = Math.max(12, Math.ceil(base) * 3);
+  var current = people ? null : 1; /* null = as written */
+
+  function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  var box = mk('div', 'servings');
+  box.setAttribute('role', 'group');
+  box.setAttribute('aria-label', people ? 'Number of servings' : 'Batch size');
+  var label = mk('span', 'servings-label', people ? 'Serves' : '');
+  var minus = mk('button', 'servings-btn', '−'); minus.type = 'button';
+  minus.setAttribute('aria-label', people ? 'Fewer servings' : 'Smaller batch');
+  var out = mk('output', 'servings-val'); out.setAttribute('aria-live', 'polite');
+  var plus = mk('button', 'servings-btn', '+'); plus.type = 'button';
+  plus.setAttribute('aria-label', people ? 'More servings' : 'Bigger batch');
+  var reset = mk('button', 'servings-reset', 'Back to the original'); reset.type = 'button';
+  [label, minus, out, plus, reset].forEach(function (n) { box.appendChild(n); });
+  var note = mk('p', 'servings-note muted small-note',
+    'Amounts like "a handful" or "to taste" stay as written, so go by eye. Bigger batches may need a bigger pan and a little longer to cook.');
+  list.parentNode.insertBefore(box, list);
+  list.parentNode.insertBefore(note, list.nextSibling);
+
+  function factor() { return people ? (current == null ? 1 : current / base) : current; }
+  function render() {
+    var f = factor(), changed = people ? current != null : current !== 1;
+    Array.prototype.forEach.call(qtyEls, function (el, i) {
+      el.textContent = scaleText(originals[i], f);
+      el.classList.toggle('is-changed', el.textContent !== originals[i]);
+    });
+    if (people) {
+      out.textContent = current == null ? servesRaw : String(current);
+      minus.disabled = (current == null ? Math.ceil(base) - 1 : current - 1) < 1;
+      plus.disabled = (current == null ? Math.floor(base) + 1 : current + 1) > maxPeople;
+    } else {
+      var y = scaleText(servesRaw, f);
+      out.textContent = y.charAt(0).toUpperCase() + y.slice(1);
+      minus.disabled = f === MULTS[0];
+      plus.disabled = f === MULTS[MULTS.length - 1];
+    }
+    reset.hidden = !changed;
+    note.hidden = !changed;
+    list.classList.toggle('is-scaled', changed);
+  }
+  minus.addEventListener('click', function () {
+    if (people) current = current == null ? Math.ceil(base) - 1 : current - 1;
+    else current = MULTS[Math.max(0, MULTS.indexOf(current) - 1)];
+    if (people && current === base) current = null;
+    render();
+  });
+  plus.addEventListener('click', function () {
+    if (people) current = current == null ? Math.floor(base) + 1 : current + 1;
+    else current = MULTS[Math.min(MULTS.length - 1, MULTS.indexOf(current) + 1)];
+    if (people && current === base) current = null;
+    render();
+  });
+  reset.addEventListener('click', function () { current = people ? null : 1; render(); });
+  render();
+  window.HGPScale = scaleText; /* for testing */
+})();
+
+/* ---- Cooking mode ---- */
+(function () {
+  'use strict';
   var startBtn = document.querySelector('[data-cook-start]');
   var stepEls = document.querySelectorAll('.recipe-steps li');
   if (!startBtn || !stepEls.length) return;
 
   var title = (document.querySelector('main h1') || {}).textContent || 'Recipe';
   var steps = Array.prototype.map.call(stepEls, function (li) { return li.textContent.trim(); });
+  /* Read live, so cooking mode shows the amounts for the servings chosen on the page. */
+  function ingText(li) { return li.textContent.replace(/\(grown in the garden\)/, '').replace(/🌿/g, '').trim(); }
   var ingredients = Array.prototype.map.call(document.querySelectorAll('.recipe-ingredients li'), function (li) {
-    return { text: li.textContent.replace(/\(grown in the garden\)/, '').replace(/🌿/g, '').trim(), grown: li.classList.contains('ing-have') };
+    return { el: li, text: ingText(li), grown: li.classList.contains('ing-have') };
   });
 
   /* ---- Which ingredients a step uses ----
@@ -182,7 +341,7 @@
       count.textContent = 'Before you start';
       body.appendChild(mk('h2', 'cook-h', 'Ingredients'));
       var ul = mk('ul', 'cook-ings');
-      ingredients.forEach(function (i) { var li = mk('li', i.grown ? 'ing-have' : '', i.text); ul.appendChild(li); });
+      ingredients.forEach(function (i) { var li = mk('li', i.grown ? 'ing-have' : '', ingText(i.el)); ul.appendChild(li); });
       body.appendChild(ul);
     } else {
       count.textContent = 'Step ' + p.n + ' of ' + steps.length;
@@ -191,7 +350,7 @@
         var box = mk('div', 'cook-uses');
         box.appendChild(mk('p', 'cook-uses-h', 'For this step'));
         var ul2 = mk('ul', 'cook-uses-list');
-        p.ings.forEach(function (i) { ul2.appendChild(mk('li', i.grown ? 'ing-have' : '', i.text)); });
+        p.ings.forEach(function (i) { ul2.appendChild(mk('li', i.grown ? 'ing-have' : '', ingText(i.el))); });
         box.appendChild(ul2);
         body.appendChild(box);
       }

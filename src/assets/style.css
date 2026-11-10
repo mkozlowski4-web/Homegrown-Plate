@@ -1369,3 +1369,15 @@ html.cook-open, html.cook-open body { overflow: hidden; }
 .cook-next { background: var(--green); border: 0; color: #fff; }
 .cook-mode button:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
 @media print { .cook-start, .cook-mode { display: none !important; } }
+
+/* Servings control on recipe pages (added by cook.js) */
+.servings { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 4px 0 12px; }
+.servings-label { font-weight: 700; color: var(--green); }
+.servings-btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--green); background: #fff; color: var(--green); font: inherit; font-size: 1.4rem; font-weight: 700; line-height: 1; cursor: pointer; }
+.servings-btn:hover:not(:disabled) { background: var(--tint, #edf3ee); }
+.servings-btn:disabled { opacity: .35; cursor: default; }
+.servings-val { min-width: 2.2em; text-align: center; font-weight: 700; font-size: 1.15rem; }
+.servings-reset { background: none; border: 0; padding: 8px 4px; color: var(--green); text-decoration: underline; font: inherit; font-size: .92rem; cursor: pointer; }
+.ing-qty.is-changed { background: #fff3c4; border-radius: 4px; padding: 0 3px; }
+.servings-note { margin-top: 6px; }
+@media print { .servings-btn, .servings-reset, .servings-note { display: none !important; } .ing-qty.is-changed { background: none; } }
