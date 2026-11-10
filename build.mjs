@@ -476,11 +476,19 @@ for (const p of PLANTS) {
   const ext = ['jpg', 'jpeg', 'png', 'webp'].find((e) => existsSync(join(PHOTO_DIR, `${p.id}.${e}`)));
   if (ext) PHOTOS.set(p.id, { file: join(PHOTO_DIR, `${p.id}.${ext}`), ext, alt: photoMeta[p.id]?.alt || `${p.name} growing`, credit: photoMeta[p.id]?.credit || '', creditUrl: photoMeta[p.id]?.creditUrl || '', more: photoMeta[p.id]?.more || [], tall: !!photoMeta[p.id]?.tall });
 }
+/* Optional step photos on a recipe: photos: [{ file, alt, caption }] in src/photos/recipes/steps/. */
+function recipeStepPhotos(r) {
+  if (!r.photos?.length) return '';
+  for (const ph of r.photos) if (!existsSync(join(PHOTO_DIR, 'recipes/steps', ph.file))) throw new Error(`Recipe ${r.id} names a photo that is not in src/photos/recipes/steps/: ${ph.file}`);
+  return `<div class="plant-gallery guide-photos${r.photos.length === 1 ? ' single' : ''}">${r.photos.map((ph) => `<figure><img src="/img/recipe-steps/${ph.file}" alt="${esc(ph.alt)}" width="720" height="960" loading="lazy" decoding="async"><figcaption>${esc(ph.caption)}</figcaption></figure>`).join('')}</div>\n`;
+}
 async function writePlantImages() {
   mkdirSync(join(DIST, 'img/plants'), { recursive: true });
   for (const p of PLANTS) writeFileSync(join(DIST, 'img/plants', `${p.id}.svg`), illustration(p.id));
   /* Step-by-step photos used inside guides (src/photos/guides/), copied as-is. */
   if (existsSync(join(PHOTO_DIR, 'guides'))) cpSync(join(PHOTO_DIR, 'guides'), join(DIST, 'img/guides'), { recursive: true });
+  /* Step photos used on recipe pages (src/photos/recipes/steps/), copied as-is. */
+  if (existsSync(join(PHOTO_DIR, 'recipes/steps'))) cpSync(join(PHOTO_DIR, 'recipes/steps'), join(DIST, 'img/recipe-steps'), { recursive: true });
   if (!PHOTOS.size) return;
   mkdirSync(join(DIST, 'img/photos'), { recursive: true });
   for (const [id, ph] of PHOTOS) {
@@ -1201,7 +1209,7 @@ function buildRecipes() {
 <p class="muted small-note">Green items are crops you can grow yourself.</p>
 <h2>Method</h2>
 <div class="recipe-steps"><ol>${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
-${r.tips && r.tips.length ? `<h2>Tips</h2>\n${tipsList(r.tips)}` : ''}
+${recipeStepPhotos(r)}${r.tips && r.tips.length ? `<h2>Tips</h2>\n${tipsList(r.tips)}` : ''}
 ${recipeGrowBlock(r, crops)}`;
     const cropNames = crops.map(cropInText);
     const intro = `${r.title}: ready in ${r.time}, ${servesText(r.serves)}.`;
