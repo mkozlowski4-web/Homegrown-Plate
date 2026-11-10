@@ -31,7 +31,7 @@ export const ALLIUMS = [
     info: [
       "Garlic is one of the easiest crops to grow, and home-grown bulbs have a sweeter, fresher taste than supermarket ones. A single clove planted in autumn becomes a full bulb by early summer, and garlic is useful in the kitchen all year round.",
       "There are two main types: hardneck varieties, which have a flowering stem and often better flavour but store for fewer months, and softneck varieties, which store for longer and can be plaited. Garlic needs a cold spell to form bulbs, so autumn planting is usually best in the UK."],
-    varieties: ["Solent Wight (softneck, reliable)", "Picardy Wight (softneck, long storage)", "Germidour (hardneck, good flavour)", "Early Purple Wight (early cropper)", "Elephant garlic (mild, giant cloves)"],
+    varieties: ["Solent Wight (softneck, reliable)", "Picardy Wight (softneck, long storage)", "Germidour (softneck, mild, violet cloves)", "Early Purple Wight (early cropper)", "Elephant garlic (mild, giant cloves)"],
     sow: { p: [
       "Plant cloves from October to November in well-drained, fertile soil in full sun; heavy, wet soil makes them rot, so improve it with grit or plant on a ridge. Break up the bulbs just before planting and plant the largest outer cloves. Set each clove with the pointed end up, 2.5–5 cm deep, 15 cm apart in rows 25–30 cm apart.",
       "In a cold or wet area, start cloves in modules in a cold frame or greenhouse in November and plant out in spring. February and March plantings are possible, but the bulbs will be smaller. Always buy certified garlic for planting, because supermarket bulbs may carry disease and are not suited to British growing conditions."],

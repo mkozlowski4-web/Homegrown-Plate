@@ -33,8 +33,8 @@ export const GROUPS = {
   garlic: {
     groupsIntro: 'There are two main kinds of garlic, which suit different growing and storage needs.',
     groups: [
-      { name: 'Hardneck', when: 'Plant October to December · Harvest June to July', note: 'Stronger flavour and a flower stalk (scape) you can eat. Hardier, but stores only 4–6 months.', varieties: ['Germidour', 'Music', 'Purple Wight'] },
-      { name: 'Softneck', when: 'Plant November to March · Harvest July to August', note: 'Milder flavour, plaits well, and stores for 8–12 months. Best for storing and for milder areas.', varieties: ['Solent Wight', 'Early Purple Wight', 'Albigensian Wight'] },
+      { name: 'Hardneck', when: 'Plant October to December · Harvest June to July', note: 'Stronger flavour and a flower stalk (scape) you can eat. Hardier, but stores only 4–6 months.', varieties: ['Lautrec Wight', 'Music', 'Chesnok Red'] },
+      { name: 'Softneck', when: 'Plant November to March · Harvest July to August', note: 'Milder flavour, plaits well, and stores for 8–12 months. Best for storing and for milder areas.', varieties: ['Solent Wight', 'Germidour', 'Early Purple Wight', 'Albigensian Wight'] },
     ] },
   cabbage: {
     groupsIntro: 'Cabbages are grouped by the season you eat them, so you can have fresh cabbage nearly all year.',

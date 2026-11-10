@@ -479,6 +479,8 @@ for (const p of PLANTS) {
 async function writePlantImages() {
   mkdirSync(join(DIST, 'img/plants'), { recursive: true });
   for (const p of PLANTS) writeFileSync(join(DIST, 'img/plants', `${p.id}.svg`), illustration(p.id));
+  /* Step-by-step photos used inside guides (src/photos/guides/), copied as-is. */
+  if (existsSync(join(PHOTO_DIR, 'guides'))) cpSync(join(PHOTO_DIR, 'guides'), join(DIST, 'img/guides'), { recursive: true });
   if (!PHOTOS.size) return;
   mkdirSync(join(DIST, 'img/photos'), { recursive: true });
   for (const [id, ph] of PHOTOS) {
@@ -1334,6 +1336,10 @@ function buildArticles() {
       if (x.steps) out.push(`<ol class="guide-steps">${x.steps.map((t) => `<li>${guideText(t)}</li>`).join('')}</ol>`);
       if (x.table) out.push(`<div class="guide-table-wrap"><table class="guide-table"><thead><tr>${x.table.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${x.table.rows.map((r) => `<tr>${r.map((c, i) => (i ? `<td>${guideText(c)}</td>` : `<th scope="row">${guideText(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>`);
       for (const t of x.after || []) out.push(`<p>${guideText(t)}</p>`);
+      if (x.photos) {
+        for (const ph of x.photos) if (!existsSync(join(PHOTO_DIR, 'guides', ph.file))) throw new Error(`Guide ${g.slug} names a photo that is not in src/photos/guides/: ${ph.file}`);
+        out.push(`<div class="plant-gallery guide-photos${x.photos.length === 1 ? ' single' : ''}">${x.photos.map((ph) => `<figure><img src="/img/guides/${ph.file}" alt="${esc(ph.alt)}"${ph.wide ? ' class="wide"' : ' width="720" height="960"'} loading="lazy" decoding="async"><figcaption>${esc(ph.caption)}</figcaption></figure>`).join('')}</div>`);
+      }
       if (x.recipes) {
         const rs = x.recipes.map((id) => { const r = recipeMap.get(id); if (!r) throw new Error(`Guide ${g.slug} names a recipe that does not exist: ${id}`); return r; });
         out.push(`<ul class="cook-list">${rs.map((r) => { guideLinks.add(`/recipes/${r.id}/`); return `<li><a href="/recipes/${r.id}/"><strong>${esc(r.title)}</strong><span>${esc(r.time)} &middot; ${esc(servesText(r.serves))}</span></a></li>`; }).join('')}</ul>`);

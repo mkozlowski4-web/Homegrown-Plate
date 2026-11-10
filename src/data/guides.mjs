@@ -149,6 +149,9 @@ export const GUIDES = [
         '**A pot at least 20 cm deep**, with drainage holes. Plastic, terracotta, a window box or a big trough all work. Wider is better than deeper.',
         '**Peat-free multipurpose compost, mixed with grit or perlite.** About two parts compost to one part grit keeps it free-draining. Wet compost is the main reason garlic in pots rots.',
         '**Garlic bulbs bought for planting.** Supermarket garlic is often grown abroad for a warmer climate and can carry disease, so buy certified bulbs from a garden centre or seed company.',
+      ], photos: [
+        { file: 'garlic-pot-empty.jpg', alt: 'An empty grey plastic pot with drainage holes in the base, standing on the floor of a greenhouse', caption: 'A wide pot with drainage holes in the base.' },
+        { file: 'garlic-pot-filled.jpg', alt: 'The same grey pot filled with compost to just below the rim', caption: 'Filled with compost to about 3 cm below the rim.' },
       ] },
       { h: 'How many cloves per pot', table: {
         head: ['Pot', 'Garlic', 'Elephant garlic'],
@@ -160,9 +163,11 @@ export const GUIDES = [
         ],
       }, after: ['These spacings are a little closer than in the ground (10 cm rather than 15 cm), which is fine in good compost as long as you feed in spring. [Elephant garlic](/plants/elephant-garlic/) has giant cloves and needs about 20 cm each way.'] },
       { h: 'Which garlic to grow', p: [
-        '**Softneck** garlic, such as Solent Wight or Picardy Wight, gives more cloves per bulb and stores longest, up to six to eight months. Its soft stems can be plaited.',
-        '**Hardneck** garlic, such as Germidour or Early Purple Wight, has fewer, bigger cloves and a stronger flavour. It sends up a curly flower stem (the scape) in early summer, which is a free extra crop. Hardnecks only keep for three to five months.',
+        '**Softneck** garlic, such as Solent Wight or Germidour, gives more cloves per bulb and stores longest, up to six to eight months. Its soft stems can be plaited.',
+        '**Hardneck** garlic, such as Lautrec Wight or Chesnok Red, has fewer, bigger cloves and a stronger flavour. It sends up a curly flower stem (the scape) in early summer, which is a free extra crop. Hardnecks only keep for three to five months.',
         'If you only have room for one pot, a softneck is the safer choice. See the [garlic growing guide](/plants/garlic/) for more on each type.',
+      ], photos: [
+        { file: 'garlic-germidour-label.jpg', wide: true, alt: 'A garlic packet label reading Germidour, 2 French garlic, mild flavour, violet cloves, softneck, plant in autumn', caption: 'Germidour: a mild French softneck with violet cloves, planted in autumn.' },
       ] },
       { h: 'When to plant', p: [
         'October to December is best, and November is perfect. Garlic needs a spell of cold weather over winter to split into separate cloves, so autumn planting gives the biggest bulbs. You can plant softnecks as late as February or March, but the bulbs will be smaller.',
@@ -173,6 +178,11 @@ export const GUIDES = [
         'Break the bulb into cloves just before planting. Use the biggest, fattest outer cloves and cook the small middle ones.',
         'Push each clove in with the pointed end up and the flat end down, so the tip sits 2.5–5 cm below the surface, about 10 cm apart and 5 cm in from the edge.',
         'Water once to settle the compost, then leave it.',
+      ], photos: [
+        { file: 'garlic-bulb.jpg', alt: 'A whole garlic bulb with purple-streaked skin held in a hand', caption: 'Start with one firm, healthy bulb.' },
+        { file: 'garlic-cloves.jpg', alt: 'Six garlic cloves in an open hand, papery skins still on', caption: 'Split it into cloves and keep the papery skins on.' },
+        { file: 'garlic-planting-clove.jpg', alt: 'A hand pushing a garlic clove, pointed end up, into compost in a pot', caption: 'Push each clove in, pointed end up.' },
+        { file: 'garlic-watering-in.jpg', alt: 'A green watering can with a rose sprinkling water over the planted pot', caption: 'Water in once with a rose on the can.' },
       ] },
       { h: 'Winter care', list: [
         'Stand the pot in the sunniest spot you have, and raise it on pot feet or bricks so water can drain away.',

@@ -848,6 +848,13 @@ html.js-acc .care-list, html.js-acc .plant-main > h2 { margin-top: 48px; }
 .plant-gallery figure { margin: 0; max-width: 460px; }
 .plant-gallery img { display: block; width: 100%; height: auto; max-height: 420px; object-fit: cover; border-radius: 12px; }
 .plant-gallery figcaption { font-size: .88rem; color: var(--muted); margin-top: 8px; }
+/* Step photos in guides: a small grid on wide screens, two across on phones */
+.guide-photos { grid-template-columns: repeat(auto-fill, minmax(150px, 230px)); gap: 14px; }
+.guide-photos figure { max-width: none; }
+.guide-photos img { aspect-ratio: 3 / 4; max-height: none; }
+.guide-photos img.wide { aspect-ratio: auto; }
+.guide-photos.single { grid-template-columns: minmax(0, 460px); }
+@media (max-width: 520px) { .guide-photos { grid-template-columns: 1fr 1fr; } .guide-photos.single { grid-template-columns: 1fr; } }
 
 /* ===== Redesign 2 (Nov 2026): one type family, white header, season-first home ===== */
 @font-face { font-family: "Inter"; src: url("/assets/fonts/inter-regular.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }

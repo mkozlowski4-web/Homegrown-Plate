@@ -22,3 +22,7 @@ Optionally describe and credit each photo in `photos.json`:
 Each recipe needs a picture for Google's recipe results. Until you add a photo of the finished dish, the site uses a card showing the recipe name and drawings of its crops (made by `node tools/make-recipe-cards.mjs`, saved in `src/photos/recipes/cards/`). Run that tool again after adding a new recipe.
 
 To use a real photo, drop it in as `src/photos/recipes/<recipe-id>.jpg` (also .png or .webp), e.g. `src/photos/recipes/summer-pudding.jpg`. It shows at the top of the recipe page and replaces the card everywhere. Landscape (4:3) about 1200 px wide and under 300 KB works best. Describe it in `photos.json` with the key `recipe:<recipe-id>`, e.g. `"recipe:summer-pudding": { "alt": "Summer pudding on a plate with cream" }`.
+
+## Guide photos
+
+Step-by-step photos for the guides on `/guides/` go in `src/photos/guides/` (portrait 720 x 960, under about 200 KB). List them under a section of the guide in `src/data/guides.mjs` with `photos: [{ file, alt, caption }]`; add `wide: true` for a landscape photo. The build stops with an error if a listed file is missing.
