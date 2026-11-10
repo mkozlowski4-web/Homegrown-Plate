@@ -353,7 +353,14 @@ function shareBar({ path, title, image }) {
 }
 
 function layout({ title, description, path, body, section, ld = [], noindex = false, fullTitle = false, image = '', updated = '' }) {
-  if (!noindex && SHARE_PAGES.test(path)) body += shareBar({ path, title, image });
+  if (!noindex && SHARE_PAGES.test(path)) {
+    const bar = shareBar({ path, title, image });
+    /* Recipes: just under the photo (or under the intro when there is no photo); everything else: at the end. */
+    if (/^\/recipes\/[^/]+\/$/.test(path)) {
+      const top = bar.replace('class="share-bar"', 'class="share-bar share-top"');
+      body = /<img class="recipe-photo"[^>]*>/.test(body) ? body.replace(/(<img class="recipe-photo"[^>]*>)/, `$1${top}`) : body.replace('<h2>Ingredients</h2>', `${top.trim()}\n<h2>Ingredients</h2>`);
+    } else body += bar;
+  }
   description = trimDesc(description);
   /* One-line quick answer under the heading, and a "Related" box at the end, for pages listed in seo-links.mjs. */
   if (QUICK_ANSWERS[path]) {

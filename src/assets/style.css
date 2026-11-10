@@ -1296,3 +1296,5 @@ html, body { overflow-x: clip; } /* safety net: nothing can make the page slide 
 .share-btn:hover, .share-btn:focus-visible { border-color: var(--green); }
 .share-btn[hidden] { display: none; }
 @media (max-width: 520px) { .share-btn { padding: 8px 12px; } }
+.share-bar.share-top { margin: 14px 0 6px; padding-top: 0; border-top: 0; }
+.share-bar.share-top h2 { font-size: .95rem; color: var(--muted); margin: 0 0 8px; }
