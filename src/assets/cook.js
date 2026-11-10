@@ -33,7 +33,7 @@
     'stick sticks bulb bulbs spear spears root roots powder kernels kernel flowers flower pod extract flakes flake shapes shape breast thigh ' +
     'fresh dried ground whole plain extra virgin red green yellow white black brown golden dark light sweet hot mild ripe young baby ' +
     'flaky sea table fine coarse caster icing granulated soft firm thick thin double single full fat skimmed semi unsalted salted mature ' +
-    'cold warm boiling optional other any mixed mix chopped sliced grated juice zest finely roughly vegetable veg free range smoked ' +
+    'crisp crispy crunchy tender tinned frozen cold warm boiling optional other any mixed mix chopped sliced grated juice zest finely roughly vegetable veg free range smoked ' +
     'to taste serve for frying and or the with in plus your favourite good quality made homemade shop bought spring new culinary cooked');
   /* "Olive oil" is oil, not olives; "Cider vinegar" is vinegar, not cider. */
   var ONLY_LAST = stemSet('oil vinegar stock juice sauce butter milk cream flour sugar syrup water wine paste yoghurt');
