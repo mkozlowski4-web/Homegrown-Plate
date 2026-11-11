@@ -332,7 +332,7 @@ const firstFit = (options, max = 160) => trimDesc(options.filter(Boolean).find((
 /* Crop name inside a sentence: lower case except names such as Brussels sprouts, French beans or Swiss chard. */
 const cropInText = (p) => (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
 /* Share links: WhatsApp, Facebook, Pinterest, email and copy link, plus the phone's own share menu where it has one (site.js). */
-const SHARE_PAGES = /^\/(plants|pests|recipes|guides|sizes|weekend-jobs|what-to-sow|what-to-preserve)\/[^/]+\/$|^\/(beginners|kids|calendar|preserving|howto|this-weekend)\/$/;
+const SHARE_PAGES = /^\/(plants|pests|recipes|guides|sizes|weekend-jobs|what-to-sow|what-to-preserve)\/[^/]+\/$|^\/(beginners|kids|calendar|preserving|howto|this-weekend|printable-sowing-calendar)\/$/;
 const SHARE_ICONS = {
   whatsapp: '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.8l1.2-1.2 1.7.8c-.2 1.1-1.2 1.8-2.3 1.6C11 15 8.6 12.6 8.1 10.2c-.2-1 .5-2 1.6-2.2l.8 1.7z"/>',
   facebook: '<path d="M14 8h2.5V4.5H14c-2.2 0-3.5 1.5-3.5 3.7V10H8v3.5h2.5V21H14v-7.5h2.5L17 10h-3V8.6c0-.4.3-.6.6-.6z"/>',
@@ -456,7 +456,7 @@ ${body}
         <a href="https://www.facebook.com/profile.php?id=61596073060128" rel="me noopener" target="_blank" aria-label="Homegrown Plate on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21z"/></svg></a>
         <a href="https://uk.pinterest.com/homegrownplate/" rel="me noopener" target="_blank" aria-label="Homegrown Plate on Pinterest"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2.5a9.5 9.5 0 0 0-3.5 18.3c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.5 2.1-.8 3.3-.2 1 .5 1.8 1.5 1.8 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.5 2.1-4.5 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.2c0 .2-.2.2-.4.1-1.3-.6-2.1-2.5-2.1-4 0-3.2 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.9 0 3.5-2.2 6.4-5.3 6.4-1 0-2-.5-2.3-1.2l-.6 2.4c-.2.9-.9 2-1.3 2.7A9.5 9.5 0 1 0 12 2.5z"/></svg></a>
       </div></div>
-    <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a><a href="/guides/">Seasonal guides</a></nav>
+    <nav class="foot-col" aria-label="Grow"><strong>Grow</strong><a href="/plants/">Plant guide</a><a href="/calendar/">Planting calendar</a><a href="/printable-sowing-calendar/">Printable calendar</a><a href="/this-weekend/">This weekend</a><a href="/what-to-sow/">What to sow</a><a href="/sizes/">Garden sizes</a><a href="/pests/">Pests and diseases</a><a href="/harvest/">Harvesting</a><a href="/guides/">Seasonal guides</a></nav>
     <nav class="foot-col" aria-label="Cook and keep"><strong>Cook and keep</strong><a href="/recipes/">Recipes</a><a href="/preserving/">Preserving</a><a href="/what-to-preserve/">What to preserve</a><a href="/kids/">Growing with kids</a></nav>
     <nav class="foot-col" aria-label="Start here"><strong>Start here</strong><a href="/beginners/">Beginner&rsquo;s guide</a><a href="/howto/">Grow in 7 steps</a><a href="/glossary/">Gardening words</a><a href="/kit/">Essential kit</a><a href="/install/">Get the app</a></nav>
     <nav class="foot-col" aria-label="Site"><strong>Site</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/account/">Account</a><a href="/membership/">Membership</a><a href="/privacy/">Privacy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a></nav>
@@ -1386,11 +1386,84 @@ ${regionBar()}
     </tbody>
   </table>
 </div>
-<p class="muted small-note">Timings vary by region, frost dates and variety. Check the <a href="/plants/">Plant Guide</a> for details on each crop. Prefer a list? See <a href="/what-to-sow/">what to sow each month</a> and <a href="/what-to-preserve/">what to preserve each month</a>.</p>`;
+<p class="muted small-note">Timings vary by region, frost dates and variety. Check the <a href="/plants/">Plant Guide</a> for details on each crop. Prefer a list? See <a href="/what-to-sow/">what to sow each month</a> and <a href="/what-to-preserve/">what to preserve each month</a>. Want one for the shed wall? Get the <a href="/printable-sowing-calendar/">free printable sowing calendar</a>.</p>`;
   addPage({
     path: '/calendar/', section: 'calendar', body, title: 'UK Planting Calendar: when to sow, plant and harvest',
     description: `Month-by-month UK guide to when to sow indoors, sow or plant outside and harvest ${PLANTS.length} crops.`,
     crumbs: [['Home', '/'], ['Planting Calendar', '/calendar/']],
+  });
+}
+
+/* Free printable sowing calendar: two A4 landscape sheets of popular crops, made from the same calendar data.
+   The PDF and Pinterest image in static/downloads/ are made from this page with tools/make-printable.mjs. */
+const PRINT_SHEETS = [
+  { title: 'Vegetables', groups: [
+    ['Peas and beans', ['broad-bean', 'pea', 'bean', 'french-bean']],
+    ['Onion family', ['onion', 'shallot', 'garlic', 'leek']],
+    ['Roots and potatoes', ['potato', 'carrot', 'beetroot', 'parsnip', 'radish', 'turnip', 'swede']],
+    ['Cabbage family', ['cabbage', 'kale', 'sprouting-broccoli', 'calabrese', 'cauliflower', 'brussels-sprouts']],
+    ['Summer crops', ['tomato', 'chilli', 'sweet-pepper', 'cucumber', 'courgette', 'pumpkin', 'butternut-squash', 'sweetcorn']],
+  ] },
+  { title: 'Salads, herbs and fruit', groups: [
+    ['Salads and leaves', ['lettuce', 'rocket', 'spinach', 'swiss-chard', 'spring-onion', 'pak-choi', 'lambs-lettuce']],
+    ['Herbs', ['basil', 'parsley', 'coriander', 'chives', 'mint', 'thyme', 'rosemary', 'dill']],
+    ['Fruit', ['strawberry', 'raspberry', 'rhubarb', 'blackcurrant', 'gooseberry', 'blueberry', 'apple']],
+  ] },
+];
+const PRINT_PDF = '/downloads/uk-sowing-calendar-homegrown-plate.pdf';
+const PRINT_PIN = '/downloads/uk-sowing-calendar-pin.png';
+
+function buildPrintable() {
+  const cropCount = PRINT_SHEETS.flatMap((s) => s.groups.flatMap(([, ids]) => ids)).length;
+  const legend = `<div class="legend ps-legend">
+  <span><i class="sw-ind"></i>Sow indoors</span>
+  <span><i class="sw-out"></i>Sow or plant outside</span>
+  <span><i class="sw-har"></i>Harvest</span>
+</div>`;
+  const sheet = (s, k) => {
+    const rows = s.groups.map(([label, ids]) => `<tr class="ps-group"><th scope="rowgroup" colspan="14">${esc(label)}</th></tr>
+      ${ids.map((id) => {
+        const p = plantMap.get(id); const c = CALENDAR[id];
+        if (!p || !c) throw new Error(`Printable calendar: unknown crop ${id}`);
+        const cells = MONTHS.map((_, m) => `<td>${c.i[m] === '1' ? '<span class="bar ind"></span>' : ''}${c.o[m] === '1' ? '<span class="bar out"></span>' : ''}${c.h[m] === '1' ? '<span class="bar har"></span>' : ''}</td>`).join('');
+        return `<tr><td class="ps-tick"><span aria-hidden="true"></span></td><th scope="row"><a href="/plants/${p.id}/">${esc(p.name)}</a></th>${cells}</tr>`;
+      }).join('\n      ')}`).join('\n      ');
+    return `<section class="ps-sheet" aria-labelledby="ps-${k}">
+  <header class="ps-head"><div><p class="ps-brand">Homegrown Plate</p><h2 id="ps-${k}">UK sowing calendar: ${esc(s.title.toLowerCase())}</h2></div>${legend}</header>
+  <div class="cal-wrap ps-wrap">
+    <table class="cal ps-cal">
+      <thead><tr><th scope="col" class="ps-tick"><span class="sr-only">Growing it</span>&#10003;</th><th scope="col">Crop</th>${MONTHS.map((m) => `<th scope="col">${m}</th>`).join('')}</tr></thead>
+      <tbody>
+      ${rows}
+      </tbody>
+    </table>
+  </div>
+  <p class="ps-foot">Tick the crops you are growing. Dates are typical for central England: about 2 weeks later in northern England, 4 weeks later in Scotland, and 2 to 4 weeks earlier in London and the mild south-west. More crops and dates for your area at homegrownplate.co.uk</p>
+</section>`;
+  };
+  const body = `
+<div class="ps-intro">
+<h1>Free printable UK sowing calendar</h1>
+<p class="lead">A free two-page calendar of when to sow, plant out and harvest ${cropCount} of the most popular vegetables, salads, herbs and fruit in the UK. Print it, stick it in the shed or on the fridge, and tick off what you are growing.</p>
+<p class="ps-actions"><a class="btn" href="${PRINT_PDF}" download>Download the PDF (A4)</a> <button type="button" class="btn ps-ghost" data-print>Print this page</button></p>
+<p class="muted small-note">The PDF is two A4 pages in landscape. To save paper, print in black and white: the bars stay in the same order (sow indoors on top, harvest at the bottom).</p>
+<h2>How to use it</h2>
+<p>Each row is a crop and each column is a month. A blue bar means sow seeds indoors, on a windowsill or in a greenhouse. A green bar means sow seeds outside, or plant out young plants. An orange bar means you can usually pick it that month.</p>
+<p>The dates suit most of England and Wales. If you are further north, start a little later. Further south, you can start a little earlier. For all ${PLANTS.length} crops, and dates adjusted for your postcode, use the <a href="/calendar/">full planting calendar</a>, or see <a href="/what-to-sow/">what to sow this month</a>.</p>
+</div>
+<div class="print-sheets">
+${PRINT_SHEETS.map(sheet).join('\n')}
+</div>
+<div class="ps-intro">
+<h2>Free to share</h2>
+<p>You are welcome to print copies for your allotment society, school garden or gardening club. If you share it online, please link to this page rather than the PDF, so people always get the latest version.</p>
+<p class="ps-pin"><img src="${PRINT_PIN}" width="500" height="750" alt="Preview of the free printable UK sowing calendar from Homegrown Plate" loading="lazy" decoding="async"></p>
+</div>`;
+  addPage({
+    path: '/printable-sowing-calendar/', section: 'calendar', body, image: PRINT_PIN, article: true,
+    title: 'Free printable UK sowing calendar (A4 PDF)',
+    description: `Free printable UK sowing calendar: when to sow, plant out and harvest ${cropCount} popular vegetables, salads, herbs and fruit, month by month. Two A4 pages.`,
+    crumbs: [['Home', '/'], ['Planting Calendar', '/calendar/'], ['Printable calendar', '/printable-sowing-calendar/']],
   });
 }
 
@@ -2333,6 +2406,7 @@ buildAbout();
 buildAdmin();
 buildMyGarden();
 buildCalendar();
+buildPrintable();
 buildGuides();
 buildArticles();
 build404();

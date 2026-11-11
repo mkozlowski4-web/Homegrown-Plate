@@ -1804,3 +1804,8 @@
     });
   }
 })();
+
+/* "Print this page" buttons (the printable sowing calendar). */
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.closest && e.target.closest('[data-print]')) window.print();
+});

@@ -1495,3 +1495,50 @@ main .g-crop-name, .g-crop-name { font-size: 1.05rem; font-weight: 600; color: v
   .g-crops-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; }
   #panel-coming { max-width: 760px; }
 }
+
+/* Free printable sowing calendar */
+.ps-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.ps-actions .btn { margin-top: 0; }
+.btn.ps-ghost { background: #fff; color: var(--green); border: 2px solid var(--green); font: inherit; font-weight: 600; cursor: pointer; }
+.btn.ps-ghost:hover { background: #f0f5f1; color: var(--green); }
+.print-sheets { margin: 24px 0; }
+.ps-sheet { margin: 0 0 28px; }
+.ps-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 6px 20px; }
+.ps-head h2 { margin: 0; font-size: 1.3rem; }
+.ps-brand { margin: 0; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--soil); }
+.ps-legend { margin: 0; }
+table.ps-cal { min-width: 680px; }
+table.ps-cal tr.ps-group th { background: #e6f4ec; color: var(--green); text-align: left; padding: 4px 10px; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+table.ps-cal td.ps-tick, table.ps-cal th.ps-tick { width: 26px; min-width: 26px; padding: 2px; color: #fff; }
+table.ps-cal td.ps-tick span { display: block; width: 12px; height: 12px; margin: 0 auto; border: 1.5px solid var(--muted); border-radius: 3px; }
+table.ps-cal .bar { height: 6px; margin: 2px 3px; }
+.ps-foot { font-size: .8rem; color: var(--muted); margin: 8px 0 0; }
+.ps-pin img { display: block; width: 100%; max-width: 340px; height: auto; border-radius: 12px; border: 1px solid var(--line); }
+
+@page sowsheet { size: A4 landscape; margin: 8mm 10mm; }
+@media print {
+  body:has(.print-sheets) .site-header, body:has(.print-sheets) .site-footer, body:has(.print-sheets) .skip,
+  main:has(.print-sheets) > :not(.print-sheets) { display: none !important; }
+  body:has(.print-sheets), main:has(.print-sheets) { background: #fff; padding: 0; margin: 0; max-width: none; }
+  .print-sheets { margin: 0; }
+  .ps-sheet { page: sowsheet; break-after: page; break-inside: avoid; margin: 0; }
+  .ps-sheet:last-child { break-after: auto; }
+  .ps-head h2 { font-size: 15pt; }
+  .ps-legend { font-size: 9pt; }
+  .ps-wrap { overflow: visible; border: 0; border-radius: 0; margin-top: 2.5mm; contain: none; }
+  table.ps-cal { min-width: 0; width: 100%; font-size: 8.5pt; line-height: 1.15; table-layout: fixed; }
+  table.ps-cal thead th.ps-tick { width: 6mm; }
+  table.ps-cal thead th:nth-child(2) { width: 36mm; }
+  table.ps-cal th, table.ps-cal td { padding: 0 2px; min-width: 0; }
+  table.ps-cal thead th { height: 5.5mm; }
+  table.ps-cal tbody tr > * { height: var(--ps-row, 4.55mm); }
+  table.ps-cal tbody tr.ps-group > * { height: 3.6mm; }
+  .ps-sheet + .ps-sheet { --ps-row: 5.6mm; }
+  table.ps-cal tbody th a { display: inline; min-height: 0; padding: 0; }
+  table.ps-cal tbody th { padding-left: 6px; }
+  table.ps-cal tbody th a { color: #1f2a24; }
+  table.ps-cal tr.ps-group th { font-size: 7pt; padding: 1px 6px; }
+  table.ps-cal .bar { height: 1.3mm; margin: .35mm 1mm; border-radius: 1mm; }
+  .ps-foot { font-size: 7.5pt; margin-top: 2mm; }
+  table.ps-cal, table.ps-cal * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
