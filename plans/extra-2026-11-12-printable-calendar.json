@@ -1,0 +1,35 @@
+{
+ "week_start": "2026-11-08",
+ "extra": true,
+ "posts": [
+  {
+   "id": "2026-11-12-pin-printable-calendar",
+   "kind": "pin",
+   "date": "2026-11-12",
+   "time": "12:30",
+   "due_utc": "2026-11-12T12:30:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_month",
+   "topic": "Free printable UK sowing calendar",
+   "url": "https://homegrownplate.co.uk/printable-sowing-calendar/",
+   "crops": [],
+   "channel_group": "pinterest",
+   "media": [],
+   "media_urls": [
+    "https://homegrownplate.co.uk/downloads/uk-sowing-calendar-pin.png"
+   ],
+   "ai_made": false,
+   "hook": {
+    "hook": "Free printable UK sowing calendar"
+   },
+   "captions": {
+    "pin_title": "Free printable UK sowing calendar (A4 PDF)",
+    "pin_description": "Free printable UK sowing calendar for 51 popular vegetables, salads, herbs and fruit. See when to sow indoors, sow or plant outside and harvest, month by month, on two A4 pages. Tick off what you're growing and pin it up in the shed or on the fridge. Free PDF at homegrownplate.co.uk/printable-sowing-calendar/"
+   },
+   "status": "ready",
+   "note": "One-off pin added by hand on 11 Nov 2026 for the new printable calendar page."
+  }
+ ]
+}
