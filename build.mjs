@@ -777,7 +777,7 @@ function gardenData() {
       return [base, ...types];
     }),
     recipes: RECIPES.map((r) => ({ id: r.id, t: r.title, m: r.time, u: r.uses })),
-    wk: WEEKEND_JOBS.map((jobs) => jobs.map(([tag, text]) => [tag, text])), /* general UK jobs by month, for My Garden without an account */
+    wk: WEEKEND_JOBS.map((jobs) => jobs.map(([tag, text, half = 0]) => [tag, text, half])), /* general UK jobs by month: [tag, text, half] */
   };
   const json = JSON.stringify(data);
   gardenMemo = { json, ver: createHash('sha1').update(json).digest('hex').slice(0, 8) };
@@ -817,71 +817,82 @@ function buildMyGarden() {
   const { json, ver } = gardenData();
   writeFileSync(join(DIST, 'assets', 'garden-data.json'), json);
   writeFileSync(join(DIST, 'assets', 'zones.json'), zonesData().json);
+  const pin = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
   const body = `
 <h1>My Garden</h1>
-<p class="lead">Add the crops you grow, up to 5 with no sign-up. <a href="/account/#create">Create a free account</a> for up to 8 crops on every device and a monthly plan for your own crops and area. <a href="/membership/">Members</a> can add as many crops as they like and get a week-ahead plan with the weather forecast.</p>
-<div class="callout acct-prompt" data-acct-prompt hidden><strong>Get a plan for your own crops.</strong> Create a free account for a monthly plan built from your garden and area, up to 8 crops, and your garden on every device. <a class="btn-small" href="/account/#create">Create a free account</a></div>
-<p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
-${regionBar()}
+<p class="lead">What to do this week for the crops you grow.</p>
 <noscript><p class="empty">My Garden needs JavaScript. You can still browse the <a href="/calendar/">planting calendar</a> and the <a href="/plants/">plant guide</a>.</p></noscript>
-<div id="myGarden" data-src="/assets/garden-data.json?v=${ver}" hidden>
-  <div class="tabs" role="tablist" aria-label="My Garden">
-    <button type="button" role="tab" class="tab" id="tab-weekend" aria-controls="panel-weekend" data-tab="weekend">This week</button>
-    <button type="button" role="tab" class="tab" id="tab-months" aria-controls="panel-months" data-tab="months">Jobs by month</button>
+<div id="myGarden" class="g-app" data-src="/assets/garden-data.json?v=${ver}" data-zones="/assets/zones.json?v=${zonesData().ver}" hidden>
+  <div class="g-setup">
+    <span class="g-setup-text">${pin}<span id="gSetupText">Typical dates for central England</span></span>
+    <button type="button" class="link-btn g-setup-change" id="gSetupChange" data-open-prefs aria-label="Change your area and garden size">Change</button>
+  </div>
+  <div class="tabs g-tabs" role="tablist" aria-label="My Garden">
+    <button type="button" role="tab" class="tab" id="tab-coming" aria-controls="panel-coming" data-tab="coming">Coming up</button>
     <button type="button" role="tab" class="tab" id="tab-crops" aria-controls="panel-crops" data-tab="crops">My crops <span class="count" id="gTabCount"></span></button>
   </div>
-  <div role="tabpanel" id="panel-weekend" aria-labelledby="tab-weekend" data-tabpanel="weekend" hidden>
-    <div class="wk-personal card" id="wkPersonal" data-garden="/assets/garden-data.json?v=${ver}" hidden aria-live="polite"></div>
-    <div class="callout wk-cta" id="wkCta" hidden></div>
-    <div id="wkGeneric" data-compact>
+
+  <div role="tabpanel" id="panel-coming" aria-labelledby="tab-coming" data-tabpanel="coming" hidden>
+    <section class="g-section" id="gWeek" aria-labelledby="gWeekTitle">
+      <div class="g-head"><h2 id="gWeekTitle">This week</h2><span class="muted" id="gWeekRange"></span></div>
+      <ul class="g-jobs" id="gWeekJobs"></ul>
+      <div class="g-nocrops" id="gNoCrops" hidden><p>Add the crops you grow and their jobs will show here, with dates for your area.</p><button type="button" class="btn-small" data-go-tab="crops">Add your crops</button></div>
+    </section>
+    <section class="g-best" id="gBest" aria-label="Best days for these jobs">
+      <div class="wk-personal card" id="wkPersonal" data-garden="/assets/garden-data.json?v=${ver}" data-title="Best days for these jobs" hidden aria-live="polite"></div>
+      <div class="g-locked" id="wkCta" data-locked hidden></div>
+      <div id="wkGeneric" data-compact data-keep-hidden hidden>
 ${wkSections()}
-    </div>
-    <p><a class="btn-small" href="/this-weekend/">See the full plan</a></p>
+      </div>
+    </section>
+    <section class="g-section" id="gMonth" aria-labelledby="gMonthTitle">
+      <h2 id="gMonthTitle"></h2>
+      <ul class="g-jobs" id="gJobs"></ul>
+      <p class="muted" id="gMonthEmpty" hidden></p>
+      <div class="g-month-nav">
+        <button type="button" class="g-month-btn" id="gPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span id="gPrevName"></span></button>
+        <button type="button" class="g-month-btn" id="gNext"><span id="gNextName"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+      <p class="g-month-lock" id="gMonthLock" role="status" hidden>Looking ahead to other months comes with a free account, and your garden is then saved on every device. <a href="/account/#create">Create a free account</a></p>
+      <p class="g-today-row"><button type="button" class="link-btn" id="gToday" hidden>Back to this month</button></p>
+      <p class="muted small-note">Tick jobs off as you go. Dates follow typical conditions for your area, so go by your weather and how the plants look too.</p>
+    </section>
+    <section class="g-section" aria-labelledby="gRecipeTitle">
+      <h2 id="gRecipeTitle">Cook what you&rsquo;re picking</h2>
+      <div class="grid g-recipes" id="gRecipes"></div>
+    </section>
   </div>
+
   <div role="tabpanel" id="panel-crops" aria-labelledby="tab-crops" data-tabpanel="crops" hidden>
-  <section class="starter" id="gStarter" aria-labelledby="gStarterTitle" hidden>
-    <div class="starter-head">
-      <h2 id="gStarterTitle">New here? Start with 5 easy crops</h2>
-      <p class="starter-line">Picked for a <label class="sr-only" for="gStarterSize">Garden size</label><select id="gStarterSize">${SIZES.map((z) => `<option value="${z.id}"${z.id === 'small' ? ' selected' : ''}>${esc(lower(z.short))}</option>`).join('')}</select> and easy to grow. You can add or remove crops any time.</p>
+    <section class="starter" id="gStarter" aria-labelledby="gStarterTitle" hidden>
+      <div class="starter-head">
+        <h2 id="gStarterTitle">New here? Start with 5 easy crops</h2>
+        <p class="starter-line">Picked for a <label class="sr-only" for="gStarterSize">Garden size</label><select id="gStarterSize">${SIZES.map((z) => `<option value="${z.id}"${z.id === 'small' ? ' selected' : ''}>${esc(lower(z.short))}</option>`).join('')}</select> and easy to grow. You can add or remove crops any time.</p>
+      </div>
+      <ul class="starter-list" id="gStarterList"></ul>
+      <p class="starter-actions"><button type="button" class="btn" id="gStarterAdd">Add these 5 crops</button><span class="muted">or search for your own below</span></p>
+    </section>
+    <p class="starter-done" id="gStarterDone" role="status" hidden></p>
+    <div class="g-crops-layout">
+      <div class="g-crops-col">
+        <ul class="g-crops" id="gSelected"></ul>
+        <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
+      </div>
+      <section class="card g-add" aria-labelledby="gPickTitle">
+        <div class="g-add-head"><h2 id="gPickTitle">Add a crop</h2><span class="muted" id="gFreeText"></span></div>
+        <p class="g-full-note" id="gFreeNote" hidden></p>
+        <label class="sr-only" for="gSearch">Search crops to add</label>
+        <input type="search" id="gSearch" placeholder="Search ${PLANTS.length} crops, for example tomato" autocomplete="off">
+        <p class="muted small-note" id="gHint">Popular crops:</p>
+        <ul class="garden-results" id="gResults"></ul>
+      </section>
     </div>
-    <ul class="starter-list" id="gStarterList"></ul>
-    <p class="starter-actions"><button type="button" class="btn" id="gStarterAdd">Add these 5 crops</button><span class="muted">or search for your own below</span></p>
-  </section>
-  <p class="starter-done" id="gStarterDone" role="status" hidden></p>
-  <div class="garden-layout">
-    <section class="card garden-picker" aria-labelledby="gPickTitle">
-      <h2 id="gPickTitle">Add crops</h2>
-      <label class="sr-only" for="gSearch">Search crops to add</label>
-      <input type="search" id="gSearch" placeholder="Search ${PLANTS.length} crops, for example tomato" autocomplete="off">
-      <p class="muted small-note" id="gHint">Popular crops to start with:</p>
-      <ul class="garden-results" id="gResults"></ul>
-    </section>
-    <section class="card garden-mine" aria-labelledby="gMineTitle">
-      <h2 id="gMineTitle">Your garden <span class="count" id="gCount"></span></h2>
-      <div class="free-meter" id="gFree" hidden><div class="fm-top"><span id="gFreeText"></span></div><span class="fm-bar" aria-hidden="true"><span class="fm-fill" id="gFreeFill"></span></span><p class="muted small-note" id="gFreeNote" hidden></p></div>
-      <p class="muted" id="gEmpty">Nothing here yet. Add a few crops on the left and your monthly jobs will appear below.</p>
-      <p class="muted small-note">Add a planting date to any crop to get suggested dates for its jobs and harvest. Sowing in batches? Add a date for each sowing.</p>
-      <ul class="garden-chips" id="gSelected"></ul>
-      <button type="button" class="chip chip-reset" id="gClear" hidden>Clear my garden</button>
-    </section>
   </div>
-  </div>
-  <div role="tabpanel" id="panel-months" aria-labelledby="tab-months" data-tabpanel="months" hidden>
-  <div class="month-nav">
-    <button type="button" class="chip" id="gPrev" aria-label="Previous month">&larr;</button>
-    <h2 id="gMonthTitle" aria-live="polite"></h2>
-    <button type="button" class="chip" id="gNext" aria-label="Next month">&rarr;</button>
-    <button type="button" class="chip" id="gToday" hidden>Back to this month</button>
-  </div>
-  <div id="gJobs" class="jobs-grid"></div>
-  <p class="muted small-note">Tick jobs off as you go and your ticks are remembered. Sowing and harvest months follow typical UK conditions, so adjust for your local frost dates and weather.</p>
-  <h2 id="gRecipeTitle">Recipes for this month</h2>
-  <div class="grid" id="gRecipes"></div>
-  </div>
+  <p class="muted acct-saved" data-acct-saved hidden>&#10003; Your garden is saved to your account. <a href="/account/">Account</a></p>
 </div>
 <script src="/assets/weekend.js?v=${assetVersion['weekend.js']}" defer></script>`;
   addPage({
-    path: '/my-garden/', section: 'garden', body, title: 'My Garden: monthly jobs and recipes for your crops',
+    path: '/my-garden/', section: 'garden', body, title: 'My Garden: jobs for your own crops, week by week',
     description: 'Add the crops you grow and get a checklist of what to sow, plant and harvest each month, plus recipes for what is ready. Free to start, no sign-up needed.',
     crumbs: [['Home', '/'], ['My Garden', '/my-garden/']],
   });
@@ -1952,13 +1963,13 @@ function buildMembership() {
     ['Every plant guide, recipe, calendar and preserving guide', yes, yes, yes],
     ['Dates adjusted for your area', yes, yes, yes],
     ['Crops in My Garden', 'Up to 5', 'Up to 8', '<strong>As many as you like</strong>'],
-    ['Monthly jobs', 'General UK jobs', 'For your own crops and area', 'For your own crops and area'],
+    ['Jobs for your own crops and area', 'This month', 'Any month, so you can plan ahead', 'Any month, so you can plan ahead'],
     ['Your garden on every device', no, yes, yes],
     ['Week-ahead plan: jobs for your crops with the forecast for your area and the best day for each one', no, no, yes],
   ];
   const body = `
 <h1>Membership</h1>
-<p class="lead">Everything on Homegrown Plate is free to read. A free account gives you a monthly plan for your own garden. Membership adds a plan for the week ahead, built around the weather, and room for every crop you grow.</p>
+<p class="lead">Everything on Homegrown Plate is free to read, and My Garden shows this month&rsquo;s jobs for your own crops. A free account lets you plan ahead month by month and keeps your garden on every device. Membership adds a plan for the week ahead, built around the weather, and room for every crop you grow.</p>
 <div class="mem-actions card" data-member-actions data-price="${MEMBER_PRICE}" aria-live="polite"><p class="muted">Loading&hellip;</p></div>
 <div class="table-wrap"><table class="mem-table">
   <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">No account</th><th scope="col">Free account</th><th scope="col">Member<br><span class="mem-price">${MEMBER_PRICE}</span></th></tr></thead>

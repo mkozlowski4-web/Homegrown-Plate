@@ -44,7 +44,7 @@ Custom domains are `homegrownplate.co.uk` (the canonical address used in page ta
 
 ## Membership and payments
 
-What each kind of visitor gets is set out on `/membership/`. In short: no account means up to 5 crops in My Garden and general monthly jobs; a free account means up to 8 crops, a monthly plan for their own crops and area, and their garden on every device; members (£12 a year) get unlimited crops and the week-ahead plan with the forecast and best days for each job. The 8-crop limit and the week-ahead forecast are enforced by the Worker, not just the page.
+What each kind of visitor gets is set out on `/membership/`. In short: no account means up to 5 crops in My Garden and this month's jobs for their own crops and area; a free account means up to 8 crops, jobs for any month (to plan ahead), and their garden on every device; members (£12 a year) get unlimited crops and the week-ahead plan with the forecast and best days for each job. The 8-crop limit and the week-ahead forecast are enforced by the Worker, not just the page.
 
 Payments use Stripe Checkout and the Stripe customer portal (`src/worker/billing.mjs`). Until all three settings below exist, the site says membership is opening soon and nothing can be bought.
 
