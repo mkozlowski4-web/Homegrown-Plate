@@ -611,7 +611,7 @@
      From the date and the crop's timings (garden-data.json "tm") we suggest dates for its jobs and harvest. ---- */
   var Plantings = (function () {
     var PKEY = 'hp-garden-plantings', DAY = 86400000;
-    var HOW = { i: 'Sown indoors', o: 'Sown outside', p: 'Planted out' };
+    var HOW = { i: 'Sowed indoors', o: 'Sowed outside', p: 'Planted out' };
     var valid = function (x) { return x && typeof x === 'object' && typeof x.k === 'string' && typeof x.id === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x.d) && !!HOW[x.w]; };
     var load = function () { try { var v = JSON.parse(localStorage.getItem(PKEY) || '[]'); return Array.isArray(v) ? v.filter(valid) : []; } catch (e) { return []; } };
     var save = function (list) { try { localStorage.setItem(PKEY, JSON.stringify(list)); } catch (e) { /* storage unavailable */ } };
@@ -674,7 +674,7 @@
       jobs.sort(function (x, y) { return x.d - y.d; });
       return { jobs: jobs, harvest: harvest };
     };
-    var label = function (pl, lower) { var t = HOW[pl.w] + ' ' + fmt(parse(pl.d), parse(pl.d).getFullYear() !== new Date().getFullYear()); return lower ? t.charAt(0).toLowerCase() + t.slice(1) : t; };
+    var label = function (pl, lower) { var t = HOW[pl.w] + ' on ' + fmt(parse(pl.d), parse(pl.d).getFullYear() !== new Date().getFullYear()); return lower ? t.charAt(0).toLowerCase() + t.slice(1) : t; };
     /* Month bits for a crop shifted for a region offset (used by the week plan) */
     var regionize = function (p, off) {
       var o = {}, k; for (k in p) o[k] = p[k];
@@ -738,29 +738,185 @@
   var gRoot = $('#myGarden');
   if (gRoot) {
     var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var POPULAR = ['tomato', 'potato', 'strawberry', 'courgette', 'bean', 'carrot', 'basil', 'kale', 'lettuce', 'mint', 'apple', 'garlic'];
     var gData = null, byId = {};
     var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var weekEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
     var view = { y: now.getFullYear(), m: now.getMonth() };
+    var isNowView = function () { return view.y === now.getFullYear() && view.m === now.getMonth(); };
     var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
-    var doneKey = function () { return 'hp-garden-done-' + view.y + '-' + view.m; };
-    var loadDone = function () { try { var v = JSON.parse(localStorage.getItem(doneKey()) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
-    var saveDone = function (list) { try { localStorage.setItem(doneKey(), JSON.stringify(list)); } catch (e) { /* ignore */ } };
-    var gSearch = $('#gSearch'), gResults = $('#gResults'), gHint = $('#gHint');
-    var gSelected = $('#gSelected'), gEmpty = $('#gEmpty'), gCount = $('#gCount'), gClear = $('#gClear');
-    var gJobs = $('#gJobs'), gRecipes = $('#gRecipes');
+    var svgIcon = function (path, size) { var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('width', size || 16); s.setAttribute('height', size || 16); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor'); s.setAttribute('stroke-width', '2'); s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true'); var p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', path); s.appendChild(p); return s; };
 
-    var plantImgEl = function (p) { var i = el('img'); i.src = p.img; i.alt = ''; i.width = 36; i.height = 36; i.loading = 'lazy'; return i; };
+    /* Ticked jobs are kept per month ('hp-garden-done-<year>-<month>'), which is also what accounts sync */
+    var doneKeyFor = function (y, m) { return 'hp-garden-done-' + y + '-' + m; };
+    var loadDoneFor = function (y, m) { try { var v = JSON.parse(localStorage.getItem(doneKeyFor(y, m)) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+    var setDone = function (y, m, id, on) {
+      var d = loadDoneFor(y, m), at = d.indexOf(id);
+      if (on && at < 0) d.push(id); else if (!on && at > -1) d.splice(at, 1);
+      try { localStorage.setItem(doneKeyFor(y, m), JSON.stringify(d)); } catch (e) { /* ignore */ }
+    };
+
+    var gSearch = $('#gSearch'), gResults = $('#gResults'), gHint = $('#gHint');
+    var gSelected = $('#gSelected'), gClear = $('#gClear');
+    var gWeek = $('#gWeek'), gWeekJobs = $('#gWeekJobs'), gWeekRange = $('#gWeekRange'), gNoCrops = $('#gNoCrops'), gBest = $('#gBest');
+    var gJobs = $('#gJobs'), gMonthEmpty = $('#gMonthEmpty'), gMonthLock = $('#gMonthLock'), gRecipes = $('#gRecipes');
+    var gFreeText = $('#gFreeText'), gFreeNote = $('#gFreeNote');
+
+    var plantImgEl = function (p, size) { var i = el('img'); i.src = p.img; i.alt = ''; i.width = size || 36; i.height = size || 36; i.loading = 'lazy'; return i; };
+    var myCrops = function () { return garden.map(function (id) { return byId[id]; }).filter(Boolean); };
+
+    /* Month ranges in plain words, for example "Feb–Apr" */
+    var monthsText = function (bits) {
+      if (!/1/.test(bits)) return '';
+      if (!/0/.test(bits)) return 'all year';
+      var out = [], k, start = -1, s = 0; while (bits.charAt(s) === '1') s++; /* start after a gap so runs over the new year stay whole */
+      for (k = 0; k <= 12; k++) {
+        var m = (s + k) % 12, isOn = k < 12 && bits.charAt(m) === '1';
+        if (isOn && start < 0) start = m;
+        if (!isOn && start > -1) { var last = (m + 11) % 12; out.push(SHORT_MONTHS[start] + (last !== start ? '–' + SHORT_MONTHS[last] : '')); start = -1; }
+      }
+      return out.join(' and ');
+    };
+    /* Crops that are planted rather than sown (sets, cloves, tubers, young plants) */
+    var plantedCrop = function (p) { return !!(p.tm && (p.tm.from === 'p' || !p.tm.w)); };
+    var lowerFirst = function (t) { return t.charAt(0).toLowerCase() + t.slice(1); };
+
+    /* ---- Jobs for the crops in My Garden in one month ----
+       Each job: { id (as stored when ticked), y, m (the month it is stored under), d (a date, for jobs from planting dates),
+       p (crop), pl (planting), text, rank (order within the list) } */
+    var cropJobs = function (y, m) {
+      var mine = myCrops(), pls = Plantings.load(), out = [];
+      var mStart = new Date(y, m, 1), mEnd = new Date(y, m + 1, 0), recent = Plantings.addDays(mStart, -300);
+      var datedHarv = {};
+      pls.forEach(function (pl) {
+        var p = byId[pl.id]; if (!p || garden.indexOf(pl.id) < 0) return;
+        Plantings.schedule(p, pl, pls).jobs.forEach(function (j) {
+          if (j.d < mStart || j.d > mEnd) return;
+          if (j.t === 'harv') datedHarv[p.id] = true;
+          out.push({ id: 'pl:' + pl.k + ':' + j.t, y: y, m: m, d: j.d, p: p, pl: pl, t: j.t, text: j.text + '.', rank: 0 });
+        });
+      });
+      mine.forEach(function (p) {
+        var mp = pls.filter(function (q) { return q.id === p.id; });
+        /* Once a crop has a sowing or planting date this season, its dated jobs replace the general "sow" and "plant" ones */
+        var started = mp.some(function (q) { return Plantings.parse(q.d) >= recent; });
+        /* Skip the general "sow" or "plant" job when one of the crop's own care jobs this month already says it */
+        var careSays = (p.c || []).some(function (t) { return t[0].charAt(m) === '1' && /^(sow|plant)\b/i.test(t[1]); });
+        if (!started && !careSays) {
+          if (p.i.charAt(m) === '1') out.push({ id: p.id + ':i', y: y, m: m, p: p, text: 'Sow seeds indoors or under cover.', rank: 2 });
+          if (p.o.charAt(m) === '1') out.push({ id: p.id + ':o', y: y, m: m, p: p, text: plantedCrop(p) ? 'Plant outside.' : 'Sow seeds or plant outside.', rank: 3 });
+        }
+        var harvesting = !mp.length ? p.h.charAt(m) === '1' : mp.some(function (pl) {
+          var h = Plantings.schedule(p, pl, pls).harvest; if (!h) return false;
+          if (h.season) return mEnd >= h.from && p.h.charAt(m) === '1';
+          return h.from <= mEnd && (h.until || h.to) >= mStart;
+        });
+        if (harvesting && !datedHarv[p.id]) out.push({ id: p.id + ':h', y: y, m: m, p: p, text: p.tm && p.tm.keep ? 'Ready to pick.' : 'Ready to harvest.', rank: 1 });
+        (p.c || []).forEach(function (t, idx) { if (t[0].charAt(m) === '1') out.push({ id: p.id + ':c' + idx, y: y, m: m, p: p, text: t[1], rank: 4 }); });
+      });
+      return out;
+    };
+    var sortJobs = function (list) {
+      return list.sort(function (a, b) {
+        if (a.d && b.d) return a.d - b.d;
+        if (a.d && !b.d) return a.d <= weekEnd ? -1 : 1;
+        if (!a.d && b.d) return b.d <= weekEnd ? 1 : -1;
+        return a.rank - b.rank || a.p.n.localeCompare(b.p.n);
+      });
+    };
+    /* General UK jobs for the month (all of them, or just the current half of the month) */
+    var generalJobs = function (y, m, halfOnly) {
+      var half = now.getDate() >= 15 ? 2 : 1;
+      return (gData.wk[m] || []).map(function (g, idx) { return { id: 'g:' + idx, y: y, m: m, gen: true, text: g[1], half: g[2] || 0 }; })
+        .filter(function (g) { return !halfOnly || !g.half || g.half === half; });
+    };
+
+    var jobRow = function (j) {
+      var li = el('li', 'g-job' + (j.gen ? ' is-general' : ''));
+      var cid = 'gj-' + j.y + '-' + j.m + '-' + j.id.replace(/[^a-z0-9]/gi, '_');
+      var cb = el('input'); cb.type = 'checkbox'; cb.id = cid; cb.checked = loadDoneFor(j.y, j.m).indexOf(j.id) > -1;
+      cb.addEventListener('change', function () { setDone(j.y, j.m, j.id, cb.checked); li.classList.toggle('is-done', cb.checked); });
+      li.classList.toggle('is-done', cb.checked);
+      var lab = el('label'); lab.setAttribute('for', cid);
+      var top = j.gen ? 'Whole garden' : j.p.n;
+      if (j.d) top += ' · ' + (j.d < today && !cb.checked ? 'was due ' : 'about ') + Plantings.fmt(j.d);
+      lab.appendChild(el('span', 'g-job-crop', top));
+      lab.appendChild(el('span', 'g-job-text', j.text));
+      if (j.pl) lab.appendChild(el('span', 'g-job-from', 'From your ' + (j.pl.w === 'p' ? 'planting' : 'sowing') + ' on ' + Plantings.fmt(Plantings.parse(j.pl.d))));
+      li.appendChild(cb); li.appendChild(lab);
+      return li;
+    };
+    var fillList = function (ul, list) { ul.textContent = ''; list.forEach(function (j) { ul.appendChild(jobRow(j)); }); ul.hidden = !list.length; };
+    var rangeText = function (a, b) { return a.getMonth() === b.getMonth() ? a.getDate() + ' to ' + b.getDate() + ' ' + SHORT_MONTHS[b.getMonth()] : Plantings.fmt(a) + ' to ' + Plantings.fmt(b); };
+
+    /* ---- The "Coming up" tab ---- */
+    var renderComing = function () {
+      var cur = isNowView(), m = view.m, mine = myCrops(), month = [];
+      gWeek.hidden = !cur; gBest.hidden = !cur;
+      gToday.hidden = cur;
+      gMonthLock.hidden = true;
+      gPrevName.textContent = MONTH_NAMES[(m + 11) % 12]; gNextName.textContent = MONTH_NAMES[(m + 1) % 12];
+      gPrev.setAttribute('aria-label', 'Jobs for ' + MONTH_NAMES[(m + 11) % 12]); gNext.setAttribute('aria-label', 'Jobs for ' + MONTH_NAMES[(m + 1) % 12]);
+      if (cur) {
+        gWeekRange.textContent = rangeText(today, weekEnd);
+        var jobs = cropJobs(view.y, m);
+        if (weekEnd.getMonth() !== m) jobs = jobs.concat(cropJobs(weekEnd.getFullYear(), weekEnd.getMonth()).filter(function (j) { return j.d && j.d <= weekEnd; }));
+        /* This week: anything dated up to a week ahead, plus what to pick, sow and plant now.
+           Care jobs, which can be done any time in the month, go under "Also in <month>" with the later dated jobs. */
+        var week = sortJobs(jobs.filter(function (j) { return j.d ? j.d <= weekEnd : j.rank < 4; }));
+        var gen = generalJobs(view.y, m, true);
+        fillList(gWeekJobs, week.concat(mine.length ? gen.slice(0, 2) : gen));
+        gNoCrops.hidden = mine.length > 0;
+        month = sortJobs(jobs.filter(function (j) { return j.d ? j.d > weekEnd && j.m === m : j.rank === 4; })).sort(function (a, b) { return (a.d ? 0 : 1) - (b.d ? 0 : 1); });
+        $('#gMonthTitle').textContent = 'Also in ' + MONTH_NAMES[m];
+        gMonthEmpty.textContent = mine.length ? 'Nothing else for your crops this month.' : '';
+      } else {
+        month = mine.length ? sortJobs(cropJobs(view.y, m)).sort(function (a, b) { return (a.d ? 0 : 1) - (b.d ? 0 : 1); }) : generalJobs(view.y, m, false);
+        $('#gMonthTitle').textContent = 'Jobs for ' + MONTH_NAMES[m] + ' ' + view.y;
+        gMonthEmpty.textContent = 'Nothing to do for your crops this month.';
+      }
+      fillList(gJobs, month);
+      gMonthEmpty.hidden = month.length > 0 || !gMonthEmpty.textContent;
+      renderRecipes(mine, m);
+    };
+
+    var renderRecipes = function (mine, m) {
+      gRecipes.textContent = '';
+      var inGarden = {}, inHarvest = {};
+      mine.forEach(function (p) { inGarden[p.b || p.id] = true; });
+      cropJobs(view.y, m).forEach(function (j) { if (j.id.slice(-2) === ':h' || j.t === 'harv') inHarvest[j.p.b || j.p.id] = true; });
+      var season = {};
+      if (!mine.length) gData.plants.forEach(function (p) { if (!p.v && p.h.charAt(m) === '1') season[p.id] = true; });
+      var scored = gData.recipes.map(function (r) {
+        var hv = r.u.filter(function (u) { return inHarvest[u]; }), gd = r.u.filter(function (u) { return inGarden[u]; }), sn = r.u.filter(function (u) { return season[u]; });
+        return { r: r, hv: hv, gd: gd, sn: sn, score: hv.length * 3 + gd.length + sn.length };
+      }).filter(function (s) { return s.score > 0; }).sort(function (a, b) { return b.score - a.score || a.r.t.localeCompare(b.r.t); }).slice(0, 4);
+      $('#gRecipeTitle').textContent = !mine.length ? 'In season in ' + MONTH_NAMES[m] : isNowView() ? 'Cook what you’re picking' : 'Recipes for ' + MONTH_NAMES[m];
+      if (!scored.length) { gRecipes.appendChild(el('p', 'muted', 'No recipes match your crops yet. Add more crops to get ideas.')); return; }
+      scored.forEach(function (s) {
+        var a = el('a', 'card card-link'); a.href = '/recipes/' + s.r.id + '/';
+        a.appendChild(el('h3', null, s.r.t));
+        a.appendChild(el('p', 'muted card-meta', s.r.m));
+        var uses = (s.hv.length ? s.hv : s.gd.length ? s.gd : s.sn).filter(function (u) { return byId[u]; });
+        if (uses.length) a.appendChild(el('p', 'muted small-note', (mine.length ? 'Uses your ' : 'Uses ') + uses.map(function (u) { return byId[u].n.toLowerCase(); }).join(' and ')));
+        gRecipes.appendChild(a);
+      });
+    };
+
+    /* ---- The "My crops" tab ---- */
+    var askFor = null, askFresh = false; /* crop whose "when did you sow or plant it?" form is open, and whether it was just added */
+    var refresh = function () { renderResults(); renderMine(); renderComing(); markGarden(); };
 
     var renderResults = function () {
-      var term = gSearch.value.trim().toLowerCase();
-      var list;
+      var term = gSearch.value.trim().toLowerCase(), list;
       if (term) {
         list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 40);
         gHint.textContent = list.length ? 'Matching crops:' : 'No crops match that search.';
       } else {
         list = POPULAR.map(function (id) { return byId[id]; }).filter(Boolean);
-        gHint.textContent = 'Popular crops to start with:';
+        gHint.textContent = 'Popular crops:';
       }
       gResults.textContent = '';
       list.forEach(function (p) {
@@ -774,34 +930,96 @@
         b.type = 'button'; b.disabled = full;
         b.setAttribute('aria-pressed', String(has));
         b.setAttribute('aria-label', (has ? 'Remove ' : 'Add ') + p.n + (has ? ' from' : ' to') + ' my garden');
-        b.addEventListener('click', function () { toggle(p.id); });
+        b.addEventListener('click', function () { toggle(p.id, !has); });
         li.appendChild(b);
         gResults.appendChild(li);
       });
     };
 
-    /* Month ranges in plain words, for example "Feb–Apr" */
-    var SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var monthsText = function (bits) {
-      if (!/1/.test(bits)) return '';
-      if (!/0/.test(bits)) return 'all year';
-      var out = [], k, start = -1, s = 0; while (bits.charAt(s) === '1') s++; /* start after a gap so runs over the new year stay whole */
-      for (k = 0; k <= 12; k++) {
-        var m = (s + k) % 12, isOn = k < 12 && bits.charAt(m) === '1';
-        if (isOn && start < 0) start = m;
-        if (!isOn && start > -1) { var last = (m + 11) % 12; out.push(SHORT_MONTHS[start] + (last !== start ? '–' + SHORT_MONTHS[last] : '')); start = -1; }
-      }
-      return out.join(' and ');
+    var WAYS = {
+      i: ['Sowed seeds indoors', 'On a windowsill, in a greenhouse or under cover'],
+      o: ['Sowed seeds outside', 'Straight into the ground, a bed or a pot outdoors'],
+      p: ['Planted outside', 'Young plants, onion sets, garlic cloves, tubers or bare-root plants'],
     };
-    var openForm = null; /* crop id whose "add a planting date" form is open */
-    var refresh = function () { renderResults(); renderMine(); renderMonth(); markGarden(); };
+    var waysFor = function (p) {
+      var hasIn = /1/.test(p.i), hasOut = /1/.test(p.o), out = [];
+      if (hasIn) out.push('i');
+      if (hasOut || !hasIn) { if (!plantedCrop(p) || !hasOut) out.push('o'); out.push('p'); }
+      return out;
+    };
+    /* Whichever way of starting the crop comes round next */
+    var likelyWay = function (p, ways) {
+      var m = now.getMonth(), k;
+      for (k = 0; k < 12; k++) { var mm = (m + k) % 12; if (p.i.charAt(mm) === '1' && ways.indexOf('i') > -1) return 'i'; if (p.o.charAt(mm) === '1') return plantedCrop(p) && ways.indexOf('p') > -1 ? 'p' : ways.indexOf('o') > -1 ? 'o' : ways[0]; }
+      return ways[0];
+    };
+
+    var askForm = function (p, fresh) {
+      var uid = 'ask-' + p.id.replace(/[^a-z0-9]/g, '');
+      var f = el('form', 'g-ask');
+      f.setAttribute('aria-labelledby', uid + '-t');
+      if (fresh) {
+        var added = el('p', 'g-ask-added'); added.appendChild(svgIcon('M20 6L9 17l-5-5', 16)); added.appendChild(document.createTextNode(' ' + p.n + ' added'));
+        f.appendChild(added);
+      }
+      f.appendChild(el('h3', null, fresh ? 'Have you sowed or planted it yet?' : 'When did you sow or plant it?')).id = uid + '-t';
+      f.appendChild(el('p', 'muted g-ask-why', 'Tell us when and we’ll work out each job and when it should be ready.'));
+      var fs = el('fieldset', 'g-ask-ways'); var lg = el('legend', 'sr-only', 'How did you start it?'); fs.appendChild(lg);
+      var ways = waysFor(p), opts = (fresh ? ['none'] : []).concat(ways), pick = fresh ? 'none' : likelyWay(p, ways);
+      var dateBox = el('div', 'g-ask-date');
+      var dl = el('label', null, 'Date'); dl.setAttribute('for', uid + '-d');
+      var row = el('div', 'g-ask-date-row');
+      var di = el('input'); di.type = 'date'; di.id = uid + '-d';
+      var tb = el('button', 'chip', 'Today'); tb.type = 'button';
+      tb.addEventListener('click', function () { di.value = Plantings.iso(now); });
+      row.appendChild(di); row.appendChild(tb);
+      dateBox.appendChild(dl); dateBox.appendChild(row);
+      var save = el('button', 'btn-small', ''); save.type = 'submit';
+      var paint = function () {
+        Array.prototype.forEach.call(fs.querySelectorAll('.g-way'), function (w) { w.classList.toggle('is-on', w.querySelector('input').checked); });
+        dateBox.hidden = pick === 'none'; di.required = pick !== 'none';
+        save.textContent = pick === 'none' ? 'Done' : 'Save date';
+      };
+      opts.forEach(function (w) {
+        var lab = el('label', 'g-way');
+        var r = el('input'); r.type = 'radio'; r.name = uid + '-w'; r.value = w; r.checked = w === pick;
+        r.addEventListener('change', function () { pick = w; paint(); if (w !== 'none') di.focus(); });
+        var txt = el('span', 'g-way-text');
+        txt.appendChild(el('span', 'g-way-label', w === 'none' ? 'Not yet' : WAYS[w][0]));
+        txt.appendChild(el('span', 'g-way-help', w === 'none' ? 'Its jobs follow the usual months for your area' : WAYS[w][1]));
+        lab.appendChild(r); lab.appendChild(txt); fs.appendChild(lab);
+      });
+      f.appendChild(fs);
+      f.appendChild(dateBox);
+      var hints = [];
+      if (/1/.test(p.i)) hints.push('sow indoors ' + monthsText(p.i));
+      if (/1/.test(p.o)) hints.push((plantedCrop(p) ? 'plant outside ' : 'sow or plant outside ') + monthsText(p.o));
+      if (hints.length) f.appendChild(el('p', 'g-ask-usual', 'Usual times in your area: ' + hints.join(', ') + '.'));
+      if (p.tm && p.tm.again) f.appendChild(el('p', 'muted small-note', 'For a steady supply, sow a little every ' + (p.tm.again === 1 ? 'week' : p.tm.again + ' weeks') + ' and add each sowing as its own date.'));
+      var acts = el('div', 'g-ask-actions');
+      acts.appendChild(save);
+      var skip = el('button', 'link-btn', fresh ? 'Skip, I’ll add it later' : 'Cancel'); skip.type = 'button';
+      skip.addEventListener('click', function () { askFor = null; renderMine(); });
+      acts.appendChild(skip);
+      f.appendChild(acts);
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (pick !== 'none') {
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(di.value)) { di.focus(); return; }
+          var l = Plantings.load(); l.push({ k: Plantings.newKey(), id: p.id, d: di.value, w: pick }); Plantings.save(l);
+        }
+        askFor = null; refresh();
+      });
+      paint();
+      return f;
+    };
 
     var plantingRow = function (p, pl, all) {
-      var s = Plantings.schedule(p, pl, all), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var s = Plantings.schedule(p, pl, all);
       var li = el('li', 'g-planting');
       var top = el('div', 'g-pl-top');
       top.appendChild(el('strong', null, Plantings.label(pl)));
-      var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove the ' + p.n.toLowerCase() + ' planting from ' + Plantings.label(pl, true));
+      var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove the ' + p.n.toLowerCase() + ' date: ' + Plantings.label(pl, true));
       x.addEventListener('click', function () { Plantings.save(Plantings.load().filter(function (q) { return q.k !== pl.k; })); refresh(); });
       top.appendChild(x);
       li.appendChild(top);
@@ -832,103 +1050,85 @@
       return li;
     };
 
-    var plantingForm = function (p) {
-      var f = el('form', 'g-pl-form');
-      var uid = 'pl-' + p.id.replace(/[^a-z0-9]/g, '');
-      var dl = el('label', null, 'Date'); dl.setAttribute('for', uid + '-d');
-      var di = el('input'); di.type = 'date'; di.id = uid + '-d'; di.required = true; di.value = Plantings.iso(now);
-      var wl = el('label', null, 'How'); wl.setAttribute('for', uid + '-w');
-      var ws = el('select'); ws.id = uid + '-w';
-      var hasIn = /1/.test(p.i), hasOut = /1/.test(p.o);
-      [['i', 'Sown indoors or under cover'], ['o', 'Sown outside'], ['p', 'Planted out (young plants, sets, tubers or bare-root)']].forEach(function (o) {
-        if (o[0] === 'i' && !hasIn) return;
-        if (o[0] !== 'i' && !hasOut && hasIn) return;
-        var op = el('option', null, o[1]); op.value = o[0]; ws.appendChild(op);
-      });
-      var m = now.getMonth();
-      /* Default to whichever way of starting the crop comes round next */
-      var pick = ws.options[0].value, k;
-      for (k = 0; k < 12; k++) { var mm = (m + k) % 12; if (p.i.charAt(mm) === '1') { pick = 'i'; break; } if (p.o.charAt(mm) === '1') { pick = p.tm && (p.tm.from === 'p' || !p.tm.w) ? 'p' : 'o'; break; } }
-      ws.value = pick;
-      if (!ws.value && ws.options.length) ws.value = ws.options[0].value;
-      var row = el('div', 'g-pl-fields');
-      var c1 = el('div'); c1.appendChild(dl); c1.appendChild(di); row.appendChild(c1);
-      var c2 = el('div'); c2.appendChild(wl); c2.appendChild(ws); row.appendChild(c2);
-      f.appendChild(row);
-      var hints = [];
-      if (hasIn) hints.push('sow indoors ' + monthsText(p.i));
-      if (hasOut) hints.push('sow or plant outside ' + monthsText(p.o));
-      if (hints.length) f.appendChild(el('p', 'muted small-note', 'Usual times in your area: ' + hints.join(', ') + '.'));
-      if (p.tm && p.tm.again) f.appendChild(el('p', 'muted small-note', 'For a steady supply, sow a little every ' + (p.tm.again === 1 ? 'week' : p.tm.again + ' weeks') + ' and add each sowing as its own date.'));
-      var acts = el('p', 'g-pl-actions');
-      var ok = el('button', 'btn-small', 'Add date'); ok.type = 'submit'; acts.appendChild(ok);
-      var cancel = el('button', 'link-btn', 'Cancel'); cancel.type = 'button';
-      cancel.addEventListener('click', function () { openForm = null; renderMine(); });
-      acts.appendChild(cancel);
-      f.appendChild(acts);
-      f.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(di.value)) { di.focus(); return; }
-        var l = Plantings.load(); l.push({ k: Plantings.newKey(), id: p.id, d: di.value, w: ws.value }); Plantings.save(l);
-        openForm = null; refresh();
-      });
-      return f;
+    /* One line on where a crop is up to, and its next job */
+    var cropStatus = function (p, mineP, pls, thisMonth) {
+      var sub, next = '';
+      if (mineP.length) {
+        var past = mineP.filter(function (q) { return Plantings.parse(q.d) <= today; });
+        var pl = past.length ? past[past.length - 1] : mineP[0];
+        var h = Plantings.schedule(p, pl, pls).harvest;
+        sub = Plantings.label(pl);
+        if (h) sub += ' · ' + (h.from <= today ? 'ready now' : 'ready about ' + MONTH_NAMES[h.from.getMonth()] + (h.from.getFullYear() !== now.getFullYear() ? ' ' + h.from.getFullYear() : ''));
+        var upcoming = [];
+        mineP.forEach(function (q) { Plantings.schedule(p, q, pls).jobs.forEach(function (j) { if (j.t !== 'harv' && j.d >= today) upcoming.push(j); }); });
+        upcoming.sort(function (a, b) { return a.d - b.d; });
+        if (upcoming.length) next = 'Next: ' + lowerFirst(upcoming[0].text) + ', ' + (upcoming[0].d <= weekEnd ? 'this week' : 'about ' + Plantings.fmt(upcoming[0].d));
+      } else {
+        sub = 'Not started yet';
+        if (p.h.charAt(now.getMonth()) === '1') sub = 'Usually ready ' + monthsText(p.h);
+        else if (/1/.test(p.i)) sub += ' · sow indoors ' + monthsText(p.i);
+        else if (/1/.test(p.o)) sub += ' · ' + (plantedCrop(p) ? 'plant ' : 'sow ') + monthsText(p.o);
+      }
+      if (!next) {
+        var tj = thisMonth.filter(function (j) { return j.p === p && !j.d; }).sort(function (a, b) { return a.rank - b.rank; })[0];
+        if (tj) next = (tj.rank === 1 ? 'Now: ' : 'This month: ') + lowerFirst(tj.text.replace(/\.$/, ''));
+      }
+      return { sub: sub, next: next };
     };
 
     var renderMine = function () {
       gSelected.textContent = '';
-      var mine = garden.map(function (id) { return byId[id]; }).filter(Boolean);
-      var pls = Plantings.load();
+      var mine = myCrops(), pls = Plantings.load(), thisMonth = cropJobs(now.getFullYear(), now.getMonth());
       mine.forEach(function (p) {
-        var li = el('li', 'g-crop');
+        var li = el('li', 'g-crop card'); li.id = 'crop-' + p.id.replace(/[^a-z0-9-]/g, '');
+        var mineP = pls.filter(function (q) { return q.id === p.id; }).sort(function (q, r) { return q.d < r.d ? -1 : q.d > r.d ? 1 : 0; });
+        var st = cropStatus(p, mineP, pls, thisMonth);
         var head = el('div', 'g-crop-head');
-        head.appendChild(plantImgEl(p));
-        var a = el('a', null, p.n); a.href = '/plants/' + (p.b || p.id) + '/' + (p.a ? '#' + p.a : ''); head.appendChild(a);
-        var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + p.n);
+        head.appendChild(plantImgEl(p, 44));
+        var who = el('div', 'g-crop-who');
+        var a = el('a', 'g-crop-name', p.n); a.href = '/plants/' + (p.b || p.id) + '/' + (p.a ? '#' + p.a : ''); who.appendChild(a);
+        who.appendChild(el('span', 'g-crop-sub', st.sub));
+        head.appendChild(who);
+        var x = el('button', 'g-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + p.n + ' from my garden');
         x.addEventListener('click', function () {
-          if (pls.some(function (q) { return q.id === p.id; }) && !window.confirm('Remove ' + p.n.toLowerCase() + ' and its planting dates from your garden?')) return;
-          toggle(p.id);
+          if (mineP.length && !window.confirm('Remove ' + p.n.toLowerCase() + ' and its dates from your garden?')) return;
+          toggle(p.id, false);
         });
         head.appendChild(x);
         li.appendChild(head);
-        var mineP = pls.filter(function (q) { return q.id === p.id; }).sort(function (q, r) { return q.d < r.d ? -1 : q.d > r.d ? 1 : 0; });
-        if (mineP.length) { var ul = el('ul', 'g-plantings'); mineP.forEach(function (pl) { ul.appendChild(plantingRow(p, pl, pls)); }); li.appendChild(ul); }
-        if (openForm === p.id) li.appendChild(plantingForm(p));
+        if (st.next) li.appendChild(el('p', 'g-next', st.next));
+        if (askFor === p.id) li.appendChild(askForm(p, askFresh));
         else {
-          var addD = el('button', 'link-btn g-add-date', mineP.length ? '+ Add another planting date' : '+ Add a planting date'); addD.type = 'button';
-          addD.setAttribute('aria-label', 'Add a planting date for ' + p.n.toLowerCase());
-          addD.addEventListener('click', function () { openForm = p.id; renderMine(); var fi = $('#pl-' + p.id.replace(/[^a-z0-9]/g, '') + '-d'); if (fi) fi.focus(); });
+          var addD = el('button', mineP.length ? 'link-btn g-add-date' : 'g-start', mineP.length ? (p.tm && p.tm.again ? '+ Add another sowing' : '+ Add another date') : 'Add when you sowed or planted it');
+          addD.type = 'button';
+          addD.addEventListener('click', function () { askFor = p.id; askFresh = false; renderMine(); var f = $('#' + li.id + ' input[type=radio]:checked'); if (f) f.focus(); });
           li.appendChild(addD);
+        }
+        if (mineP.length) {
+          var det = el('details', 'g-dates');
+          det.appendChild(el('summary', null, mineP.length === 1 ? 'All dates for this crop' : 'All ' + mineP.length + ' dates for this crop'));
+          var ul = el('ul', 'g-plantings'); mineP.forEach(function (pl) { ul.appendChild(plantingRow(p, pl, pls)); }); det.appendChild(ul);
+          li.appendChild(det);
         }
         gSelected.appendChild(li);
       });
-      gEmpty.hidden = mine.length > 0;
       gClear.hidden = mine.length === 0;
-      gCount.textContent = mine.length ? '(' + mine.length + ')' : '';
       if (gStarter) { gStarter.hidden = mine.length > 0; if (!mine.length) renderStarter(); }
-      var acctP = $('[data-acct-prompt]'); if (acctP) acctP.hidden = Acct.signedIn() || !mine.length;
-      if (gFree) {
-        var lim = Plan.limit();
-        gFree.hidden = lim === Infinity || !mine.length;
-        if (lim !== Infinity) {
-          var n = Math.min(mine.length, lim);
-          $('#gFreeText').textContent = mine.length + ' of ' + lim + ' crops' + (Plan.signedIn() ? ' on a free account' : '');
-          $('#gFreeFill').style.width = Math.round(n / lim * 100) + '%';
-          var note = $('#gFreeNote'); note.hidden = mine.length < lim; note.textContent = '';
-          if (mine.length >= lim) {
-            note.appendChild(document.createTextNode((mine.length > lim
-              ? 'You have ' + mine.length + ' crops, more than the ' + lim + ' you can add on ' + (Plan.signedIn() ? 'a free account' : 'this device without an account') + '. You keep them all, but remove some to add new ones. '
-              : 'Your garden is full. Remove a crop to add another, or ')));
-            var nl = Plan.nextLink(), na = el('a', null, nl[0].charAt(0).toLowerCase() + nl[0].slice(1)); na.href = nl[1]; note.appendChild(na);
-            note.appendChild(document.createTextNode(Plan.signedIn() ? ' for unlimited crops.' : ' for up to 8.'));
-          }
-          gFree.classList.toggle('is-full', mine.length >= lim);
-        }
+      var lim = Plan.limit();
+      gFreeText.textContent = lim === Infinity ? (mine.length ? mine.length + (mine.length === 1 ? ' crop' : ' crops') : '') : mine.length + ' of ' + lim + ' crops' + (Plan.signedIn() ? ' on a free account' : '');
+      gFreeNote.hidden = lim === Infinity || mine.length < lim;
+      gFreeNote.textContent = '';
+      if (!gFreeNote.hidden) {
+        gFreeNote.appendChild(document.createTextNode(mine.length > lim
+          ? 'You have ' + mine.length + ' crops, more than the ' + lim + ' you can add ' + (Plan.signedIn() ? 'on a free account' : 'without an account') + '. You keep them all, but remove some to add new ones. '
+          : 'Your garden is full. Remove a crop to add another, or '));
+        var nl = Plan.nextLink(), na = el('a', null, lowerFirst(nl[0])); na.href = nl[1]; gFreeNote.appendChild(na);
+        gFreeNote.appendChild(document.createTextNode(Plan.signedIn() ? ' for as many as you like.' : ' for up to 8 crops, saved on every device.'));
       }
     };
 
     /* Empty garden: a one-tap starter set of easy crops for the chosen size */
-    var gStarter = $('#gStarter'), gFree = $('#gFree'), gStarterSize = $('#gStarterSize'), gStarterList = $('#gStarterList'), gStarterDone = $('#gStarterDone');
+    var gStarter = $('#gStarter'), gStarterSize = $('#gStarterSize'), gStarterList = $('#gStarterList'), gStarterDone = $('#gStarterDone');
     var STARTER_ORDER = ['potato', 'strawberry', 'lettuce', 'courgette', 'bean', 'radish', 'garlic', 'pea', 'broad-bean', 'kale', 'spinach', 'rocket', 'beetroot', 'onion', 'basil', 'mint', 'chives', 'parsley', 'spring-onion', 'chard', 'swiss-chard', 'microgreens'];
     var starterPicks = function () {
       var size = gStarterSize ? gStarterSize.value : 'small', kids = document.documentElement.hasAttribute('data-kids');
@@ -954,208 +1154,64 @@
     var gStarterAdd = $('#gStarterAdd');
     if (gStarterAdd) gStarterAdd.addEventListener('click', function () {
       var picks = starterPicks().filter(function (p) { if (garden.indexOf(p.id) > -1 || atLimit(garden)) return false; garden.push(p.id); return true; });
-      saveGarden(garden); renderResults(); renderMine(); renderMonth(); markGarden();
+      saveGarden(garden); refresh();
       if (gStarterDone) {
         gStarterDone.textContent = '';
-        gStarterDone.appendChild(document.createTextNode('Added ' + picks.map(function (p) { return p.n.toLowerCase(); }).join(', ') + '. '));
-        var go = el('button', 'link-btn', 'See this month\u2019s jobs \u2192'); go.type = 'button';
-        go.addEventListener('click', function () { var t = $('#tab-months'); if (t) t.click(); window.scrollTo({ top: 0 }); });
+        gStarterDone.appendChild(document.createTextNode('Added ' + picks.map(function (p) { return p.n.toLowerCase(); }).join(', ') + '. Already sowed or planted some? Add the date on each crop. '));
+        var go = el('button', 'link-btn', 'See this week’s jobs →'); go.type = 'button';
+        go.addEventListener('click', function () { if (window.hpGardenTab) window.hpGardenTab('coming'); window.scrollTo({ top: 0 }); });
         gStarterDone.appendChild(go); gStarterDone.hidden = false;
       }
     });
 
-    var jobCard = function (title, hint, plants, type, done) {
-      var card = el('section', 'card job-card');
-      card.appendChild(el('h3', null, title));
-      card.appendChild(el('p', 'muted small-note', hint));
-      var ul = el('ul', 'job-list');
-      if (!plants.length) ul.appendChild(el('li', 'none', 'Nothing to do here this month.'));
-      plants.forEach(function (p) {
-        var id = p.id + ':' + type;
-        var li = el('li');
-        var lab = el('label');
-        var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
-        cb.addEventListener('change', function () {
-          var d = loadDone(); var at = d.indexOf(id);
-          if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1);
-          saveDone(d);
-        });
-        lab.appendChild(cb);
-        lab.appendChild(el('span', null, p.n));
-        li.appendChild(lab);
-        ul.appendChild(li);
-      });
-      card.appendChild(ul);
-      return card;
-    };
-
-    var careCard = function (mine, m, done) {
-      var card = el('section', 'card job-card care-card');
-      card.appendChild(el('h3', null, 'Care jobs'));
-      card.appendChild(el('p', 'muted small-note', 'Watering, feeding, pruning and protecting your crops this month.'));
-      var ul = el('ul', 'job-list');
-      var count = 0, missing = 0;
-      mine.forEach(function (p) {
-        if (!p.c || !p.c.length) { missing++; return; }
-        p.c.forEach(function (t, idx) {
-          if (t[0].charAt(m) !== '1') return;
-          count++;
-          var id = p.id + ':c' + idx;
-          var li = el('li');
-          var lab = el('label');
-          var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
-          cb.addEventListener('change', function () {
-            var d = loadDone(); var at = d.indexOf(id);
-            if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1);
-            saveDone(d);
-          });
-          lab.appendChild(cb);
-          var sp = el('span', 'care-text');
-          var strong = el('strong', null, p.n + ': ');
-          sp.appendChild(strong);
-          sp.appendChild(document.createTextNode(t[1]));
-          lab.appendChild(sp);
-          li.appendChild(lab);
-          ul.appendChild(li);
-        });
-      });
-      if (!count) ul.appendChild(el('li', 'none', 'No care jobs for your crops this month.'));
-      card.appendChild(ul);
-      if (missing) card.appendChild(el('p', 'muted small-note', 'Care jobs are still being written for ' + missing + (missing === 1 ? ' of your crops' : ' of your crops') + '. More are added regularly.'));
-      return card;
-    };
-
-    var renderMonth = function () {
-      var m = view.m;
-      var isNow = view.y === now.getFullYear() && m === now.getMonth();
-      $('#gMonthTitle').textContent = MONTH_NAMES[m] + ' ' + view.y;
-      $('#gToday').hidden = isNow;
-      $('#gRecipeTitle').textContent = 'Recipes for ' + MONTH_NAMES[m];
-      var mine = garden.map(function (id) { return byId[id]; }).filter(Boolean);
-      var done = loadDone();
-      gJobs.textContent = '';
-      gRecipes.textContent = '';
-      if (!Plan.signedIn()) { renderGeneralMonth(m, done); return; }
-      if (!mine.length) {
-        gJobs.appendChild(el('p', 'empty', 'Add some crops to see your jobs for ' + MONTH_NAMES[m] + '.'));
-        return;
-      }
-      var at = function (key) { return mine.filter(function (p) { return p[key].charAt(m) === '1'; }); };
-      /* Crops with planting dates are ready when one of their plantings is; others follow the usual months */
-      var pls = Plantings.load(), mStart = new Date(view.y, m, 1), mEnd = new Date(view.y, m + 1, 0);
-      var harvest = mine.filter(function (p) {
-        var mp = pls.filter(function (q) { return q.id === p.id; });
-        if (!mp.length) return p.h.charAt(m) === '1';
-        return mp.some(function (pl) {
-          var h = Plantings.schedule(p, pl, pls).harvest; if (!h) return false;
-          if (h.season) return mEnd >= h.from && p.h.charAt(m) === '1';
-          return h.from <= mEnd && (h.until || h.to) >= mStart;
-        });
-      });
-      var dated = [];
-      pls.forEach(function (pl) {
-        var p = byId[pl.id]; if (!p || garden.indexOf(pl.id) < 0) return;
-        Plantings.schedule(p, pl, pls).jobs.forEach(function (j) { if (j.d >= mStart && j.d <= mEnd) dated.push({ p: p, pl: pl, j: j }); });
-      });
-      if (dated.length) {
-        dated.sort(function (x, y) { return x.j.d - y.j.d; });
-        var dc = el('section', 'card job-card dated-card');
-        dc.appendChild(el('h3', null, 'From your planting dates'));
-        dc.appendChild(el('p', 'muted small-note', 'Suggested dates worked out from when you sowed or planted. Go by how the plants look too.'));
-        var dul = el('ul', 'job-list');
-        dated.forEach(function (x) {
-          var id = 'pl:' + x.pl.k + ':' + x.j.t, li = el('li'), lab = el('label');
-          var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
-          cb.addEventListener('change', function () { var d = loadDone(); var k = d.indexOf(id); if (cb.checked && k < 0) d.push(id); else if (!cb.checked && k > -1) d.splice(k, 1); saveDone(d); });
-          lab.appendChild(cb);
-          var sp = el('span', 'care-text');
-          sp.appendChild(el('strong', null, Plantings.fmt(x.j.d) + ', ' + x.p.n + ' (' + Plantings.label(x.pl, true) + '): '));
-          sp.appendChild(document.createTextNode(x.j.text.charAt(0).toLowerCase() + x.j.text.slice(1) + '.'));
-          lab.appendChild(sp); li.appendChild(lab); dul.appendChild(li);
-        });
-        dc.appendChild(dul);
-        gJobs.appendChild(dc);
-      }
-      gJobs.appendChild(jobCard('Sow indoors', 'Start under cover on a windowsill or in a greenhouse.', at('i'), 'i', done));
-      gJobs.appendChild(jobCard('Sow or plant outside', 'Direct sow, or plant out young plants, bare-root trees and bushes.', at('o'), 'o', done));
-      gJobs.appendChild(jobCard('Harvest', 'Ready to pick or lift this month.', harvest, 'h', done));
-      gJobs.appendChild(careCard(mine, m, done));
-
-      var inGarden = {}, inHarvest = {};
-      mine.forEach(function (p) { inGarden[p.b || p.id] = true; });
-      harvest.forEach(function (p) { inHarvest[p.b || p.id] = true; });
-      var scored = gData.recipes.map(function (r) {
-        var hv = r.u.filter(function (u) { return inHarvest[u]; });
-        var gd = r.u.filter(function (u) { return inGarden[u]; });
-        return { r: r, hv: hv, gd: gd, score: hv.length * 3 + gd.length };
-      }).filter(function (s) { return s.score > 0; }).sort(function (a, b) { return b.score - a.score || a.r.t.localeCompare(b.r.t); }).slice(0, 6);
-      if (!scored.length) {
-        gRecipes.appendChild(el('p', 'empty', 'No recipes match your crops yet. Add more crops to get ideas.'));
-        return;
-      }
-      scored.forEach(function (s) {
-        var a = el('a', 'card card-link'); a.href = '/recipes/' + s.r.id + '/';
-        a.appendChild(el('h3', null, s.r.t));
-        a.appendChild(el('p', 'muted card-meta', s.r.m));
-        var tags = el('p', 'card-tags');
-        s.gd.forEach(function (u) { tags.appendChild(el('span', 'tag' + (inHarvest[u] ? '' : ' warm'), byId[u].e + ' ' + byId[u].n + (inHarvest[u] ? ' (in season)' : ''))); });
-        a.appendChild(tags);
-        gRecipes.appendChild(a);
-      });
-    };
-
-    /* Without an account: the month's general UK jobs and in-season recipes, and an invitation to sign up
-       for a plan built from their own crops and area. */
-    var WK_TAG = { dry: 'Needs a dry day', wet: 'Fine in damp weather', indoor: 'Indoors or under cover', frost: 'Only if frost is forecast', any: 'Any weather' };
-    var renderGeneralMonth = function (m, done) {
-      var invite = el('div', 'callout month-invite');
-      invite.appendChild(el('strong', null, 'Want a plan for your own crops? '));
-      invite.appendChild(document.createTextNode('Create a free account and this page lists what to sow, plant, harvest and look after each month for the crops in your garden, with dates for your area. '));
-      var go = el('a', 'btn-small', 'Create a free account'); go.href = '/account/#create'; invite.appendChild(go);
-      gJobs.appendChild(invite);
-      var card = el('section', 'card job-card care-card');
-      card.appendChild(el('h3', null, 'Jobs for ' + MONTH_NAMES[m] + ' in a typical UK garden'));
-      card.appendChild(el('p', 'muted small-note', 'General jobs for the time of year. Pick the ones that suit your plot.'));
-      var ul = el('ul', 'job-list');
-      (gData.wk[m] || []).forEach(function (j, idx) {
-        var id = 'g:' + idx, li = el('li'), lab = el('label');
-        var cb = el('input'); cb.type = 'checkbox'; cb.checked = done.indexOf(id) > -1;
-        cb.addEventListener('change', function () { var d = loadDone(); var at = d.indexOf(id); if (cb.checked && at < 0) d.push(id); else if (!cb.checked && at > -1) d.splice(at, 1); saveDone(d); });
-        lab.appendChild(cb);
-        var sp = el('span', 'care-text', j[1] + ' '); sp.appendChild(el('span', 'wk-tag wk-' + j[0], WK_TAG[j[0]] || '')); lab.appendChild(sp);
-        li.appendChild(lab); ul.appendChild(li);
-      });
-      card.appendChild(ul);
-      gJobs.appendChild(card);
-      $('#gRecipeTitle').textContent = 'Recipes in season in ' + MONTH_NAMES[m];
-      var season = {}; gData.plants.forEach(function (p) { if (!p.v && p.h.charAt(m) === '1') season[p.id] = true; });
-      gData.recipes.map(function (r) { return { r: r, n: r.u.filter(function (u) { return season[u]; }).length }; })
-        .filter(function (x) { return x.n > 0; }).sort(function (a, b) { return b.n - a.n || a.r.t.localeCompare(b.r.t); }).slice(0, 6)
-        .forEach(function (x) {
-          var a = el('a', 'card card-link'); a.href = '/recipes/' + x.r.id + '/';
-          a.appendChild(el('h3', null, x.r.t)); a.appendChild(el('p', 'muted card-meta', x.r.m));
-          var tags = el('p', 'card-tags'); x.r.u.filter(function (u) { return season[u] && byId[u]; }).forEach(function (u) { tags.appendChild(el('span', 'tag', byId[u].e + ' ' + byId[u].n)); });
-          a.appendChild(tags); gRecipes.appendChild(a);
-        });
-    };
-
-    var toggle = function (id) {
+    /* add: true to add, false to remove. A crop added here opens the "have you planted it yet?" question. */
+    var toggle = function (id, add) {
       var at = garden.indexOf(id);
-      if (at < 0 && atLimit(garden)) return;
-      if (at > -1) { garden.splice(at, 1); dropPlantings(id); if (openForm === id) openForm = null; } else garden.push(id);
+      if (add && at < 0) {
+        if (atLimit(garden)) return;
+        garden.push(id); askFor = id; askFresh = true;
+      } else if (!add && at > -1) {
+        garden.splice(at, 1); dropPlantings(id); if (askFor === id) askFor = null;
+      } else return;
       saveGarden(garden);
       if (gStarterDone && garden.length === 0) gStarterDone.hidden = true;
-      renderResults(); renderMine(); renderMonth(); markGarden();
+      refresh();
+      if (add) {
+        var card = $('#crop-' + id.replace(/[^a-z0-9-]/g, ''));
+        if (card) { card.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); var r = card.querySelector('input[type=radio]'); if (r) r.focus({ preventScroll: true }); }
+      }
     };
+
+    /* "Dates for your area · garden size · Change" */
+    var setupText = $('#gSetupText');
+    var paintSetup = function () {
+      var r = Region.current(), zSel = $('[data-prefs-zone]'), sSel = $('[data-prefs-size]');
+      var zo = r && zSel && r.z ? zSel.querySelector('option[value="' + r.z + '"]') : null;
+      var area = r ? (zo && zo.getAttribute('data-short')) || r.name : '';
+      var sz = Size.get(), so = sz && sSel ? sSel.querySelector('option[value="' + sz + '"]') : null;
+      var size = so ? so.textContent.trim().toLowerCase() : '';
+      setupText.textContent = (area ? 'Dates for ' + area : 'Typical dates for central England') + (size ? ' · ' + size : '');
+    };
+    $('#gSetupChange').addEventListener('click', function () { if (window.hpOpenPrefs) window.hpOpenPrefs(); });
+    paintSetup();
+    Region.onChange(paintSetup);
+    document.addEventListener('hp-size', paintSetup);
 
     gSearch.addEventListener('input', renderResults);
     gClear.addEventListener('click', function () {
-      if (window.confirm('Remove every crop and planting date from your garden?')) { garden = []; saveGarden(garden); Plantings.save([]); renderResults(); renderMine(); renderMonth(); }
+      if (window.confirm('Remove every crop and date from your garden?')) { garden = []; saveGarden(garden); Plantings.save([]); askFor = null; refresh(); }
     });
-    var shift = function (d) { view.m += d; if (view.m < 0) { view.m = 11; view.y--; } if (view.m > 11) { view.m = 0; view.y++; } renderMonth(); };
-    $('#gPrev').addEventListener('click', function () { shift(-1); });
-    $('#gNext').addEventListener('click', function () { shift(1); });
-    $('#gToday').addEventListener('click', function () { view = { y: now.getFullYear(), m: now.getMonth() }; renderMonth(); });
+    var gPrev = $('#gPrev'), gNext = $('#gNext'), gToday = $('#gToday'), gPrevName = $('#gPrevName'), gNextName = $('#gNextName');
+    /* Looking at other months comes with an account */
+    var shift = function (d) {
+      if (!Plan.signedIn()) { gMonthLock.hidden = false; return; }
+      view.m += d; if (view.m < 0) { view.m = 11; view.y--; } if (view.m > 11) { view.m = 0; view.y++; }
+      renderComing();
+    };
+    gPrev.addEventListener('click', function () { shift(-1); });
+    gNext.addEventListener('click', function () { shift(1); });
+    gToday.addEventListener('click', function () { view = { y: now.getFullYear(), m: now.getMonth() }; renderComing(); var t = $('#gWeek'); if (t) t.scrollIntoView({ block: 'start' }); });
+    Array.prototype.forEach.call(gRoot.querySelectorAll('[data-go-tab]'), function (b) { b.addEventListener('click', function () { if (window.hpGardenTab) window.hpGardenTab(b.getAttribute('data-go-tab')); }); });
 
     fetch(gRoot.getAttribute('data-src')).then(function (r) { return r.json(); }).then(function (d) {
       gData = d;
@@ -1170,11 +1226,13 @@
         });
       };
       regionize();
-      Region.onChange(function () { regionize(); renderMonth(); });
+      Region.onChange(function () { regionize(); renderMine(); renderComing(); });
       garden = loadGarden().filter(function (id) { return byId[id]; });
       gRoot.hidden = false;
-      renderResults(); renderMine(); renderMonth();
-      document.addEventListener('hp-plan', function () { renderResults(); renderMine(); renderMonth(); });
+      refresh();
+      document.addEventListener('hp-plan', refresh);
+      /* The garden can change in the background (signing in pulls the saved one) */
+      window.addEventListener('storage', function (e) { if (e.key === KEY || e.key === Plantings.KEY) { garden = loadGarden().filter(function (id) { return byId[id]; }); refresh(); } });
     }).catch(function () {
       gRoot.hidden = false;
       gRoot.textContent = 'Sorry, My Garden could not load. Please refresh the page.';
@@ -1604,7 +1662,7 @@
               box.appendChild(button(box, 'Keep my membership' + (price ? ', ' + price : ''), 'btn', '/api/checkout'));
             }
           } else if (!u) {
-            box.appendChild(mk('p', null, on ? 'Membership is linked to an account, so create a free account (or sign in) first, then come back here to join.' : 'Membership opens soon. In the meantime, a free account gives you a monthly plan for your own crops.'));
+            box.appendChild(mk('p', null, on ? 'Membership is linked to an account, so create a free account (or sign in) first, then come back here to join.' : 'Membership opens soon. In the meantime, a free account lets you plan ahead month by month for your own crops.'));
             var c2 = mk('a', 'btn', 'Create a free account'); c2.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : '') + '#create'; box.appendChild(c2);
             box.appendChild(document.createTextNode(' ')); var si = mk('a', null, 'Sign in'); si.href = '/account/' + (linkCode ? '?code=' + encodeURIComponent(linkCode) : ''); box.appendChild(si);
             box.appendChild(mk('p', 'muted small-note', 'Got a code for free member access? Create an account or sign in, and you can enter it on your account page.'));
@@ -1679,14 +1737,16 @@
   window.addEventListener('appinstalled', function () { if (installBox) installBox.hidden = true; if (installedMsg) installedMsg.hidden = false; });
 })();
 
-/* My Garden tabs */
+/* My Garden tabs: "Coming up" and "My crops" */
 (function () {
   var wrap = document.getElementById('myGarden');
   if (!wrap) return;
   var tabs = [].slice.call(wrap.querySelectorAll('[data-tab]'));
   var panels = [].slice.call(wrap.querySelectorAll('[data-tabpanel]'));
   if (!tabs.length) return;
+  var OLD = { weekend: 'coming', months: 'coming' }; /* earlier tab names in saved links */
   function show(name, focus) {
+    name = OLD[name] || name;
     tabs.forEach(function (t) {
       var on = t.getAttribute('data-tab') === name;
       t.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -1696,6 +1756,7 @@
     panels.forEach(function (p) { p.hidden = p.getAttribute('data-tabpanel') !== name; });
     try { history.replaceState(null, '', '#' + name); } catch (e) {}
   }
+  window.hpGardenTab = function (name) { show(name); };
   function count() {
     try { var g = JSON.parse(localStorage.getItem('hp-garden') || '[]'); return Array.isArray(g) ? g.length : 0; } catch (e) { return 0; }
   }
@@ -1709,8 +1770,13 @@
     });
   });
   var h = (location.hash || '').slice(1);
+  h = OLD[h] || h;
   var ok = tabs.some(function (t) { return t.getAttribute('data-tab') === h; });
-  show(ok ? h : (count() ? 'weekend' : 'crops'));
+  show(ok ? h : (count() ? 'coming' : 'crops'));
+  window.addEventListener('hashchange', function () {
+    var n = (location.hash || '').slice(1); n = OLD[n] || n;
+    if (tabs.some(function (t) { return t.getAttribute('data-tab') === n; })) show(n);
+  });
   /* count badge */
   var badge = document.getElementById('gTabCount');
   function upd() { var n = count(); if (badge) badge.textContent = n ? '(' + n + ')' : ''; }

@@ -9,7 +9,7 @@
   var cta = document.getElementById('wkCta');
   var compact = root.hasAttribute('data-compact'); /* home page and My Garden panel: a short version */
   /* The month's general list is shown unless the member's week plan (which already includes those jobs) is on screen. */
-  function showGeneric(on) { root.hidden = !on; }
+  function showGeneric(on) { root.hidden = !on || root.hasAttribute('data-keep-hidden'); }
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -40,10 +40,27 @@
     }
   });
 
+  /* My Garden: a quiet preview of the week-ahead plan for anyone who is not a member */
+  function lockedCard() {
+    var head = el('div', 'g-locked-head');
+    head.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+    head.appendChild(el('h2', null, personal.getAttribute('data-title') || 'Best days for these jobs'));
+    cta.appendChild(head);
+    var days = el('div', 'g-locked-days'); days.setAttribute('aria-hidden', 'true');
+    var d = new Date();
+    for (var k = 1; k <= 4; k++) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + k); var b = el('span', 'g-locked-day'); b.appendChild(el('span', null, SHORT[x.getDay()])); b.appendChild(el('i')); days.appendChild(b); }
+    cta.appendChild(days);
+    cta.appendChild(el('p', null, 'Members see the weather for their area and which day suits each job, with a reminder the evening before a frost.'));
+    var a = el('a', 'g-locked-btn', signedIn() ? 'Become a member, \u00a312 a year' : 'See membership, \u00a312 a year'); a.href = '/membership/';
+    cta.appendChild(a);
+    cta.hidden = false;
+  }
+
   /* ---- Invitation for visitors who are not members ---- */
   function showCta() {
     personal.hidden = true; showGeneric(true);
     cta.textContent = '';
+    if (cta.hasAttribute('data-locked')) { lockedCard(); return; }
     cta.appendChild(el('strong', null, 'Plan the week ahead. '));
     cta.appendChild(document.createTextNode('Members get this week’s jobs for their own crops, the forecast for their area, and the best days to do each job. '));
     var a = el('a', 'btn-small', signedIn() ? 'Become a member' : 'See membership'); a.href = '/membership/';
@@ -235,8 +252,10 @@
     var general = withSg(genericTasks(dates));
 
     if (compact) {
+      if (personal.getAttribute('data-title')) personal.insertBefore(el('h2', 'wk-best-title', personal.getAttribute('data-title')), personal.firstChild);
       var top = mine.concat(general).filter(function (j) { return j.sg.days.length; }).slice(0, 4);
       if (top.length) { var cu = el('ul', 'wk-checks wk-jobs'); top.forEach(function (j) { cu.appendChild(jobRow(j)); }); personal.appendChild(cu); }
+      if (personal.getAttribute('data-title')) { var fp = el('p'); var fa = el('a', 'btn-small', 'See the full week'); fa.href = '/this-weekend/'; fp.appendChild(fa); personal.appendChild(fp); }
       personal.hidden = false; return;
     }
     var section = function (title, hint, list, empty) {
