@@ -60,5 +60,19 @@
   },
   "recipe:burger-bowl": {
     "alt": "A Cajun burger bowl topped with spiced potatoes, beef mince, lettuce, cherry tomatoes, grated cheese and burger sauce"
+  },
+  "popcorn": {
+    "alt": "Two home-grown popcorn cobs, dried to a deep orange, with the silks still on",
+    "credit": "Photo: Mark K.",
+    "more": [
+      {
+        "file": "popcorn-kernels.jpg",
+        "alt": "A bowl of dried popcorn kernels twisted off home-grown cobs",
+        "caption": "Once the cobs are fully dry, twist the kernels off with your thumbs and keep them in a jar."
+      }
+    ]
+  },
+  "recipe:stovetop-popcorn": {
+    "alt": "A saucepan full of freshly popped home-grown popcorn"
   }
 }
