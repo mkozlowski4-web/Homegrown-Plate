@@ -166,7 +166,9 @@
    "usable": true,
    "confidence": 0.95,
    "classified_by": "gemini",
-   "used": []
+   "used": [
+    "2026-11-15"
+   ]
   },
   {
    "id": "20261106-1amlM97j",
@@ -245,6 +247,68 @@
    "best_second": 0.0,
    "usable": true,
    "confidence": 0.5,
+   "classified_by": "gemini",
+   "used": [
+    "2026-11-16"
+   ]
+  },
+  {
+   "id": "20261114-1gzkkAvu",
+   "drive_id": "1gzkkAvu99sb79fgWkh2WA5aWdXcbNpIg",
+   "name": "homegrown-popcorn-cover.jpg",
+   "kind": "photo",
+   "added": "2026-11-14",
+   "shot": "2026-11-12T20:11:36.638Z",
+   "seconds": 0,
+   "width": null,
+   "height": null,
+   "crop": "popcorn",
+   "task": "pick",
+   "recipe": null,
+   "description": "Two dried home-grown popcorn cobs sitting on a kitchen countertop.",
+   "best_second": 0.0,
+   "usable": true,
+   "confidence": 0.95,
+   "classified_by": "gemini",
+   "used": []
+  },
+  {
+   "id": "20261114-1gT9ptsm",
+   "drive_id": "1gT9ptsmbq-yQjR1YN4spWIgxvdrGTdKV",
+   "name": "homegrown-popcorn-reel.mp4",
+   "kind": "clip",
+   "added": "2026-11-14",
+   "shot": "2026-11-12T20:11:22.977Z",
+   "seconds": 16.5,
+   "width": 1080,
+   "height": 1920,
+   "crop": "popcorn",
+   "task": "cook",
+   "recipe": "stovetop-popcorn",
+   "description": "Home-grown popcorn kernels are popped on the stovetop in a covered saucepan.",
+   "best_second": 9.9,
+   "usable": true,
+   "confidence": 1.0,
+   "classified_by": "gemini",
+   "used": []
+  },
+  {
+   "id": "20261114-1mACJpLY",
+   "drive_id": "1mACJpLY4Hy7z3taHtRuU7bKij88Z_ljo",
+   "name": "planting-garlic-in-a-pot-reel-HQ.mp4",
+   "kind": "clip",
+   "added": "2026-11-14",
+   "shot": "2026-11-10T13:40:53.281Z",
+   "seconds": 32.9,
+   "width": 1080,
+   "height": 1920,
+   "crop": "garlic",
+   "task": "sow",
+   "recipe": null,
+   "description": "A person planting garlic cloves in a pot filled with compost and watering them.",
+   "best_second": 11.5,
+   "usable": true,
+   "confidence": 1.0,
    "classified_by": "gemini",
    "used": []
   }
