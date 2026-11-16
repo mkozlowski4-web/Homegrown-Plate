@@ -116,6 +116,12 @@ const plantPageTitle = (p) => {
 };
 /* Leave off " | Homegrown Plate" when it would push a title past 65 characters. */
 const withinTitle = (t) => ({ title: t, fullTitle: `${t} | Homegrown Plate`.length > 65 });
+/* Pest titles: the first of these that fits in about 60 characters, keeping the other name in brackets where possible. */
+const pestPageTitle = (name) => {
+  const short = name.replace(/\s*\(.*\)$/, '');
+  const tries = [`${name}: how to spot, prevent and treat`, `${name}: spot, prevent and treat`, `${short}: how to spot, prevent and treat`, `${short}: spot, prevent and treat`];
+  return tries.find((t) => t.length <= 60) || tries[tries.length - 1];
+};
 const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : /\s\(.*\)$/.test(t) ? t.replace(/\s(\(.*\))$/, ' recipe $1') : `${t} recipe`);
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
@@ -1176,7 +1182,7 @@ ${affected.length ? `<h2>Crops it affects</h2>
 <p class="card-tags">${affected.map(plantLink).join('')}</p>` : ''}
 <p class="muted small-note">If you choose to use any treatment, use only products approved for UK home gardens, follow the label and avoid spraying open flowers. See all <a href="/pests/">pests and diseases</a>.</p>`;
     addPage({
-      path: `/pests/${e.id}/`, section: 'pests', body: body2, title: `${e.name}: how to spot, prevent and treat`, article: true,
+      path: `/pests/${e.id}/`, section: 'pests', body: body2, ...withinTitle(pestPageTitle(e.name)), article: true,
       description: firstFit([
         `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name)} in a UK garden.`,
         `${e.summary} How to spot, prevent and treat ${lowerFirst(e.name).replace(/\s*\(.*\)$/, '')} in a UK garden.`,
@@ -1811,7 +1817,7 @@ ${section('Ready to harvest', harvest, `Nothing is ready to harvest in ${name}. 
 <p class="muted small-note">Tap any crop for full sowing, growing and harvesting advice.</p>
 <p><a href="/what-to-sow/${monthSlug(prev)}/">&larr; ${FULL_MONTHS[prev]}</a> &middot; <a href="/what-to-sow/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-preserve/${monthSlug(m)}/">What to preserve in ${name}</a> &middot; <a href="/calendar/">Full planting calendar</a></p>`;
     addPage({
-      path: `/what-to-sow/${monthSlug(m)}/`, section: 'calendar', body, title: `What to plant and sow in ${name} (UK veg, fruit and herbs)`,
+      path: `/what-to-sow/${monthSlug(m)}/`, section: 'calendar', body, ...withinTitle(`What to sow and plant in ${name} (UK)`),
       description: `What to plant in ${name} in the UK${outside.length || indoors.length ? `, including ${andList(popularFirst(outside.length ? outside : indoors))}` : ''}: ${outside.length} crops to sow or plant outside, ${indoors.length} to start indoors and ${harvest.length} to harvest.`,
       crumbs: [['Home', '/'], ['What to sow', '/what-to-sow/'], [name, `/what-to-sow/${monthSlug(m)}/`]],
     });
@@ -1850,7 +1856,7 @@ ${inSeason.length ? `<h2>In season now <span class="count">(${inSeason.length})<
 ${soon.length ? `<h2>Coming in ${FULL_MONTHS[next]} <span class="count">(${soon.length})</span></h2>\n<p class="muted">Get jars, freezer bags and space ready for these.</p>\n<p class="card-tags">${tagList(soon)}</p>` : ''}
 <p><a href="/what-to-preserve/${monthSlug(prevM)}/">&larr; ${FULL_MONTHS[prevM]}</a> &middot; <a href="/what-to-preserve/${monthSlug(next)}/">${FULL_MONTHS[next]} &rarr;</a> &middot; <a href="/what-to-sow/${monthSlug(m)}/">What to sow in ${name}</a> &middot; <a href="/preserving/">All preserving methods</a></p>`;
     addPage({
-      path: `/what-to-preserve/${monthSlug(m)}/`, section: 'preserving', body, title: `What's in season in ${name} (UK) and how to store it`,
+      path: `/what-to-preserve/${monthSlug(m)}/`, section: 'preserving', body, ...withinTitle(`What's in season in ${name} and how to store it`),
       description: `${inSeason.length ? `In season in the UK in ${name}: ${inSeason.length > 3 ? `${popularFirst(inSeason).join(', ')} and ${inSeason.length - 3} more` : andList(popularFirst(inSeason))}, with the best way to freeze, dry, pickle or store each one` : `Little is in season in the UK in ${name}. How to use your stored harvest`}.`,
       crumbs: [['Home', '/'], ['What to preserve', '/what-to-preserve/'], [name, `/what-to-preserve/${monthSlug(m)}/`]],
     });
