@@ -1,0 +1,1707 @@
+{
+ "collected": "2026-11-16T08:46:26.499328+00:00",
+ "metric_fields": "description name type unit value",
+ "posts": [
+  {
+   "id": "6af86aceb9a106584c4c0eb1",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-15T20:00:00.000Z",
+   "sentAt": "2026-11-15T20:00:58.857Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008288303",
+   "text": "How to grow swedes UK. Learn how to grow swedes UK gardeners can harvest all winter. Sow directly in May or June in full sun or light shade. Water in dry spells to prevent woody roots. Frosts improve flavour when harvesting swedes. Check your local frost dates. homegrownplate.co.uk/plants/swede/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-15-pin-pin_crop-7|pinterest"
+  },
+  {
+   "id": "6af86aceb9a106584c4c0e74",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-15T18:30:00.000Z",
+   "sentAt": "2026-11-15T18:31:21.282Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122111901693535768",
+   "text": "Nobody tells you November is still garlic planting time\n\nI break up garlic bulbs just before planting the largest outer cloves from October to November. If you want to know how to grow garlic in the UK, put them in full sun and keep the bed weed-free. Dry the harvested bulbs for 2 to 3 weeks and softneck types can keep for 6 to 9 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+   "metricsUpdatedAt": "2026-11-16T00:44:56.513Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-15-carousel-sow_to_plate-0|facebook"
+  },
+  {
+   "id": "6af86acdc5b364e062f64900",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-15T09:00:00.000Z",
+   "sentAt": "2026-11-15T09:02:10.282Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4030837249864518960",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-16T06:56:19.749Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 8
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 5
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-15-story-story-6|instagram"
+  },
+  {
+   "id": "6af86acd918fe79d2e82498c",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-15T18:30:00.000Z",
+   "sentAt": "2026-11-15T18:32:17.610Z",
+   "externalLink": "https://www.instagram.com/p/DfxbjSeFKOH/",
+   "text": "Nobody tells you November is still garlic planting time\n\nI break up garlic bulbs just before planting the largest outer cloves from October to November. If you want to know how to grow garlic in the UK, put them in full sun and keep the bed weed-free. Dry the harvested bulbs for 2 to 3 weeks and softneck types can keep for 6 to 9 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+   "metricsUpdatedAt": "2026-11-15T22:02:31.427Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 25
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 15
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of new followers you gained from this post. Helps you see which content turns viewers into followers.",
+     "name": "Follows",
+     "type": "follows",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 4
+    }
+   ],
+   "our_post": "2026-11-15-carousel-sow_to_plate-0|instagram"
+  },
+  {
+   "id": "6af5775797798e85b9f1db08",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-12T12:30:00.000Z",
+   "sentAt": "2026-11-12T12:30:49.331Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008227598",
+   "text": "Free printable UK sowing calendar for 51 popular vegetables, salads, herbs and fruit. See when to sow indoors, sow or plant outside and harvest, month by month, on two A4 pages. Tick off what you're growing and pin it up in the shed or on the fridge. Free PDF at homegrownplate.co.uk/printable-sowing-calendar/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-12-pin-printable-calendar|pinterest"
+  },
+  {
+   "id": "6af57756df70eccdaac0dfc5",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-14T20:00:00.000Z",
+   "sentAt": "2026-11-14T20:01:26.481Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008270315",
+   "text": "how to grow kale UK is easy with this guide. Learn when to sow, how to plant outdoors, and the best ways to harvest leaves all winter. Plus top tips for keeping your harvest fresh. Check your local frost dates. homegrownplate.co.uk/plants/kale/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-14-pin-pin_crop-19|pinterest"
+  },
+  {
+   "id": "6af577563edeaff13c0b09cb",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-14T09:00:00.000Z",
+   "sentAt": "2026-11-14T09:02:42.860Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4030112927328201727",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-15T08:52:40.977Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 8
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-14-story-story-18|instagram"
+  },
+  {
+   "id": "6af425a53ccc64b07b840445",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-13T20:30:00.000Z",
+   "sentAt": "2026-11-13T20:33:49.709Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008253745",
+   "text": "what to do with too much lettuce is simple when you know how to harvest and store your crop. Learn how to keep leaves fresh in the fridge for days, how to braise your cos hearts, and how to freeze lettuce in simple pea soup. Check your local frost dates. homegrownplate.co.uk/plants/lettuce/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your video was watched. Helps you understand how much attention your video content gets.",
+     "name": "Video Views",
+     "type": "views",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-13-reel-glut-4-videopin|pinterest"
+  },
+  {
+   "id": "6af425a53ccc64b07b84040d",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-13T20:00:00.000Z",
+   "sentAt": "2026-11-13T20:02:39.753Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008253355",
+   "text": "calabrese recipe ideas for your home grown crops. Make a simple pasta dish in twenty five minutes using fresh calabrese, chilli peppers, and garlic. Great quick dinner for busy weeknights. homegrownplate.co.uk/recipes/broccoli-orecchiette/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-13-pin-pin_recipe-17|pinterest"
+  },
+  {
+   "id": "6af425a460e4cf0fafb2a8d1",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-13T18:30:00.000Z",
+   "sentAt": "2026-11-13T18:31:22.436Z",
+   "externalLink": "https://www.facebook.com/reel/1173040122065422/",
+   "text": "Too much lettuce? Don't bin it\n\nGrowing your own food is great until you find yourself wondering what to do with too much lettuce. I pick the outer leaves so the plants keep growing, but when there is too much, I cook it down into soup. You can also wrap leaves in kitchen paper in the fridge to make them last longer.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lettuce/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-16T00:44:56.513Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 230
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 220
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-13-reel-glut-4|facebook"
+  },
+  {
+   "id": "6af425a460e4cf0fafb2a86c",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-13T18:30:00.000Z",
+   "sentAt": "2026-11-13T18:32:14.364Z",
+   "externalLink": "https://www.instagram.com/reel/DfsR9Gxlb_M/",
+   "text": "Too much lettuce? Don't bin it\n\nGrowing your own food is great until you find yourself wondering what to do with too much lettuce. I pick the outer leaves so the plants keep growing, but when there is too much, I cook it down into soup. You can also wrap leaves in kitchen paper in the fridge to make them last longer.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/lettuce/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-15T22:02:31.425Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 2.63
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 45
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Total time watched in minutes",
+     "name": "Watch Time (min)",
+     "type": "totalTimeWatched",
+     "unit": "count",
+     "value": 1.57
+    },
+    {
+     "description": "How long people watched your Reel for on average. Shows how well it holds attention.",
+     "name": "Avg. Watch Time (sec)",
+     "type": "averageTimeWatched",
+     "unit": "count",
+     "value": 2.29
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 38
+    }
+   ],
+   "our_post": "2026-11-13-reel-glut-4|instagram"
+  },
+  {
+   "id": "6af425a360e4cf0fafb2a843",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-13T09:00:00.000Z",
+   "sentAt": "2026-11-13T09:01:52.172Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4029388024433462776",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-14T08:51:50.072Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 9
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 5
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-13-story-story-16|instagram"
+  },
+  {
+   "id": "6af2d3e76043a21c9f58acbb",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-12T20:00:00.000Z",
+   "sentAt": "2026-11-12T20:02:40.574Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008235274",
+   "text": "how to grow blackcurrants UK gardens easily. Learn when to plant bare-root bushes, how to feed with compost, and when to harvest the fruit for jam, cordials, and freezing. Check your local frost dates. homegrownplate.co.uk/plants/blackcurrant/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-12-pin-pin_crop-15|pinterest"
+  },
+  {
+   "id": "6af2d3e669951ef15d5746b0",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-12T09:00:00.000Z",
+   "sentAt": "2026-11-12T09:04:03.838Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4028663683567699829",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-13T08:54:01.973Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 6
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 5
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-12-story-story-14|instagram"
+  },
+  {
+   "id": "6af184eee44ddbb57c437fc0",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-11T20:00:00.000Z",
+   "sentAt": "2026-11-11T20:03:42.795Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008217097",
+   "text": "parsley recipe for a simple pan fried fish supper. Use your fresh garden herbs with lemon zest and garlic. A quick weeknight dinner that takes 20 min and serves 2. Try this easy herbal fish dish today. homegrownplate.co.uk/recipes/fish-parsley-gremolata/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-11-pin-pin_recipe-13|pinterest"
+  },
+  {
+   "id": "6af184edcac9d7525f7d2a38",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-11T18:30:00.000Z",
+   "sentAt": "2026-11-11T18:33:29.627Z",
+   "externalLink": "https://www.instagram.com/p/DfnIh5-FL1g/",
+   "text": "2 ways to use up spring onions before they go to waste\n\nIf you are wondering what to do with too many spring onions, I cook them briefly in stir-fries, omelettes or noodle dishes. You can also chop and freeze them in bags, or pickle them in a light vinegar brine to last one to two months in the fridge. Best of all, put the roots in a glass of water on a windowsill to regrow them.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/spring-onion/\n\nSend this to a fellow grower who needs it.",
+   "metricsUpdatedAt": "2026-11-15T22:02:31.431Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 20
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 17
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of new followers you gained from this post. Helps you see which content turns viewers into followers.",
+     "name": "Follows",
+     "type": "follows",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 5
+    }
+   ],
+   "our_post": "2026-11-11-carousel-glut-1|instagram"
+  },
+  {
+   "id": "6af184ed7522f65ac0cf3a44",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-11T18:30:00.000Z",
+   "sentAt": "2026-11-11T18:31:49.392Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122109275085535768",
+   "text": "2 ways to use up spring onions before they go to waste\n\nIf you are wondering what to do with too many spring onions, I cook them briefly in stir-fries, omelettes or noodle dishes. You can also chop and freeze them in bags, or pickle them in a light vinegar brine to last one to two months in the fridge. Best of all, put the roots in a glass of water on a windowsill to regrow them.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/spring-onion/\n\nSend this to a fellow grower who needs it.",
+   "metricsUpdatedAt": "2026-11-16T00:44:56.513Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-11-carousel-glut-1|facebook"
+  },
+  {
+   "id": "6af184ece44ddbb57c437eb5",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-11T09:00:00.000Z",
+   "sentAt": "2026-11-11T09:02:41.580Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4027938644736540256",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-12T08:56:21.420Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 6
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-11-story-story-12|instagram"
+  },
+  {
+   "id": "6af02d6051492b796e25d44e",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-10T20:00:00.000Z",
+   "sentAt": "2026-11-10T20:02:40.680Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008198162",
+   "text": "how to grow redcurrants UK with this simple guide for balconies and small gardens. Learn when to plant bare-root bushes, how to harvest whole trusses in summer, and the best ways to use tart berries in cooking and jelly. Check your local frost dates. homegrownplate.co.uk/plants/redcurrant/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-10-pin-pin_crop-11|pinterest"
+  },
+  {
+   "id": "6af02d60229bf05daf9b3f5c",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-10T20:30:00.000Z",
+   "sentAt": "2026-11-10T20:31:50.180Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008198535",
+   "text": "how to grow broad beans in the UK with this simple guide from Homegrown Plate. Learn when to sow, how to harvest tender pods, and the best ways to freeze your crop so nothing goes to waste. Check your local frost dates. homegrownplate.co.uk/plants/broad-bean/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times your video was watched. Helps you understand how much attention your video content gets.",
+     "name": "Video Views",
+     "type": "views",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-10-reel-sow_to_plate-2-videopin|pinterest"
+  },
+  {
+   "id": "6af02d5fd6bbae6fa1d62291",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-10T18:30:00.000Z",
+   "sentAt": "2026-11-10T18:31:26.813Z",
+   "externalLink": "https://www.facebook.com/reel/954179924217066/",
+   "text": "Nobody tells you broad beans are this easy\n\nGrowing your own food is simpler than you think when you know how to grow broad beans in the UK. Sow them in autumn or spring for a great harvest. Pick them young for the best taste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/broad-bean/\n\nTell me in the comments: what are you growing this month?",
+   "metricsUpdatedAt": "2026-11-16T00:44:56.513Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0.49
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 204
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 195
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-10-reel-sow_to_plate-2|facebook"
+  },
+  {
+   "id": "6af02d5f51492b796e25d3c3",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-10T18:30:00.000Z",
+   "sentAt": "2026-11-10T18:32:55.459Z",
+   "externalLink": "https://www.instagram.com/reel/DfkjrUpEqBR/",
+   "text": "Nobody tells you broad beans are this easy\n\nGrowing your own food is simpler than you think when you know how to grow broad beans in the UK. Sow them in autumn or spring for a great harvest. Pick them young for the best taste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/broad-bean/\n\nTell me in the comments: what are you growing this month?",
+   "metricsUpdatedAt": "2026-11-15T22:02:31.429Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0.91
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 124
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Total time watched in minutes",
+     "name": "Watch Time (min)",
+     "type": "totalTimeWatched",
+     "unit": "count",
+     "value": 7.13
+    },
+    {
+     "description": "How long people watched your Reel for on average. Shows how well it holds attention.",
+     "name": "Avg. Watch Time (sec)",
+     "type": "averageTimeWatched",
+     "unit": "count",
+     "value": 3.69
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 110
+    }
+   ],
+   "our_post": "2026-11-10-reel-sow_to_plate-2|instagram"
+  },
+  {
+   "id": "6af02d5e562f2e6de9a5e1f3",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-10T09:00:00.000Z",
+   "sentAt": "2026-11-10T09:02:36.739Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4027213815519523928",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-11T08:52:35.414Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 4
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-10-story-story-10|instagram"
+  },
+  {
+   "id": "6aee5f45d6bbae6fa1521252",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-09T20:00:00.000Z",
+   "sentAt": "2026-11-09T20:02:58.213Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008181205",
+   "text": "Chinese cabbage recipe for home growers. Turn your garden harvest into fresh pork and garlic chive dumplings. Simple homemade dumpling filling with fresh greens. homegrownplate.co.uk/recipes/garlic-chive-dumplings/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 100
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-09-pin-pin_recipe-9|pinterest"
+  },
+  {
+   "id": "6aee5f45af7e526d43e99a09",
+   "status": "sent",
+   "channelService": "pinterest",
+   "dueAt": "2026-11-08T20:00:00.000Z",
+   "sentAt": "2026-11-08T20:01:15.281Z",
+   "externalLink": "https://www.pinterest.com/pin/764908318008163677",
+   "text": "how to grow leeks UK in your garden, allotment or raised beds. Learn when to sow, how to harvest hardy leeks from autumn through spring, and simple ways to store them so nothing goes to waste. Grow it. Cook it. Keep it. Check your local frost dates. homegrownplate.co.uk/plants/leek/",
+   "metricsUpdatedAt": "2026-11-16T06:53:47.254Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked your Pin to open it in closeup. Doesn't include clicks through to your link.",
+     "name": "Pin Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 50
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 2
+    },
+    {
+     "description": "Reactions",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-pin-pin_crop-7|pinterest"
+  },
+  {
+   "id": "6aee5f45af7e526d43e999df",
+   "status": "sent",
+   "channelService": "facebook",
+   "dueAt": "2026-11-08T18:30:00.000Z",
+   "sentAt": "2026-11-08T18:30:47.246Z",
+   "externalLink": "https://www.facebook.com/122103649863535768/posts/122105975409535768",
+   "text": "Too many Brussels sprouts? Don't bin them\n\nIf you are wondering what to do with too many Brussels sprouts, start with how you cook them. I like to roast them with olive oil and balsamic vinegar for a caramelised flavour. You can also boil or steam whole sprouts for six to eight minutes. That way, nothing from your harvest gets wasted.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-16T00:44:56.514Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many people reacted to your post. Includes Like, Love, Care, Haha, Wow, Sad, and Angry.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of comments your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "How many times your post was shown on screen. This can include multiple views by the same person. Useful for spotting how often your content gets surfaced.",
+     "name": "Impressions",
+     "type": "impressions",
+     "unit": "count",
+     "value": 11
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 2
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people clicked on your post or link. Shows when your content drives action beyond the channel it's on.",
+     "name": "Clicks",
+     "type": "clicks",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-carousel-glut-0|facebook"
+  },
+  {
+   "id": "6aee5f45229bf05daf164c41",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-09T09:00:00.000Z",
+   "sentAt": "2026-11-09T09:03:00.066Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4026489161406070144",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-10T08:52:58.518Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 2
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-09-story-story-8|instagram"
+  },
+  {
+   "id": "6aee5f44a7751de7c9b2b7b9",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-08T18:30:00.000Z",
+   "sentAt": "2026-11-08T18:32:04.209Z",
+   "externalLink": "https://www.instagram.com/p/DffaAMLINJT/",
+   "text": "Too many Brussels sprouts? Don't bin them\n\nIf you are wondering what to do with too many Brussels sprouts, start with how you cook them. I like to roast them with olive oil and balsamic vinegar for a caramelised flavour. You can also boil or steam whole sprouts for six to eight minutes. That way, nothing from your harvest gets wasted.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/brussels-sprouts/\n\nSave this for when you need it.",
+   "metricsUpdatedAt": "2026-11-15T22:02:31.423Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "Also called Likes on Instagram. This shows how many people reacted to your post.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "description": "The number of comments and replies your post received. Shows when your post is starting conversations, not just getting seen.",
+     "name": "Comments",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 16.67
+    },
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 12
+    },
+    {
+     "description": "How many times your post was shared by others. A sign your content is reaching beyond your immediate audience.",
+     "name": "Shares",
+     "type": "shares",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many times people saved your post. A strong signal that your content is worth revisiting.",
+     "name": "Saves",
+     "type": "saves",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The number of new followers you gained from this post. Helps you see which content turns viewers into followers.",
+     "name": "Follows",
+     "type": "follows",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 6
+    }
+   ],
+   "our_post": "2026-11-08-carousel-glut-0|instagram"
+  },
+  {
+   "id": "6aee5f449214322f68b96fd2",
+   "status": "sent",
+   "channelService": "instagram",
+   "dueAt": "2026-11-08T09:00:00.000Z",
+   "sentAt": "2026-11-08T09:01:31.950Z",
+   "externalLink": "https://www.instagram.com/stories/homegrown.plate/4025763943083753119",
+   "text": "",
+   "metricsUpdatedAt": "2026-11-09T08:51:30.954Z",
+   "error": null,
+   "metrics": [
+    {
+     "description": "How many times your post was viewed. Helps you understand how much attention your content gets.",
+     "name": "Views",
+     "type": "views",
+     "unit": "count",
+     "value": 8
+    },
+    {
+     "description": "How many unique people saw your post. Unlike impressions, each person is only counted once. Gives you a sense of how far your content spread.",
+     "name": "Reach",
+     "type": "reach",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "Replies to your Story — direct-message responses. Returns 0 for viewers in Europe and Japan.",
+     "name": "Replies",
+     "type": "comments",
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "description": "The percentage of people who interacted with your post compared to how many saw it. Balances views and actions to show how compelling your posts are.",
+     "name": "Eng. Rate",
+     "type": "engagementRate",
+     "unit": "percentage",
+     "value": 0
+    },
+    {
+     "description": "The number of likes/reactions your post received.",
+     "name": "Reactions",
+     "type": "reactions",
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "our_post": "2026-11-08-story-story-6|instagram"
+  }
+ ]
+}
