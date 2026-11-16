@@ -1779,13 +1779,15 @@ ${wkItems(m)}
 
 /* Crops most people search for, used to lead month page descriptions with names searchers recognise. */
 const POPULAR = ['garlic', 'onion', 'broad-bean', 'potato', 'tomato', 'pea', 'strawberry', 'lettuce', 'carrot', 'raspberry', 'apple', 'courgette',
-  'runner-bean', 'french-bean', 'beetroot', 'spinach', 'kale', 'leek', 'chilli', 'cabbage', 'radish', 'parsnip', 'brussels-sprouts', 'rhubarb', 'spring-onion', 'cucumber'];
+  'bean', 'french-bean', 'beetroot', 'spinach', 'kale', 'leek', 'chilli', 'cabbage', 'radish', 'parsnip', 'brussels-sprouts', 'rhubarb', 'spring-onion', 'cucumber'];
 const popularFirst = (list, k = 3) => [...list].sort((a, b) => {
   const ia = POPULAR.indexOf(a.id), ib = POPULAR.indexOf(b.id);
   return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib) || a.name.localeCompare(b.name, 'en-GB');
 }).slice(0, k).map((p) => plural(p.name));
 function plural(name) {
+  if (/ and /.test(name)) return name.split(' and ').map(plural).join(' and ');
   const n = name.toLowerCase().replace(/^french /, 'French ');
+  if (/[^s]s$|^(microgreens|watercress|land cress)$/.test(n)) return n;
   if (/^(garlic|lettuce|spinach|kale|rhubarb|beetroot|chard|rocket|sweetcorn|asparagus|celery|celeriac|squash|brussels sprouts)$/.test(n)) return n;
   if (/(o|ch|sh|x|s)$/.test(n)) return n + 'es';
   if (/[^aeiou]y$/.test(n)) return n.slice(0, -1) + 'ies';
@@ -1793,6 +1795,78 @@ function plural(name) {
   return n + 's';
 }
 const andList = (xs) => xs.length > 1 ? xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1] : xs.join('');
+
+/* Quick answers and links in from related pages for every What to sow, What to preserve and pest page.
+   Hand-written entries in seo-links.mjs win. Each page gets links from 3 related pages: crop pages for the month pages
+   (crops sown, or in season, that month) and similar problems for the pest pages. Links are spread out so no page
+   gets more than a few of these. */
+function addMonthAndPestSeo() {
+  const byName = [...PLANTS].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
+  const has = (p, k, m) => CALENDAR[p.id][k][m] === '1';
+  const popRank = (p) => { const i = POPULAR.indexOf(p.id); return i < 0 ? 999 : i; };
+  const byPop = (list) => [...list].sort((a, b) => popRank(a) - popRank(b) || (PHOTOS.has(b.id) - PHOTOS.has(a.id)) || a.name.localeCompare(b.name, 'en-GB'));
+  const top3 = (list) => andList(popularFirst(list));
+  const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+  const load = new Map(); /* page -> how many of these links it already carries */
+  const targets = []; /* [target path, link text, ranked source paths, most links per source page] */
+
+  FULL_MONTHS.forEach((name, m) => {
+    const indoors = byName.filter((p) => has(p, 'i', m));
+    const outside = byName.filter((p) => has(p, 'o', m));
+    const harvest = byName.filter((p) => has(p, 'h', m));
+    const sowPath = `/what-to-sow/${monthSlug(m)}/`;
+    const some = (list, what, where) => (list.length > 3 ? `${list.length} ${what} ${where}, such as ${top3(list)}` : `${top3(list)} ${where}`);
+    const first = outside.length
+      ? `In ${name} in the UK you can sow or plant ${some(outside, 'crops', 'outside')}${indoors.length ? `, and start ${some(indoors, 'more', 'indoors')}` : ''}.`
+      : `In ${name} in the UK it is too cold to sow much outside, but you can start ${some(indoors, 'crops', 'indoors')}.`;
+    const second = harvest.length ? `Ready to harvest now: ${harvest.length > 3 ? `${harvest.length} crops, such as ${top3(harvest)}` : top3(harvest)}.` : 'Little is ready to harvest yet.';
+    QUICK_ANSWERS[sowPath] ||= `${first} ${second}`;
+    targets.push([sowPath, `What to sow and plant in ${name}`, byPop([...outside, ...indoors.filter((p) => !outside.includes(p))]).map((p) => `/plants/${p.id}/`), 2]);
+
+    const presPath = `/what-to-preserve/${monthSlug(m)}/`;
+    const soon = byName.filter((p) => has(p, 'h', (m + 1) % 12) && !has(p, 'h', m));
+    /* The best way to keep a crop for later: the first proper storage method, not the fridge or a picking tip. */
+    const KEEP = /freez|store|dry|pickl|jam|jelly|chutney|cure|bottl|leave|clamp|heel|syrup|cordial|preserve|oil|vinegar|sauce|ferment|juice/i;
+    const keepWay = (p) => (STORAGE[p.id] || []).find(([w]) => KEEP.test(w) && !/^fridge/i.test(w));
+    const keepers = byPop(harvest.filter(keepWay)).slice(0, 3).map((p) => {
+      const [way, , keeps] = keepWay(p);
+      return `${plural(p.name)}, ${lower(way)} (${/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/.test(keeps) ? keeps : lowerFirst(keeps)})`;
+    });
+    QUICK_ANSWERS[presPath] ||= harvest.length
+      ? `In ${name}, ${harvest.length} crops are in season in the UK, including ${top3(harvest)}. Good ways to keep them: ${keepers.join('; ')}.`
+      : `Very little is harvested in the UK in ${name}, so use up the crops you have stored. ${soon.length ? `Coming soon: ${top3(soon)}.` : ''}`.trim();
+    targets.push([presPath, `What's in season in ${name} and how to store it`, byPop(harvest).map((p) => `/plants/${p.id}/`), 2]);
+  });
+
+  const PLURAL = /\band\b|s$/;
+  const SINGULAR = new Set(['pea-bean-weevil', 'blight', 'root-rot', 'scab']);
+  const VERB = { rust: 'shows as', 'leaf-spot': 'shows as' };
+  for (const e of PESTS) {
+    const path = `/pests/${e.id}/`;
+    const bare = e.name.replace(/\s*\(.*\)$/, '');
+    const fragment = /^(an? )/i.test(e.summary) || /^\S+( \S+){0,5} (that|whose|caused by)\b/i.test(e.summary);
+    const verb = VERB[e.id] || (!SINGULAR.has(e.id) && PLURAL.test(bare) && !/(ss|is|us)$/.test(bare) ? 'are' : 'is');
+    /* "Flea beetle is tiny jumping beetles" reads badly, so a singular name before a plural description gets a colon instead. */
+    const first = !fragment ? e.summary : verb === 'is' && !/^an? /i.test(e.summary) && !VERB[e.id] ? `${e.name}: ${lowerFirst(e.summary)}` : `${e.name} ${verb} ${lowerFirst(e.summary)}`;
+    const second = /nothing to spray|tolerate/i.test(e.control[0]) ? e.prevent[0] : e.control[0];
+    QUICK_ANSWERS[path] ||= `${first} ${second}`;
+    const mine = pestCrops.get(e.id);
+    const score = (o) => { const theirs = pestCrops.get(o.id); const shared = [...mine].filter((c) => theirs.has(c)).length; const all = new Set([...mine, ...theirs]).size || 1; return shared / all + (o.kind === e.kind ? 0.2 : 0); };
+    const ranked = PESTS.filter((o) => o.id !== e.id).map((o) => [o, score(o)]).sort((a, b) => b[1] - a[1] || a[0].name.localeCompare(b[0].name, 'en-GB')).map(([o]) => `/pests/${o.id}/`);
+    targets.push([path, pestPageTitle(e.name), ranked, 4]);
+  }
+
+  /* Three rounds: each page takes its best related page that still has room, so the links are shared out evenly. */
+  for (let round = 0; round < 3; round++) {
+    for (const [path, text, sources, most] of targets) {
+      const src = sources.find((s) => (load.get(s) || 0) < most && !(RELATED_LINKS[s] || []).some(([, h]) => h === path))
+        || sources.find((s) => !(RELATED_LINKS[s] || []).some(([, h]) => h === path));
+      if (!src) continue;
+      (RELATED_LINKS[src] ||= []).push([cap(text), path]);
+      load.set(src, (load.get(src) || 0) + 1);
+    }
+  }
+}
 
 function buildMonthly() {
   const byName = [...PLANTS].sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
@@ -2413,6 +2487,7 @@ cpSync(join(ROOT, 'src/assets/fonts'), join(DIST, 'assets/fonts'), { recursive: 
 cpSync(join(ROOT, 'static'), DIST, { recursive: true });
 
 await writePlantImages();
+addMonthAndPestSeo();
 buildHome();
 buildSizes();
 buildPlants();
