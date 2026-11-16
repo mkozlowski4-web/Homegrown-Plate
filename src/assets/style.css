@@ -88,7 +88,7 @@ a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid 
 .tag-link { text-decoration: none; }
 .tag-link:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-main p a:not(.tag):not(.btn):not(.btn-small), main li a { color: var(--green); }
+main p a:not(.tag):not(.btn):not(.btn-small):not(.btn-big), main li a { color: var(--green); }
 
 /* ---- Plant guide: filter buttons and collapsible sections ---- */
 .latin { margin: -4px 0 10px; color: var(--muted); font-style: italic; }
@@ -422,7 +422,8 @@ html[data-kids] .kids-home { display: block; }
 html[data-kids] .kids-pill { display: inline-flex; align-items: center; background: #ffd23f; color: #3b2a00; border: 2px solid #c9a227; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 html[data-kids] .site-footer { background: #1f8f4e; }
 .kids-hero { text-align: center; background: linear-gradient(180deg, #bde9ff 0%, #e9f9ff 55%, #d8f5c8 100%); border: 3px solid #fff; box-shadow: 0 8px 24px rgba(76,201,240,.25); border-radius: 30px; padding: 34px 20px 30px; }
-.kids-hero h1 { color: #1f8f4e; font-size: 2.8rem; margin: 6px 0 8px; }
+/* Kids mode title on the home page: styled like a heading but not one, so the page keeps a single H1 */
+.kids-hero .kids-title { font-family: var(--serif); font-weight: 500; letter-spacing: -.015em; line-height: 1.08; color: #1f8f4e; font-size: 2.8rem; margin: 6px auto 8px; max-width: none; }
 .kids-hero p { font-size: 1.2rem; max-width: 560px; margin: 8px auto; color: #2a2740; }
 .kids-sparkle { font-size: 2rem !important; letter-spacing: .3em; margin: 0 !important; }
 .kids-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px !important; }
@@ -441,7 +442,7 @@ main .kids-hero .btn-big, main .kids-hero .btn-big:hover { color: #fff; text-dec
   .kid-mini:hover, html[data-kids] .card-link:hover { transform: translateY(-4px) rotate(-.6deg); }
   .btn-big:hover { transform: translateY(-2px); }
 }
-@media (max-width: 560px) { .kids-hero h1 { font-size: 2.1rem; } .kids-hero { padding: 26px 14px; } }
+@media (max-width: 560px) { .kids-hero .kids-title { font-size: 2.1rem; } .kids-hero { padding: 26px 14px; } }
 @media (max-width: 560px) {
   html[data-kids] .nav-toggle { padding: 8px 10px; gap: 6px; }
   html[data-kids] .brand-tag { display: none; }

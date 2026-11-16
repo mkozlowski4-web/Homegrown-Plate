@@ -714,7 +714,7 @@ function buildHome() {
   const kidsHomeBlock = `<section class="kids-home" aria-label="Kids mode">
   <div class="kids-hero">
     <p class="kids-sparkle" aria-hidden="true">🌱 ☀️ 🐛 🌻 🍓</p>
-    <h1>Let’s grow something amazing!</h1>
+    <p class="kids-title">Let’s grow something amazing!</p>
     <p>Plant a seed, watch it grow, and then eat what you grew. Pick a project and get your hands dirty!</p>
     <p class="kids-actions"><a class="btn-big" href="/kids/#projects">Pick a project</a> <a class="btn-big alt" href="/kids/#recipes">Yummy recipes</a></p>
   </div>
