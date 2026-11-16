@@ -150,7 +150,7 @@ export const FRUIT = [
       "Fresh gooseberries keep for a week in the fridge. They freeze well: top and tail, freeze on a tray and bag for up to a year, and cook from frozen. Gooseberry jam and chutney are good for storing a glut."],
       tips: ["Add elderflower when stewing.", "Top and tail before cooking.", "Freeze on a tray and bag.", "Serve the sauce with oily fish."] } },
 
-  { id: "blackberry", name: "Blackberry", latin: "Rubus fruticosus", emoji: "🫐", sizes: ["small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "blackberry", name: "Blackberry", aka: ["bramble"], latin: "Rubus fruticosus", emoji: "🫐", sizes: ["small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full", "partial", "shade"], sunText: "Full sun to shade; tolerates poor sites",
     facts: [["Type", "Hardy perennial cane fruit"], ["Sow", "Plant Nov–Mar"], ["Height", "1.8–3 m (trained)"], ["Spacing", "2–4 m apart (thornless types need more space)"], ["Planting depth", "Same depth as in the nursery"], ["Time to harvest", "Aug–Oct"], ["Good companions", "Chives, garlic"]],
     info: [

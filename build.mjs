@@ -105,10 +105,18 @@ const SEARCH_NAME = {
 const titleName = (p) => SEARCH_NAME[p.id] || (KEEP_CAPITAL.test(p.name) ? p.name : lowerFirst(p.name));
 const isPlural = (n) => /s$/.test(n) && !/(asparagus|ss)$/.test(n);
 /* Short enough for Google to show in full (about 60 characters with " | Homegrown Plate"): "Garlic: when to plant and how to grow (UK)". */
-const plantPageTitle = (p) => { const n = titleName(p); return `${n.charAt(0).toUpperCase()}${n.slice(1)}: when to ${p.sowTitle ? 'plant' : 'sow'} and how to grow (UK)`; };
+/* Other common names, e.g. courgette (zucchini). Shown beside the name on the crop page and plant guide, and matched by searches. */
+const akaText = (p) => (p.aka && p.aka.length ? p.aka.join(', ') : '');
+const akaHtml = (p) => (akaText(p) ? ` <span class="aka">(${esc(akaText(p))})</span>` : '');
+const plantPageTitle = (p) => {
+  const n = titleName(p); const cap = `${n.charAt(0).toUpperCase()}${n.slice(1)}`; const rest = `: when to ${p.sowTitle ? 'plant' : 'sow'} and how to grow (UK)`;
+  /* Add the best-known other name too when the title stays short enough for Google to show in full. */
+  const withAka = p.aka && p.aka.length ? `${cap} (${p.aka[0]})${rest}` : '';
+  return withAka && withAka.length <= 60 ? withAka : `${cap}${rest}`;
+};
 /* Leave off " | Homegrown Plate" when it would push a title past 65 characters. */
 const withinTitle = (t) => ({ title: t, fullTitle: `${t} | Homegrown Plate`.length > 65 });
-const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : `${t} recipe`);
+const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : /\s\(.*\)$/.test(t) ? t.replace(/\s(\(.*\))$/, ' recipe $1') : `${t} recipe`);
 /* "2" -> "serves 2"; "makes 1 jar" stays as is */
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
 const joinAnd = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
@@ -218,6 +226,7 @@ function validate() {
     else if (!p.facts.some(([l]) => l === 'Sow')) errors.push(`Plant ${p.id} needs a short 'Sow' fact (used on the plant cards)`);
     if (!p.info || !p.info.length) errors.push(`Plant ${p.id} has no info paragraphs`);
     if (!p.varieties || !p.varieties.length) errors.push(`Plant ${p.id} has no varieties`);
+    if (p.aka !== undefined && (!Array.isArray(p.aka) || !p.aka.length || p.aka.some((a) => typeof a !== 'string' || !a.trim()))) errors.push(`Plant ${p.id}: aka must be a list of other names`);
     for (const g of p.groups || []) {
       if (!g.name || !g.when || !g.note || !g.varieties || !g.varieties.length) errors.push(`Plant ${p.id}: each variety group needs name, when, note and varieties`);
     }
@@ -573,7 +582,7 @@ function growCard(p, cal) {
   ${media.replace('class="gc-media"', 'class="pt-media"')}
   <div class="pt-body">
     <nav class="crumb" aria-label="Breadcrumb"><a href="/plants/">Plant Guide</a> <span aria-hidden="true">/</span> ${esc(p.name)}</nav>
-    <h1>${esc(p.name)}</h1>
+    <h1>${esc(p.name)}${akaHtml(p)}</h1>
     <p class="latin">${esc(p.latin)}</p>
     <p class="pt-chips">${chips}</p>
     <div class="pt-cal">
@@ -770,7 +779,7 @@ function gardenData() {
   if (gardenMemo) return gardenMemo;
   const data = {
     plants: PLANTS.flatMap((p) => {
-      const base = { k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id), tm: TIMINGS[p.id] };
+      const base = { k: KID_HIDE.has(p.id) ? 1 : 0, id: p.id, n: p.name, q: lower(`${p.name} ${akaText(p)}`), e: p.emoji, d: p.difficulty, i: CALENDAR[p.id].i, o: CALENDAR[p.id].o, h: CALENDAR[p.id].h, img: PHOTOS.get(p.id)?.small || `/img/plants/${p.id}.svg`, s: p.sizes, c: careFor(p.id), tm: TIMINGS[p.id] };
       if (p.groups && p.groups.length > 1) base.t = p.groups.map((g) => ({ s: g.slug, n: g.short, i: g.cal.i, o: g.cal.o, h: g.cal.h }));
       /* Each type can also be added on its own, as "<crop>--<type>" */
       const types = p.groups && p.groups.length > 1 ? p.groups.map((g) => ({ ...base, t: undefined, id: `${p.id}--${g.slug}`, b: p.id, v: 1, n: `${p.name}: ${lowerFirst(g.short)}`, i: g.cal.i, o: g.cal.o, h: g.cal.h, a: `type-${g.slug}`, tm: { ...TIMINGS[p.id], ...TYPE_TIMINGS[`${p.id}--${g.slug}`] } })) : [];
@@ -1005,9 +1014,9 @@ function buildPlants() {
   const HERB_SET = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id));
   const KINDS = [['veg', 'Vegetables'], ['fruit', 'Fruit'], ['herbs', 'Herbs and edible flowers']];
   const kindOf = (p) => (FRUIT_IDS.has(p.id) ? 'fruit' : HERB_SET.has(p.id) ? 'herbs' : 'veg');
-  const card = (p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
+  const card = (p) => `<a href="/plants/${p.id}/" class="card card-link${kh(p)}" data-plant data-sizes="${p.sizes.join(' ')}" data-sun="${p.sun.join(' ')}" data-diff="${esc(lower(p.difficulty))}" data-search="${esc(lower(`${p.name} ${akaText(p)} ${p.latin} ${(p.groups || []).map((g) => g.name).join(' ')}`))}">
     ${plantImg(p)}
-    <h3>${esc(p.name)}</h3>
+    <h3>${esc(p.name)}${akaHtml(p)}</h3>
     <span class="tag">${esc(p.difficulty)}</span>
     <span class="tag warm">${esc(sunLevel.get(minSun(p)).label)}</span><span class="tag blue">${esc(sizeMap.get(minSize(p)).short)}</span>${p.groups && p.groups.length ? `<span class="badge-types">${p.groups.length} types</span>` : ''}
     <p class="muted card-note">${esc(p.facts.find(([l]) => l === 'Sow')?.[1] || p.sunText)}</p>

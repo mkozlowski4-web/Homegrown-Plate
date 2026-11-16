@@ -50,7 +50,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Whole roots keep for several weeks in the fridge, or in damp sand in a cool shed. Grated horseradish in vinegar keeps for a few months in a jar in the fridge, though the heat fades. Freeze grated root in small portions."],
       tips: ["Grate outside; the fumes are strong.", "Add vinegar quickly to fix the heat.", "Store roots in damp sand.", "Freeze grated horseradish in portions."] } },
 
-  { id: "salsify", name: "Salsify", latin: "Tragopogon porrifolius", emoji: "🥕", sizes: ["medium", "large"], difficulty: "Medium",
+  { id: "salsify", name: "Salsify", aka: ["oyster plant"], latin: "Tragopogon porrifolius", emoji: "🥕", sizes: ["medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy biennial root vegetable"], ["Sow", "Apr–May, direct"], ["Height", "60–90 cm in flower"], ["Spacing", "10–15 cm apart in rows 30 cm apart"], ["Sowing depth", "2 cm"], ["Time to harvest", "24–28 weeks"], ["Good companions", "Lettuce, onions, leeks"]],
     info: [
@@ -100,7 +100,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Roots keep for 1–2 weeks in the fridge. Pickle in vinegar and sugar or ferment as kimchi for long storage. Dry slices in a low oven to make crisp chips."],
       tips: ["Pickle or ferment surplus roots.", "Grate raw into salads.", "Add to soups and stews.", "Peel older roots."] } },
 
-  { id: "scorzonera", name: "Scorzonera", latin: "Scorzonera hispanica", emoji: "🥕", sizes: ["medium", "large"], difficulty: "Medium",
+  { id: "scorzonera", name: "Scorzonera", aka: ["black salsify"], latin: "Scorzonera hispanica", emoji: "🥕", sizes: ["medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy perennial root vegetable, grown as an annual"], ["Sow", "Apr–May, direct"], ["Height", "60–120 cm in flower"], ["Spacing", "15 cm apart in rows 30 cm apart"], ["Sowing depth", "2 cm"], ["Time to harvest", "28–30 weeks"], ["Good companions", "Lettuce, onions, leeks"]],
     info: [
@@ -150,7 +150,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Cured bulbs keep for about 6 months in a cool, dry, airy place. Roast cloves and freeze them, or make garlic confit in oil in the fridge."],
       tips: ["Roast whole cloves until soft.", "Use more than ordinary garlic.", "Store in a cool, dry place.", "Slice raw into salads."] } },
 
-  { id: "wild-garlic", name: "Wild garlic", latin: "Allium ursinum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "wild-garlic", name: "Wild garlic", aka: ["ramsons","bear’s garlic"], latin: "Allium ursinum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["shade", "partial"], sunText: "Shade to partial shade; moist soil",
     facts: [["Type", "Hardy perennial bulb"], ["Sow", "Plant bulbs Sep–Oct, or ‘in the green’ Mar–Apr"], ["Height", "25–45 cm"], ["Spacing", "10–15 cm apart"], ["Planting depth", "5–8 cm"], ["Time to harvest", "Mar–May"], ["Good companions", "Ferns, hostas, woodland plants"]],
     info: [
@@ -175,7 +175,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Leaves wilt within a day, so use them quickly. Freeze pesto or wild garlic butter in portions, or blanch the leaves and freeze in ice-cube trays. Wild garlic loses flavour on drying."],
       tips: ["Make pesto in spring and freeze it.", "Wilt like spinach.", "Garnish with the flowers.", "Pickle seed pods."] } },
 
-  { id: "romanesco", name: "Romanesco", latin: "Brassica oleracea (Botrytis Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium",
+  { id: "romanesco", name: "Romanesco", aka: ["Romanesco broccoli"], latin: "Brassica oleracea (Botrytis Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy biennial brassica, grown as an annual"], ["Sow", "Apr–May indoors or in a seedbed"], ["Height", "60–75 cm"], ["Spacing", "60 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "18–24 weeks from sowing"], ["Good companions", "Beetroot, onions, dill"]],
     info: [
@@ -200,7 +200,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Whole heads keep for 1–2 weeks in the fridge. Blanch florets for 3 minutes, cool and freeze for up to a year."],
       tips: ["Don't overcook; it loses its shape.", "Roast with garlic and chilli.", "Blanch and freeze florets.", "Serve a whole head as a centrepiece."] } },
 
-  { id: "chinese-cabbage", name: "Chinese cabbage", latin: "Brassica rapa subsp. pekinensis", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "chinese-cabbage", name: "Chinese cabbage", aka: ["Chinese leaf","Napa cabbage"], latin: "Brassica rapa subsp. pekinensis", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Half-hardy annual brassica"], ["Sow", "Jul–Aug, direct"], ["Height", "30–45 cm"], ["Spacing", "30–40 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–12 weeks from sowing"], ["Good companions", "Onions, dill, lettuce"]],
     info: [
@@ -225,7 +225,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Whole heads keep for 2–3 weeks in the fridge, wrapped loosely. Ferment as kimchi or sauerkraut for long storage. It does not freeze well raw."],
       tips: ["Ferment as kimchi.", "Stir-fry briefly.", "Wrap heads loosely for storage.", "Shred raw for coleslaw."] } },
 
-  { id: "tatsoi", name: "Tatsoi", latin: "Brassica rapa subsp. narinosa", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "tatsoi", name: "Tatsoi", aka: ["rosette pak choi"], latin: "Brassica rapa subsp. narinosa", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual leafy brassica"], ["Sow", "Mar–Apr and Aug–Sep"], ["Height", "15–25 cm"], ["Spacing", "20 cm apart (or sow thickly for baby leaf)"], ["Sowing depth", "1 cm"], ["Time to harvest", "4–8 weeks from sowing"], ["Good companions", "Lettuce, onions, carrots"]],
     info: [
@@ -250,7 +250,7 @@ export const MORE_ROOTS_BRASSICAS = [
       "Fresh leaves keep for 3–4 days in the fridge. It is best eaten fresh. Blanch and freeze for cooking."],
       tips: ["Stir-fry briefly.", "Use baby leaves raw.", "Add to noodle soups.", "Keep in a bag in the fridge."] } },
 
-  { id: "komatsuna", name: "Komatsuna", latin: "Brassica rapa var. perviridis", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "komatsuna", name: "Komatsuna", aka: ["Japanese mustard spinach"], latin: "Brassica rapa var. perviridis", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial", "shade"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual leafy brassica"], ["Sow", "Mar–Sep"], ["Height", "25–40 cm"], ["Spacing", "15–20 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "4–8 weeks from sowing"], ["Good companions", "Lettuce, onions, beetroot"]],
     info: [

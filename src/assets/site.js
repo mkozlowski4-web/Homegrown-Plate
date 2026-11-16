@@ -912,7 +912,7 @@
     var renderResults = function () {
       var term = gSearch.value.trim().toLowerCase(), list;
       if (term) {
-        list = gData.plants.filter(function (p) { return p.n.toLowerCase().indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 40);
+        list = gData.plants.filter(function (p) { return (p.q || p.n.toLowerCase()).indexOf(term) > -1 && !(p.k && document.documentElement.hasAttribute('data-kids')); }).slice(0, 40);
         gHint.textContent = list.length ? 'Matching crops:' : 'No crops match that search.';
       } else {
         list = POPULAR.map(function (id) { return byId[id]; }).filter(Boolean);

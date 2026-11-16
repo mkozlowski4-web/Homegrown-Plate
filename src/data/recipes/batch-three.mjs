@@ -55,7 +55,7 @@ export const BATCH_THREE = [
     ingredients:[["potato","Floury potatoes, peeled and chopped","1 kg"],["butter","Butter","70 g"],["leek","Leeks, sliced","2"],["flour","Plain flour","40 g"],["milk","Milk","500 ml"],["fish","Fish pie mix (salmon, white fish and smoked fish)","600 g"],["dill","Dill, chopped","2 tbsp"],["parsley","Parsley, chopped","2 tbsp"],["cheddar","Cheddar, grated","50 g"]],
     steps:["Heat the oven to 200°C (180°C fan). Boil the potatoes for 15 minutes, drain and mash with 30 g butter and a splash of milk.","Melt the rest of the butter and cook the leeks gently for 8 minutes.","Stir in the flour for 1 minute, then gradually add the milk and simmer until thick. Season and stir in the herbs.","Put the raw fish in an ovenproof dish, pour over the sauce and spoon the mash on top. Sprinkle with the cheese.","Bake for 30 to 35 minutes until golden and the fish is cooked through."],
     tips:["Add a handful of peas or spinach to the sauce.","Make it ahead and keep it in the fridge, then add 10 minutes to the baking time."] },
-  { id:"spanakopita", title:"Spinach & Feta Filo Pie", time:"1 hr", serves:"6", uses:["spinach","spring-onion","dill"],
+  { id:"spanakopita", title:"Spinach & Feta Filo Pie (Spanakopita)", time:"1 hr", serves:"6", uses:["spinach","spring-onion","dill"],
     ingredients:[["spinach","Spinach","500 g"],["olive oil","Olive oil","2 tbsp"],["spring-onion","Spring onions, sliced","6"],["dill","Dill, chopped","3 tbsp"],["feta","Feta, crumbled","200 g"],["egg","Eggs, beaten","2"],["nutmeg","Grated nutmeg","pinch"],["pastry","Filo pastry sheets","about 8"],["butter","Butter, melted","50 g"]],
     steps:["Heat the oven to 190°C (170°C fan). Wilt the spinach in a large pan, squeeze it very dry and chop.","Warm the oil and soften the spring onions for 3 minutes. Mix with the spinach, dill, feta, eggs and nutmeg, and season with pepper.","Brush a baking dish with butter and layer in half the filo sheets, brushing each one with butter.","Spread over the filling and cover with the rest of the filo, buttering each sheet and scrunching the top ones.","Score into portions and bake for 35 to 40 minutes until golden and crisp."],
     tips:["Chard, perpetual spinach or a mix of greens all work.","Keep the filo you are not using under a damp tea towel so it does not dry out."] },
@@ -77,7 +77,7 @@ export const BATCH_THREE = [
     tips:["Allow 20 minutes per 500 g, plus 20 minutes.","Keep the bones to make stock for soup."] },
 
   /* Sides */
-  { id:"potato-dauphinoise", title:"Potato Dauphinoise", time:"1 hr 30 min", serves:"6", uses:["potato","garlic","thyme"],
+  { id:"potato-dauphinoise", title:"Potato Dauphinoise (Gratin Dauphinois)", time:"1 hr 30 min", serves:"6", uses:["potato","garlic","thyme"],
     ingredients:[["potato","Waxy or all-rounder potatoes, peeled and thinly sliced","1 kg"],["cream","Double cream","300 ml"],["milk","Milk","200 ml"],["garlic","Garlic cloves, crushed","2"],["thyme","Thyme sprigs","3"],["nutmeg","Grated nutmeg","pinch"],["butter","Butter","15 g"]],
     steps:["Heat the oven to 160°C (140°C fan) and butter an ovenproof dish.","Heat the cream, milk, garlic and thyme until just simmering. Season and add the nutmeg.","Remove the thyme and layer the potatoes in the dish, pouring a little of the cream over each layer.","Pour over the rest of the cream and cover with foil.","Bake for 1 hour, then uncover and bake for 20 to 30 minutes more until golden and tender all the way through."],
     tips:["Slice the potatoes as thinly and evenly as you can, so they cook at the same rate.","Do not rinse the slices. The starch helps thicken the cream."] },
@@ -129,7 +129,7 @@ export const BATCH_THREE = [
     tips:["A peeler makes thin ribbons that cook in seconds, or can be eaten raw.","Yellow courgettes look lovely mixed with green."] },
 
   /* Puddings and bakes */
-  { id:"victoria-sponge", title:"Victoria Sponge with Fresh Strawberries", time:"45 min", serves:"8", uses:["strawberry"],
+  { id:"victoria-sponge", title:"Victoria Sponge (Victoria Sandwich) with Fresh Strawberries", time:"45 min", serves:"8", uses:["strawberry"],
     ingredients:[["butter","Butter, soft","200 g"],["sugar","Caster sugar","200 g"],["egg","Eggs","4"],["flour","Self-raising flour","200 g"],["baking powder","Baking powder","1 tsp"],["milk","Milk","2 tbsp"],["jam","Strawberry jam","4 tbsp"],["cream","Double cream, whipped","150 ml"],["strawberry","Strawberries, sliced","200 g"],["icing sugar","Icing sugar, to dust","1 tsp"]],
     steps:["Heat the oven to 190°C (170°C fan) and grease and line two 20 cm sandwich tins.","Beat the butter, sugar, eggs, flour, baking powder and milk together until smooth.","Divide between the tins and bake for 20 minutes until golden and springy.","Cool for 5 minutes in the tins, then turn out onto a wire rack to cool completely.","Spread one sponge with jam, then the cream and strawberries. Top with the other sponge and dust with icing sugar."],
     tips:["Make sure the sponges are completely cold before adding the cream, or it will melt.","Raspberries work just as well."] },
@@ -163,7 +163,7 @@ export const BATCH_THREE = [
     ingredients:[["plum","Plums, halved and stoned","1 kg"],["water","Water","300 ml"],["sugar","Granulated sugar","1 kg"]],
     steps:["Put two saucers in the freezer. Simmer the plums in the water for 15 to 20 minutes until soft.","Add the sugar and stir over a low heat until it has completely dissolved.","Boil hard for 8 to 10 minutes.","Test for a set: put a little jam on a cold saucer, wait 1 minute and push it. If it wrinkles, it is ready. If not, boil for 2 minutes more and test again.","Pour into hot, clean jars and seal."],
     tips:["Plums are high in pectin, so ordinary granulated sugar sets well.","Victoria plums and damsons make particularly good jam."] },
-  { id:"bramble-jelly", title:"Bramble Jelly", time:"1 hr + overnight", serves:"makes about 3 jars", uses:["blackberry","apple"],
+  { id:"bramble-jelly", title:"Bramble Jelly (Blackberry Jelly)", time:"1 hr + overnight", serves:"makes about 3 jars", uses:["blackberry","apple"],
     ingredients:[["blackberry","Blackberries","1 kg"],["apple","Cooking apples, roughly chopped (no need to peel or core)","500 g"],["water","Water","600 ml"],["sugar","Granulated sugar","about 750 g"],["lemon","Lemon juice","2 tbsp"]],
     steps:["Simmer the blackberries, apples and water for 30 minutes until very soft.","Tip into a jelly bag or a sieve lined with muslin over a bowl and leave to drip overnight. Do not squeeze it, or the jelly will be cloudy.","Measure the juice. Add 450 g sugar for every 600 ml, plus the lemon juice, and stir over a low heat until dissolved.","Boil hard for about 10 minutes until it sets when tested on a cold saucer.","Skim, pour into hot, clean jars and seal."],
     tips:["The apples add pectin so the jelly sets.","Lovely on toast, scones, or with roast lamb and game."] },

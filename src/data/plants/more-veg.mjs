@@ -1,6 +1,6 @@
 /* Second batch: more salad leaves, beans and fruiting vegetables. */
 export const MORE_VEG = [
-  { id: "endive", name: "Endive", latin: "Cichorium endivia", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "endive", name: "Endive", aka: ["frisée"], latin: "Cichorium endivia", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy annual salad leaf"], ["Sow", "Jun–Aug, direct or in modules"], ["Height", "20–30 cm"], ["Spacing", "25–30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "10–14 weeks from sowing"], ["Good companions", "Leeks, celery, fennel"]],
     info: [
@@ -25,7 +25,7 @@ export const MORE_VEG = [
       "Heads keep 1–2 weeks in the fridge, wrapped in damp paper. Soak cut leaves in cold water to mellow the bitterness and crisp them up."],
       tips: ["Balance with sweet and salty flavours.", "Soak leaves in cold water.", "Braise larger leaves.", "Dress with a mustard vinaigrette."] } },
 
-  { id: "chicory", name: "Chicory", latin: "Cichorium intybus", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "chicory", name: "Chicory", aka: ["witloof","Belgian endive"], latin: "Cichorium intybus", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy perennial, grown as an annual"], ["Sow", "May–Jun for chicons; Mar–Aug for leaf"], ["Height", "30–60 cm"], ["Spacing", "20–30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "Roots Oct; chicons Dec–Mar"], ["Good companions", "Lettuce, onions, fennel"]],
     info: [
@@ -75,7 +75,7 @@ export const MORE_VEG = [
       "Use quickly, since it wilts fast. Keep stems in a glass of water in the fridge for up to 3 days. The soup freezes well."],
       tips: ["Make soup with potato.", "Keep stems in water.", "Pair with eggs and smoked fish.", "Wash thoroughly."] } },
 
-  { id: "orache", name: "Orache", latin: "Atriplex hortensis", emoji: "🍃", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "orache", name: "Orache", aka: ["mountain spinach"], latin: "Atriplex hortensis", emoji: "🍃", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual leaf vegetable"], ["Sow", "Mar–Jun, direct"], ["Height", "1–1.5 m"], ["Spacing", "30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "6–8 weeks from sowing"], ["Good companions", "Beans, brassicas"]],
     info: [
@@ -125,7 +125,7 @@ export const MORE_VEG = [
       "Keeps 3–4 days in the fridge. Blanch and freeze for cooking."],
       tips: ["Cooking reduces the heat.", "Use baby leaves raw.", "Add to stir-fries.", "Blanch and freeze."] } },
 
-  { id: "borlotti-bean", name: "Borlotti bean", latin: "Phaseolus vulgaris", emoji: "🫘", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "borlotti-bean", name: "Borlotti bean", aka: ["cranberry bean"], latin: "Phaseolus vulgaris", emoji: "🫘", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual climber"], ["Sow", "May–Jun, direct or indoors"], ["Height", "1.8–2.4 m"], ["Spacing", "15 cm apart"], ["Sowing depth", "5 cm"], ["Time to harvest", "16–20 weeks"], ["Good companions", "Sweetcorn, carrots, marigolds"]],
     info: [
@@ -150,7 +150,7 @@ export const MORE_VEG = [
       "Fresh beans keep for a few days in the pod in the fridge, or freeze shelled beans after blanching for 2 minutes. Dried beans keep for a year in jars."],
       tips: ["Boil dried beans hard for 10 minutes first.", "Freeze shelled fresh beans.", "Cook with sage and tomato.", "Store dried beans in jars."] } },
 
-  { id: "edamame", name: "Edamame", latin: "Glycine max", emoji: "🫛", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "edamame", name: "Edamame", aka: ["soya bean"], latin: "Glycine max", emoji: "🫛", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; sheltered and warm",
     facts: [["Type", "Tender annual"], ["Sow", "May–Jun, indoors then plant out"], ["Height", "40–80 cm"], ["Spacing", "15–20 cm apart"], ["Sowing depth", "3 cm"], ["Time to harvest", "14–18 weeks from sowing"], ["Good companions", "Sweetcorn, carrots"]],
     info: [
@@ -175,7 +175,7 @@ export const MORE_VEG = [
       "Freeze whole pods after blanching for 3 minutes, for up to a year. Fresh pods keep for 2–3 days in the fridge."],
       tips: ["Sprinkle with sea salt.", "Don't eat the pods.", "Blanch and freeze.", "Cook the same day."] } },
 
-  { id: "tomatillo", name: "Tomatillo", latin: "Physalis philadelphica", emoji: "🟢", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "tomatillo", name: "Tomatillo", aka: ["Mexican husk tomato"], latin: "Physalis philadelphica", emoji: "🟢", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual"], ["Sow", "Mar–Apr indoors"], ["Height", "1–1.5 m"], ["Spacing", "60–75 cm apart"], ["Sowing depth", "5 mm"], ["Time to harvest", "16–20 weeks from sowing"], ["Good companions", "Basil, marigolds, onions"]],
     info: [
@@ -225,7 +225,7 @@ export const MORE_VEG = [
       "Hardened marrows keep for 2–3 months in a cool, dry place. Peel, deseed and freeze cooked chunks."],
       tips: ["Stuff and bake.", "Season boldly.", "Make marrow and ginger jam.", "Store in a cool, dry place."] } },
 
-  { id: "patty-pan", name: "Patty pan squash", latin: "Cucurbita pepo var. patissonina", emoji: "🎃", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "patty-pan", name: "Patty pan squash", aka: ["scallop squash"], latin: "Cucurbita pepo var. patissonina", emoji: "🎃", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual"], ["Sow", "Apr–May indoors; plant out June"], ["Height", "60 cm"], ["Spacing", "75–90 cm apart"], ["Sowing depth", "2 cm"], ["Time to harvest", "9–12 weeks from sowing"], ["Good companions", "Sweetcorn, beans, nasturtiums"]],
     info: [
@@ -300,7 +300,7 @@ export const MORE_VEG = [
       "Fruit keeps for weeks in its husk in a cool place. Freeze berries on a tray, or dry for snacks."],
       tips: ["Dip in chocolate.", "Keep in husks.", "Dry or freeze.", "Make jam."] } },
 
-  { id: "gherkin", name: "Gherkin", latin: "Cucumis sativus", emoji: "🥒", sizes: ["balcony", "small", "medium"], difficulty: "Easy",
+  { id: "gherkin", name: "Gherkin", aka: ["pickling cucumber"], latin: "Cucumis sativus", emoji: "🥒", sizes: ["balcony", "small", "medium"], difficulty: "Easy",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual climber"], ["Sow", "Apr–May indoors; plant out June"], ["Height", "1.5 m"], ["Spacing", "45 cm apart"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "10–12 weeks from sowing"], ["Good companions", "Dill, sweetcorn, nasturtiums"]],
     info: [

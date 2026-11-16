@@ -175,7 +175,7 @@ export const MORE_FRUIT = [
       "Ripe fruit keeps for 2–3 days; keep unripe fruit at room temperature. Freeze slices with lemon juice, or bottle in syrup."],
       tips: ["Peel by blanching.", "Freeze slices with lemon.", "Pair with raspberries.", "Bottle in syrup."] } },
 
-  { id: "grape", name: "Grape", latin: "Vitis vinifera", emoji: "🍇", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
+  { id: "grape", name: "Grape", aka: ["grapevine"], latin: "Vitis vinifera", emoji: "🍇", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
     sun: ["full"], sunText: "Full sun; sheltered, south-facing",
     facts: [["Type", "Hardy deciduous climber"], ["Sow", "Plant Nov–Mar"], ["Height", "2–5 m (trained)"], ["Spacing", "1.2–2 m apart"], ["Planting depth", "Same as in the pot"], ["Time to harvest", "Sep–Oct, from year 3"], ["Good companions", "Roses, lavender"]],
     info: [
@@ -200,7 +200,7 @@ export const MORE_FRUIT = [
       "Grapes keep for 1–2 weeks in the fridge. Freeze whole grapes as a snack. Juice can be pasteurised and bottled."],
       tips: ["Freeze whole grapes.", "Pickle the leaves.", "Make juice.", "Serve with cheese."] } },
 
-  { id: "hardy-kiwi", name: "Hardy kiwi", latin: "Actinidia arguta", emoji: "🥝", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
+  { id: "hardy-kiwi", name: "Hardy kiwi", aka: ["kiwiberry"], latin: "Actinidia arguta", emoji: "🥝", sizes: ["small", "medium", "large"], difficulty: "Medium", sowTitle: "How to plant",
     sun: ["full", "partial"], sunText: "Full sun to light shade; sheltered",
     facts: [["Type", "Hardy deciduous climber"], ["Sow", "Plant Nov–Mar"], ["Height", "4–6 m"], ["Spacing", "3 m apart"], ["Planting depth", "Same as in the pot"], ["Time to harvest", "Oct, from year 3–4"], ["Good companions", "Clematis (as support)"]],
     info: [
@@ -225,7 +225,7 @@ export const MORE_FRUIT = [
       "Ripe fruit keeps 1–2 weeks in the fridge. Unripe fruit stores for 2–3 months in a cool place. Freeze whole."],
       tips: ["Eat whole, no peeling.", "Ripen at room temperature.", "Freeze whole.", "Add to fruit salads."] } },
 
-  { id: "elderberry", name: "Elder", latin: "Sambucus nigra", emoji: "🫐", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "elderberry", name: "Elder", aka: ["elderflower","elderberry"], latin: "Sambucus nigra", emoji: "🫐", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full", "partial", "shade"], sunText: "Sun or shade; tolerates poor soil",
     facts: [["Type", "Hardy deciduous shrub or small tree"], ["Sow", "Plant Nov–Mar"], ["Height", "3–6 m"], ["Spacing", "3 m apart"], ["Planting depth", "Same as in the pot"], ["Time to harvest", "Flowers May–Jun; berries Aug–Sep"], ["Good companions", "Hedgerow plants"]],
     info: [
@@ -250,7 +250,7 @@ export const MORE_FRUIT = [
       "Cordial keeps 6 months in sterilised bottles, or freeze it. Berries freeze whole. Dry berries for tea."],
       tips: ["Freeze cordial.", "Strip stalks from berries.", "Cook berries first.", "Add to blackberry jam."] } },
 
-  { id: "cobnut", name: "Cobnut and hazelnut", latin: "Corylus avellana", emoji: "🌰", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "cobnut", name: "Cobnut and hazelnut", aka: ["filbert"], latin: "Corylus avellana", emoji: "🌰", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full", "partial", "shade"], sunText: "Sun or partial shade",
     facts: [["Type", "Hardy deciduous shrub"], ["Sow", "Plant Nov–Mar"], ["Height", "3–5 m"], ["Spacing", "4–5 m apart"], ["Planting depth", "Same as in the nursery"], ["Time to harvest", "Sep–Oct, from year 4–5"], ["Good companions", "Hedgerow plants"]],
     info: [

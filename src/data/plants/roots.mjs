@@ -53,7 +53,7 @@ export const ROOTS = [
       "Unwashed roots keep for two to three weeks in a bag in the fridge, or for several months layered in damp sand in a cool, frost-free place. Leaving them in the ground is the simplest storage of all. For the freezer, peel, slice, blanch for two minutes and freeze in portions, or freeze after roasting."],
       tips: ["Cut out the woody core from large roots before cooking.", "Parboil for five minutes before roasting for crispy edges.", "Do not store alongside apples, whose ethylene turns roots bitter.", "Roast and freeze in trays for easy meal-prep."] } },
 
-  { id: "beetroot", name: "Beetroot", latin: "Beta vulgaris subsp. vulgaris", emoji: "🟣", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "beetroot", name: "Beetroot", aka: ["beet"], latin: "Beta vulgaris subsp. vulgaris", emoji: "🟣", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy biennial root vegetable, grown as an annual"], ["Sow", "Mar–Jul, straight into the soil"], ["Height", "30–45 cm"], ["Spacing", "Thin to 8–10 cm apart in rows 30 cm apart"], ["Sowing depth", "2 cm"], ["Time to harvest", "8–12 weeks from sowing"], ["Good companions", "Onions, lettuce, kohlrabi, dwarf beans"]],
     info: [
@@ -128,7 +128,7 @@ export const ROOTS = [
       "Earlies are best eaten within days. Cure maincrops by drying them for a few hours, then store in paper or hessian sacks in a cool, dark, frost-free place at 4–10°C, where they keep for five months or more. Never store potatoes in plastic bags or in the fridge, which makes them sweet and damp. Store them away from onions."],
       tips: ["Keep potatoes in the dark to stop them turning green.", "Check stored potatoes monthly and remove any rotting ones.", "Never eat green or sprouting tubers.", "Boil waxy varieties and bake or roast floury ones."] } },
 
-  { id: "swede", name: "Swede", latin: "Brassica napus subsp. rapifera", emoji: "🥔", sizes: ["medium", "large"], difficulty: "Easy",
+  { id: "swede", name: "Swede", aka: ["rutabaga","neep"], latin: "Brassica napus subsp. rapifera", emoji: "🥔", sizes: ["medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy biennial root vegetable, grown as an annual"], ["Sow", "May–Jun, straight into the soil"], ["Height", "30–40 cm"], ["Spacing", "Thin to 23 cm apart in rows 38 cm apart"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "20–26 weeks from sowing"], ["Good companions", "Peas, beans, onions"]],
     info: [
@@ -178,7 +178,7 @@ export const ROOTS = [
       "Twist off the tops and keep the roots in a bag in the fridge for up to two weeks. For longer storage, keep undamaged roots in a box of dry sand or compost in a cool, frost-free shed for two to three months. Cubed turnips can be blanched for two minutes and frozen."],
       tips: ["Roast with honey and thyme for sweetness.", "Use the tops quickly, like spinach.", "Peel larger roots thickly.", "Blanch cubes for two minutes before freezing."] } },
 
-  { id: "celeriac", name: "Celeriac", latin: "Apium graveolens var. rapaceum", emoji: "🌱", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
+  { id: "celeriac", name: "Celeriac", aka: ["celery root"], latin: "Apium graveolens var. rapaceum", emoji: "🌱", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy biennial root vegetable, grown as an annual"], ["Sow", "Mar–Apr indoors, plant out May–Jun"], ["Height", "45–60 cm"], ["Spacing", "30–40 cm apart each way"], ["Sowing depth", "On the surface"], ["Time to harvest", "28–36 weeks from sowing"], ["Good companions", "Leeks, beans, brassicas"]],
     info: [
@@ -203,7 +203,7 @@ export const ROOTS = [
       "Trimmed roots keep for two to three months in boxes of slightly damp sand or compost in a cool, frost-free shed, or for several weeks in the vegetable drawer of the fridge. Cubed and blanched for three minutes, they freeze well, as does celeriac soup."],
       tips: ["Drop peeled pieces into acidulated water to stop browning.", "Use a sturdy knife to cut off the skin.", "Roast cubes with garlic and thyme.", "Mash with potato for a lighter, nuttier purée."] } },
 
-  { id: "jerusalem-artichoke", name: "Jerusalem artichoke", latin: "Helianthus tuberosus", emoji: "🌻", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "jerusalem-artichoke", name: "Jerusalem artichoke", aka: ["sunchoke"], latin: "Helianthus tuberosus", emoji: "🌻", sizes: ["medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy perennial sunflower grown for its tubers"], ["Sow", "Feb–Apr, planting tubers"], ["Height", "2–3 m"], ["Spacing", "30–40 cm apart in rows 90 cm apart"], ["Planting depth", "10–15 cm"], ["Time to harvest", "28–32 weeks after planting"], ["Good companions", "Best grown on their own"]],
     info: [

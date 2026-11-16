@@ -50,7 +50,7 @@ export const LEAVES = [
       "Fresh leaves keep for three to five days in the fridge in a bag, so eat them soon after picking. To freeze, wash, blanch for two minutes, cool quickly, squeeze out the water and freeze in portions. Spinach also makes a good soup that freezes well."],
       tips: ["Squeeze out excess water after cooking.", "Blanch for one minute before freezing.", "Add to curries and soups at the last minute.", "Remove thick stalks from large leaves."] } },
 
-  { id: "rocket", name: "Rocket", latin: "Eruca vesicaria subsp. sativa", emoji: "🥗", sizes: ["balcony", "small", "medium"], difficulty: "Easy",
+  { id: "rocket", name: "Rocket", aka: ["arugula"], latin: "Eruca vesicaria subsp. sativa", emoji: "🥗", sizes: ["balcony", "small", "medium"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual salad leaf (wild rocket is perennial)"], ["Sow", "Mar–Sep, straight into the soil"], ["Height", "20–40 cm"], ["Spacing", "Thin to 10–15 cm apart, or sow thickly for baby leaf"], ["Sowing depth", "1 cm"], ["Time to harvest", "4–6 weeks from sowing"], ["Good companions", "Lettuce, carrots, beetroot"]],
     info: [
@@ -75,7 +75,7 @@ export const LEAVES = [
       "Rocket is best eaten fresh, as it wilts quickly. Keep leaves in a bag lined with kitchen paper in the fridge for up to four days. It does not dry or freeze well, though you can blend it into pesto and freeze that in small pots."],
       tips: ["Add to hot dishes at the last moment.", "Blend into pesto and freeze in small pots.", "Pair with pear and parmesan.", "Do not wash until needed."] } },
 
-  { id: "swiss-chard", name: "Swiss chard", latin: "Beta vulgaris subsp. cicla var. flavescens", emoji: "🌈", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "swiss-chard", name: "Swiss chard", aka: ["chard","silverbeet"], latin: "Beta vulgaris subsp. cicla var. flavescens", emoji: "🌈", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy biennial leaf vegetable, grown as an annual"], ["Sow", "Apr–Jun outdoors; Mar–Apr in modules"], ["Height", "40–60 cm"], ["Spacing", "Thin to 30–45 cm apart in rows 45 cm apart"], ["Sowing depth", "2–3 cm"], ["Time to harvest", "8–12 weeks, then for months"], ["Good companions", "Onions, beans, brassicas"]],
     info: [
@@ -100,7 +100,7 @@ export const LEAVES = [
       "Unwashed leaves keep for three to four days in the fridge in a bag. For freezing, separate leaves and stalks, blanch for two minutes (leaves) or three minutes (stalks), cool and pack in portions. Raw baby leaves are good in salads."],
       tips: ["Cook stems and leaves separately.", "Use baby leaves raw in salads.", "Blanch before freezing.", "Add garlic and lemon to sautéed chard."] } },
 
-  { id: "perpetual-spinach", name: "Perpetual spinach", latin: "Beta vulgaris subsp. cicla", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "perpetual-spinach", name: "Perpetual spinach", aka: ["leaf beet","spinach beet"], latin: "Beta vulgaris subsp. cicla", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial", "shade"], sunText: "Full sun to shade; tolerates poorer light",
     facts: [["Type", "Hardy biennial leaf vegetable, grown as an annual"], ["Sow", "Mar–Aug, straight into the soil"], ["Height", "30–45 cm"], ["Spacing", "Thin to 20–30 cm apart in rows 30–45 cm apart"], ["Sowing depth", "2–3 cm"], ["Time to harvest", "8–12 weeks, then for up to 18 months"], ["Good companions", "Onions, beans, brassicas"]],
     info: [
@@ -125,7 +125,7 @@ export const LEAVES = [
       "Fresh leaves keep for three to four days in a bag in the fridge, but it is easier to leave them growing and pick as needed. To freeze, wash, blanch for two minutes, squeeze out the water and freeze in portions."],
       tips: ["Wilt with garlic and a squeeze of lemon.", "Cook slightly longer than true spinach.", "Squeeze water out before freezing.", "Use young leaves raw."] } },
 
-  { id: "lambs-lettuce", name: "Lamb’s lettuce", latin: "Valerianella locusta", emoji: "🥗", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "lambs-lettuce", name: "Lamb’s lettuce", aka: ["corn salad","mâche"], latin: "Valerianella locusta", emoji: "🥗", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial", "shade"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual winter salad"], ["Sow", "Aug–Oct (also Mar–Apr)"], ["Height", "10–15 cm"], ["Spacing", "Thin to 10 cm, or sow thickly for baby leaf"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–12 weeks, in winter longer"], ["Good companions", "Winter lettuce, onions, garlic"]],
     info: [
@@ -150,7 +150,7 @@ export const LEAVES = [
       "The leaves keep for two to three days in the fridge in a bag lined with kitchen paper. For longer storage, the plants themselves are the best store, as they stay fresh in the ground all winter. It does not freeze well."],
       tips: ["Pair with beetroot, walnuts and goat’s cheese.", "Dress lightly at the last moment.", "Rinse gently, as the leaves bruise.", "Leave plants in the ground until needed."] } },
 
-  { id: "winter-purslane", name: "Winter purslane", latin: "Claytonia perfoliata", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "winter-purslane", name: "Winter purslane", aka: ["miner’s lettuce","claytonia"], latin: "Claytonia perfoliata", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["partial", "shade", "full"], sunText: "Partial shade to shade; tolerates sun",
     facts: [["Type", "Hardy annual winter salad (also called miner’s lettuce)"], ["Sow", "Aug–Oct (also Feb–Apr)"], ["Height", "10–25 cm"], ["Spacing", "Thin to 10 cm, or sow thickly"], ["Sowing depth", "5 mm"], ["Time to harvest", "6–10 weeks, in winter longer"], ["Good companions", "Winter lettuce, onions, garlic"]],
     info: [
@@ -175,7 +175,7 @@ export const LEAVES = [
       "Use it as soon as possible after harvesting. Leaves keep for two to three days in the fridge in a bag, but they are best picked fresh from the garden. Winter purslane does not freeze or dry well, but a pot on the kitchen windowsill gives you a continuous supply."],
       tips: ["Use in salads with citrus and a light dressing.", "Add whole stems to sandwiches.", "Pick just before eating.", "Use like spinach in a quick stir-fry."] } },
 
-  { id: "land-cress", name: "Land cress", latin: "Barbarea verna", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "land-cress", name: "Land cress", aka: ["American cress","upland cress"], latin: "Barbarea verna", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["partial", "shade", "full"], sunText: "Partial shade; tolerates sun and shade",
     facts: [["Type", "Hardy biennial peppery salad leaf, grown as an annual"], ["Sow", "Mar–Apr and Aug–Sep"], ["Height", "20–30 cm"], ["Spacing", "Thin to 10–15 cm apart in rows 20 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–10 weeks from sowing"], ["Good companions", "Lettuce, carrots, onions"]],
     info: [
@@ -200,7 +200,7 @@ export const LEAVES = [
       "Fresh leaves keep for up to three days in the fridge in a bag, wrapped in damp kitchen paper. It does not freeze or dry well, but soup made from it freezes nicely. Plants in the garden are the best form of storage, as they stay fresh until you need them."],
       tips: ["Make a peppery soup with potato and stock.", "Pair with smoked salmon or egg.", "Use as a garnish for flavour and colour.", "Pick just before serving."] } },
 
-  { id: "radicchio", name: "Radicchio", latin: "Cichorium intybus", emoji: "🟣", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "radicchio", name: "Radicchio", aka: ["red chicory"], latin: "Cichorium intybus", emoji: "🟣", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy perennial chicory, grown as an annual"], ["Sow", "Jun–Jul for autumn and winter heads"], ["Height", "20–30 cm"], ["Spacing", "Thin to 25–30 cm apart in rows 30–40 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "12–16 weeks from sowing"], ["Good companions", "Lettuce, onions, fennel"]],
     info: [

@@ -25,7 +25,7 @@ export const LEGUMES_STEMS = [
       "Peas turn starchy within hours, so cook them on the day. Freeze surplus peas quickly: shell, blanch for two minutes, cool in iced water, drain and freeze on a tray before bagging. They keep for a year. For dried peas, leave the pods on the plant until brown and rattling, then shell and dry."],
       tips: ["Blanch for one minute before freezing.", "Cook within hours of picking.", "Add pea shoots to salads.", "Cook just two or three minutes."] } },
 
-  { id: "broad-bean", name: "Broad bean", latin: "Vicia faba", emoji: "🫘", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "broad-bean", name: "Broad bean", aka: ["fava bean"], latin: "Vicia faba", emoji: "🫘", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy annual"], ["Sow", "Oct–Nov and Feb–Apr outdoors"], ["Height", "60 cm to 1.5 m"], ["Spacing", "20 cm apart in double rows 20 cm apart"], ["Sowing depth", "5 cm"], ["Time to harvest", "12–16 weeks (spring sowings); 30 weeks (autumn sowings)"], ["Good companions", "Carrots, lettuce, brassicas, potatoes"]],
     info: [
@@ -75,7 +75,7 @@ export const LEGUMES_STEMS = [
       "Pods keep for up to a week in the fridge in a bag. Freeze by slicing, blanching for 3 minutes, cooling and freezing in bags for up to a year. Salting beans in layers of coarse salt, as in the old way, also preserves them. Dried mature beans can be used in stews."],
       tips: ["Blanch for 2 minutes before freezing.", "Slice diagonally for tenderness.", "Add to chutney to use gluts.", "String older pods."] } },
 
-  { id: "french-bean", name: "French bean", latin: "Phaseolus vulgaris", emoji: "🫛", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "french-bean", name: "French bean", aka: ["green bean","dwarf bean"], latin: "Phaseolus vulgaris", emoji: "🫛", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual, dwarf or climbing"], ["Sow", "Apr–Jun; plant out late May–June"], ["Height", "40 cm (dwarf) to 2 m (climbing)"], ["Spacing", "10–15 cm (dwarf), 15–20 cm (climbing)"], ["Sowing depth", "5 cm"], ["Time to harvest", "8–12 weeks from sowing"], ["Good companions", "Carrots, sweetcorn, strawberries, marigolds"]],
     info: [
@@ -125,7 +125,7 @@ export const LEGUMES_STEMS = [
       "Whole heads keep in the fridge for two weeks, wrapped in foil or in a bag. Chopped celery freezes for cooking, though it loses crunch. Dry the leaves for winter seasoning, or make celery salt."],
       tips: ["Use the leaves as a herb.", "Freeze chopped celery for cooking.", "Wrap in foil in the fridge.", "Dry leaves for celery salt."] } },
 
-  { id: "fennel", name: "Florence fennel", latin: "Foeniculum vulgare var. azoricum", emoji: "🌿", sizes: ["small", "medium", "large"], difficulty: "Medium",
+  { id: "fennel", name: "Florence fennel", aka: ["bulb fennel","finocchio"], latin: "Foeniculum vulgare var. azoricum", emoji: "🌿", sizes: ["small", "medium", "large"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Half-hardy annual"], ["Sow", "May–Jul outdoors"], ["Height", "60–90 cm"], ["Spacing", "25–30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "12–16 weeks from sowing"], ["Good companions", "Not beans, tomatoes or dill (it cross-pollinates and stunts)"]],
     info: [

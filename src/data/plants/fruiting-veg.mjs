@@ -25,7 +25,7 @@ export const FRUITING = [
       "Never store ripe tomatoes in the fridge, because it dulls their flavour and makes them mealy. Keep them at room temperature out of direct sun, and eat them within a few days. Whole, roasted or sauced tomatoes freeze well, and passata can be jarred or frozen in portions."],
       tips: ["Keep ripe tomatoes out of the fridge.", "Roast surplus tomatoes and freeze them.", "Make passata from plum varieties.", "Turn green tomatoes into chutney."] } },
 
-  { id: "chilli", name: "Chilli pepper", latin: "Capsicum annuum", emoji: "🌶️", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
+  { id: "chilli", name: "Chilli pepper", aka: ["hot pepper"], latin: "Capsicum annuum", emoji: "🌶️", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun, 6+ hours; warm and sheltered",
     facts: [["Type", "Tender perennial, grown as an annual in the UK"], ["Sow", "Jan–Mar indoors with heat"], ["Height", "30–90 cm"], ["Spacing", "45 cm apart, or one per 20–30 cm pot"], ["Sowing depth", "5 mm"], ["Time to harvest", "16–24 weeks from sowing"], ["Good companions", "Basil, tomatoes, marigolds"]],
     info: [
@@ -75,7 +75,7 @@ export const FRUITING = [
       "Whole cucumbers keep for up to a week in the fridge, wrapped in cling film or in a bag, but they do not freeze well. For storage, pickle in brine or vinegar and keep in sterilised jars for a year, for a satisfying crunch long after the season ends."],
       tips: ["Pickle gluts in sterilised jars.", "Wrap in cling film in the fridge.", "Salt and drain slices for crisp pickles.", "Leave the skin on ridge types for extra crunch."] } },
 
-  { id: "courgette", name: "Courgette", latin: "Cucurbita pepo", emoji: "🥒", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "courgette", name: "Courgette", aka: ["zucchini"], latin: "Cucurbita pepo", emoji: "🥒", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full"], sunText: "Full sun; sheltered",
     facts: [["Type", "Tender annual, bush or trailing"], ["Sow", "Apr–May indoors; plant out late May–June"], ["Height", "60–90 cm; trailing types spread more widely"], ["Spacing", "90 cm apart"], ["Sowing depth", "2 cm"], ["Time to harvest", "8–12 weeks from sowing"], ["Good companions", "Sweetcorn, beans, nasturtiums, marigolds"]],
     info: [
@@ -125,7 +125,7 @@ export const FRUITING = [
       "Cured pumpkins with the stalk attached will store for three to six months in a cool (10–15°C), dry, frost-free place such as a garage or spare room. Cut pumpkins keep for a week in the fridge. Roast or purée surplus flesh and freeze in portions."],
       tips: ["Roast the seeds with salt.", "Store cured pumpkins in a cool, dry place.", "Freeze purée in portions.", "Use smaller types for eating."] } },
 
-  { id: "sweetcorn", name: "Sweetcorn", latin: "Zea mays", emoji: "🌽", sizes: ["medium", "large"], difficulty: "Medium",
+  { id: "sweetcorn", name: "Sweetcorn", aka: ["corn on the cob","maize"], latin: "Zea mays", emoji: "🌽", sizes: ["medium", "large"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; sheltered from wind",
     facts: [["Type", "Tender annual grass"], ["Sow", "Apr–May indoors; plant out late May–June"], ["Height", "1.2–2 m"], ["Spacing", "35–45 cm apart in a block"], ["Sowing depth", "2.5 cm"], ["Time to harvest", "14–18 weeks from sowing"], ["Good companions", "Beans, squashes, cucumbers (the ‘three sisters’)"]],
     info: [
@@ -175,7 +175,7 @@ export const FRUITING = [
       "Dried kernels keep well in an airtight jar in a cool, dark place for a year or more, which makes popcorn one of the easiest crops to store. Popped corn goes stale within a day or two, so pop only what you will eat. Popcorn is a choking hazard for babies and toddlers, so wait until children are older."],
       tips: ["Store dried kernels in an airtight jar.", "Pop only what you will eat.", "Season with herbs from the garden.", "Keep popcorn away from babies and toddlers."] } },
 
-  { id: "sweet-pepper", name: "Sweet pepper", latin: "Capsicum annuum", emoji: "🫑", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
+  { id: "sweet-pepper", name: "Sweet pepper", aka: ["bell pepper","capsicum"], latin: "Capsicum annuum", emoji: "🫑", sizes: ["balcony", "small", "medium"], difficulty: "Medium",
     sun: ["full"], sunText: "Full sun; warm and sheltered, ideally under cover",
     facts: [["Type", "Tender perennial, grown as an annual"], ["Sow", "Feb–Mar indoors with heat"], ["Height", "45–90 cm"], ["Spacing", "45 cm apart"], ["Sowing depth", "5 mm"], ["Time to harvest", "18–24 weeks from sowing"], ["Good companions", "Basil, tomatoes, onions"]],
     info: [
@@ -200,7 +200,7 @@ export const FRUITING = [
       "Peppers keep for one to two weeks in the fridge. To freeze, deseed and slice, spread on a tray, freeze, then pack in bags; they will be soft when thawed, so are best used cooked. Roasted peppers can be stored in oil in the fridge for a week, or frozen in portions."],
       tips: ["Roast and peel for a smoky sweetness.", "Freeze sliced peppers for cooking.", "Stuff and bake the larger fruits.", "Store in the fridge’s salad drawer."] } },
 
-  { id: "aubergine", name: "Aubergine", latin: "Solanum melongena", emoji: "🍆", sizes: ["balcony", "small", "medium"], difficulty: "Hard",
+  { id: "aubergine", name: "Aubergine", aka: ["eggplant","brinjal"], latin: "Solanum melongena", emoji: "🍆", sizes: ["balcony", "small", "medium"], difficulty: "Hard",
     sun: ["full"], sunText: "Full sun; needs warmth, best under glass",
     facts: [["Type", "Tender perennial, grown as an annual"], ["Sow", "Feb–Mar indoors with heat"], ["Height", "60–90 cm"], ["Spacing", "45–60 cm apart"], ["Sowing depth", "5 mm"], ["Time to harvest", "20–26 weeks from sowing"], ["Good companions", "Basil, peppers, beans"]],
     info: [

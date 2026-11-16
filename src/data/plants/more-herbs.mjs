@@ -25,7 +25,7 @@ export const MORE_HERBS = [
       "Fresh chervil wilts fast, so use it within a day or two of picking, with stems in water in the fridge. Drying loses nearly all the flavour; freeze chopped in ice-cube trays or make chervil butter to keep it."],
       tips: ["Add at the end of cooking.", "Freeze in butter or ice cubes.", "Use in fines herbes.", "Don't dry it."] } },
 
-  { id: "bay", name: "Bay", latin: "Laurus nobilis", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "bay", name: "Bay", aka: ["bay laurel","sweet bay"], latin: "Laurus nobilis", emoji: "🍃", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full", "partial"], sunText: "Full sun to partial shade; sheltered from cold winds",
     facts: [["Type", "Evergreen shrub or tree, hardy in most areas"], ["Sow", "Plant Mar–Oct"], ["Height", "2–5 m (or clipped to 1 m in a pot)"], ["Spacing", "1–3 m apart, depending on use"], ["Planting depth", "Same as in the pot"], ["Time to harvest", "All year from year 2"], ["Good companions", "Rosemary, thyme, sage"]],
     info: [
@@ -200,7 +200,7 @@ export const MORE_HERBS = [
       "Dried leaves keep their scent for a year in an airtight jar. Fresh leaves freeze well."],
       tips: ["Steep for tea.", "Infuse in syrup.", "Dry for winter.", "Add to fruit salads."] } },
 
-  { id: "garlic-chives", name: "Garlic chives", latin: "Allium tuberosum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
+  { id: "garlic-chives", name: "Garlic chives", aka: ["Chinese chives"], latin: "Allium tuberosum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
     sun: ["full", "partial"], sunText: "Full sun to light shade",
     facts: [["Type", "Hardy perennial herb"], ["Sow", "Mar–May direct; or plant any time"], ["Height", "30–50 cm"], ["Spacing", "20–25 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–10 weeks from sowing"], ["Good companions", "Carrots, roses, apples"]],
     info: [

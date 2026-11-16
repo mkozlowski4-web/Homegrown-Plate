@@ -75,7 +75,7 @@ export const HERBS = [
       "Fresh mint keeps for a week with stems in water in the fridge. Freeze leaves in ice cubes for drinks, or dry bunches hung upside down in a warm, airy place and store in a jar. Mint jelly and mint sauce preserve the flavour in jars."],
       tips: ["Freeze leaves in ice cubes for drinks.", "Add to peas and new potatoes.", "Hang-dry bunches for tea.", "Infuse in boiling water for tea."] } },
 
-  { id: "coriander", name: "Coriander", latin: "Coriandrum sativum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Medium",
+  { id: "coriander", name: "Coriander", aka: ["cilantro"], latin: "Coriandrum sativum", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Medium",
     sun: ["partial", "full"], sunText: "Partial shade in summer; full sun in spring and autumn",
     facts: [["Type", "Hardy annual herb"], ["Sow", "Mar–Sep, little and often"], ["Height", "30–60 cm"], ["Spacing", "15–20 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "4–6 weeks for leaf; 12 weeks for seed"], ["Good companions", "Not fennel; good with carrots and potatoes"]],
     info: [
@@ -200,7 +200,7 @@ export const HERBS = [
       "Fresh sage keeps for a week in the fridge wrapped in damp paper. It dries well and keeps the flavour for a year in a jar, and also freezes well on the stem. Sage tea is a traditional remedy for sore throats."],
       tips: ["Fry leaves in butter until crisp.", "Use sparingly: it’s strong.", "Dry bunches for winter.", "Pair with squash and pork."] } },
 
-  { id: "oregano", name: "Oregano", latin: "Origanum vulgare", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
+  { id: "oregano", name: "Oregano", aka: ["wild marjoram"], latin: "Origanum vulgare", emoji: "🌿", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to plant",
     sun: ["full"], sunText: "Full sun; poor, free-draining soil",
     facts: [["Type", "Hardy perennial herb"], ["Sow", "Plant Mar–Oct; seed Apr–May"], ["Height", "30–60 cm"], ["Spacing", "30–45 cm apart"], ["Planting depth", "Same as in the pot"], ["Time to harvest", "Light picking in year 1; fully from year 2"], ["Good companions", "Tomatoes, peppers, brassicas"]],
     info: [
@@ -250,7 +250,7 @@ export const HERBS = [
       "Fresh tarragon keeps for a week in the fridge wrapped in damp paper. Make tarragon vinegar by steeping sprigs in white wine vinegar for a few weeks. Freeze leaves whole or chopped in oil, which holds the flavour far better than drying."],
       tips: ["Add at the end of cooking.", "Make tarragon vinegar.", "Freeze rather than dry.", "Use in béarnaise and chicken dishes."] } },
 
-  { id: "lemon-balm", name: "Lemon balm", latin: "Melissa officinalis", emoji: "🍋", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
+  { id: "lemon-balm", name: "Lemon balm", aka: ["melissa"], latin: "Melissa officinalis", emoji: "🍋", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
     sun: ["partial", "full", "shade"], sunText: "Partial shade to full sun",
     facts: [["Type", "Hardy perennial herb"], ["Sow", "Seed Mar–May; plant Mar–Oct"], ["Height", "50–80 cm"], ["Spacing", "45–60 cm apart"], ["Sowing depth", "Surface"], ["Time to harvest", "6–8 weeks after planting"], ["Good companions", "Brassicas, fruit trees, tomatoes"]],
     info: [
@@ -325,7 +325,7 @@ export const HERBS = [
       "Use flowers and leaves fresh, as they do not keep, though they last a day or two in the fridge in a sealed box with damp paper. Pickled seed pods keep for months in a jar. Nasturtium pesto can be frozen."],
       tips: ["Stuff flowers with soft cheese.", "Pickle green seed pods as capers.", "Blend leaves into pesto.", "Use as a colourful salad garnish."] } },
 
-  { id: "calendula", name: "Calendula", latin: "Calendula officinalis", emoji: "🌼", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "calendula", name: "Calendula", aka: ["pot marigold"], latin: "Calendula officinalis", emoji: "🌼", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual"], ["Sow", "Mar–Jun direct; Sep for early flowers"], ["Height", "30–60 cm"], ["Spacing", "20–30 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–10 weeks from sowing"], ["Good companions", "Tomatoes, brassicas, beans, roses"]],
     info: [
@@ -350,7 +350,7 @@ export const HERBS = [
       "Fresh flowers last a few days in the fridge. Dried petals keep for a year in an airtight jar in the dark, and make a calming tea. Calendula-infused oil makes a lovely handmade balm."],
       tips: ["Use as a saffron substitute for colour.", "Dry petals for tea.", "Infuse in oil for balms.", "Scatter over salads."] } },
 
-  { id: "borage", name: "Borage", latin: "Borago officinalis", emoji: "💙", sizes: ["small", "medium", "large"], difficulty: "Easy",
+  { id: "borage", name: "Borage", aka: ["starflower"], latin: "Borago officinalis", emoji: "💙", sizes: ["small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual"], ["Sow", "Apr–Jun direct"], ["Height", "60–90 cm"], ["Spacing", "45 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–10 weeks from sowing"], ["Good companions", "Strawberries, tomatoes, courgettes, beans"]],
     info: [

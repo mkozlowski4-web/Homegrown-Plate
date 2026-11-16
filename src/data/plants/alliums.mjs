@@ -100,7 +100,7 @@ export const ALLIUMS = [
       "Cured shallots keep for six to eight months in nets or trays in a cool, dry, frost-free place, often longer than onions. Peeled and chopped shallots can be frozen in small bags. Check regularly for rot, and use any soft bulbs promptly."],
       tips: ["Roast whole in their skins until soft and sweet.", "Pickle small shallots in vinegar for a jar to enjoy all winter.", "Store in nets or trays with good airflow.", "Chop and freeze for quick cooking."] } },
 
-  { id: "spring-onion", name: "Spring onion", latin: "Allium fistulosum", emoji: "🌱", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "spring-onion", name: "Spring onion", aka: ["salad onion","scallion"], latin: "Allium fistulosum", emoji: "🌱", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy perennial grown as a salad annual"], ["Sow", "Mar–Aug (and Aug–Sep for overwintering)"], ["Height", "20–35 cm"], ["Spacing", "Thin to 2.5 cm in rows 15 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "8–12 weeks from sowing"], ["Good companions", "Carrots, lettuce, beetroot"]],
     info: [

@@ -16,7 +16,7 @@ export const DRINKS = [
   { id:"lemon-balm-iced-tea", title:"Lemon Balm Iced Tea", time:"15 min + chilling", serves:"6", uses:["lemon-balm","mint"],
     ingredients:[["lemon-balm","Lemon balm, leaves and tender stems","large bunch"],["mint","Mint sprigs","4"],["lemon","Lemon, sliced","1"],["honey","Honey","3 tbsp"],["water","Boiling water","1 litre"]],
     steps:["Put the lemon balm and mint in a heatproof jug and pour over the boiling water.","Stir in the honey, cover and leave to steep for 15 minutes.","Strain out the leaves and chill for at least 2 hours.","Serve over ice with lemon slices and a few fresh leaves."] },
-  { id:"raspberry-shrub", title:"Raspberry Vinegar Shrub", time:"15 min + 2 days", serves:"makes about 500 ml", uses:["raspberry"],
+  { id:"raspberry-shrub", title:"Raspberry Vinegar Shrub (Drinking Vinegar)", time:"15 min + 2 days", serves:"makes about 500 ml", uses:["raspberry"],
     ingredients:[["raspberry","Raspberries","400 g"],["sugar","Caster sugar","300 g"],["vinegar","Apple cider vinegar","300 ml"]],
     steps:["Mash the raspberries with the sugar in a bowl, cover and leave for 24 hours so the juices draw out.","Strain through a fine sieve, pressing lightly, and discard the pulp.","Stir in the vinegar until any remaining sugar dissolves and pour into a sterilised bottle.","Leave for a day for the flavours to mellow, then mix 1 part shrub with 4–5 parts sparkling water. Keeps for several months in the fridge."] },
   { id:"lovage-virgin-mary", title:"Lovage Virgin Mary", time:"10 min", serves:"2", uses:["tomato","lovage","celery"],

@@ -25,7 +25,7 @@ export const BRASSICAS = [
       "Whole heads keep for two to three weeks in the fridge and for several weeks in a cool, frost-free shed hung in nets. Firm winter varieties such as white and red cabbage keep longest. Shredded cabbage can be blanched for a minute and frozen, or fermented into sauerkraut that will last for months."],
       tips: ["Ferment shredded cabbage with salt for sauerkraut.", "Cook briefly so it keeps its texture and sweetness.", "Hang firm heads in nets in a cool shed.", "Add caraway seeds for traditional flavour."] } },
 
-  { id: "kale", name: "Kale", latin: "Brassica oleracea (Acephala Group)", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
+  { id: "kale", name: "Kale", aka: ["borecole"], latin: "Brassica oleracea (Acephala Group)", emoji: "🥬", sizes: ["small", "medium", "large"], difficulty: "Easy", sowTitle: "How to sow and plant",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy biennial leaf vegetable, grown as an annual"], ["Sow", "Apr–Jul in trays or a seedbed"], ["Height", "30–90 cm"], ["Spacing", "45–60 cm apart"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "8–12 weeks (baby leaves) to 20 weeks"], ["Good companions", "Onions, beetroot, nasturtiums, herbs"]],
     info: [
@@ -50,7 +50,7 @@ export const BRASSICAS = [
       "Kale keeps in a bag in the fridge for four to five days. It freezes very well: wash, strip from the stalks, blanch for three minutes, drain thoroughly and freeze in portions. Bunches can be stood in water in the fridge to stay fresh for longer."],
       tips: ["Massage raw kale with oil and lemon to soften it.", "Bake at 150°C with oil for crisps.", "Blanch two minutes before freezing.", "Remove the tough central stalks before cooking."] } },
 
-  { id: "sprouting-broccoli", name: "Sprouting broccoli", latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
+  { id: "sprouting-broccoli", name: "Sprouting broccoli", aka: ["purple sprouting broccoli"], latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
     sun: ["full"], sunText: "Full sun, in an open site",
     facts: [["Type", "Hardy biennial, grown as an annual"], ["Sow", "Apr–May in trays; plant out Jun–Jul"], ["Height", "90–120 cm"], ["Spacing", "60 cm apart in rows 75 cm apart"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "40–48 weeks from sowing"], ["Good companions", "Onions, beetroot, nasturtiums"]],
     info: [
@@ -75,7 +75,7 @@ export const BRASSICAS = [
       "Fresh spears keep for only three or four days in the fridge in a bag, so eat them promptly. For freezing, blanch the spears for three minutes, chill quickly in cold water, dry them and freeze on trays before bagging. Do not leave harvested spears in a warm kitchen."],
       tips: ["Steam for three to four minutes to keep the colour.", "Blanch for two minutes before freezing.", "Eat within days of picking.", "Roast at 200°C with garlic and chilli flakes."] } },
 
-  { id: "calabrese", name: "Calabrese", latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
+  { id: "calabrese", name: "Calabrese", aka: ["broccoli"], latin: "Brassica oleracea (Italica Group)", emoji: "🥦", sizes: ["medium", "large"], difficulty: "Medium", sowTitle: "How to sow and plant",
     sun: ["full"], sunText: "Full sun, in an open site",
     facts: [["Type", "Half-hardy annual brassica"], ["Sow", "Mar–Jun, indoors or direct"], ["Height", "45–60 cm"], ["Spacing", "30–45 cm apart in rows 45 cm apart"], ["Sowing depth", "1–2 cm"], ["Time to harvest", "10–14 weeks from sowing"], ["Good companions", "Onions, beetroot, celery"]],
     info: [
@@ -175,7 +175,7 @@ export const BRASSICAS = [
       "Trimmed stems keep for two to three weeks in the fridge in a bag. Peeled, cubed kohlrabi can be blanched for two minutes and frozen. Do not wash until needed, and keep it away from strong-smelling foods."],
       tips: ["Peel thickly, as the skin is tough.", "Slice thinly raw with lemon, salt and olive oil.", "Roast cubes at 200°C until golden.", "Cook the young leaves like cabbage."] } },
 
-  { id: "pak-choi", name: "Pak choi", latin: "Brassica rapa subsp. chinensis", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "pak-choi", name: "Pak choi", aka: ["bok choy"], latin: "Brassica rapa subsp. chinensis", emoji: "🥬", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["full", "partial"], sunText: "Full sun to partial shade",
     facts: [["Type", "Hardy annual Asian leaf vegetable"], ["Sow", "Apr–Aug, straight into the soil or in trays"], ["Height", "15–30 cm"], ["Spacing", "10–20 cm apart (closer for baby leaves)"], ["Sowing depth", "1 cm"], ["Time to harvest", "4–8 weeks from sowing"], ["Good companions", "Onions, lettuce, dill"]],
     info: [
@@ -200,7 +200,7 @@ export const BRASSICAS = [
       "Unwashed heads keep for up to a week in the fridge in a bag. Pak choi does not freeze well, so it is best eaten fresh. Sow small amounts regularly rather than a big batch, and harvest only what you plan to eat."],
       tips: ["Stir-fry with garlic, ginger and soy sauce.", "Halve and char on a hot grill pan.", "Add to noodle soup at the end.", "Eat raw as baby leaf in salads."] } },
 
-  { id: "mizuna", name: "Mizuna", latin: "Brassica rapa var. nipposinica", emoji: "🥗", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
+  { id: "mizuna", name: "Mizuna", aka: ["Japanese mustard greens"], latin: "Brassica rapa var. nipposinica", emoji: "🥗", sizes: ["balcony", "small", "medium", "large"], difficulty: "Easy",
     sun: ["partial", "full", "shade"], sunText: "Partial shade to full sun; tolerates shade",
     facts: [["Type", "Hardy annual Japanese salad leaf"], ["Sow", "Mar–Sep outdoors; autumn sowings under cover"], ["Height", "20–30 cm"], ["Spacing", "Thin to 10–20 cm apart"], ["Sowing depth", "1 cm"], ["Time to harvest", "3–8 weeks from sowing"], ["Good companions", "Lettuce, beetroot, onions"]],
     info: [

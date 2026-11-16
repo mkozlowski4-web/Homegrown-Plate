@@ -1542,3 +1542,7 @@ table.ps-cal .bar { height: 6px; margin: 2px 3px; }
   .ps-foot { font-size: 7.5pt; margin-top: 2mm; }
   table.ps-cal, table.ps-cal * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* Other common names after a crop name, e.g. Courgette (zucchini) */
+.aka { font-size: .62em; font-weight: 400; color: var(--muted, #666); letter-spacing: 0; white-space: normal; }
+.card h3 .aka { font-size: .8em; }

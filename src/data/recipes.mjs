@@ -6,7 +6,7 @@ import { BATCH_TWO } from './recipes/batch-two.mjs';
 import { BATCH_THREE } from './recipes/batch-three.mjs';
 /* Recipes. 'uses' lists crop ids; each ingredient is [crop id or keyword, label, quantity]. */
 const BASE_RECIPES = [
-  { id:"caprese-salad", title:"Tomato & Basil Salad", time:"10 min", serves:"2", uses:["tomato","basil"],
+  { id:"caprese-salad", title:"Tomato & Basil Salad (Caprese Salad)", time:"10 min", serves:"2", uses:["tomato","basil"],
     ingredients:[["tomato","Ripe tomatoes, sliced","2 large"],["basil","Fresh basil leaves","a handful"],["olive oil","Extra virgin olive oil","2 tbsp"],["salt","Flaky salt","pinch"],["mozzarella","Mozzarella (optional)","1 ball"]],
     steps:["Slice tomatoes and arrange on a plate.","Tear basil leaves over the top.","Drizzle with olive oil and season with salt.","Add mozzarella if using, and serve at room temperature."],
     tips:["Use tomatoes that have ripened on the plant and have never been in the fridge, which dulls their flavour and texture.", "Tear the basil rather than cutting it so it does not bruise and blacken.", "Salt the tomatoes a few minutes before serving to bring out their juices, which also make the dressing."] },
@@ -35,7 +35,7 @@ const BASE_RECIPES = [
     ingredients:[["potato","Potatoes, cubed","4 medium"],["onion","Onion, diced","1"],["spinach","Spinach","2 large handfuls"],["chilli","Chilli flakes","pinch"],["oil","Oil","2 tbsp"]],
     steps:["Parboil potato cubes for 5 minutes and drain.","Fry in hot oil until golden and crisp, about 15 minutes.","Add onion and cook until soft.","Stir in spinach until wilted and season with chilli flakes."],
     tips:["Drain the parboiled potatoes and let them steam dry for a few minutes, because dry potatoes crisp better.", "Leave the potatoes undisturbed for a few minutes at a time so a crust forms before you turn them.", "Top with a fried egg, or stir in any leftover cooked vegetables."] },
-  { id:"pesto", title:"Fresh Basil Pesto", time:"10 min", serves:"makes 1 jar", uses:["basil","mint"],
+  { id:"pesto", title:"Fresh Basil Pesto (Pesto alla Genovese)", time:"10 min", serves:"makes 1 jar", uses:["basil","mint"],
     ingredients:[["basil","Basil leaves","large bunch"],["garlic","Garlic clove","1"],["olive oil","Olive oil","100 ml"],["parmesan","Parmesan, grated","50 g"],["pine nuts","Pine nuts or walnuts","30 g"]],
     steps:["Blitz basil, garlic and nuts in a food processor.","Slowly add oil while blending.","Stir in parmesan and season.","Store in a jar covered with a layer of oil."],
     tips:["Toast the nuts lightly first for a deeper flavour, and pick basil in the morning before the sun wilts it.", "Pulse rather than blitz for a rougher texture, and stir the cheese in by hand so the pesto does not turn bitter.", "Keeps for about a week in the fridge under a layer of oil. For longer, freeze it in ice cube trays and bag the cubes."] }
