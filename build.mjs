@@ -487,8 +487,8 @@ function addPage({ path, ...opts }) {
   const { ld = [], crumbs } = opts;
   const allLd = [...ld];
   /* The page's fingerprint covers what a reader sees: its title, description and the words and image descriptions in its body.
-     Markup-only changes (class names, layout, hidden search data, asset versions) and the "Updated" date below never change it. */
-  const hash = createHash('sha1').update(JSON.stringify([opts.title, opts.description, readableText(opts.body)])).digest('hex').slice(0, 12);
+     The quick answer and Related box count too. Markup-only changes (class names, layout, hidden search data, asset versions) and the "Updated" date below never change it. */
+  const hash = createHash('sha1').update(JSON.stringify([opts.title, opts.description, readableText(opts.body), QUICK_ANSWERS[path] || '', (RELATED_LINKS[path] || []).map(([t, h]) => `${t} ${h}`)])).digest('hex').slice(0, 12);
   if (opts.article) {
     const updated = pageUpdated(path, hash);
     allLd.push({
