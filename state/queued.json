@@ -183,5 +183,40 @@
   "buffer_id": "6af9c4d7c5b364e06260696b",
   "due": "2026-11-18T09:00:00.000Z",
   "at": "2026-11-15T14:42:29.007696+00:00"
+ },
+ "2026-11-18-carousel-preserve-1|instagram": {
+  "buffer_id": "6afacd33d7e5fee638b64f53",
+  "due": "2026-11-18T18:30:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-18-carousel-preserve-1|facebook": {
+  "buffer_id": "6afacd338e87c256a3c8b67d",
+  "due": "2026-11-18T18:30:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-18-pin-pin_recipe-13|pinterest": {
+  "buffer_id": "6afacd34d7e5fee638b64f98",
+  "due": "2026-11-18T20:00:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-19-story-story-14|instagram": {
+  "buffer_id": "6afacd3406e1675856df82e1",
+  "due": "2026-11-19T09:00:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-16-reel-popcorn-extra|instagram": {
+  "buffer_id": "6afacd348e87c256a3c8b6e2",
+  "due": "2026-11-16T18:30:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-16-reel-popcorn-extra|facebook": {
+  "buffer_id": "6afacd358e87c256a3c8b724",
+  "due": "2026-11-16T18:30:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
+ },
+ "2026-11-16-reel-popcorn-extra-videopin|pinterest": {
+  "buffer_id": "6afacd35a869c35e5bd22be7",
+  "due": "2026-11-16T20:30:00.000Z",
+  "at": "2026-11-16T09:30:27.186348+00:00"
  }
 }
