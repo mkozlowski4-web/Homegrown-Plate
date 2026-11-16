@@ -480,8 +480,9 @@ ${body}
 function addPage({ path, ...opts }) {
   const { ld = [], crumbs } = opts;
   const allLd = [...ld];
-  /* The page's fingerprint covers its title, description and body, so the "Updated" date and Article data below never change it. */
-  const hash = createHash('sha1').update(JSON.stringify([opts.title, opts.description, opts.body])).digest('hex').slice(0, 12);
+  /* The page's fingerprint covers what a reader sees: its title, description and the words and image descriptions in its body.
+     Markup-only changes (class names, layout, hidden search data, asset versions) and the "Updated" date below never change it. */
+  const hash = createHash('sha1').update(JSON.stringify([opts.title, opts.description, readableText(opts.body)])).digest('hex').slice(0, 12);
   if (opts.article) {
     const updated = pageUpdated(path, hash);
     allLd.push({
@@ -505,12 +506,21 @@ function addPage({ path, ...opts }) {
   pages.push(path);
   if (!opts.noindex) pageHash.set(path, hash);
 }
+/* The words a reader sees in a chunk of page HTML: tags removed (an image counts as its alt text), spacing tidied. */
+function readableText(html) {
+  return String(html)
+    .replace(/<img\b[^>]*?\balt="([^"]*)"[^>]*>/gi, ' $1 ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 /* Day a page's content last changed, from the saved sitemap dates; today if it has changed since they were saved. */
 let savedDates;
+const REHASH = process.argv.includes('--rehash-dates');
 function pageUpdated(path, hash) {
   savedDates ??= existsSync(join(ROOT, 'src/data/page-dates.json')) ? JSON.parse(readFileSync(join(ROOT, 'src/data/page-dates.json'), 'utf8')) : {};
   const old = savedDates[path];
-  return old && old.h === hash ? old.d : new Date().toISOString().slice(0, 10);
+  return old && (old.h === hash || REHASH) ? old.d : new Date().toISOString().slice(0, 10);
 }
 const longDate = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
@@ -2364,7 +2374,7 @@ function build404() {
 }
 
 /* Sitemap dates: src/data/page-dates.json remembers each page's fingerprint and the day it last changed,
-   so a page's <lastmod> only moves when its own content does. "npm run dates" updates the file; commit it. */
+   so a page's <lastmod> only moves when its own content does. "npm run dates" updates the file; the "Save page dates" GitHub action does this after every push to main. */
 const DATES_FILE = join(ROOT, 'src/data/page-dates.json');
 function buildSupportFiles() {
   const today = new Date().toISOString().slice(0, 10);
@@ -2372,11 +2382,12 @@ function buildSupportFiles() {
   const next = {}; let changed = 0;
   for (const p of pages) {
     const h = pageHash.get(p), old = saved[p];
-    if (old && old.h === h) next[p] = old; else { next[p] = { h, d: today }; changed++; }
+    /* --rehash-dates: keep every saved date but store fingerprints made the current way (only needed if the fingerprint method changes). */
+    if (old && (old.h === h || REHASH)) next[p] = { h, d: old.d }; else { next[p] = { h, d: today }; changed++; }
   }
   const urls = pages.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${next[p].d}</lastmod></url>`).join('\n');
-  if (process.argv.includes('--update-dates')) { writeFileSync(DATES_FILE, '{\n' + Object.keys(next).sort().map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(next[k])}`).join(',\n') + '\n}\n'); console.log(`Sitemap dates saved: ${changed} page${changed === 1 ? '' : 's'} changed.`); }
-  else if (changed) console.log(`Note: ${changed} page${changed === 1 ? '' : 's'} changed since the saved sitemap dates (dated today). Run "npm run dates" and commit src/data/page-dates.json to keep them.`);
+  if (process.argv.includes('--update-dates') || REHASH) { writeFileSync(DATES_FILE, '{\n' + Object.keys(next).sort().map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(next[k])}`).join(',\n') + '\n}\n'); console.log(`Sitemap dates saved: ${changed} page${changed === 1 ? '' : 's'} changed.`); }
+  else if (changed) console.log(`Note: ${changed} page${changed === 1 ? '' : 's'} changed since the saved sitemap dates (dated today). The "Save page dates" GitHub action saves them after each push to main (or run "npm run dates").`);
   writeFileSync(join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
   writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 }

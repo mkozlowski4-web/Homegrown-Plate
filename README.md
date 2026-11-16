@@ -71,7 +71,9 @@ Timings are typical UK estimates. Check them against your local frost dates.
 
 ## Sitemap dates
 
-Each page's `<lastmod>` date in `sitemap.xml` only changes when that page's own content changes. `src/data/page-dates.json` stores a fingerprint and date for every page. After changing content, run `npm run dates` and commit the updated file with your change. If you forget, nothing breaks: the changed pages are simply dated with the day of each build until the file is updated (the build prints a note saying how many).
+Each page's `<lastmod>` date in `sitemap.xml` (and the "Updated" date on crop, recipe and guide pages) only changes when that page's own content changes. `src/data/page-dates.json` stores a fingerprint and date for every page. The fingerprint covers what a reader sees: the title, description, and the words and image descriptions on the page, so layout, styling and hidden markup changes do not count.
+
+The **Save page dates** GitHub action (`.github/workflows/save-page-dates.yml`) runs `npm run dates` after every push to `main` and commits the file, so nobody needs to remember. If the way fingerprints are made ever changes, run `node build.mjs --rehash-dates` once: it keeps every saved date and stores the new fingerprints.
 
 ## What the build produces
 
