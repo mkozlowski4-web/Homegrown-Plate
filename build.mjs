@@ -32,6 +32,7 @@ import { illustration } from './src/illustrations.mjs';
 import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
 import { GUIDES } from './src/data/guides.mjs';
 import { recipeNutrition, fmtNutrient, NUTRIENTS } from './src/data/nutrition.mjs';
+import { SHOPS, shopsFor } from './src/data/affiliates.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -1025,6 +1026,18 @@ function plantDescription(p, cal) {
     join(lead, sowShort, harvest),
   ]);
 }
+/* "Where to buy" box on crop pages with an affiliate shop (see src/data/affiliates.mjs). */
+function buyBox(p) {
+  const links = shopsFor(p.id);
+  if (!links.length) return '';
+  return `<aside class="buy-box" aria-label="Where to buy ${esc(lower(p.name))}">
+<h2 class="buy-head">Buy ${esc(lower(p.name))} plants</h2>
+${links.map(({ shop, href }) => `<p>${esc(shop.blurb)}</p>
+<p><a class="btn buy-btn" href="${esc(href)}" rel="sponsored nofollow noopener" target="_blank">Shop for ${esc(lower(p.name))} at ${esc(shop.name)}</a></p>`).join('\n')}
+<p class="muted small-note">This is an affiliate link: if you buy, we may earn a small commission at no extra cost to you. <a href="/affiliate-disclosure/">How this works</a>.</p>
+</aside>`;
+}
+
 function buildPlants() {
   const FRUIT_IDS = new Set([...FRUIT, ...MORE_FRUIT].map((p) => p.id));
   const HERB_SET = new Set([...HERBS, ...MORE_HERBS].map((p) => p.id));
@@ -1113,6 +1126,7 @@ ${growCard(p, cal)}
 <div class="plant-main">
 <p class="acc-controls"><span class="acc-hint">Tap a section to open it</span><button type="button" class="acc-all" id="accToggle" hidden>Expand all</button></p>
 ${accordion('info', 'Info', infoBody, true)}
+${buyBox(p)}
 ${accordion('how-to-sow', p.sowTitle || 'How to sow', sowBody + galleryHtml(p))}
 ${accordion('how-to-grow', 'How to grow', growBody)}
 ${accordion('how-to-harvest', 'How to harvest', harvestBody)}
@@ -2302,7 +2316,7 @@ function buildAbout() {
 <h2>How to use it</h2>
 <p>Sowing and harvest times are typical for the UK and are adjusted for your area using the first letters of your postcode. They are a good guide, not a guarantee: always check your own frost dates, soil and weather. The guidance is general. For specific plant health problems or food safety questions, check with a trusted source such as the RHS or your local garden centre.</p>
 <h2>Free to use</h2>
-<p>You never need an account to use the site. An optional free <a href="/account/">account</a> saves your garden across devices. The site may in future earn a small commission from some links, which never changes what we recommend. Read the <a href="/affiliate-disclosure/">affiliate disclosure</a> and the <a href="/privacy/">privacy page</a>.</p>
+<p>You never need an account to use the site. An optional free <a href="/account/">account</a> saves your garden across devices. The site earns a small commission from some shop links, which never changes what we recommend. Read the <a href="/affiliate-disclosure/">affiliate disclosure</a> and the <a href="/privacy/">privacy page</a>.</p>
 <h2>Get in touch</h2>
 <p>Spotted a mistake, or have a crop or recipe you would like to see? Email ${mail}. See the <a href="/contact/">contact page</a>.</p>`,
   });
@@ -2331,12 +2345,11 @@ function buildAbout() {
     body: `
 <h1>Affiliate disclosure</h1>
 <p class="lead">Homegrown Plate is free to use. This page explains how the site may earn money, so you can judge our advice with the full picture.</p>
-<h2>Where things stand today</h2>
-<p>At the time of writing, the site does <strong>not</strong> contain affiliate links or paid placements.</p>
-<h2>If we add affiliate links</h2>
+<h2>Affiliate links</h2>
 <ul>
-  <li>Some links to products, such as seeds, tools or kitchen equipment, may become <strong>affiliate links</strong>. If you buy through one, we may earn a small commission <strong>at no extra cost to you</strong>.</li>
-  <li>Pages with affiliate links will say so clearly near the links.</li>
+  <li>Some crop pages have a link to a shop selling that plant. These are <strong>affiliate links</strong>: if you buy through one, we may earn a small commission <strong>at no extra cost to you</strong>.</li>
+  <li>We are part of the Awin affiliate network. Shops we currently link to: ${SHOPS.filter((x) => x.live).map((x) => esc(x.name)).join(', ')}.</li>
+  <li>Pages with affiliate links say so clearly next to the links.</li>
   <li>Commission never decides what we recommend. We suggest what is useful for the job, and we will not recommend something just because it pays.</li>
   <li>Growing advice and recipes stay free and complete without buying anything.</li>
 </ul>

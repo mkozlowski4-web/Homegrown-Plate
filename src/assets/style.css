@@ -1547,3 +1547,9 @@ table.ps-cal .bar { height: 6px; margin: 2px 3px; }
 /* Other common names after a crop name, e.g. Courgette (zucchini) */
 .aka { font-size: .62em; font-weight: 400; color: var(--muted, #666); letter-spacing: 0; white-space: normal; }
 .card h3 .aka { font-size: .8em; }
+
+/* Affiliate "where to buy" box on crop pages */
+.buy-box { background: #eef7f1; border-left: 4px solid var(--leaf); border-radius: 8px; padding: .8rem 1rem; margin: 1rem 0; }
+.buy-box .buy-head { font-size: 1.1rem; margin: 0 0 .4rem; }
+.buy-box p { margin: .4rem 0; }
+.buy-box .small-note { margin-top: .6rem; }
