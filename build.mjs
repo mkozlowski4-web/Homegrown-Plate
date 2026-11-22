@@ -1031,10 +1031,10 @@ function buyBox(p) {
   const links = shopsFor(p.id);
   if (!links.length) return '';
   return `<aside class="buy-box" aria-label="Where to buy ${esc(lower(p.name))}">
-<h2 class="buy-head">Buy ${esc(lower(p.name))} plants</h2>
+<h2 class="buy-head">Buy ${esc(lower(p.name))} ${links.some(({ shop }) => shop.sells === 'seeds') ? 'seeds and plants' : 'plants'}</h2>
 ${links.map(({ shop, href }) => `<p>${esc(shop.blurb)}</p>
 <p><a class="btn buy-btn" href="${esc(href)}" rel="sponsored nofollow noopener" target="_blank">Shop for ${esc(lower(p.name))} at ${esc(shop.name)}</a></p>`).join('\n')}
-<p class="muted small-note">This is an affiliate link: if you buy, we may earn a small commission at no extra cost to you. <a href="/affiliate-disclosure/">How this works</a>.</p>
+<p class="muted small-note">${links.length > 1 ? 'These are affiliate links' : 'This is an affiliate link'}: if you buy, we may earn a small commission at no extra cost to you. <a href="/affiliate-disclosure/">How this works</a>.</p>
 </aside>`;
 }
 
