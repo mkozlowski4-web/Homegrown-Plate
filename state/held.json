@@ -1,4 +1,21 @@
 {
- "week_start": "2026-11-15",
- "held": []
+ "week_start": "2026-11-22",
+ "held": [
+  {
+   "date": "2026-11-22",
+   "kind": "carousel",
+   "topic": "Cress heads: a growing project for kids",
+   "reasons": [
+    "No hook scored 75 or more with only site-backed claims"
+   ]
+  },
+  {
+   "date": "2026-11-26",
+   "kind": "pin",
+   "topic": "How to grow onion",
+   "reasons": [
+    "timings_from_site: 'July' used for sowing/planting but the site's months are ['April', 'February', 'January', 'March', 'November', 'October', 'September']"
+   ]
+  }
+ ]
 }

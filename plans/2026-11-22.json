@@ -1,0 +1,1544 @@
+{
+ "week_start": "2026-11-22",
+ "moments": [],
+ "posts": [
+  {
+   "id": "2026-11-22-story-story-6",
+   "kind": "story",
+   "date": "2026-11-22",
+   "time": "09:00",
+   "due_utc": "2026-11-22T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Lettuce",
+   "url": "https://homegrownplate.co.uk/plants/lettuce/",
+   "crops": [
+    "lettuce"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Lettuce",
+   "plural_name": "lettuce",
+   "search_phrase": "",
+   "hook": {
+    "hook": "5 ways to use up lettuce before it goes to waste",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-story-story-6/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-22-carousel-kids-0",
+   "kind": "carousel",
+   "date": "2026-11-22",
+   "time": "18:30",
+   "due_utc": "2026-11-22T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook"
+   ],
+   "topic_kind": "kids",
+   "topic": "Cress heads: a growing project for kids",
+   "url": "https://homegrownplate.co.uk/kids/#cress-heads",
+   "crops": [
+    "microgreens"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide01.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide02.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide03.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide04.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide05.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide06.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-carousel/slide07.png"
+   ],
+   "ai_made": false,
+   "kid": {
+    "id": "cress-heads",
+    "title": "Cress heads",
+    "url": "https://homegrownplate.co.uk/kids/#cress-heads",
+    "blurb": "Give an eggshell a funny face and grow green “hair” in a week.",
+    "crop": "microgreens",
+    "wait": "About 1 week",
+    "start": "Any time of year, indoors",
+    "level": "Super easy",
+    "need": [
+     "An empty eggshell (or a clean yoghurt pot)",
+     "Cotton wool or kitchen paper",
+     "Cress seeds",
+     "A pen for the face",
+     "A bright windowsill",
+     "Water"
+    ],
+    "steps": [
+     "Wash your hands. Ask a grown-up for a clean, empty eggshell or yoghurt pot.",
+     "Draw a funny face on the front with a pen.",
+     "Fill it with damp cotton wool. It should be wet but not dripping.",
+     "Sprinkle cress seeds on top and gently pat them down. Do not cover them.",
+     "Put it on a bright windowsill. Give it a few drops of water every day.",
+     "After 4 to 7 days your cress “hair” will be ready. Snip it with scissors and put it in a sandwich!"
+    ],
+    "fact": "Cress seeds turn sticky when they get wet. That helps them cling to the cotton wool.",
+    "adult_note": "If you use an eggshell, use one from a boiled egg and wash hands afterwards. A clean yoghurt pot works just as well.",
+    "emoji": "🥚"
+   },
+   "safety_lines": [
+    "If you use an eggshell, use one from a boiled egg and wash hands afterwards. A clean yoghurt pot works just as well.",
+    "Stay close by. Little ones need a grown-up for scissors, hot things, knives and anything with sharp edges."
+   ],
+   "about_eating": false,
+   "moment": null,
+   "crop_name": "Microgreens",
+   "plural_name": "microgreens",
+   "search_phrase": "growing veg with kids",
+   "hook": {
+    "hook": "",
+    "score": 0
+   },
+   "status": "held",
+   "held_reasons": [
+    "No hook scored 75 or more with only site-backed claims"
+   ],
+   "uses_drawings_only": true,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide01.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide02.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide03.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide04.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide05.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide06.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-carousel-kids-0/slide07.png"
+   ]
+  },
+  {
+   "id": "2026-11-22-pin-pin_crop-7",
+   "kind": "pin",
+   "date": "2026-11-22",
+   "time": "20:00",
+   "due_utc": "2026-11-22T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow rhubarb",
+   "url": "https://homegrownplate.co.uk/plants/rhubarb/",
+   "crops": [
+    "rhubarb"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-22-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Rhubarb",
+   "plural_name": "rhubarb",
+   "search_phrase": "how to grow rhubarb UK",
+   "hook": {
+    "hook": "Nobody tells you November is still rhubarb planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still rhubarb planting time\n\nIf you want to know how to grow rhubarb UK gardens thrive on, plant dormant crowns from November to March. Always pull and twist the stems at the base instead of cutting them, so you do not leave stumps that rot. Trim off the poisonous leaves and stew the stalks with sugar and orange juice for 10 minutes so nothing goes to waste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/rhubarb/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Nobody tells you November is still rhubarb planting time\n\nIf you want to know how to grow rhubarb UK gardens thrive on, plant dormant crowns from November to March. Always pull and twist the stems at the base instead of cutting them, so you do not leave stumps that rot. Trim off the poisonous leaves and stew the stalks with sugar and orange juice for 10 minutes so nothing goes to waste.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/rhubarb/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "How to grow rhubarb UK: easy guide to planting crowns and harvesting",
+    "pin_description": "How to grow rhubarb UK. Learn how to grow rhubarb UK style in a small garden. Plant dormant crowns from November to March in full sun to partial shade. Twist stalks when harvesting rhubarb from March to July. Check your local frost dates. homegrownplate.co.uk/plants/rhubarb/",
+    "tiktok": "Nobody tells you November is still rhubarb planting time\nPlant dormant rhubarb crowns from November to March in fertile, well-drained soil. Pull and twist the stalks when harvesting from March to July so you do not leave stumps that rot.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/rhubarb/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "how to grow rhubarb UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-22-pin-pincrop-7/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-23-story-story-8",
+   "kind": "story",
+   "date": "2026-11-23",
+   "time": "09:00",
+   "due_utc": "2026-11-23T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "This week's job: November",
+   "url": "https://homegrownplate.co.uk/weekend-jobs/november/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-23-story/story-job.png"
+   ],
+   "ai_made": false,
+   "month_page": true,
+   "search_phrase": "",
+   "hook": {
+    "hook": "Don't miss this November garden job before the weekend's gone",
+    "score": 86,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-23-story-story-8/story-job.png"
+   ]
+  },
+  {
+   "id": "2026-11-23-pin-pin_recipe-9",
+   "kind": "pin",
+   "date": "2026-11-23",
+   "time": "20:00",
+   "due_utc": "2026-11-23T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Three-Bean Garden Chilli",
+   "url": "https://homegrownplate.co.uk/recipes/garden-bean-chilli/",
+   "crops": [
+    "coriander"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-23-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "garden-bean-chilli",
+   "safety_lines": [],
+   "crop_name": "Coriander",
+   "plural_name": "coriander",
+   "search_phrase": "coriander recipe",
+   "hook": {
+    "hook": "Still paying for coriander? One plant fixes that",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Still paying for coriander? One plant fixes that\n\nI make this when I have chilli pepper, sweet pepper, onion, garlic, tomato, borlotti bean and fresh herbs ready. Heat the oil and cook the onion and peppers for 8 minutes until soft, then add garlic, chilli and spices for 1 minute. This 50 min meal serves 4–6 people. It is a great coriander recipe to make the most of what you grow.\n\nFull guide on homegrownplate.co.uk/recipes/garden-bean-chilli/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Still paying for coriander? One plant fixes that\n\nI make this when I have chilli pepper, sweet pepper, onion, garlic, tomato, borlotti bean and fresh herbs ready. Heat the oil and cook the onion and peppers for 8 minutes until soft, then add garlic, chilli and spices for 1 minute. This 50 min meal serves 4–6 people. It is a great coriander recipe to make the most of what you grow.\n\nFull guide on homegrownplate.co.uk/recipes/garden-bean-chilli/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "Coriander recipe for Three-Bean Garden Chilli",
+    "pin_description": "Coriander recipe. Try this fresh coriander recipe for Three-Bean Garden Chilli. It takes 50 min and serves 4–6 people. Cook your onion and sweet pepper for 8 minutes until soft. Taste your home-grown chillies first because they vary a lot in heat. homegrownplate.co.uk/recipes/garden-bean-chilli/",
+    "tiktok": "Still paying for coriander? One plant fixes that\nUse your chilli pepper, sweet pepper and onion to make this Three-Bean Garden Chilli in 50 min. Heat the oil and cook the onion and peppers for 8 minutes until soft.\nhomegrownplate.co.uk/recipes/garden-bean-chilli/\n#growyourown #ukgardening #homegrown",
+    "ask": "comment",
+    "search_phrase": "coriander recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-23-pin-pinrecipe-9/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-24-story-story-10",
+   "kind": "story",
+   "date": "2026-11-24",
+   "time": "09:00",
+   "due_utc": "2026-11-24T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Question for growers",
+   "url": "https://homegrownplate.co.uk/",
+   "crops": [
+    "spinach"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-story/story-question.png"
+   ],
+   "ai_made": false,
+   "crop_name": "Spinach",
+   "plural_name": "spinach",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Too much spinach? What do you cook first so none goes to waste?",
+    "score": 82,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 7,
+     "fits_uk_home_growers": 15
+    }
+   },
+   "about_eating": false,
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-story-story-10/story-question.png"
+   ]
+  },
+  {
+   "id": "2026-11-24-reel-sow_to_plate-2",
+   "kind": "reel",
+   "date": "2026-11-24",
+   "time": "18:30",
+   "due_utc": "2026-11-24T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook",
+    "pinterest",
+    "tiktok"
+   ],
+   "topic_kind": "sow_to_plate",
+   "topic": "Garlic: sow it, grow it, cook it",
+   "url": "https://homegrownplate.co.uk/plants/garlic/",
+   "crops": [
+    "garlic"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "too_phrase": "too much garlic",
+   "crop_name": "Garlic",
+   "plural_name": "garlic",
+   "search_phrase": "how to grow garlic in the UK",
+   "tiktok_tags": [
+    "#growyourown",
+    "#garlic",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "garlic recipes",
+    "growing garlic UK",
+    "storing garlic"
+   ],
+   "hook": {
+    "hook": "Nobody tells you November is still garlic planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still garlic planting time\n\nI always break up the bulbs just before planting the largest outer cloves in full sun. Heavy wet soil makes them rot, so I add grit to my beds to protect the crop. That is my straightforward guide on how to grow garlic in the UK from planting to store.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Nobody tells you November is still garlic planting time\n\nI always break up the bulbs just before planting the largest outer cloves in full sun. Heavy wet soil makes them rot, so I add grit to my beds to protect the crop. That is my straightforward guide on how to grow garlic in the UK from planting to store.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "How to grow garlic in the UK for a bumper harvest",
+    "pin_description": "How to grow garlic in the UK. Discover how to grow garlic in the UK with simple tips. Plant garlic cloves in full sun, weed the bed, and harvest garlic bulbs when the lower leaves turn yellow. Check your local frost dates. homegrownplate.co.uk/plants/garlic/",
+    "tiktok": "Nobody tells you November is still garlic planting time\nHere is how to plant garlic cloves in full sun and store them safely. Learn when to water, harvest and cure your bulbs so nothing goes to waste.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/garlic/\n#growyourown #garlic #ukgardening #allotment #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow garlic in the UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "potting-shed.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [
+    "20261114-1mACJpLY"
+   ],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-reel-sowtoplate-2/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-reel-sowtoplate-2/cover.png"
+  },
+  {
+   "id": "2026-11-24-pin-pin_crop-11",
+   "kind": "pin",
+   "date": "2026-11-24",
+   "time": "20:00",
+   "due_utc": "2026-11-24T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow spring onion",
+   "url": "https://homegrownplate.co.uk/plants/spring-onion/",
+   "crops": [
+    "spring-onion"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Spring onion",
+   "plural_name": "spring onions",
+   "search_phrase": "how to grow spring onions UK",
+   "hook": {
+    "hook": "9 ways to use up spring onions before they go to waste",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "9 ways to use up spring onions before they go to waste\n\nIf you want to know how to grow spring onions UK style, sow seeds thinly in shallow 1 cm drills from March to August. Keep the bed weeded because they are poor competitors, and water them during dry spells. Pull them when they are pencil-thick so they do not become tough and strong.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/spring-onion/\n\nSave this for when you need it.",
+    "facebook": "9 ways to use up spring onions before they go to waste\n\nIf you want to know how to grow spring onions UK style, sow seeds thinly in shallow 1 cm drills from March to August. Keep the bed weeded because they are poor competitors, and water them during dry spells. Pull them when they are pencil-thick so they do not become tough and strong.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/spring-onion/\n\nSave this for when you need it.",
+    "pin_title": "How to grow spring onions UK: easy guide for beginners",
+    "pin_description": "How to grow spring onions UK. Learn how to grow spring onions UK growers can manage in small spaces. Learn when to sow spring onions outdoors from March to August. Check your local frost dates. homegrownplate.co.uk/plants/spring-onion/",
+    "tiktok": "9 ways to use up spring onions before they go to waste\nSpring onions are low-maintenance and easy to grow outdoors from March to August. Here is how to sow, water and harvest them.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/spring-onion/\n#growyourown #ukgardening #homegrown",
+    "ask": "save",
+    "search_phrase": "how to grow spring onions UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 94,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 10,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": [
+     "a very long sentence"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-pin-pincrop-11/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-24-reel-sow_to_plate-2-videopin",
+   "kind": "video_pin",
+   "date": "2026-11-24",
+   "time": "20:30",
+   "due_utc": "2026-11-24T20:30:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "sow_to_plate",
+   "topic": "Garlic: sow it, grow it, cook it",
+   "url": "https://homegrownplate.co.uk/plants/garlic/",
+   "crops": [
+    "garlic"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "too_phrase": "too much garlic",
+   "crop_name": "Garlic",
+   "plural_name": "garlic",
+   "search_phrase": "how to grow garlic in the UK",
+   "tiktok_tags": [
+    "#growyourown",
+    "#garlic",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "garlic recipes",
+    "growing garlic UK",
+    "storing garlic"
+   ],
+   "hook": {
+    "hook": "Nobody tells you November is still garlic planting time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still garlic planting time\n\nI always break up the bulbs just before planting the largest outer cloves in full sun. Heavy wet soil makes them rot, so I add grit to my beds to protect the crop. That is my straightforward guide on how to grow garlic in the UK from planting to store.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Nobody tells you November is still garlic planting time\n\nI always break up the bulbs just before planting the largest outer cloves in full sun. Heavy wet soil makes them rot, so I add grit to my beds to protect the crop. That is my straightforward guide on how to grow garlic in the UK from planting to store.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/garlic/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "How to grow garlic in the UK for a bumper harvest",
+    "pin_description": "How to grow garlic in the UK. Discover how to grow garlic in the UK with simple tips. Plant garlic cloves in full sun, weed the bed, and harvest garlic bulbs when the lower leaves turn yellow. Check your local frost dates. homegrownplate.co.uk/plants/garlic/",
+    "tiktok": "Nobody tells you November is still garlic planting time\nHere is how to plant garlic cloves in full sun and store them safely. Learn when to water, harvest and cure your bulbs so nothing goes to waste.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/garlic/\n#growyourown #garlic #ukgardening #allotment #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow garlic in the UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-24-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "potting-shed.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [
+    "20261114-1mACJpLY"
+   ],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-reel-sowtoplate-2-videopin/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-24-reel-sowtoplate-2-videopin/cover.png"
+  },
+  {
+   "id": "2026-11-25-story-story-12",
+   "kind": "story",
+   "date": "2026-11-25",
+   "time": "09:00",
+   "due_utc": "2026-11-25T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Spinach",
+   "url": "https://homegrownplate.co.uk/plants/spinach/",
+   "crops": [
+    "spinach"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Spinach",
+   "plural_name": "spinach",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Too much spinach? Don't let it rot. Cook it these 3 ways",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-story-story-12/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-25-carousel-sow_to_plate-1",
+   "kind": "carousel",
+   "date": "2026-11-25",
+   "time": "18:30",
+   "due_utc": "2026-11-25T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook"
+   ],
+   "topic_kind": "sow_to_plate",
+   "topic": "Broad bean from sowing to your plate",
+   "url": "https://homegrownplate.co.uk/plants/broad-bean/",
+   "crops": [
+    "broad-bean"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide01.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide02.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide03.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide04.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide05.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide06.png",
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-carousel/slide07.png"
+   ],
+   "ai_made": false,
+   "moment": null,
+   "safety_lines": [],
+   "too_phrase": "too many broad beans",
+   "crop_name": "Broad bean",
+   "plural_name": "broad beans",
+   "search_phrase": "how to grow broad beans in the UK",
+   "related": [
+    "broad bean recipes",
+    "growing broad bean UK",
+    "storing broad bean"
+   ],
+   "library_used": [
+    "20261106-1amlM97j"
+   ],
+   "hook": {
+    "hook": "Nobody tells you November is still broad bean sowing time",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Nobody tells you November is still broad bean sowing time\n\nI think broad beans are one of the best crops for any UK plot. If you want to know how to grow broad beans in the UK, sow seeds 5 cm deep in double rows. Pick pods young at 7 to 10 cm for tender beans, and freeze any extra for up to 12 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/broad-bean/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Nobody tells you November is still broad bean sowing time\n\nI think broad beans are one of the best crops for any UK plot. If you want to know how to grow broad beans in the UK, sow seeds 5 cm deep in double rows. Pick pods young at 7 to 10 cm for tender beans, and freeze any extra for up to 12 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/broad-bean/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "how to grow broad beans in the UK: from sowing to your plate",
+    "pin_description": "How to grow broad beans in the UK. Learn how to grow broad beans in the UK from seed to harvest. Check your local frost dates. homegrownplate.co.uk/plants/broad-bean/",
+    "tiktok": "Nobody tells you November is still broad bean sowing time\nHere is how to sow, harvest and store your broad bean crop without any waste. Pick pods young or freeze blanched beans for up to 12 months.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/broad-bean/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "how to grow broad beans in the UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide01.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide02.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide03.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide04.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide05.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide06.png",
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-carousel-sowtoplate-1/slide07.png"
+   ]
+  },
+  {
+   "id": "2026-11-25-pin-pin_recipe-13",
+   "kind": "pin",
+   "date": "2026-11-25",
+   "time": "20:00",
+   "due_utc": "2026-11-25T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Toad in the Hole with Onion Gravy",
+   "url": "https://homegrownplate.co.uk/recipes/toad-in-the-hole/",
+   "crops": [
+    "sage"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-25-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "toad-in-the-hole",
+   "safety_lines": [],
+   "crop_name": "Sage",
+   "plural_name": "sage",
+   "search_phrase": "sage recipe",
+   "hook": {
+    "hook": "Still paying for sage? One plant fixes that",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Still paying for sage? One plant fixes that\n\nI like adding fresh herbs straight to family meals. This sage recipe for toad in the hole with onion gravy takes 1 hr and serves 4. Just remember that the oil must be smoking hot when the batter goes in, or it will not rise.\n\nFull guide on homegrownplate.co.uk/recipes/toad-in-the-hole/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Still paying for sage? One plant fixes that\n\nI like adding fresh herbs straight to family meals. This sage recipe for toad in the hole with onion gravy takes 1 hr and serves 4. Just remember that the oil must be smoking hot when the batter goes in, or it will not rise.\n\nFull guide on homegrownplate.co.uk/recipes/toad-in-the-hole/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "Sage recipe for Toad in the Hole with Onion Gravy",
+    "pin_description": "Sage recipe. Try this simple sage recipe for toad in the hole with onion gravy. Made with homegrown sage and onion, this classic meal serves 4 in 1 hr. Remember the oil must be smoking hot so the batter rises properly. homegrownplate.co.uk/recipes/toad-in-the-hole/",
+    "tiktok": "Still paying for sage? One plant fixes that\nUse homegrown sage and onions to make toad in the hole with onion gravy in 1 hr.\nhomegrownplate.co.uk/recipes/toad-in-the-hole/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "sage recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 99,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-25-pin-pinrecipe-13/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-26-story-story-14",
+   "kind": "story",
+   "date": "2026-11-26",
+   "time": "09:00",
+   "due_utc": "2026-11-26T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "This week's job: November",
+   "url": "https://homegrownplate.co.uk/weekend-jobs/november/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-26-story/story-job.png"
+   ],
+   "ai_made": false,
+   "month_page": true,
+   "search_phrase": "",
+   "hook": {
+    "hook": "Don't miss this November garden job before the weekend's gone",
+    "score": 86,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-26-story-story-14/story-job.png"
+   ]
+  },
+  {
+   "id": "2026-11-26-pin-pin_crop-15",
+   "kind": "pin",
+   "date": "2026-11-26",
+   "time": "20:00",
+   "due_utc": "2026-11-26T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow onion",
+   "url": "https://homegrownplate.co.uk/plants/onion/",
+   "crops": [
+    "onion"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-26-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Onion",
+   "plural_name": "onions",
+   "search_phrase": "how to grow onions UK",
+   "hook": {
+    "hook": "Before you waste onions to rot, cure them properly in sun",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Before you waste onions to rot, cure them properly in sun\n\nIf you want to learn how to grow onions UK gardens thrive on, start by pushing sets into soil from mid-March to April. I make sure to stop watering completely from mid-July so the bulbs ripen. Once harvested, cure them in the sun so they store for up to 9 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/onion/\n\nTell me in the comments: what are you growing this month?",
+    "facebook": "Before you waste onions to rot, cure them properly in sun\n\nIf you want to learn how to grow onions UK gardens thrive on, start by pushing sets into soil from mid-March to April. I make sure to stop watering completely from mid-July so the bulbs ripen. Once harvested, cure them in the sun so they store for up to 9 months.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/onion/\n\nTell me in the comments: what are you growing this month?",
+    "pin_title": "How to grow onions UK: Plant sets and store them for months",
+    "pin_description": "How to grow onions UK. Learn how to grow onions UK style in full sun. Plant onion sets from mid-March to April. Stop watering from mid-July for harvesting onions late July to September. Master storing onions for up to 9 months. Check your local frost dates. homegrownplate.co.uk/plants/onion/",
+    "tiktok": "Before you waste onions to rot, cure them properly in sun\nHere is how to plant and care for onions in an open site with full sun. Keep the bed weed-free and stop watering from mid-July so the bulbs ripen.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/onion/\n#growyourown #ukgardening #homegrown",
+    "ask": "comment",
+    "search_phrase": "how to grow onions UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": false,
+    "fails": [
+     "timings_from_site: 'July' used for sowing/planting but the site's months are ['April', 'February', 'January', 'March', 'November', 'October', 'September']"
+    ]
+   },
+   "quality": {
+    "score": 92,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 10,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": [
+     "a very long sentence"
+    ]
+   },
+   "status": "held",
+   "held_reasons": [
+    "timings_from_site: 'July' used for sowing/planting but the site's months are ['April', 'February', 'January', 'March', 'November', 'October', 'September']"
+   ],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-26-pin-pincrop-15/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-27-story-story-16",
+   "kind": "story",
+   "date": "2026-11-27",
+   "time": "09:00",
+   "due_utc": "2026-11-27T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Question for growers",
+   "url": "https://homegrownplate.co.uk/",
+   "crops": [],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-story/story-question.png"
+   ],
+   "ai_made": false,
+   "search_phrase": "",
+   "hook": {
+    "hook": "What's one crop you'd never waste space on again?",
+    "score": 79,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 6,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 8
+    }
+   },
+   "about_eating": false,
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-story-story-16/story-question.png"
+   ]
+  },
+  {
+   "id": "2026-11-27-reel-glut-4",
+   "kind": "reel",
+   "date": "2026-11-27",
+   "time": "18:30",
+   "due_utc": "2026-11-27T18:30:00.000Z",
+   "channels": [
+    "instagram",
+    "facebook",
+    "pinterest",
+    "tiktok"
+   ],
+   "topic_kind": "glut",
+   "topic": "Too many carrots: pick, cook, keep",
+   "url": "https://homegrownplate.co.uk/plants/carrot/",
+   "crops": [
+    "carrot"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "too_phrase": "too many carrots",
+   "crop_name": "Carrot",
+   "plural_name": "carrots",
+   "search_phrase": "what to do with too many carrots",
+   "tiktok_tags": [
+    "#growyourown",
+    "#carrot",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "carrot recipes",
+    "growing carrot UK",
+    "storing carrot"
+   ],
+   "hook": {
+    "hook": "12 ways to use up carrots before they go to waste",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "12 ways to use up carrots before they go to waste\n\nIf you are wondering what to do with too many carrots, I like to twist off the tops and store them unwashed in boxes of damp sand for 4–6 months. You can also leave them in the ground under straw until early spring. Blanch sliced roots for 3 minutes before freezing to keep them handy for stews and soups.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/carrot/\n\nSave this for when you need it.",
+    "facebook": "12 ways to use up carrots before they go to waste\n\nIf you are wondering what to do with too many carrots, I like to twist off the tops and store them unwashed in boxes of damp sand for 4–6 months. You can also leave them in the ground under straw until early spring. Blanch sliced roots for 3 minutes before freezing to keep them handy for stews and soups.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/carrot/\n\nSave this for when you need it.",
+    "pin_title": "What to do with too many carrots: pick, cook, and store your crop",
+    "pin_description": "What to do with too many carrots. Wondering what to do with too many carrots? Learn how to store carrots in damp sand for 4–6 months or freeze carrots after a quick blanch. Check your local frost dates. homegrownplate.co.uk/plants/carrot/",
+    "tiktok": "12 ways to use up carrots before they go to waste\nHere is how to pick, cook, and keep your carrots so none go to waste. Store unwashed roots in boxes of damp sand or freeze sliced carrots for up to 12 months.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/carrot/\n#growyourown #carrot #ukgardening #allotment #homegrown",
+    "ask": "save",
+    "search_phrase": "what to do with too many carrots"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 94,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 10,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": [
+     "a very long sentence"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "potting-shed.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-reel-glut-4/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-reel-glut-4/cover.png"
+  },
+  {
+   "id": "2026-11-27-pin-pin_recipe-17",
+   "kind": "pin",
+   "date": "2026-11-27",
+   "time": "20:00",
+   "due_utc": "2026-11-27T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_recipe",
+   "topic": "Crispy Roast Brussels Sprouts",
+   "url": "https://homegrownplate.co.uk/recipes/brussels-sprouts-roast/",
+   "crops": [
+    "brussels-sprouts"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-pin/pin.png"
+   ],
+   "ai_made": false,
+   "recipe": "brussels-sprouts-roast",
+   "safety_lines": [],
+   "crop_name": "Brussels sprouts",
+   "plural_name": "Brussels sprouts",
+   "search_phrase": "Brussels sprouts recipe",
+   "hook": {
+    "hook": "Don't waste your Brussels sprouts. Make Crispy Roast Brussels Sprouts instead",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Don't waste your Brussels sprouts. Make Crispy Roast Brussels Sprouts instead\n\nIf you have too many sprouts, this Brussels sprouts recipe is a simple way to cook them. Heat your oven to 220C (200C fan) and put the roasting tray in to heat first. Toss the sprouts, shallots and bacon with oil and a pinch of salt before roasting. It takes 35 min and serves 4.\n\nFull guide on homegrownplate.co.uk/recipes/brussels-sprouts-roast/\n\nSave this for when you need it.",
+    "facebook": "Don't waste your Brussels sprouts. Make Crispy Roast Brussels Sprouts instead\n\nIf you have too many sprouts, this Brussels sprouts recipe is a simple way to cook them. Heat your oven to 220C (200C fan) and put the roasting tray in to heat first. Toss the sprouts, shallots and bacon with oil and a pinch of salt before roasting. It takes 35 min and serves 4.\n\nFull guide on homegrownplate.co.uk/recipes/brussels-sprouts-roast/\n\nSave this for when you need it.",
+    "pin_title": "Brussels sprouts recipe: Crispy Roast Brussels Sprouts with Bacon",
+    "pin_description": "Brussels sprouts recipe. Try this simple Brussels sprouts recipe for crisp sprouts in 35 min. Roast Brussels sprouts with shallots and bacon at 220C (200C fan). Heat the tray first for crispy sprouts. Serves 4. homegrownplate.co.uk/recipes/brussels-sprouts-roast/",
+    "tiktok": "Don't waste your Brussels sprouts. Make Crispy Roast Brussels Sprouts instead\nHere is how to roast your Brussels sprouts and shallots with bacon in 35 min. Heat your oven to 220C (200C fan) and put the roasting tray in to heat first.\nhomegrownplate.co.uk/recipes/brussels-sprouts-roast/\n#growyourown #ukgardening #homegrown",
+    "ask": "save",
+    "search_phrase": "Brussels sprouts recipe"
+   },
+   "timing": false,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 97,
+    "parts": {
+     "hook": 27,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-pin-pinrecipe-17/pin.png"
+   ]
+  },
+  {
+   "id": "2026-11-27-reel-glut-4-videopin",
+   "kind": "video_pin",
+   "date": "2026-11-27",
+   "time": "20:30",
+   "due_utc": "2026-11-27T20:30:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "glut",
+   "topic": "Too many carrots: pick, cook, keep",
+   "url": "https://homegrownplate.co.uk/plants/carrot/",
+   "crops": [
+    "carrot"
+   ],
+   "month": "November",
+   "channel_group": "instagram + facebook + pinterest + tiktok",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-reel/reel.mp4"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "moment": null,
+   "too_phrase": "too many carrots",
+   "crop_name": "Carrot",
+   "plural_name": "carrots",
+   "search_phrase": "what to do with too many carrots",
+   "tiktok_tags": [
+    "#growyourown",
+    "#carrot",
+    "#ukgardening",
+    "#allotment",
+    "#homegrown"
+   ],
+   "related": [
+    "carrot recipes",
+    "growing carrot UK",
+    "storing carrot"
+   ],
+   "hook": {
+    "hook": "12 ways to use up carrots before they go to waste",
+    "score": 96,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "12 ways to use up carrots before they go to waste\n\nIf you are wondering what to do with too many carrots, I like to twist off the tops and store them unwashed in boxes of damp sand for 4–6 months. You can also leave them in the ground under straw until early spring. Blanch sliced roots for 3 minutes before freezing to keep them handy for stews and soups.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/carrot/\n\nSave this for when you need it.",
+    "facebook": "12 ways to use up carrots before they go to waste\n\nIf you are wondering what to do with too many carrots, I like to twist off the tops and store them unwashed in boxes of damp sand for 4–6 months. You can also leave them in the ground under straw until early spring. Blanch sliced roots for 3 minutes before freezing to keep them handy for stews and soups.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/carrot/\n\nSave this for when you need it.",
+    "pin_title": "What to do with too many carrots: pick, cook, and store your crop",
+    "pin_description": "What to do with too many carrots. Wondering what to do with too many carrots? Learn how to store carrots in damp sand for 4–6 months or freeze carrots after a quick blanch. Check your local frost dates. homegrownplate.co.uk/plants/carrot/",
+    "tiktok": "12 ways to use up carrots before they go to waste\nHere is how to pick, cook, and keep your carrots so none go to waste. Store unwashed roots in boxes of damp sand or freeze sliced carrots for up to 12 months.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/carrot/\n#growyourown #carrot #ukgardening #allotment #homegrown",
+    "ask": "save",
+    "search_phrase": "what to do with too many carrots"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 94,
+    "parts": {
+     "hook": 29,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 10,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": [
+     "a very long sentence"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "cover": "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-27-reel/cover.png",
+   "reel": {
+    "seconds": 20.5,
+    "music": "potting-shed.m4a",
+    "cover_offset_ms": 20250,
+    "segments": [
+     1.2,
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     2.8,
+     0.5
+    ]
+   },
+   "media_ok": true,
+   "library_used": [],
+   "uses_drawings_only": false,
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-reel-glut-4-videopin/reel.mp4"
+   ],
+   "cover_url": "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-27-reel-glut-4-videopin/cover.png"
+  },
+  {
+   "id": "2026-11-28-story-story-18",
+   "kind": "story",
+   "date": "2026-11-28",
+   "time": "09:00",
+   "due_utc": "2026-11-28T09:00:00.000Z",
+   "channels": [
+    "instagram"
+   ],
+   "topic_kind": "story",
+   "topic": "Crop of the day: Radish",
+   "url": "https://homegrownplate.co.uk/plants/radish/",
+   "crops": [
+    "radish"
+   ],
+   "month": "November",
+   "channel_group": "instagram",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-28-story/story-crop.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Radish",
+   "plural_name": "radishes",
+   "search_phrase": "",
+   "hook": {
+    "hook": "Too many radishes? Don't bin them",
+    "score": 90,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 10,
+     "curiosity": 20,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "",
+    "facebook": "",
+    "pin_title": "",
+    "pin_description": "",
+    "tiktok": "",
+    "ask": "",
+    "search_phrase": ""
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": null,
+    "notes": [
+     "Stories are image-only; quality score applies to captioned posts"
+    ]
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-28-story-story-18/story-crop.png"
+   ]
+  },
+  {
+   "id": "2026-11-28-pin-pin_crop-19",
+   "kind": "pin",
+   "date": "2026-11-28",
+   "time": "20:00",
+   "due_utc": "2026-11-28T20:00:00.000Z",
+   "channels": [
+    "pinterest"
+   ],
+   "topic_kind": "pin_crop",
+   "topic": "How to grow microgreens",
+   "url": "https://homegrownplate.co.uk/plants/microgreens/",
+   "crops": [
+    "microgreens"
+   ],
+   "month": "November",
+   "channel_group": "pinterest",
+   "media": [
+    "/home/runner/work/Homegrown-Plate/Homegrown-Plate/social/build/week-2026-11-22/2026-11-28-pin/pin.png"
+   ],
+   "ai_made": false,
+   "safety_lines": [],
+   "crop_name": "Microgreens",
+   "plural_name": "microgreens",
+   "search_phrase": "how to grow microgreens UK",
+   "hook": {
+    "hook": "Stop buying microgreens. Sow your own this November",
+    "score": 76,
+    "parts": {
+     "stakes": 30,
+     "specific_detail": 16,
+     "curiosity": 0,
+     "short_and_clear": 15,
+     "fits_uk_home_growers": 15
+    },
+    "backed": true,
+    "why": ""
+   },
+   "captions": {
+    "instagram": "Stop buying microgreens. Sow your own this November\n\nI grow microgreens on a bright windowsill using a shallow tray. Keep the compost moist by misting or watering from below to avoid mould. If you want to learn how to grow microgreens UK style, re-sow every week or two for a continuous supply. Cut them with scissors just above the compost to top your eggs or toast.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/microgreens/\n\nSend this to a fellow grower who needs it.",
+    "facebook": "Stop buying microgreens. Sow your own this November\n\nI grow microgreens on a bright windowsill using a shallow tray. Keep the compost moist by misting or watering from below to avoid mould. If you want to learn how to grow microgreens UK style, re-sow every week or two for a continuous supply. Cut them with scissors just above the compost to top your eggs or toast.\n\nCheck your local frost dates.\n\nFull guide on homegrownplate.co.uk/plants/microgreens/\n\nSend this to a fellow grower who needs it.",
+    "pin_title": "how to grow microgreens UK on a windowsill",
+    "pin_description": "How to grow microgreens UK. Learn how to grow microgreens UK on a windowsill. Sow indoors in a shallow tray with moist compost and water from below to prevent mould. Check your local frost dates. homegrownplate.co.uk/plants/microgreens/",
+    "tiktok": "Stop buying microgreens. Sow your own this November\nHere is how to grow microgreens on a bright indoor windowsill all year. Water from below to avoid mould and snip leaves with scissors when ready.\nCheck your local frost dates.\nhomegrownplate.co.uk/plants/microgreens/\n#growyourown #ukgardening #homegrown",
+    "ask": "send",
+    "search_phrase": "how to grow microgreens UK"
+   },
+   "timing": true,
+   "guardrails": {
+    "passed": true,
+    "fails": []
+   },
+   "quality": {
+    "score": 93,
+    "parts": {
+     "hook": 23,
+     "search_words": 20,
+     "one_ask": 15,
+     "sounds_human": 15,
+     "visual": 10,
+     "channel_rules": 10
+    },
+    "notes": []
+   },
+   "status": "ready",
+   "held_reasons": [],
+   "media_urls": [
+    "https://mkozlowski4-web.github.io/Homegrown-Plate/w/2026-11-22/2026-11-28-pin-pincrop-19/pin.png"
+   ]
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14T06:43:50.829Z",
+ "generated": "2026-11-22T20:16:08.961Z",
  "source": "homegrownplate.co.uk data files and built pages",
  "site": "https://homegrownplate.co.uk",
  "tagline": "Grow it. Cook it. Keep it.",
@@ -9,7 +9,7 @@
   "recipes": 206,
   "pests": 50,
   "kids_projects": 6,
-  "pages": 454
+  "pages": 457
  },
  "brand_look": {
   "colours": {
@@ -25276,7 +25276,7 @@
  "recipes": [
   {
    "id": "caprese-salad",
-   "name": "Tomato & Basil Salad",
+   "name": "Tomato & Basil Salad (Caprese Salad)",
    "url": "https://homegrownplate.co.uk/recipes/caprese-salad/",
    "time": "10 min",
    "serves": "2",
@@ -25766,7 +25766,7 @@
   },
   {
    "id": "pesto",
-   "name": "Fresh Basil Pesto",
+   "name": "Fresh Basil Pesto (Pesto alla Genovese)",
    "url": "https://homegrownplate.co.uk/recipes/pesto/",
    "time": "10 min",
    "serves": "makes 1 jar",
@@ -27105,7 +27105,7 @@
   },
   {
    "id": "aubergine-parmigiana",
-   "name": "Baked Aubergine Parmigiana",
+   "name": "Baked Aubergine Parmigiana (Melanzane alla Parmigiana)",
    "url": "https://homegrownplate.co.uk/recipes/aubergine-parmigiana/",
    "time": "1 hr 15 min",
    "serves": "4",
@@ -28880,7 +28880,7 @@
   },
   {
    "id": "garlic-chive-dumplings",
-   "name": "Garlic Chive & Cabbage Dumplings",
+   "name": "Garlic Chive & Cabbage Dumplings (Jiaozi)",
    "url": "https://homegrownplate.co.uk/recipes/garlic-chive-dumplings/",
    "time": "1 hr",
    "serves": "4",
@@ -28946,7 +28946,7 @@
   },
   {
    "id": "spring-onion-pancakes",
-   "name": "Spring Onion Pancakes",
+   "name": "Spring Onion Pancakes (Scallion Pancakes)",
    "url": "https://homegrownplate.co.uk/recipes/spring-onion-pancakes/",
    "time": "45 min",
    "serves": "4",
@@ -29678,7 +29678,7 @@
   },
   {
    "id": "apricot-almond-tart",
-   "name": "Apricot & Almond Tart",
+   "name": "Apricot & Almond Tart (Frangipane Tart)",
    "url": "https://homegrownplate.co.uk/recipes/apricot-almond-tart/",
    "time": "1 hr 10 min",
    "serves": "8",
@@ -30309,7 +30309,7 @@
   },
   {
    "id": "quince-membrillo",
-   "name": "Quince Paste (Membrillo)",
+   "name": "Quince Cheese (Quince Paste, Membrillo)",
    "url": "https://homegrownplate.co.uk/recipes/quince-membrillo/",
    "time": "3 hr",
    "serves": "makes 1 slab",
@@ -30457,7 +30457,7 @@
   },
   {
    "id": "coriander-chutney",
-   "name": "Fresh Coriander & Mint Chutney",
+   "name": "Fresh Coriander & Mint Chutney (Green Chutney)",
    "url": "https://homegrownplate.co.uk/recipes/coriander-chutney/",
    "time": "10 min",
    "serves": "makes 1 small bowl",
@@ -30517,7 +30517,7 @@
   },
   {
    "id": "lemongrass-chicken-soup",
-   "name": "Lemongrass & Coconut Chicken Soup",
+   "name": "Lemongrass & Coconut Chicken Soup (Tom Kha Gai)",
    "url": "https://homegrownplate.co.uk/recipes/lemongrass-chicken-soup/",
    "time": "35 min",
    "serves": "4",
@@ -31093,7 +31093,7 @@
   },
   {
    "id": "calendula-saffron-rice",
-   "name": "Golden Calendula Rice",
+   "name": "Golden Calendula Rice (Poor Man’s Saffron Rice)",
    "url": "https://homegrownplate.co.uk/recipes/calendula-saffron-rice/",
    "time": "25 min",
    "serves": "4",
@@ -31542,7 +31542,7 @@
   },
   {
    "id": "raspberry-shrub",
-   "name": "Raspberry Vinegar Shrub",
+   "name": "Raspberry Vinegar Shrub (Drinking Vinegar)",
    "url": "https://homegrownplate.co.uk/recipes/raspberry-shrub/",
    "time": "15 min + 2 days",
    "serves": "makes about 500 ml",
@@ -31913,7 +31913,7 @@
   },
   {
    "id": "french-onion-soup",
-   "name": "French Onion Soup",
+   "name": "French Onion Soup (Soupe à l’Oignon)",
    "url": "https://homegrownplate.co.uk/recipes/french-onion-soup/",
    "time": "1 hr 15 min",
    "serves": "4",
@@ -32638,7 +32638,7 @@
   },
   {
    "id": "cauliflower-potato-curry",
-   "name": "Cauliflower & Potato Curry",
+   "name": "Cauliflower & Potato Curry (Aloo Gobi)",
    "url": "https://homegrownplate.co.uk/recipes/cauliflower-potato-curry/",
    "time": "40 min",
    "serves": "4",
@@ -33540,7 +33540,7 @@
   },
   {
    "id": "peas-with-lettuce",
-   "name": "French-Style Peas with Lettuce",
+   "name": "French-Style Peas with Lettuce (Petits Pois à la Française)",
    "url": "https://homegrownplate.co.uk/recipes/peas-with-lettuce/",
    "time": "15 min",
    "serves": "4",
@@ -33677,7 +33677,7 @@
   },
   {
    "id": "greek-salad",
-   "name": "Greek Salad",
+   "name": "Greek Salad (Horiatiki)",
    "url": "https://homegrownplate.co.uk/recipes/greek-salad/",
    "time": "15 min",
    "serves": "4",
@@ -35043,7 +35043,7 @@
   },
   {
    "id": "kale-crisps",
-   "name": "Kale Crisps",
+   "name": "Kale Crisps (Kale Chips)",
    "url": "https://homegrownplate.co.uk/recipes/kale-crisps/",
    "time": "25 min",
    "serves": "4",
@@ -36283,7 +36283,7 @@
   },
   {
    "id": "spanakopita",
-   "name": "Spinach & Feta Filo Pie",
+   "name": "Spinach & Feta Filo Pie (Spanakopita)",
    "url": "https://homegrownplate.co.uk/recipes/spanakopita/",
    "time": "1 hr",
    "serves": "6",
@@ -36670,7 +36670,7 @@
   },
   {
    "id": "potato-dauphinoise",
-   "name": "Potato Dauphinoise",
+   "name": "Potato Dauphinoise (Gratin Dauphinois)",
    "url": "https://homegrownplate.co.uk/recipes/potato-dauphinoise/",
    "time": "1 hr 30 min",
    "serves": "6",
@@ -37457,7 +37457,7 @@
   },
   {
    "id": "victoria-sponge",
-   "name": "Victoria Sponge with Fresh Strawberries",
+   "name": "Victoria Sponge (Victoria Sandwich) with Fresh Strawberries",
    "url": "https://homegrownplate.co.uk/recipes/victoria-sponge/",
    "time": "45 min",
    "serves": "8",
@@ -37996,7 +37996,7 @@
   },
   {
    "id": "bramble-jelly",
-   "name": "Bramble Jelly",
+   "name": "Bramble Jelly (Blackberry Jelly)",
    "url": "https://homegrownplate.co.uk/recipes/bramble-jelly/",
    "time": "1 hr + overnight",
    "serves": "makes about 3 jars",
@@ -43681,6 +43681,9 @@
   "https://homegrownplate.co.uk/guides/storing-veg-over-winter/",
   "https://homegrownplate.co.uk/guides/christmas-dinner-from-the-veg-patch/",
   "https://homegrownplate.co.uk/guides/growing-garlic-in-pots/",
+  "https://homegrownplate.co.uk/guides/chitting-and-planting-seed-potatoes/",
+  "https://homegrownplate.co.uk/guides/planting-bare-root-fruit-trees-and-canes/",
+  "https://homegrownplate.co.uk/guides/how-to-force-rhubarb/",
   "https://homegrownplate.co.uk/guides/"
  ]
 }

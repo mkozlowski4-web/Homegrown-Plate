@@ -188,7 +188,9 @@
    "usable": true,
    "confidence": 0.85,
    "classified_by": "gemini",
-   "used": []
+   "used": [
+    "2026-11-25"
+   ]
   },
   {
    "id": "20261106-1Of9UX55",
@@ -310,7 +312,9 @@
    "usable": true,
    "confidence": 1.0,
    "classified_by": "gemini",
-   "used": []
+   "used": [
+    "2026-11-24"
+   ]
   }
  ]
 }

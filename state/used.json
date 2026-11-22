@@ -12,5 +12,12 @@
  "reel_glut:spring-onion": "2026-11-20",
  "story_crop:broad-bean": "2026-11-15",
  "story_crop:carrot": "2026-11-18",
- "story_crop:microgreens": "2026-11-21"
+ "story_crop:microgreens": "2026-11-21",
+ "kids:cress-heads": "2026-11-22",
+ "sow_to_plate:broad-bean": "2026-11-25",
+ "reel_sow_to_plate:garlic": "2026-11-24",
+ "reel_glut:carrot": "2026-11-27",
+ "story_crop:lettuce": "2026-11-22",
+ "story_crop:spinach": "2026-11-25",
+ "story_crop:radish": "2026-11-28"
 }
