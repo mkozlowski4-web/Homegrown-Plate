@@ -1,11 +1,14 @@
 name: Social - weekly posts
-# Saturday 06:00 UK. Cron is UTC, so two times are listed and the guard keeps the run that falls at 06:00-07:59 London time.
+# Saturday morning UK. GitHub often starts scheduled runs hours late, so several Saturday times are listed plus an
+# early-Sunday backup. Whichever runs first makes the week; the rest see the plan already exists and stop.
 # Code lives in social/ on main. Settings and records live on the social-data branch; finished media on the
 # social-media branch (served by GitHub Pages so Buffer can fetch it). Neither branch touches the site on main.
 on:
   schedule:
     - cron: "0 5 * * 6"
-    - cron: "0 6 * * 6"
+    - cron: "0 9 * * 6"
+    - cron: "0 15 * * 6"
+    - cron: "30 1 * * 0"
   workflow_dispatch:
     inputs:
       start:
@@ -23,12 +26,19 @@ jobs:
       run:
         working-directory: social
     steps:
-      - name: Only run at 06:00 UK time
+      - name: Only run on Saturday (or the Sunday backup), UK time
         id: guard
         working-directory: .
         run: |
-          H=$(TZ=Europe/London date +%H)
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$H" != "06" ] && [ "$H" != "07" ]; then echo "go=no" >> $GITHUB_OUTPUT; else echo "go=yes" >> $GITHUB_OUTPUT; fi
+          DOW=$(TZ=Europe/London date +%u)
+          START="${{ inputs.start }}"
+          GO=yes
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            if [ "$DOW" = "7" ]; then START=$(TZ=Europe/London date +%F)
+            elif [ "$DOW" != "6" ]; then GO=no; fi
+          fi
+          echo "go=$GO" >> $GITHUB_OUTPUT
+          echo "start=$START" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
         if: steps.guard.outputs.go == 'yes'
       - name: Get settings and records (social-data branch)
@@ -39,7 +49,8 @@ jobs:
         id: done
         if: steps.guard.outputs.go == 'yes'
         run: |
-          NEXT=$(python3 -c "from autopilot.common import week_start_for,today_uk;print(week_start_for(today_uk()))")
+          NEXT="${{ steps.guard.outputs.start }}"
+          [ -n "$NEXT" ] || NEXT=$(python3 -c "from autopilot.common import week_start_for,today_uk;print(week_start_for(today_uk()))")
           if [ "${{ github.event_name }}" = "schedule" ] && [ -f "data/plans/$NEXT.json" ]; then echo "skip=yes" >> $GITHUB_OUTPUT; else echo "skip=no" >> $GITHUB_OUTPUT; fi
       - name: Get current media (social-media branch)
         if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
@@ -88,7 +99,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GOOGLE_ACCESS_TOKEN: ${{ steps.gauth.outputs.access_token }}
           SITE_DIR: ..
-        run: python run.py week ${{ inputs.start && format('--start {0}', inputs.start) || '' }}
+        run: python run.py week ${{ steps.guard.outputs.start && format('--start {0}', steps.guard.outputs.start) || '' }}
       - name: Put the media online (social-media branch, rebuilt each week)
         if: steps.guard.outputs.go == 'yes' && steps.done.outputs.skip == 'no'
         env:
