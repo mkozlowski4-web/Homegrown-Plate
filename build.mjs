@@ -30,6 +30,7 @@ import { TIMINGS, TYPE_TIMINGS } from './src/data/timings.mjs';
 import { GROUP_CALENDAR } from './src/data/group-calendar.mjs';
 import { illustration } from './src/illustrations.mjs';
 import { QUICK_ANSWERS, RELATED_LINKS } from './src/data/seo-links.mjs';
+import { RELATED_CROPS } from './src/data/related-crops.mjs';
 import { GUIDES } from './src/data/guides.mjs';
 import { recipeNutrition, fmtNutrient, NUTRIENTS } from './src/data/nutrition.mjs';
 import { SHOPS, shopsFor } from './src/data/affiliates.mjs';
@@ -1096,6 +1097,16 @@ ${groups}
     crumbs: [['Home', '/'], ['Plant Guide', '/plants/']],
   });
 
+  /* Every crop gets exactly three related crops (src/data/related-crops.mjs). */
+  for (const p of PLANTS) {
+    const ids = RELATED_CROPS[p.id];
+    if (!ids || ids.length !== 3) throw new Error(`related-crops.mjs: ${p.id} needs exactly 3 related crops`);
+    for (const id of ids) if (!plantMap.has(id) || id === p.id) throw new Error(`related-crops.mjs: ${p.id} lists bad crop "${id}"`);
+  }
+  for (const id of Object.keys(RELATED_CROPS)) if (!plantMap.has(id)) throw new Error(`related-crops.mjs: unknown crop "${id}"`);
+  const relImg = (c) => { const ph = PHOTOS.get(c.id); return ph ? `<img src="${ph.small}" width="480" height="360" alt="" loading="lazy" decoding="async">` : `<img class="pop-ill" src="/img/plants/${c.id}.svg" width="480" height="360" alt="" loading="lazy">`; };
+  const relatedCrops = (p) => `<section class="related-crops${RELATED_CROPS[p.id].every((id) => KID_HIDE.has(id)) ? ' kid-hide' : ''}" aria-labelledby="also-grow"><h2 id="also-grow">You might also grow</h2><div class="related-crops-grid">${RELATED_CROPS[p.id].map((id) => plantMap.get(id)).map((c) => `<a href="/plants/${c.id}/" class="pop-card2${kh(c)}">${relImg(c)}<strong>${esc(c.name)}</strong><span>${esc(c.difficulty)} &middot; from ${esc(lower(sizeMap.get(minSize(c)).short))}</span></a>`).join('')}</div></section>`;
+
   for (const p of PLANTS) {
     const related = RECIPES.filter((r) => r.uses.includes(p.id));
     const cal = CALENDAR[p.id];
@@ -1118,7 +1129,7 @@ ${STORAGE[p.id].map(([m, how, keeps]) => `<li><strong>${esc(m)}</strong> ${esc(h
 <p class="muted small-note">Storage times are a guide. Use clean jars and containers, and follow tested guidance for bottling or canning low-acid foods. If in doubt, throw it out.</p>`;
     const useBody = [paras(p.use.p), tipsList(p.use.tips), storeBody].join('\n');
 
-    const toc = [['info', 'About'], ['how-to-sow', p.sowTitle || 'How to sow'], ['how-to-grow', 'How to grow'], ['how-to-harvest', 'How to harvest'], ['usage-and-storage', 'Use and storage'], ...(careFor(p.id).length ? [['care-h', 'Care through the year']] : []), ...(related.length ? [['cook', `Cook with ${lower(p.name)}`]] : [])];
+    const toc = [['info', 'About'], ['how-to-sow', p.sowTitle || 'How to sow'], ['how-to-grow', 'How to grow'], ['how-to-harvest', 'How to harvest'], ['usage-and-storage', 'Use and storage'], ...(careFor(p.id).length ? [['care-h', 'Care through the year']] : []), ...(related.length ? [['cook', `Cook with ${lower(p.name)}`]] : []), ['also-grow', 'You might also grow']];
     const body2 = `
 ${growCard(p, cal)}
 <div class="plant-body">
@@ -1134,6 +1145,7 @@ ${accordion('usage-and-storage', 'Usage and storage', useBody)}
 ${careSection(p)}
 <p class="muted small-note">Timings are typical for the UK and vary with region, frost dates and variety. See the <a href="/calendar/">planting calendar</a> for every crop at a glance.</p>
 ${related.length ? accordion('cook', `Cook with ${lower(p.name)}`, `<ul class="cook-list">${related.map((r) => `<li><a href="/recipes/${r.id}/"><strong>${esc(r.title)}</strong><span>${esc(r.time)} &middot; ${esc(servesText(r.serves))}</span></a></li>`).join('')}</ul>`) : ''}
+${relatedCrops(p)}
 </div>
 </div>`;
     addPage({

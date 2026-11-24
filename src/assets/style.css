@@ -1553,3 +1553,9 @@ table.ps-cal .bar { height: 6px; margin: 2px 3px; }
 .buy-box .buy-head { font-size: 1.1rem; margin: 0 0 .4rem; }
 .buy-box p { margin: .4rem 0; }
 .buy-box .small-note { margin-top: .6rem; }
+
+/* "You might also grow": three related crops at the end of each plant guide */
+.related-crops { margin-top: 32px; }
+.related-crops h2 { margin: 0 0 14px; }
+.related-crops-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 560px) { .related-crops-grid { gap: 10px; } .related-crops-grid .pop-card2 strong { font-size: .95rem; } .related-crops-grid .pop-card2 span { font-size: .8rem; } }
