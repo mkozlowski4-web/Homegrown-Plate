@@ -1118,7 +1118,10 @@ ${groups}
         ? `<h3>Types and varieties</h3>\n<p>${esc(p.groupsIntro || 'This crop is grown in different groups, which are sown and harvested at different times. Choose one or more to spread the harvest.')}</p>\n<div class="vgroups">${p.groups.map((g) => `<div class="vgroup" id="type-${g.slug}"><h4>${esc(g.name)}</h4><p class="vwhen">${esc(g.when)}</p><p>${esc(g.note)}</p><p>${g.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p><button type="button" class="btn-type" data-garden-add="${p.id}--${g.slug}" data-name="${esc(g.short)}" hidden>+ Add this type</button></div>`).join('')}</div>`
         : `<h3>Varieties to try</h3>\n<p>${p.varieties.map((v) => `<span class="tag">${esc(v)}</span>`).join('')}</p>`,
     ].join('\n');
-    const sowBody = [paras(p.sow.p), tipsList(p.sow.tips)].filter(Boolean).join('\n');
+    /* Fruit planted bare-root in winter (and rhubarb crowns) points to the step-by-step bare-root guide. Strawberry runners go in late summer, so they are left out. */
+    const bareRoot = p.id === 'rhubarb' || (FRUIT_IDS.has(p.id) && p.id !== 'strawberry' && /bare[- ]root/i.test(p.sow.p.join(' ')));
+    const bareRootNote = bareRoot ? `<p>New to bare-root planting? Follow our step-by-step guide to <a href="/guides/planting-bare-root-fruit-trees-and-canes/">planting bare-root fruit trees, canes and bushes</a>.</p>` : '';
+    const sowBody = [paras(p.sow.p), bareRootNote, tipsList(p.sow.tips)].filter(Boolean).join('\n');
     const growBody = [paras(p.grow.p), tipsList(p.grow.tips), `<h3>Watch out for</h3>\n<p>${p.pests.map((x) => { const e = pestForLabel(x); return e ? `<a class="tag red tag-link" href="/pests/${e.id}/">${esc(x)}</a>` : `<span class="tag red">${esc(x)}</span>`; }).join('')}</p>\n<p class="muted small-note">Tap a problem to see how to spot it and what to do. See all <a href="/pests/">pests and diseases</a>.</p>`].filter(Boolean).join('\n');
     const harvestBody = [paras(p.harvest.p), tipsList(p.harvest.tips)].filter(Boolean).join('\n');
     const storeBody = `<h3>Storing a surplus</h3>
@@ -1710,7 +1713,7 @@ const SOW_NOTES = [
   'Last sowings of hardy crops, then plant garlic and onion sets as the soil is still warm. Clear spent crops and tidy beds.',
   'Garlic and broad beans can go in, and bare-root fruit planting begins. Protect remaining crops from the first frosts.',
   'Quiet outdoors. Plant bare-root fruit and garlic if the soil allows, and sow a few crops under cover.',
-  'Rest and plan. Check stored crops, clean tools and pots, and order seed for next year.',
+  'Rest and plan. Check stored crops, clean tools and pots, and order seed for next year. If the ground is not frozen or waterlogged, it is a good month for <a href="/guides/planting-bare-root-fruit-trees-and-canes/">planting bare-root fruit trees and canes</a>.',
 ];
 const PRES_NOTES = [
   'Eat or process what you stored in autumn first, and check for soft or sprouting crops. Little is fresh, so this is a time to use the freezer and the larder.',

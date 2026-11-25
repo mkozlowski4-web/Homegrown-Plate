@@ -24,6 +24,7 @@ const IN = {
   storeVeg: ['How to store your veg over winter', '/guides/storing-veg-over-winter/'],
   christmas: ['Christmas dinner from the veg patch', '/guides/christmas-dinner-from-the-veg-patch/'],
   garlicPots: ['How to grow garlic in pots', '/guides/growing-garlic-in-pots/'],
+  bareRoot: ['Planting bare-root fruit trees and canes', '/guides/planting-bare-root-fruit-trees-and-canes/'],
 };
 
 /* Page path -> links to show in a "Related" box at the end of that page. */
@@ -77,7 +78,8 @@ export const RELATED_LINKS = {
   '/sizes/balcony/': [IN.garlicPots],
   '/weekend-jobs/october/': [IN.storeVeg, IN.garlicPots],
   '/weekend-jobs/november/': [IN.storeVeg, IN.garlicPots],
-  '/weekend-jobs/december/': [IN.christmas],
+  '/weekend-jobs/december/': [IN.bareRoot, IN.christmas],
+  '/what-to-preserve/december/': [IN.bareRoot],
   '/recipes/garlic-bread/': [IN.garlicPots],
   '/recipes/roast-elephant-garlic/': [IN.garlicPots],
 };
