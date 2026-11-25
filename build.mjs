@@ -34,6 +34,7 @@ import { RELATED_CROPS } from './src/data/related-crops.mjs';
 import { GUIDES } from './src/data/guides.mjs';
 import { recipeNutrition, fmtNutrient, NUTRIENTS } from './src/data/nutrition.mjs';
 import { SHOPS, shopsFor } from './src/data/affiliates.mjs';
+import { PLANT_SOIL } from './src/data/soil.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -129,6 +130,52 @@ const recipePageTitle = (t) => (/\brecipe\b/i.test(t) ? t : /\s\(.*\)$/.test(t) 
 const servesText = (v) => (/^\d/.test(String(v)) ? `serves ${v}` : String(v));
 const joinAnd = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
 const jsonLd = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
+
+/* Quick answer for a plant page: when to sow or plant, the best soil, and when to harvest. Built from the calendar and soil.mjs.
+   Hand-written answers in seo-links.mjs win. */
+const LONG_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function monthWords(bits) {
+  const on = [...bits].map((c) => c === '1');
+  if (!on.some(Boolean)) return '';
+  if (on.every(Boolean)) return 'all year round';
+  const start = on.findIndex((v) => !v);
+  const runs = []; let cur = null;
+  for (let k = 1; k <= 12; k++) {
+    const m = (start + k) % 12;
+    if (on[m]) { if (!cur) { cur = { from: m, to: m }; runs.push(cur); } else cur.to = m; } else cur = null;
+  }
+  runs.sort((a, b) => a.from - b.from);
+  return joinAnd(runs.map((r) => (r.from === r.to ? `in ${LONG_MONTHS[r.from]}` : `from ${LONG_MONTHS[r.from]} to ${LONG_MONTHS[r.to]}`)));
+}
+const ORDINAL = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth'];
+function plantQuick(p, cal) {
+  const soil = PLANT_SOIL[p.id];
+  if (!soil) throw new Error(`soil.mjs has no soil for crop "${p.id}"`);
+  const name = titleName(p);
+  const ins = monthWords(cal.i), outs = monthWords(cal.o), harv = monthWords(cal.h);
+  /* The calendar's outdoor months mean planting out for most crops sown indoors, but sowing straight outside for some, and both for others. */
+  const DIRECT = new Set(['lettuce', 'pea', 'calendula', 'nasturtium', 'sorrel', 'swiss-chard', 'parsley']);
+  const BOTH = new Set(['bean', 'borlotti-bean', 'french-bean', 'courgette', 'pumpkin', 'edamame']);
+  const SPECIAL = {
+    potato: () => `Chit seed potatoes indoors ${ins}, then plant them ${outs} in ${soil}.`,
+    onion: () => `Plant onion sets ${outs}, or sow seed indoors ${ins}, in ${soil}.`,
+    viola: () => `Sow violas and pansies from February to June, or from July to August for winter flowers, in ${soil}.`,
+    'globe-artichoke': () => `Sow globe artichokes indoors ${ins}, or plant young plants or offsets ${outs}, in ${soil}.`,
+    'sweet-potato': () => `Start sweet potato slips indoors ${ins}, then plant them out ${outs} in ${soil}.`,
+    watercress: () => `Sow watercress ${outs} in ${soil}.`,
+  };
+  let first;
+  if (SPECIAL[p.id]) first = SPECIAL[p.id]();
+  else if (ins && outs && DIRECT.has(p.id)) first = `Sow ${name} outside ${outs}, or indoors ${ins}, in ${soil}.`;
+  else if (ins && outs) first = `Sow ${name} indoors ${ins}, then plant out${BOTH.has(p.id) ? ' or sow outside' : ''} ${outs}, in ${soil}.`;
+  else if (ins) first = `Sow ${name} indoors ${ins}, in ${soil}.`;
+  else first = `${p.sowTitle ? 'Plant' : 'Sow'} ${name} ${outs} in ${soil}.`;
+  const harvestFact = (p.facts.find(([l]) => l === 'Time to harvest') || [])[1] || '';
+  const yr = harvestFact.match(/year (\d)(?:–(\d))?/);
+  const when = yr && +yr[1] > 1 ? `, starting in the ${ORDINAL[+yr[1]]}${yr[2] ? ` to ${ORDINAL[+yr[2]]}` : ''} year` : '';
+  const second = harv ? `Harvest ${harv}${when}.` : '';
+  return `${first} ${second}`.trim();
+}
 
 /* Turn a 12-character 0/1 string into "Mar–Jun, Oct" (runs may wrap past December). */
 function monthRanges(bits) {
@@ -1151,6 +1198,7 @@ ${related.length ? accordion('cook', `Cook with ${lower(p.name)}`, `<ul class="c
 ${relatedCrops(p)}
 </div>
 </div>`;
+    QUICK_ANSWERS[`/plants/${p.id}/`] ||= plantQuick(p, cal);
     addPage({
       path: `/plants/${p.id}/`, section: 'plants', body: glossify(body2), ...withinTitle(plantPageTitle(p)), article: true,
       description: plantDescription(p, cal),
