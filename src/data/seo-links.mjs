@@ -3,12 +3,12 @@
    Keys are page paths. Keep each answer to one or two short sentences that match the page. */
 
 export const QUICK_ANSWERS = {
-  '/plants/mooli/': 'Harvest mooli 8–10 weeks after sowing, from October onwards, when the roots are 20–30 cm long and about 5 cm wide. Lift them before hard frosts.',
+  '/plants/mooli/': 'Harvest mooli 8–10 weeks after sowing, from October onwards, when the roots are 20–30 cm long and about 5 cm wide. It grows best in light, fertile, stone-free soil that stays moist; lift the roots before hard frosts.',
   '/recipes/nasturtium-pesto/': 'Blitz nasturtium leaves and flowers with garlic, parmesan, toasted pumpkin seeds, olive oil and lemon juice. It takes 10 minutes and keeps for 5 days in the fridge.',
   '/recipes/sea-kale-brown-butter/': 'Steam sea kale shoots for 8–10 minutes until just tender, like asparagus, then pour over nutty brown butter and a squeeze of lemon. Ready in 15 minutes.',
-  '/plants/radicchio/': 'Radicchio is in season in the UK from October to December. Sow it in June or July and cut the heads when they feel firm.',
-  '/plants/strawberry/': 'The best time to plant strawberries in the UK is August to September, for a full crop the next summer. You can also plant in March or April for a lighter first crop.',
-  '/plants/salsify/': 'Salsify is a slender winter root that tastes a little like oysters or artichoke. Sow it in April or May and lift the roots from October through the winter.',
+  '/plants/radicchio/': 'Radicchio is in season in the UK from October to December. Sow it in June or July in fertile, well-drained soil, and cut the heads when they feel firm.',
+  '/plants/strawberry/': 'The best time to plant strawberries in the UK is August to September, in fertile, well-drained, slightly acidic soil, for a full crop the next summer. You can also plant in March or April for a lighter first crop.',
+  '/plants/salsify/': 'Salsify is a slender winter root that tastes a little like oysters or artichoke. Sow it in April or May in deep, light, stone-free soil, and lift the roots from October through the winter.',
   '/pests/white-blister/': 'White blister shows as raised, chalky white spots on brassicas such as rocket, radish, mooli and Brussels sprouts. Pick off affected leaves; the damage is mostly cosmetic and plants keep growing.',
 };
 
