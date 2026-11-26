@@ -74,5 +74,8 @@
   },
   "recipe:stovetop-popcorn": {
     "alt": "A saucepan full of freshly popped home-grown popcorn"
+  },
+  "recipe:tuscan-gnocchi": {
+    "alt": "A bowl of creamy Tuscan chicken gnocchi with spinach, red pepper and sun-dried tomatoes"
   }
 }
