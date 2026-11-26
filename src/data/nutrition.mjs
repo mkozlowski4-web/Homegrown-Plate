@@ -234,6 +234,11 @@ f('pepper',                 [0, 0, 0, 0, 0, 0, 0, 0], { each: 0.1 }); /* black p
 f('lasagne',                [359, 12.5, 72, 3.2, 1.5, 0.3, 3, 0], { each: 20, sheet: 20 });
 f('filo',                   [300, 9, 60, 2, 2, 0.3, 2, 1], { each: 25, sheet: 25 });
 f('pork',                   [220, 19, 0, 0, 16, 6, 0, 0.15], {});
+f('gnocchi',                [153, 3.6, 33, 0.9, 0.4, 0.1, 1.9, 1.1], {});
+f('light-cream-cheese',     [105, 12, 5.5, 4.5, 3.2, 2.1, 0.3, 0.75], { tbsp: 15 });
+f('light-cheddar',          [314, 27.4, 0.1, 0.1, 22, 14, 0, 1.7], { tbsp: 7 });
+f('sun-dried-tomato',       [214, 3.5, 8, 7, 18, 2.5, 5, 1.5], { each: 8 }); /* in oil, drained */
+f('stock-pot',              [100, 2, 6, 2, 6.5, 3, 0.5, 16], { each: 28 }); /* concentrated stock pot, as sold */
 export const FOODS = F;
 
 /* Label rules: [pattern on the lower-case ingredient label, food]. First match wins. */
@@ -246,6 +251,7 @@ const RULES = [
   [/sesame oil|sesame or vegetable oil/, 'sesame-oil'],
   [/rapeseed|vegetable oil|sunflower oil|oil for frying|for frying|groundnut/, 'veg-oil'],
   [/olive oil|^oil\b/, 'olive-oil'],
+  [/stock pot/, 'stock-pot'],
   [/chicken stock/, 'chicken-stock'],
   [/stock/, 'veg-stock'],
   [/icing sugar/, 'icing-sugar'],
@@ -260,6 +266,7 @@ const RULES = [
   [/double cream|whipping cream/, 'double-cream'],
   [/soured cream|sour cream/, 'soured-cream'],
   [/cr[eè]me fra[iî]che/, 'creme-fraiche'],
+  [/light(est|er)? cream cheese/, 'light-cream-cheese'],
   [/cream cheese/, 'cream-cheese'],
   [/\bcream\b/, 'single-cream'],
   [/coconut milk/, 'coconut-milk'],
@@ -267,6 +274,7 @@ const RULES = [
   [/whole milk/, 'whole-milk'],
   [/greek yoghurt|greek-style/, 'greek-yoghurt'],
   [/yoghurt|yogurt/, 'yoghurt'],
+  [/sun-?dried tomato/, 'sun-dried-tomato'],
   [/cherry tomato/, 'cherry-tomato'],
   [/green tomato/, 'green-tomato'],
   [/tinned tomato|chopped tomatoes \(tin|passata/, 'tinned-tomato'],
@@ -303,6 +311,7 @@ const RULES = [
   [/pickled gherkin/, 'pickled-gherkin'],
   [/baguette or ciabatta slice|baguette slice/, 'baguette-slice'],
   [/baguette/, 'baguette'],
+  [/gnocchi/, 'gnocchi'],
   [/breadcrumbs/, 'breadcrumbs'],
   [/flatbread|naan/, 'flatbread'],
   [/lasagne sheet/, 'lasagne'],
@@ -310,6 +319,7 @@ const RULES = [
   [/puff pastry/, 'puff-pastry'],
   [/pastry/, 'shortcrust'],
   [/gruy[eè]re/, 'gruyere'],
+  [/light(er)? cheddar|reduced[- ]fat cheddar/, 'light-cheddar'],
   [/cheddar/, 'cheddar'],
   [/stilton|blue cheese/, 'blue-cheese'],
   [/goat'?s cheese/, 'goats-cheese'],
