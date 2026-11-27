@@ -773,7 +773,7 @@ function buildHome() {
   <p class="muted small-note">Grown-ups: these projects need a helper. Read the <a href="/kids/#grownups">safety notes</a>.</p>
 </section>`;
   const sizeOpts = SIZES.map((z) => `<option value="${z.id}"${z.id === 'small' ? ' selected' : ''}>${esc(lower(z.short))}</option>`).join('');
-  const zoneOpts = ZONES.map((zn) => `<option value="${zn.id}" data-off="${zn.off}">${esc(zn.name)}</option>`).join('');
+  const zoneOpts = ZONES.map((zn) => `<option value="${zn.id}" data-off="${zn.off}">${esc(zn.short.replace(/^(South|Central|Northern)\b/, (w) => w.toLowerCase()))}</option>`).join('');
   const body = `
 ${kidsHomeBlock}
 <section class="hero hero3">
@@ -786,9 +786,9 @@ ${kidsHomeBlock}
       <span>I grow on a</span>
       <label class="sr-only" for="homeSize">Garden size</label>
       <select id="homeSize" data-home-size>${sizeOpts}</select>
-      <span>in</span>
+      <span class="setup-pair"><span>in</span>
       <label class="sr-only" for="homeZone">Your region</label>
-      <select id="homeZone" data-home-zone><option value="">central England</option>${zoneOpts}</select>
+      <select id="homeZone" data-home-zone><option value="">central England</option>${zoneOpts}</select></span>
     </p>
     <div class="setup-search">
       <label class="sr-only" for="heroSearch">Search the plant guide</label>
