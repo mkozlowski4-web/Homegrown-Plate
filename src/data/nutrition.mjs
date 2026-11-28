@@ -188,7 +188,8 @@ f('anchovy',                [210, 29, 0, 0, 10, 2.2, 0, 9], { each: 4 });
 f('sprouts',                [43, 3.4, 9, 2.2, 0.3, 0, 3.8, 0], { each: 15 });
 f('chard',                  [19, 1.8, 3.7, 1.1, 0.2, 0, 1.6, 0.5], { bunch: 300 });
 f('oats',                   [375, 11, 60, 1, 8, 1.5, 9, 0], { tbsp: 8 });
-f('dark-chocolate',         [598, 7.8, 46, 24, 43, 24, 11, 0.03], {});
+f('dark-chocolate',         [598, 7.8, 46, 24, 43, 24, 11, 0.03], { square: 5 });
+f('tomato-puree',           [76, 4.3, 13, 11, 0.3, 0.1, 3.2, 0.2], { tbsp: 17 });
 f('cocoa',                  [312, 23, 12, 0.5, 21, 13, 28, 0.15], { tbsp: 7 });
 f('gherkin',                [12, 0.6, 2.2, 1.4, 0.1, 0, 1, 0], { each: 30 });
 f('pickled-gherkin',        [14, 0.6, 2.5, 1.6, 0.1, 0, 1, 2.1], { each: 25 });
@@ -238,6 +239,7 @@ f('gnocchi',                [153, 3.6, 33, 0.9, 0.4, 0.1, 1.9, 1.1], {});
 f('light-cream-cheese',     [105, 12, 5.5, 4.5, 3.2, 2.1, 0.3, 0.75], { tbsp: 15 });
 f('light-cheddar',          [314, 27.4, 0.1, 0.1, 22, 14, 0, 1.7], { tbsp: 7 });
 f('sun-dried-tomato',       [214, 3.5, 8, 7, 18, 2.5, 5, 1.5], { each: 8 }); /* in oil, drained */
+f('stock-cube',             [250, 8, 25, 5, 14, 7, 1, 50], { each: 10 }); /* dry stock cube, as sold */
 f('stock-pot',              [100, 2, 6, 2, 6.5, 3, 0.5, 16], { each: 28 }); /* concentrated stock pot, as sold */
 export const FOODS = F;
 
@@ -252,6 +254,8 @@ const RULES = [
   [/rapeseed|vegetable oil|sunflower oil|oil for frying|for frying|groundnut/, 'veg-oil'],
   [/olive oil|^oil\b/, 'olive-oil'],
   [/stock pot/, 'stock-pot'],
+  [/stock cube/, 'stock-cube'],
+  [/tomato pur[eé]e/, 'tomato-puree'],
   [/chicken stock/, 'chicken-stock'],
   [/stock/, 'veg-stock'],
   [/icing sugar/, 'icing-sugar'],

@@ -22,7 +22,7 @@ const cuisineGroups = {
   'middle-eastern': 'tabbouleh shakshuka beetroot-hummus spiced-roast-cauliflower calendula-saffron-rice',
   indian: 'coriander-chutney curried-parsnip-soup cauliflower-potato-curry',
   asian: 'bean-stir-fry chinese-cabbage-kimchi oriental-greens-stir-fry edamame-chilli-garlic garlic-chive-dumplings spring-onion-pancakes lemongrass-chicken-soup pak-choi-noodles thai-green-curry chilli-jam chicken-sweetcorn-soup',
-  americas: 'sweetcorn-chilli-lime sweet-potato-wedges stovetop-popcorn tomatillo-salsa-verde garden-bean-chilli pumpkin-pie blueberry-muffins sweetcorn-fritters tomato-ketchup chimichurri caesar-salad squash-mac-cheese burger-bowl',
+  americas: 'sweetcorn-chilli-lime sweet-potato-wedges stovetop-popcorn tomatillo-salsa-verde garden-bean-chilli pumpkin-pie blueberry-muffins sweetcorn-fritters tomato-ketchup chimichurri caesar-salad squash-mac-cheese burger-bowl chilli-con-carne',
 };
 
 export const RECIPE_CUISINE_OF = new Map(Object.entries(cuisineGroups).flatMap(([c, ids]) => ids.split(' ').map((id) => [id, c])));
