@@ -1,15 +1,15 @@
 {
- "generated": "2026-11-22T20:16:08.961Z",
+ "generated": "2026-11-28T13:49:15.762Z",
  "source": "homegrownplate.co.uk data files and built pages",
  "site": "https://homegrownplate.co.uk",
  "tagline": "Grow it. Cook it. Keep it.",
  "timing_note": "Timings are typical UK estimates. Check them against your local frost dates.",
  "counts": {
   "crops": 129,
-  "recipes": 206,
+  "recipes": 207,
   "pests": 50,
   "kids_projects": 6,
-  "pages": 457
+  "pages": 458
  },
  "brand_look": {
   "colours": {
@@ -193,6 +193,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/angelica.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lovage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-cicely.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -442,6 +463,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pear.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/quince.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -623,6 +665,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/peach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cherry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -787,6 +850,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/asparagus.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/globe-artichoke.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sea-kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -973,6 +1057,27 @@
      "alt": "",
      "role": "page",
      "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-pepper.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chilli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
      "ai_made": false
     }
    ],
@@ -1209,6 +1314,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/coriander.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -1388,6 +1514,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/bay.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/rosemary-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sage.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -1612,6 +1759,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/carrot-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swiss-chard.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -1818,6 +1986,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/blackberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/loganberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/raspberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apple.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -2038,6 +2227,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/redcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/gooseberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/whitecurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -2252,6 +2462,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/strawberry-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/raspberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -2413,6 +2644,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/borage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calendula.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/nasturtium.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/viola.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -2591,6 +2843,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/borlotti-bean.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/french-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/edamame.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -2808,6 +3081,27 @@
      "role": "page",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pea.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/french-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo: Mark K."
@@ -2975,6 +3269,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/bronze-fennel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/dill.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/fennel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lovage.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -3202,6 +3517,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sprouting-broccoli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -3376,6 +3712,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pumpkin.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/courgette-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweetcorn.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -3619,6 +3976,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cauliflower.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/brussels-sprouts.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -3817,6 +4195,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sprouting-broccoli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cauliflower.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/romanesco.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -3992,6 +4391,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/calendula.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/nasturtium.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/borage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/viola.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -4224,6 +4644,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/beetroot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo: Mark K."
@@ -4447,6 +4888,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/romanesco.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calabrese.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -4620,6 +5082,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/celeriac.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celery.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swede.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -4841,6 +5324,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celeriac.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lovage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/leek.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -5006,6 +5510,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/chamomile.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemon-balm.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mint.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lavender.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -5221,6 +5746,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apricot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/peach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -5394,6 +5940,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/chervil.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/tarragon.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -5595,6 +6162,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/chicory.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radicchio.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/endive.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lettuce.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -5847,6 +6435,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-pepper.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/aubergine.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -6013,6 +6622,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/chinese-cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/tatsoi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mizuna.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -6208,6 +6838,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/garlic-chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -6383,6 +7034,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/cobnut.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apple.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/elderberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/quince.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -6577,6 +7249,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/coriander.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/basil.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chilli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -6814,6 +7507,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/patty-pan.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/marrow.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo from Pexels"
@@ -7043,6 +7757,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/gherkin.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/melon.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -7227,6 +7962,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/bronze-fennel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/coriander.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cucumber.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -7390,6 +8146,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/edamame.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/french-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/broad-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweetcorn.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -7584,6 +8361,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cobnut.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -7755,6 +8553,27 @@
      "alt": "Two large elephant garlic cloves held in a gardener&#39;s hand beside a string line on a prepared bed",
      "role": "og",
      "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/leek.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/shallot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
      "ai_made": false
     }
    ],
@@ -7939,6 +8758,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/endive.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chicory.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radicchio.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lettuce.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -8154,6 +8994,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/grape.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/peach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apricot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -8340,6 +9201,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/fennel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/bronze-fennel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celery.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kohlrabi.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -8571,6 +9453,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/borlotti-bean.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pea.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo from Pexels"
@@ -8746,6 +9649,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/tarragon.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chervil.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -9013,6 +9937,27 @@
      "role": "page",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/shallot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/elephant-garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo: Mark K."
@@ -9182,6 +10127,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/garlic-chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/wild-garlic.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -9367,6 +10333,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cucumber.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/dill.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/courgette-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -9541,6 +10528,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/globe-artichoke.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/asparagus.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/jerusalem-artichoke.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sea-kale.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -9742,6 +10750,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/gooseberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/redcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -9964,6 +10993,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/hardy-kiwi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/fig.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/melon.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -10140,6 +11190,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/grape.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/physalis.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blueberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -10312,6 +11383,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mooli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/beetroot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/potato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -10471,6 +11563,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/hyssop.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lavender.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/savory.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -10646,6 +11759,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/jerusalem-artichoke.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/potato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/globe-artichoke.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-potato.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -10880,6 +12014,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/brussels-sprouts.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swiss-chard.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -11052,6 +12207,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/kohlrabi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/turnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -11238,6 +12414,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mustard-greens.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/tatsoi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -11407,6 +12604,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/winter-purslane.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/land-cress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -11570,6 +12788,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/land-cress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/watercress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lambs-lettuce.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -11750,6 +12989,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/lavender.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/rosemary-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/hyssop.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -11978,6 +13238,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -12164,6 +13445,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mint.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemon-verbena.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chamomile.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -12333,6 +13635,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/lemon-verbena.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemon-balm.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemongrass.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mint.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -12509,6 +13832,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/lemongrass.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chilli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/coriander.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemon-verbena.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -12745,6 +14089,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -12921,6 +14286,27 @@
      "alt": "",
      "role": "page",
      "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/raspberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/strawberry-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
      "ai_made": false
     }
    ],
@@ -13101,6 +14487,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celery.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/angelica.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -13273,6 +14680,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/marrow.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/courgette-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pumpkin.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/patty-pan.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -13456,6 +14884,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cucumber.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/physalis.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -13632,6 +15081,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/microgreens.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pea.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mustard-greens.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -13879,6 +15349,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lemon-balm.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pea.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsley.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -14065,6 +15556,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mustard-greens.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -14240,6 +15752,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/mooli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/turnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chinese-cabbage.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -14434,6 +15967,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mizuna.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/komatsuna.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -14613,6 +16167,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/nasturtium.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calendula.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/borage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -14880,12 +16455,34 @@
     "piccalilli",
     "pickled-onions",
     "tomato-ketchup",
-    "burger-bowl"
+    "burger-bowl",
+    "tuscan-gnocchi"
    ],
    "safety": [],
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/shallot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/leek.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -15056,6 +16653,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/orache.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/perpetual-spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swiss-chard.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -15242,6 +16860,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-marjoram.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/basil.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -15445,6 +17084,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chinese-cabbage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/tatsoi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -15678,6 +17338,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chervil.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/coriander.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -15878,6 +17559,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/carrot-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swede.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celeriac.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -16049,6 +17751,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/patty-pan.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/courgette-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/marrow.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -16276,6 +17999,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/broad-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/french-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mint.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -16464,6 +18208,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/peach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apricot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/fig.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -16697,6 +18462,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apple.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/quince.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -16877,6 +18663,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swiss-chard.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/beetroot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -17048,6 +18855,27 @@
      "alt": "",
      "role": "page",
      "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/tomatillo.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/strawberry-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
      "ai_made": false
     }
    ],
@@ -17274,6 +19102,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cherry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apple.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pear.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -17449,6 +19298,27 @@
     {
      "url": "https://homegrownplate.co.uk/img/photos/popcorn-kernels.jpg",
      "alt": "A bowl of dried popcorn kernels twisted off home-grown cobs",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweetcorn.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pumpkin.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/bean-thumb.jpg",
+     "alt": "",
      "role": "page",
      "kind": "photo",
      "ai_made": false
@@ -17705,6 +19575,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-potato.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/leek.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo from Pexels"
@@ -17912,6 +19803,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/marrow.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweetcorn.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -18092,6 +20004,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/apple.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pear.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/plum.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -18256,6 +20189,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/radicchio.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chicory.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/endive.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -18468,6 +20422,27 @@
      "alt": "",
      "role": "page",
      "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lettuce.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/carrot-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
      "ai_made": false
     }
    ],
@@ -18689,6 +20664,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/strawberry-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/loganberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -18868,6 +20864,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/redcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/whitecurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/gooseberry.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -19098,6 +21115,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/strawberry-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/gooseberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/asparagus.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -19285,6 +21323,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lettuce.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/mizuna.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/land-cress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -19457,6 +21516,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/romanesco.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cauliflower.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calabrese.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sprouting-broccoli.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -19680,6 +21760,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lavender.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo: Mark K."
@@ -19902,6 +22003,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/french-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweetcorn.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/courgette-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo from Pexels"
@@ -20117,6 +22239,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/rosemary-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -20284,6 +22427,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/scorzonera.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/carrot-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -20445,6 +22609,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/savory.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/broad-bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -20616,6 +22801,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/salsify.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/celeriac.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -20774,6 +22980,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/sea-kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/asparagus.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -20984,6 +23211,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -21168,6 +23416,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/sorrel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/perpetual-spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -21372,12 +23641,34 @@
     "spinach-ricotta-pasta-bake",
     "creamed-spinach",
     "vegetable-lasagne",
-    "spanakopita"
+    "spanakopita",
+    "tuscan-gnocchi"
    ],
    "safety": [],
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/perpetual-spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swiss-chard.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lettuce.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -21568,6 +23859,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/spring-onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/onion.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -21773,6 +24085,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/sprouting-broccoli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calabrese.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/brussels-sprouts.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -22012,6 +24345,27 @@
      "role": "og",
      "kind": "photo",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/raspberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blueberry.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": "Photo from Pexels"
@@ -22206,6 +24560,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/turnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/parsnip.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/potato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -22377,6 +24752,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/angelica.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rhubarb.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lovage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -22542,6 +24938,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/sweet-marjoram.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/thyme.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/basil.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -22750,7 +25167,8 @@
     "gazpacho",
     "vegetable-lasagne",
     "shakshuka",
-    "chicken-cacciatore"
+    "chicken-cacciatore",
+    "tuscan-gnocchi"
    ],
    "safety": [],
    "images": [
@@ -22759,6 +25177,27 @@
      "alt": "",
      "role": "page",
      "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chilli.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/aubergine.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
      "ai_made": false
     }
    ],
@@ -22931,6 +25370,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/sweet-potato.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/potato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/jerusalem-artichoke.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -23144,6 +25604,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/popcorn-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/bean-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/butternut-squash.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -23329,6 +25810,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/perpetual-spinach.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/beetroot.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kale.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -23493,6 +25995,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/tatsoi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/pak-choi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/komatsuna.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chinese-cabbage.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -23727,6 +26250,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/rosemary-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/oregano.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sage.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -23895,6 +26439,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/tomatillo.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/tomato-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/physalis.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/chilli.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -24161,7 +26726,8 @@
     "runner-beans-tomato",
     "aubergine-caponata",
     "tomato-ketchup",
-    "burger-bowl"
+    "burger-bowl",
+    "tuscan-gnocchi"
    ],
    "safety": [],
    "images": [
@@ -24170,6 +26736,27 @@
      "alt": "A truss of ripe red tomatoes growing on the vine",
      "role": "og",
      "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/basil.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sweet-pepper.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/cucumber.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
      "ai_made": false
     }
    ],
@@ -24376,6 +26963,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/swede.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/kohlrabi.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/radish.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -24556,6 +27164,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/viola.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/nasturtium.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/calendula.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/borage.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -24744,6 +27373,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/land-cress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/rocket.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sorrel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -24919,6 +27569,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/whitecurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/redcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/blackcurrant.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/gooseberry.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -25102,6 +27773,27 @@
      "role": "page",
      "kind": "drawing",
      "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/photos/garlic-thumb.jpg",
+     "alt": "",
+     "role": "page",
+     "kind": "photo",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/garlic-chives.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/sorrel.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
     }
    ],
    "photo_credit": null
@@ -25264,6 +27956,27 @@
    "images": [
     {
      "url": "https://homegrownplate.co.uk/img/plants/winter-purslane.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/lambs-lettuce.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/land-cress.svg",
+     "alt": "",
+     "role": "page",
+     "kind": "drawing",
+     "ai_made": false
+    },
+    {
+     "url": "https://homegrownplate.co.uk/img/plants/spinach.svg",
      "alt": "",
      "role": "page",
      "kind": "drawing",
@@ -38845,6 +41558,109 @@
      "ai_made": false
     }
    ]
+  },
+  {
+   "id": "tuscan-gnocchi",
+   "name": "Creamy Tuscan Chicken Gnocchi",
+   "url": "https://homegrownplate.co.uk/recipes/tuscan-gnocchi/",
+   "time": "30 min",
+   "serves": "2",
+   "crops": [
+    "tomato",
+    "spinach",
+    "sweet-pepper",
+    "onion"
+   ],
+   "ingredients": [
+    {
+     "key": "gnocchi",
+     "label": "Potato gnocchi",
+     "qty": "400 g"
+    },
+    {
+     "key": "chicken",
+     "label": "Chicken breast, diced",
+     "qty": "240 g"
+    },
+    {
+     "key": "onion",
+     "label": "Onion, finely chopped",
+     "qty": "1/2"
+    },
+    {
+     "key": "sweet-pepper",
+     "label": "Red pepper, sliced",
+     "qty": "1"
+    },
+    {
+     "key": "sun-dried tomato",
+     "label": "Sun-dried tomatoes, drained and chopped",
+     "qty": "40 g"
+    },
+    {
+     "key": "tomato",
+     "label": "Cherry tomatoes, halved",
+     "qty": "8"
+    },
+    {
+     "key": "spinach",
+     "label": "Spinach",
+     "qty": "2 handfuls"
+    },
+    {
+     "key": "stock",
+     "label": "Chicken stock pots",
+     "qty": "2"
+    },
+    {
+     "key": "water",
+     "label": "Boiling water",
+     "qty": "120 ml"
+    },
+    {
+     "key": "cream cheese",
+     "label": "Lightest cream cheese",
+     "qty": "50 g"
+    },
+    {
+     "key": "milk",
+     "label": "Semi-skimmed milk",
+     "qty": "120 ml"
+    },
+    {
+     "key": "cheddar",
+     "label": "Lighter cheddar, grated",
+     "qty": "20 g"
+    },
+    {
+     "key": "salt",
+     "label": "Salt and pepper",
+     "qty": "to taste"
+    }
+   ],
+   "steps": [
+    "Melt the stock pots in the boiling water and set aside.",
+    "Spray a large non-stick frying pan with a little low-calorie cooking spray. Fry the chicken over a medium-high heat for 6 to 8 minutes until golden and cooked through, then lift it onto a plate.",
+    "Add the gnocchi to the same pan and fry for 5 to 6 minutes, turning now and then, until lightly golden. Lift them out too.",
+    "Fry the onion and red pepper for 4 to 5 minutes until soft. Add the sun-dried tomatoes and cherry tomatoes and cook for 2 minutes more.",
+    "Pour in the stock and milk, then stir in the cream cheese until smooth. Simmer for 2 to 3 minutes until it thickens a little.",
+    "Put the chicken and gnocchi back in the pan, stir in the spinach until it wilts, and season with salt and pepper. Scatter over the cheese and serve."
+   ],
+   "tips": [
+    "Frying the gnocchi from the packet, without boiling them first, gives them a crisp outside and a soft middle.",
+    "Stock pots are salty, so taste the sauce before adding any salt.",
+    "Any shop-bought gnocchi works. Fresh, chilled packs are usually 400 g, just right for two."
+   ],
+   "image": "https://homegrownplate.co.uk/img/recipes/tuscan-gnocchi.jpg",
+   "images": [
+    {
+     "url": "https://homegrownplate.co.uk/img/recipes/tuscan-gnocchi.jpg",
+     "alt": "A bowl of creamy Tuscan chicken gnocchi with spinach, red pepper and sun-dried tomatoes",
+     "role": "og",
+     "kind": "recipe-card",
+     "ai_made": false
+    }
+   ]
   }
  ],
  "what_to_sow": [
@@ -40266,7 +43082,7 @@
    "month": "December",
    "url": "https://homegrownplate.co.uk/what-to-sow/december/",
    "title": "What to sow and plant in December",
-   "lead": "Rest and plan. Check stored crops, clean tools and pots, and order seed for next year.",
+   "lead": "Rest and plan. Check stored crops, clean tools and pots, and order seed for next year. If the ground is not frozen or waterlogged, it is a good month for planting bare-root fruit trees and canes.",
    "lists": {
     "Sow or start indoors": [
      "microgreens"
@@ -41307,7 +44123,8 @@
     "Coming in January": [
      "rhubarb"
     ],
-    "Share this page": []
+    "Share this page": [],
+    "Related": []
    }
   }
  ],
@@ -43571,6 +46388,7 @@
   "https://homegrownplate.co.uk/recipes/rhubarb-gin/",
   "https://homegrownplate.co.uk/recipes/lemon-verbena-tea/",
   "https://homegrownplate.co.uk/recipes/burger-bowl/",
+  "https://homegrownplate.co.uk/recipes/tuscan-gnocchi/",
   "https://homegrownplate.co.uk/pests/",
   "https://homegrownplate.co.uk/pests/aphids/",
   "https://homegrownplate.co.uk/pests/slugs-snails/",

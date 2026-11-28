@@ -19,5 +19,12 @@
  "reel_glut:carrot": "2026-11-27",
  "story_crop:lettuce": "2026-11-22",
  "story_crop:spinach": "2026-11-25",
- "story_crop:radish": "2026-11-28"
+ "story_crop:radish": "2026-11-28",
+ "glut:spinach": "2026-11-29",
+ "preserve:radish": "2026-12-02",
+ "reel_sow_to_plate:rhubarb": "2026-12-01",
+ "reel_glut:leek": "2026-12-04",
+ "story_crop:onion": "2026-11-29",
+ "story_crop:raspberry": "2026-12-02",
+ "story_crop:swede": "2026-12-05"
 }
