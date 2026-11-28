@@ -83,5 +83,40 @@
   "key": "2026-11-25-pin-pin_recipe-13|pinterest",
   "error": "Invalid post: Image could not be read from its URL.",
   "at": "2026-11-22T20:22:57.092009+00:00"
+ },
+ {
+  "key": "2026-11-29-story-story-6|instagram",
+  "error": "Invalid post: Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-11-29-carousel-glut-0|instagram",
+  "error": "Invalid post: Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-11-29-carousel-glut-0|facebook",
+  "error": "Invalid post: Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL., Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-11-29-pin-pin_crop-7|pinterest",
+  "error": "Invalid post: Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-11-30-story-story-8|instagram",
+  "error": "Invalid post: Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-11-30-pin-pin_recipe-9|pinterest",
+  "error": "Invalid post: Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
+ },
+ {
+  "key": "2026-12-01-story-story-10|instagram",
+  "error": "Invalid post: Image could not be read from its URL.",
+  "at": "2026-11-28T14:14:03.592052+00:00"
  }
 ]
